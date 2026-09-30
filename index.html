@@ -426,8 +426,11 @@ body{
 </style>
 
 <style id="map-layer-menu-style">
-.map-layer-panel{position:absolute;top:12px;left:12px;z-index:900;width:218px;padding:9px 10px 10px;border:1px solid rgba(31,41,55,.14);border-radius:4px;background:rgba(255,255,255,.96);box-shadow:0 2px 9px rgba(0,0,0,.18);font:12px/1.25 Arial,sans-serif;color:#2f3740;backdrop-filter:blur(2px)}
-.map-layer-panel *{box-sizing:border-box}.map-layer-title{font-weight:700;color:#333;margin:0 0 7px;padding-bottom:5px;border-bottom:1px solid #e3e6e8}.map-layer-group{margin:0 0 7px}.map-layer-group:last-child{margin-bottom:0}.map-layer-row{display:flex;align-items:center;gap:5px;min-height:20px;cursor:pointer;user-select:none;white-space:nowrap}.map-layer-row input{margin:0;width:12px;height:12px;accent-color:#1976d2}.map-layer-parent{font-weight:700;color:#3a424a;margin-bottom:2px}.map-layer-children{padding-left:17px}.map-layer-child{font-weight:400}.map-layer-divider{height:1px;background:#e3e6e8;margin:7px 0}.map-layer-panel .map-layer-row:hover span{color:#1268ad}@media(max-width:700px){.map-layer-panel{top:8px;left:8px;width:205px;font-size:11px}}
+.map-layer-panel{position:static;width:auto;margin:16px 4px 0;padding:12px 10px 11px;border:1px solid rgba(255,255,255,.10);border-radius:14px;background:rgba(255,255,255,.055);box-shadow:inset 0 1px 0 rgba(255,255,255,.04);font:12px/1.25 Arial,sans-serif;color:#d9e8f1}.map-layer-panel *{box-sizing:border-box}.map-layer-title{font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#7fa9bb;margin:0 0 8px;padding:0 4px 8px;border-bottom:1px solid rgba(255,255,255,.10)}.map-layer-group{margin:0 0 8px}.map-layer-group:last-child{margin-bottom:0}.map-layer-row{display:flex;align-items:center;gap:7px;min-height:29px;padding:2px 4px;border-radius:7px;cursor:pointer;user-select:none;white-space:nowrap}.map-layer-row input{margin:0;width:13px;height:13px;accent-color:#39bcae}.map-layer-parent{font-weight:800;color:#eef7fa;margin-bottom:2px}.map-layer-children{padding-left:18px}.map-layer-child{font-weight:400;color:#b8d0db}.map-layer-divider{height:1px;background:rgba(255,255,255,.10);margin:8px 0}.map-layer-panel .map-layer-row:hover{background:rgba(255,255,255,.06)}.map-layer-panel .map-layer-row:hover span{color:#fff}@media(max-width:700px){.map-layer-panel{width:auto;margin:12px 0 0;font-size:11px}}
+</style>
+
+<style id="sidebar-layer-design">
+.side-nav{overflow-y:auto;overflow-x:hidden}.layer-caption{margin-top:20px}.side-nav .map-layer-panel{flex:0 0 auto}.side-nav::-webkit-scrollbar{width:5px}.side-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:10px}
 </style>
 </head>
 <body>
@@ -443,6 +446,29 @@ body{
     <a href="#condition-section" class="nav-item"><span class="nav-icon">◔</span><span>Kondisi Jalan</span></a>
     <a href="#roads-section" class="nav-item"><span class="nav-icon">☷</span><span>Daftar Ruas</span></a>
   </nav>
+  <div class="nav-caption layer-caption">LAYER PETA</div>
+  <div class="map-layer-panel" id="mapLayerPanel" aria-label="Kontrol peta">
+    <div class="map-layer-title">Peta Dasar</div>
+    <label class="map-layer-row"><input type="radio" name="baseMap" value="satellite"><span>SATELLITE</span></label>
+    <label class="map-layer-row"><input type="radio" name="baseMap" value="terrain"><span>TERRAIN</span></label>
+    <label class="map-layer-row"><input type="radio" name="baseMap" value="roadmap" checked><span>ROADMAP</span></label>
+    <div class="map-layer-divider"></div>
+    <div class="map-layer-group">
+      <label class="map-layer-row map-layer-parent"><input type="checkbox" id="toggleAdministrasi" checked><span>Administrasi</span></label>
+      <div class="map-layer-children">
+        <label class="map-layer-row map-layer-child"><input type="checkbox" id="toggleKabupaten" checked><span>Kabupaten</span></label>
+        <label class="map-layer-row map-layer-child"><input type="checkbox" id="toggleKecamatan" checked><span>Kecamatan</span></label>
+        <label class="map-layer-row map-layer-child"><input type="checkbox" id="toggleDesa" checked><span>Desa</span></label>
+      </div>
+    </div>
+    <div class="map-layer-group">
+      <label class="map-layer-row map-layer-parent"><input type="checkbox" id="toggleJalanJembatan" checked><span>Jalan &amp; Jembatan</span></label>
+      <div class="map-layer-children">
+        <label class="map-layer-row map-layer-child"><input type="checkbox" id="toggleRuasJalan" checked><span>Ruas Jalan</span></label>
+        <label class="map-layer-row map-layer-child"><input type="checkbox" id="toggleJembatan" checked><span>Jembatan</span></label>
+      </div>
+    </div>
+  </div>
   <div class="side-footer">
     <div class="side-status"><span></span> Data aktif</div>
     <small>Dashboard Kondisi Ruas Jalan<br><strong>(tyanbpTA2026)</strong></small>
@@ -467,28 +493,6 @@ body{
 <div class="kpis"><div class="kpi"><small>Jumlah Ruas</small><b id="n">0</b></div><div class="kpi"><small>Panjang</small><b id="p">0 km</b></div><div class="kpi"><small>Kondisi Baik</small><b id="b">0 km</b></div><div class="kpi"><small>Rusak Ringan + Berat</small><b id="r">0 km</b></div></div>
 <div class="grid"><section class="card map-card" id="map-section"><h3>Peta Trase Jalan</h3><div style="position:relative">
   <div id="map"></div>
-  <div class="map-layer-panel" id="mapLayerPanel" aria-label="Kontrol peta">
-    <div class="map-layer-title">Peta Dasar</div>
-    <label class="map-layer-row"><input type="radio" name="baseMap" value="satellite"><span>SATELLITE</span></label>
-    <label class="map-layer-row"><input type="radio" name="baseMap" value="terrain"><span>TERRAIN</span></label>
-    <label class="map-layer-row"><input type="radio" name="baseMap" value="roadmap" checked><span>ROADMAP</span></label>
-    <div class="map-layer-divider"></div>
-    <div class="map-layer-group">
-      <label class="map-layer-row map-layer-parent"><input type="checkbox" id="toggleAdministrasi" checked><span>Administrasi</span></label>
-      <div class="map-layer-children">
-        <label class="map-layer-row map-layer-child"><input type="checkbox" id="toggleKabupaten" checked><span>Kabupaten</span></label>
-        <label class="map-layer-row map-layer-child"><input type="checkbox" id="toggleKecamatan" checked><span>Kecamatan</span></label>
-        <label class="map-layer-row map-layer-child"><input type="checkbox" id="toggleDesa" checked><span>Desa</span></label>
-      </div>
-    </div>
-    <div class="map-layer-group">
-      <label class="map-layer-row map-layer-parent"><input type="checkbox" id="toggleJalanJembatan" checked><span>Jalan &amp; Jembatan</span></label>
-      <div class="map-layer-children">
-        <label class="map-layer-row map-layer-child"><input type="checkbox" id="toggleRuasJalan" checked><span>Ruas Jalan</span></label>
-        <label class="map-layer-row map-layer-child"><input type="checkbox" id="toggleJembatan" checked><span>Jembatan</span></label>
-      </div>
-    </div>
-  </div>
   <div class="map-info">Arahkan kursor ke trase untuk nama ruas • Klik untuk detail</div>
 </div><small id="status"></small></section><section class="card condition-card" id="condition-section"><h3>Komposisi Kondisi</h3><div class="chart"><canvas id="ch"></canvas></div></section></div>
 <section class="card roads-card" id="roads-section" style="margin-top:10px"><h3>Daftar Ruas</h3><div class="table">
