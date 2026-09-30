@@ -446,6 +446,45 @@ body{
 @media(max-width:900px){.grid{grid-template-columns:1fr!important}#map{height:55vh!important;min-height:420px}}
 @media(max-width:520px){#map{height:58vh!important;min-height:350px}}
 </style>
+
+<style id="popup-wide-layout-fix">
+/* Popup ruas dibuat lebar dan dibagi dua kolom agar seluruh informasi terlihat tanpa terpotong. */
+.leaflet-popup-content-wrapper{
+  width:900px !important;
+  max-width:calc(100vw - 70px) !important;
+  max-height:calc(100vh - 90px) !important;
+  overflow:hidden !important;
+}
+.leaflet-popup-content{
+  width:auto !important;
+  max-width:none !important;
+  margin:12px 14px !important;
+  max-height:calc(100vh - 118px) !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+}
+.ruas-popup{width:100%;max-width:none!important;color:#1f2937}
+.popup-head{padding:0 2px 10px;border-bottom:1px solid #e5e7eb;margin-bottom:10px}
+.popup-no{font-size:12px;color:#6b7280;letter-spacing:.02em}
+.popup-name{font-size:19px;line-height:1.2;font-weight:800;color:#123b56;margin-top:3px}
+.popup-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:16px;align-items:start}
+.popup-col{min-width:0}
+.popup-col-right{border-left:1px solid #e5e7eb;padding-left:16px}
+.popup-section-title{font-weight:800;font-size:14px;color:#123b56;margin:12px 0 5px}
+.popup-section-top{margin-top:0}
+.popup-table{font-size:12px!important}
+.popup-table td{padding:7px 8px!important}
+.popup-table td:first-child{width:46%!important}
+.popup-table td:last-child{width:54%!important}
+.popup-actions{margin-top:14px!important}
+.popup-gmaps-btn{width:100%!important;justify-content:center!important;white-space:nowrap!important}
+@media(max-width:900px){
+  .leaflet-popup-content-wrapper{width:calc(100vw - 36px)!important;max-width:calc(100vw - 36px)!important}
+  .leaflet-popup-content{max-height:calc(100vh - 100px)!important}
+  .popup-grid{grid-template-columns:1fr;gap:10px}
+  .popup-col-right{border-left:0;border-top:1px solid #e5e7eb;padding-left:0;padding-top:10px}
+}
+</style>
 </head>
 <body>
 <aside class="side-nav" id="sideNav">
@@ -720,40 +759,47 @@ function render(){
           if(x.telford>0) perkerasan.push(`Telford/Kerikil ${x.telford.toFixed(2)} km`);
           if(x.tanah>0) perkerasan.push(`Tanah/Belum Tembus ${x.tanah.toFixed(2)} km`);
           l.bindPopup(`
-            <div class="ruas-popup" style="width:640px;max-width:100%">
-              <div style="font-size:11px;color:#6b7280">NO. RUAS ${esc(x.no_ruas)}</div>
-              <div style="font-size:16px;font-weight:700;color:#123b56;margin:2px 0 8px">${esc(x.nama)}</div>
-
-              <table class="popup-table">
-                <tr><td>Kecamatan</td><td>${esc(x.kecamatan||'-')}</td></tr>
-                <tr><td>Desa yang dilalui</td><td>${esc(x.desa||'-')}</td></tr>
-                <tr><td>Panjang</td><td>${Number(x.panjang||0).toFixed(3)} km</td></tr>
-                <tr><td>Lebar</td><td>${Number(x.lebar||0).toFixed(1)} m</td></tr>
-                <tr><td>Hotmix</td><td>${Number(x.hotmix||0).toFixed(3)} km</td></tr>
-                <tr><td>Lapen / Makadam</td><td>${Number(x.lapen||0).toFixed(3)} km</td></tr>
-                <tr><td>Perkerasan Beton</td><td>${Number(x.beton||0).toFixed(3)} km</td></tr>
-                <tr><td>Telford / Kerikil</td><td>${Number(x.telford||0).toFixed(3)} km</td></tr>
-                <tr><td>Tanah / Belum Tembus</td><td>${Number(x.tanah||0).toFixed(3)} km</td></tr>
-              </table>
-
-              <div style="font-weight:700;margin:10px 0 4px;color:#123b56">Panjang Tiap Kondisi</div>
-              <table class="popup-table">
-                <tr><td>Baik</td><td>${Number(x.baik||0).toFixed(3)} km (${Number(x.baik_pct||0).toFixed(2)}%)</td></tr>
-                <tr><td>Sedang</td><td>${Number(x.sedang||0).toFixed(3)} km (${Number(x.sedang_pct||0).toFixed(2)}%)</td></tr>
-                <tr><td>Rusak Ringan</td><td>${Number(x.rr||0).toFixed(3)} km (${Number(x.rr_pct||0).toFixed(2)}%)</td></tr>
-                <tr><td>Rusak Berat</td><td>${Number(x.rb||0).toFixed(3)} km (${Number(x.rb_pct||0).toFixed(2)}%)</td></tr>
-              </table>
-
-              <div style="margin-top:9px;padding-top:8px;border-top:1px solid #ddd">
-                <table class="popup-table">
-                  <tr><td>LHR</td><td>${esc(x.lhr||'-')}</td></tr>
-                  <tr><td>Akses N/P/K</td><td>${esc(x.akses||'-')}</td></tr>
-                  <tr><td>Anggaran Rusak Ringan</td><td>${x.anggaran_rr ? 'Rp '+Number(x.anggaran_rr).toLocaleString('id-ID') : '-'}</td></tr>
-                  <tr><td>Anggaran Rusak Berat</td><td>${x.anggaran_rb ? 'Rp '+Number(x.anggaran_rb).toLocaleString('id-ID') : '-'}</td></tr>
-                </table>
+            <div class="ruas-popup">
+              <div class="popup-head">
+                <div class="popup-no">NO. RUAS ${esc(x.no_ruas)}</div>
+                <div class="popup-name">${esc(x.nama)}</div>
               </div>
-              <div class="popup-actions" style="margin-top:10px">
-                <button type="button" class="popup-gmaps-btn" title="Buka Google Maps tepat pada titik ruas yang diklik">📍 Buka Google Maps di Titik Ini</button>
+
+              <div class="popup-grid">
+                <div class="popup-col">
+                  <table class="popup-table">
+                    <tr><td>Kecamatan</td><td>${esc(x.kecamatan||'-')}</td></tr>
+                    <tr><td>Desa yang dilalui</td><td>${esc(x.desa||'-')}</td></tr>
+                    <tr><td>Panjang</td><td>${Number(x.panjang||0).toFixed(3)} km</td></tr>
+                    <tr><td>Lebar</td><td>${Number(x.lebar||0).toFixed(1)} m</td></tr>
+                    <tr><td>Hotmix</td><td>${Number(x.hotmix||0).toFixed(3)} km</td></tr>
+                    <tr><td>Lapen / Makadam</td><td>${Number(x.lapen||0).toFixed(3)} km</td></tr>
+                    <tr><td>Perkerasan Beton</td><td>${Number(x.beton||0).toFixed(3)} km</td></tr>
+                    <tr><td>Telford / Kerikil</td><td>${Number(x.telford||0).toFixed(3)} km</td></tr>
+                    <tr><td>Tanah / Belum Tembus</td><td>${Number(x.tanah||0).toFixed(3)} km</td></tr>
+                  </table>
+
+                  <div class="popup-section-title">Panjang Tiap Kondisi</div>
+                  <table class="popup-table">
+                    <tr><td>Baik</td><td>${Number(x.baik||0).toFixed(3)} km (${Number(x.baik_pct||0).toFixed(2)}%)</td></tr>
+                    <tr><td>Sedang</td><td>${Number(x.sedang||0).toFixed(3)} km (${Number(x.sedang_pct||0).toFixed(2)}%)</td></tr>
+                    <tr><td>Rusak Ringan</td><td>${Number(x.rr||0).toFixed(3)} km (${Number(x.rr_pct||0).toFixed(2)}%)</td></tr>
+                    <tr><td>Rusak Berat</td><td>${Number(x.rb||0).toFixed(3)} km (${Number(x.rb_pct||0).toFixed(2)}%)</td></tr>
+                  </table>
+                </div>
+
+                <div class="popup-col popup-col-right">
+                  <div class="popup-section-title popup-section-top">Data Lalu Lintas & Anggaran</div>
+                  <table class="popup-table">
+                    <tr><td>LHR</td><td>${esc(x.lhr||'-')}</td></tr>
+                    <tr><td>Akses N/P/K</td><td>${esc(x.akses||'-')}</td></tr>
+                    <tr><td>Anggaran Rusak Ringan</td><td>${x.anggaran_rr ? 'Rp '+Number(x.anggaran_rr).toLocaleString('id-ID') : '-'}</td></tr>
+                    <tr><td>Anggaran Rusak Berat</td><td>${x.anggaran_rb ? 'Rp '+Number(x.anggaran_rb).toLocaleString('id-ID') : '-'}</td></tr>
+                  </table>
+                  <div class="popup-actions">
+                    <button type="button" class="popup-gmaps-btn" title="Buka Google Maps tepat pada titik ruas yang diklik">📍 Buka Google Maps di Titik Ini</button>
+                  </div>
+                </div>
               </div>
             </div>`);
         }
