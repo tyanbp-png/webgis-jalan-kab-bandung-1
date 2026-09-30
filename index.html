@@ -431,6 +431,15 @@ body{
 
 <style id="sidebar-layer-design">
 .side-nav{overflow-y:auto;overflow-x:hidden}.layer-caption{margin-top:20px}.side-nav .map-layer-panel{flex:0 0 auto}.side-nav::-webkit-scrollbar{width:5px}.side-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:10px}
+
+/* Layout revisi: peta full width, komposisi kondisi di bawah */
+.grid{grid-template-columns:1fr!important;gap:14px!important}
+.map-card{width:100%!important}
+.condition-card{width:100%!important}
+#map{width:100%!important;height:620px!important}
+.condition-card .chart{height:360px!important;max-width:760px;margin:0 auto}
+@media(max-width:900px){.grid{grid-template-columns:1fr!important}#map{height:55vh!important;min-height:420px}}
+@media(max-width:520px){#map{height:58vh!important;min-height:350px}}
 </style>
 </head>
 <body>
