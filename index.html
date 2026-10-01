@@ -1615,7 +1615,7 @@ render();
       const mapCanvas=await captureMap();
       const scope=scopeEl.value, info=infoFor(rs,scope);
       const W=3508,H=2480,c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');
-      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),roadLabelPointsForExport(rs,mapCanvas));
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),[]);
       const a=document.createElement('a');a.download=`Peta_A3_${scope}_${String(scope==='ruas'?rs[0].no_ruas:rs[0].kecamatan).replace(/[^a-z0-9_-]+/gi,'_')}.png`;a.href=c.toDataURL('image/png');a.click();showToast('Peta A3 berhasil diekspor ke PNG.');
       if(restore) restore();
     }catch(err){if(restore) restore();console.error(err);showToast('Ekspor gagal. Coba lagi setelah peta selesai dimuat.');}
@@ -1632,7 +1632,7 @@ render();
       const W=3508,H=2480,c=document.createElement('canvas');
       c.width=W;c.height=H;
       const ctx=c.getContext('2d');
-      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),roadLabelPointsForExport(rs,mapCanvas));
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),[]);
       const img=c.toDataURL('image/png');
       const fileBase=`Peta_A3_${scope}_${String(scope==='ruas'?rs[0].no_ruas:rs[0].kecamatan).replace(/[^a-z0-9_-]+/gi,'_')}`;
 
@@ -1719,7 +1719,7 @@ render();
       const W=3508,H=2480,c=document.createElement('canvas');
       c.width=W;c.height=H;
       const ctx=c.getContext('2d');
-      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),roadLabelPointsForExport(rs,mapCanvas));
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),[]);
       previewImg.src=c.toDataURL('image/png');
       const st=stats(rs);
       const title=scope==='ruas'?`Preview Peta Ruas ${rs[0].no_ruas}`:`Preview Peta Kecamatan ${rs[0].kecamatan}`;
