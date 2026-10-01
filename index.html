@@ -1229,10 +1229,9 @@ render();
       // Jangan menggeser lagi ke centroid setelah fitBounds karena bentuk kabupaten
       // tidak simetris dan pergeseran tersebut dapat membuat sisi utara/selatan terpotong.
       const kabGeo=ADMIN_GEO?.kabupaten||null;
-      map.fitBounds(kabBounds,{padding:[58,58],animate:false,maxZoom:9});
-      // Pastikan sedikit ruang aman tetap tersedia di semua sisi.
-      const z=map.getZoom();
-      if(Number.isFinite(z)) map.setZoom(Math.max(0,z-0.15),{animate:false});
+      map.fitBounds(kabBounds,{padding:[28,28],animate:false,maxZoom:10});
+      // Pertahankan hasil fitBounds tanpa zoom-out tambahan agar peta Kabupaten Bandung
+      // tampil lebih besar tetapi seluruh batas kabupaten tetap masuk ke kotak.
       map.invalidateSize({pan:false,debounceMoveend:false});
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       await new Promise(resolve=>setTimeout(resolve,900));
@@ -1747,37 +1746,7 @@ render();
           ctx.setLineDash([]);
           ctx.restore();
 
-          // Inset kecil lokasi kecamatan terpilih.
-          // Dibuat lebih besar agar polygon kecamatan benar-benar terlihat.
-          const insetW=Math.min(290,overviewW-28);
-          const insetH=Math.min(165,overviewH-28);
-          const insetX=overviewX+overviewW-insetW-12;
-          const insetY=overviewY+12;
-          ctx.save();
-          ctx.fillStyle='rgba(255,255,255,.97)';
-          ctx.fillRect(insetX-6,insetY-6,insetW+12,insetH+12);
-          ctx.strokeStyle='#174a6b';ctx.lineWidth=2;ctx.strokeRect(insetX-6,insetY-6,insetW+12,insetH+12);
-          ctx.fillStyle='#123b56';ctx.font='700 13px Arial';
-          ctx.fillText('LOKASI KECAMATAN',insetX+10,insetY+18);
-
-          const pad=14;
-          const cropW=Math.max(fb.w,28), cropH=Math.max(fb.h,28);
-          const cropX=Math.max(0,Math.min(ov.width-cropW*1.8,fb.x-cropW*.4));
-          const cropY=Math.max(0,Math.min(ov.height-cropH*1.8,fb.y-cropH*.4));
-          const cropWW=Math.min(ov.width-cropX,Math.max(cropW*1.8,40));
-          const cropHH=Math.min(ov.height-cropY,Math.max(cropH*1.8,40));
-          const availW=insetW-pad*2, availH=insetH-34-pad;
-          const cr=Math.min(availW/cropWW,availH/cropHH);
-          const dw=cropWW*cr, dh=cropHH*cr;
-          const dx=insetX+(insetW-dw)/2, dy=insetY+30+(availH-dh)/2;
-          ctx.beginPath();ctx.rect(insetX,insetY+26,insetW,insetH-26);ctx.clip();
-          ctx.drawImage(ov,cropX,cropY,cropWW,cropHH,dx,dy,dw,dh);
-          // Frame lokasi pada inset.
-          const ifx=dx+(fb.x-cropX)*cr, ify=dy+(fb.y-cropY)*cr;
-          const ifw=Math.max(10,fb.w*cr), ifh=Math.max(10,fb.h*cr);
-          ctx.fillStyle='rgba(45,212,191,.35)';ctx.fillRect(ifx,ify,ifw,ifh);
-          ctx.strokeStyle='#0f766e';ctx.lineWidth=3;ctx.strokeRect(ifx,ify,ifw,ifh);
-          ctx.restore();
+          // Kotak inset lokasi kecamatan sengaja dihilangkan.
         }
         ctx.restore();
       }
