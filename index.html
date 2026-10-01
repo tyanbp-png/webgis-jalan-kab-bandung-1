@@ -424,7 +424,7 @@ body{
 .export-toast.show{opacity:1;transform:translateY(0)}
 .export-sheet{width:1120px;max-width:94vw;margin:0 auto;background:#fff;color:#162b3a;font-family:Arial,sans-serif}
 .export-sheet-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;border-bottom:3px solid #155e75;padding-bottom:12px;margin-bottom:12px}
-.export-sheet-title{font-size:22px;font-weight:800;color:#123b56;margin:0 0 4px}.export-sheet-sub{font-size:12px;color:#64748b}.export-sheet-info{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0 12px}.export-info-box{border:1px solid #dce6ee;border-radius:9px;padding:8px 10px;background:#f8fbfd}.export-info-box small{display:block;color:#64748b;font-size:10px}.export-info-box b{display:block;margin-top:3px;font-size:14px;color:#123b56}.export-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11px;margin:8px 0}.export-legend span{display:inline-flex;align-items:center;gap:5px}.export-legend i{width:11px;height:11px;border-radius:50%;display:inline-block}.export-sheet-note{font-size:10px;color:#64748b;margin-top:8px}.export-map-image{width:100%;display:block;border:1px solid #dce6ee;border-radius:8px}
+.export-sheet-title{font-size:22px;font-weight:800;color:#123b56;margin:0 0 4px}.export-sheet-sub{font-size:12px;color:#64748b}.export-sheet-info{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0 12px}.export-info-box{border:1px solid #dce6ee;border-radius:9px;padding:8px 10px;background:#f8fbfd}.export-info-box small{display:block;color:#64748b;font-size:10px}.export-info-box b{display:block;margin-top:3px;font-size:14px;color:#123b56}.export-legend{display:none}.road-legend-title{font-size:12px;font-weight:800;color:#123b56;margin:10px 0 6px}.road-legend-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 14px;border:1px solid #dce6ee;border-radius:8px;padding:8px 10px;background:#fbfdfe;font-size:10px;line-height:1.35}.road-legend-item{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#334155}.road-legend-item b{color:#123b56}.export-sheet-note{font-size:10px;color:#64748b;margin-top:8px}.export-map-image{width:100%;display:block;border:1px solid #dce6ee;border-radius:8px}
 @media(max-width:900px){.map-export-tools{width:100%}.map-export-tools select#exportTarget{flex:1;min-width:180px}.export-sheet-info{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.map-export-tools>*{width:100%}.map-export-tools select#exportTarget{max-width:none}.export-sheet-info{grid-template-columns:1fr}.map-title-row{align-items:stretch}}
 </style>
@@ -999,11 +999,15 @@ render();
     return {count:rs.length,length:sumRows(rs,'panjang'),baik:sumRows(rs,'baik'),sedang:sumRows(rs,'sedang'),rr:sumRows(rs,'rr'),rb:sumRows(rs,'rb'),rrRp:sumRows(rs,'anggaran_rr'),rbRp:sumRows(rs,'anggaran_rb')};
   }
   function escHtml(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-  function buildSheet(title,subtitle,info,legend,imgData){
+  function roadLegendHtml(rs){
+    const items=(rs||[]).map((r,i)=>`<span class="road-legend-item"><b>${escHtml(r.no_ruas||'-')}</b> ${escHtml(r.nama||'Tanpa Nama')}</span>`).join('');
+    return `<div class="road-legend-title">NAMA TRASE JALAN</div><div class="road-legend-list">${items}</div>`;
+  }
+  function buildSheet(title,subtitle,info,legend,imgData,rs=[]){
     const sheet=document.createElement('div');sheet.className='export-sheet';
     sheet.innerHTML=`<div class="export-sheet-head"><div><div class="export-sheet-title">${escHtml(title)}</div><div class="export-sheet-sub">${escHtml(subtitle)}</div></div><div class="export-sheet-sub">Dashboard Kondisi Ruas Jalan • PKRMS 2026</div></div>
       <div class="export-sheet-info">${info.map(x=>`<div class="export-info-box"><small>${escHtml(x[0])}</small><b>${escHtml(x[1])}</b></div>`).join('')}</div>
-      <div class="export-legend"><span><i style="background:#22a447"></i>Baik</span><span><i style="background:#e1bd00"></i>Sedang</span><span><i style="background:#f28c28"></i>Rusak Ringan</span><span><i style="background:#d92727"></i>Rusak Berat</span></div>
+      ${roadLegendHtml(rs)}
       <img class="export-map-image" src="${imgData}" alt="Peta ekspor">
       <div class="export-sheet-note">Sumber: Data PKRMS 2026. Peta dan keterangan disusun dari data yang tersedia pada dashboard.</div>`;
     return sheet;
@@ -1312,9 +1316,25 @@ render();
       y+=Math.max(30,vl.slice(0,2).length*19+10);
       ctx.strokeStyle='#e2e8f0';ctx.beginPath();ctx.moveTo(sideX+30,y-8);ctx.lineTo(sideX+sideW-30,y-8);ctx.stroke();
     });
-    y+=15;ctx.fillStyle='#123b56';ctx.font='800 20px Arial';ctx.fillText('LEGENDA KONDISI',sideX+35,y);y+=30;
-    const legends=[['Baik','#22a447'],['Sedang','#e1bd00'],['Rusak Ringan','#f28c28'],['Rusak Berat','#d92727']];
-    legends.forEach(([lab,col])=>{ctx.fillStyle=col;ctx.fillRect(sideX+38,y-13,18,18);ctx.fillStyle='#334155';ctx.font='15px Arial';ctx.fillText(lab,sideX+68,y);y+=27;});
+    // Ganti legenda kondisi dengan daftar nama trase jalan yang benar-benar ikut diekspor.
+    y+=15;ctx.fillStyle='#123b56';ctx.font='800 20px Arial';ctx.fillText('NAMA TRASE JALAN',sideX+35,y);y+=30;
+    const roadItems=(rs||[]).map(r=>({no:String(r.no_ruas||'-'),nama:String(r.nama||'Tanpa Nama')}));
+    const roadCols=roadItems.length>40?3:(roadItems.length>14?2:1);
+    const roadRows=Math.ceil(roadItems.length/roadCols);
+    const colW=(sideW-70)/roadCols;
+    const rowH=roadItems.length>40?25:(roadItems.length>14?28:30);
+    ctx.font=roadItems.length>40?'12px Arial':(roadItems.length>14?'13px Arial':'14px Arial');
+    ctx.fillStyle='#334155';ctx.textAlign='left';ctx.textBaseline='alphabetic';
+    for(let i=0;i<roadItems.length;i++){
+      const col=Math.floor(i/roadRows), row=i%roadRows;
+      const xx=sideX+35+col*colW, yy=y+row*rowH;
+      const prefix=roadItems[i].no?`${roadItems[i].no} — `:'';
+      const maxText=Math.max(60,colW-8);
+      let nm=prefix+roadItems[i].nama;
+      while(nm.length>8 && ctx.measureText(nm).width>maxText) nm=nm.slice(0,-2)+'…';
+      ctx.fillText(nm,xx,yy);
+    }
+    y+=roadRows*rowH+14;
     y+=12;ctx.fillStyle='#123b56';ctx.font='800 20px Arial';ctx.fillText('ORIENTASI',sideX+35,y);y+=36;
     ctx.fillStyle='#123b56';ctx.font='800 34px Arial';ctx.fillText('N',sideX+58,y);ctx.beginPath();ctx.moveTo(sideX+74,y+10);ctx.lineTo(sideX+74,y+70);ctx.strokeStyle='#123b56';ctx.lineWidth=3;ctx.stroke();ctx.beginPath();ctx.moveTo(sideX+74,y+10);ctx.lineTo(sideX+63,y+28);ctx.lineTo(sideX+85,y+28);ctx.closePath();ctx.fill();
     ctx.fillStyle='#64748b';ctx.font='14px Arial';ctx.fillText('Peta utama menggunakan tampilan WebGIS aktif.',sideX+35,y+95);
