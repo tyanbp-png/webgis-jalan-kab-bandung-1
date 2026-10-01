@@ -518,6 +518,30 @@ body{
   .popup-col-right{border-left:0;border-top:1px solid #e5e7eb;padding-left:0;padding-top:10px}
 }
 </style>
+
+<style id="kab-bandung-zoom-final">
+/* Final: perbesar sedikit peta Kabupaten Bandung dan tetap pas di kotak */
+.kabupaten-map,
+#kabupatenMap,
+#kabMap,
+.kab-map{
+  transform: scale(1.10);
+  transform-origin: center center;
+}
+
+/* Jika peta dibuat sebagai gambar/canvas di dalam frame inset,
+   gunakan ukuran maksimum kotak tanpa mengubah posisi judul. */
+.kabupaten-map img,
+#kabupatenMap img,
+#kabMap img,
+.kab-map img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+</style>
+
 </head>
 <body>
 <aside class="side-nav" id="sideNav">
