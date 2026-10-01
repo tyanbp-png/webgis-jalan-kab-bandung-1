@@ -1224,7 +1224,14 @@ render();
       if(!kabBounds || !kabBounds.isValid()) return null;
 
       // Zoom ketat ke Kabupaten Bandung, bukan ke kecamatan/trase.
-      map.fitBounds(kabBounds,{padding:[8,8],animate:false,maxZoom:10});
+      // Posisikan tepat di tengah Kabupaten Bandung dan gunakan zoom sedikit lebih dekat
+      // agar isi peta terlihat besar di dalam kotak inset.
+      const kabCenter=kabBounds.getCenter();
+      map.fitBounds(kabBounds,{padding:[0,0],animate:false,maxZoom:11});
+      // Setelah fitBounds, tambah 1 tingkat zoom bila masih terlalu jauh,
+      // dengan pusat tetap pada titik tengah Kabupaten Bandung.
+      const z=Math.min((map.getZoom()||10)+1,11);
+      map.setView(kabCenter,z,{animate:false});
       map.invalidateSize({pan:false,debounceMoveend:false});
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       await new Promise(resolve=>setTimeout(resolve,900));
