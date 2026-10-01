@@ -1642,19 +1642,21 @@ render();
     const overviewX=sideX+18, overviewY=sideY+18, overviewW=sideW-36, overviewH=kopH;
     ctx.strokeStyle='#cbd5df';ctx.strokeRect(overviewX,overviewY,overviewW,overviewH);
     if(overviewCanvas){
-      const r=Math.min(overviewW/overviewCanvas.width,overviewH/overviewCanvas.height);
+      // Inset hanya menampilkan PETA KABUPATEN BANDUNG.
+      // Isi kotak dibuat penuh (cover) agar tidak menyisakan ruang putih besar,
+      // dengan rasio geografis peta tetap dipertahankan.
+      const r=Math.max(overviewW/overviewCanvas.width,overviewH/overviewCanvas.height);
       const ow=overviewCanvas.width*r, oh=overviewCanvas.height*r;
       const ox=overviewX+(overviewW-ow)/2, oy=overviewY+(overviewH-oh)/2;
-      ctx.save();ctx.beginPath();ctx.rect(overviewX,overviewY,overviewW,overviewH);ctx.clip();
+      ctx.save();
+      ctx.beginPath();ctx.rect(overviewX,overviewY,overviewW,overviewH);ctx.clip();
       ctx.fillStyle='#f8fafc';ctx.fillRect(overviewX,overviewY,overviewW,overviewH);
       ctx.drawImage(overviewCanvas,ox,oy,ow,oh);
       ctx.restore();
-      ctx.fillStyle='rgba(255,255,255,.9)';ctx.fillRect(overviewX+12,overviewY+12,300,34);
-      ctx.fillStyle='#123b56';ctx.font='800 16px Arial';ctx.fillText('LOKASI DALAM KABUPATEN BANDUNG',overviewX+22,overviewY+35);
     }
     // Judul dan informasi
     let y=sideY+kopH+48;
-    const title=scope==='ruas'?`PETA RUAS ${rs[0].no_ruas}`:`PETA KECAMATAN ${rs[0].kecamatan}`;
+    const title=scope==='ruas'?`PETA RUAS ${rs[0].no_ruas}`:`PETA KABUPATEN BANDUNG`;
     const sub=scope==='ruas'?rs[0].nama:`${stats(rs).count} ruas • ${fmtKm(stats(rs).length)}`;
     ctx.fillStyle='#123b56';ctx.font='800 28px Arial';
     const titleLines=wrapCanvasText(ctx,title,sideW-70,28); titleLines.forEach((t,i)=>ctx.fillText(t,sideX+35,y+i*34));
