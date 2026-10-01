@@ -1203,16 +1203,36 @@ render();
       if(selectedFeature){
         const selectedLayer=L.geoJSON(selectedFeature,{
           style:{
-            color:'#0f766e',
-            weight:3,
+            color:'#f97316',
+            weight:4.5,
             opacity:1,
-            fillColor:'#2dd4bf',
-            fillOpacity:0.48
+            fillColor:'#fbbf24',
+            fillOpacity:0.58
           },
           interactive:false
         }).addTo(map);
         tempLayers.push(selectedLayer);
         selectedLayer.bringToFront();
+
+        // Penanda pusat kecamatan terpilih agar inset lokasi kecamatan
+        // tetap terlihat jelas pada peta Kabupaten Bandung saat preview/PDF.
+        try{
+          const sb=selectedLayer.getBounds();
+          if(sb && sb.isValid()){
+            const center=sb.getCenter();
+            const marker=L.circleMarker(center,{
+              radius:9,
+              color:'#9a3412',
+              weight:3,
+              opacity:1,
+              fillColor:'#ffffff',
+              fillOpacity:1,
+              interactive:false
+            }).addTo(map);
+            tempLayers.push(marker);
+            marker.bringToFront();
+          }
+        }catch(e){}
       }
 
       // Ambil bounds Kabupaten Bandung saja.
@@ -1248,10 +1268,11 @@ render();
           return sw ? L.latLng(sy/sw,sx/sw) : kabBounds.getCenter();
         }catch(e){ return kabBounds.getCenter(); }
       })();
-      map.fitBounds(kabBounds,{padding:[18,18],animate:false,maxZoom:10});
-      // Satu tingkat lebih dekat agar peta lebih besar, tetapi jangan sampai batas kabupaten terpotong.
+      map.fitBounds(kabBounds,{padding:[8,8],animate:false,maxZoom:11});
+      // Sedikit diperbesar agar Kabupaten Bandung memenuhi kotak inset,
+      // tetapi tetap menjaga seluruh wilayah kabupaten terlihat.
       const fittedZoom=map.getZoom()||9;
-      const closer=Math.min(fittedZoom+1,10);
+      const closer=Math.min(fittedZoom+1,11);
       map.setView(kabCenter,closer,{animate:false});
       map.invalidateSize({pan:false,debounceMoveend:false});
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
