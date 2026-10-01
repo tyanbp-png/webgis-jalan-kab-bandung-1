@@ -1238,34 +1238,99 @@ render();
 
   function roadLabelPointsForExport(rs,mapCanvas){
     if(!map || !mapCanvas) return [];
-    const wanted=new Map((rs||[]).map(r=>[String(r.no_ruas||'').trim().replace(/\s+/g,'').toUpperCase(),r]));
-    const byNo=new Map();
-    (geo?.features||[]).forEach(f=>{
-      const key=String(f?.properties?.no_ruas||'').trim().replace(/\s+/g,'').toUpperCase();
-      if(!wanted.has(key)) return;
-      const coords=[];
-      const walk=a=>{
-        if(Array.isArray(a) && a.length>=2 && Number.isFinite(Number(a[0])) && Number.isFinite(Number(a[1])) && typeof a[0]!=='object'){
-          coords.push([Number(a[1]),Number(a[0])]);
-        }else if(Array.isArray(a)){a.forEach(walk);}
-      };
-      walk(f?.geometry?.coordinates);
-      if(!coords.length) return;
-      if(!byNo.has(key)) byNo.set(key,[]);
-      byNo.get(key).push(...coords);
-    });
+    const norm=v=>String(v??'').trim().replace(/\s+/g,'').toUpperCase();
+    const wanted=new Map((rs||[]).map(r=>[norm(r.no_ruas),r]));
     const rect=document.getElementById('map')?.getBoundingClientRect();
     if(!rect || !rect.width || !rect.height) return [];
     const sx=mapCanvas.width/rect.width, sy=mapCanvas.height/rect.height;
+
+    /*
+     * LABEL HARUS MENGIKUTI GARIS YANG BENAR-BENAR TERGAMBAR.
+     * Jangan menghitung ulang dari koordinat GeoJSON mentah, karena satu nomor
+     * ruas bisa terdiri dari beberapa feature. Kita ambil path Leaflet dari
+     * exportSelectedLayer yang sudah difilter + sudah fitBounds, lalu mencari
+     * segmen terpanjang dalam koordinat layar. Dengan cara ini anchor label
+     * pasti berada tepat pada trase yang terlihat di preview/PDF.
+     */
+    const candidates=new Map();
+    const collect=(layer)=>{
+      if(!layer) return;
+      if(layer.feature?.properties?.no_ruas!=null && layer.getLatLngs){
+        const key=norm(layer.feature.properties.no_ruas);
+        if(!wanted.has(key)) return;
+        const raw=layer.getLatLngs();
+        const lines=[];
+        const flatten=a=>{
+          if(!Array.isArray(a)||!a.length) return;
+          if(a[0] && typeof a[0].lat==='number') lines.push(a);
+          else a.forEach(flatten);
+        };
+        flatten(raw);
+        if(!candidates.has(key)) candidates.set(key,[]);
+        lines.forEach(line=>{
+          if(line.length>=2) candidates.get(key).push(line);
+        });
+      }else if(layer.eachLayer){
+        layer.eachLayer(collect);
+      }
+    };
+    if(typeof exportSelectedLayer!=='undefined' && exportSelectedLayer) collect(exportSelectedLayer);
+
+    // Fallback ke GeoJSON jika layer Leaflet belum tersedia.
+    if(!candidates.size){
+      (geo?.features||[]).forEach(f=>{
+        const key=norm(f?.properties?.no_ruas);
+        if(!wanted.has(key)) return;
+        const g=f?.geometry;
+        if(!g) return;
+        const add=(arr)=>{
+          if(!Array.isArray(arr)||arr.length<2) return;
+          const pts=arr.map(c=>L.latLng(Number(c[1]),Number(c[0]))).filter(x=>Number.isFinite(x.lat)&&Number.isFinite(x.lng));
+          if(pts.length>=2){if(!candidates.has(key)) candidates.set(key,[]);candidates.get(key).push(pts);}
+        };
+        if(g.type==='LineString') add(g.coordinates);
+        else if(g.type==='MultiLineString') g.coordinates.forEach(add);
+      });
+    }
+
+    const screenLength=line=>{
+      let d=0;
+      for(let i=1;i<line.length;i++){
+        const a=map.latLngToContainerPoint(line[i-1]);
+        const b=map.latLngToContainerPoint(line[i]);
+        d+=Math.hypot(b.x-a.x,b.y-a.y);
+      }
+      return d;
+    };
+    const midpointScreen=line=>{
+      const seg=[];let total=0;
+      for(let i=1;i<line.length;i++){
+        const a=map.latLngToContainerPoint(line[i-1]);
+        const b=map.latLngToContainerPoint(line[i]);
+        const d=Math.hypot(b.x-a.x,b.y-a.y);seg.push({a,b,d});total+=d;
+      }
+      if(!total) return null;
+      let acc=0,half=total/2;
+      for(const q of seg){
+        if(acc+q.d>=half){
+          const t=(half-acc)/(q.d||1);
+          return {x:q.a.x+(q.b.x-q.a.x)*t,y:q.a.y+(q.b.y-q.a.y)*t};
+        }
+        acc+=q.d;
+      }
+      const z=seg[seg.length-1]; return z?{x:z.b.x,y:z.b.y}:null;
+    };
+
     const out=[];
     wanted.forEach((r,key)=>{
-      const pts=byNo.get(key)||[];
-      if(!pts.length) return;
-      // Ambil titik tengah dari kumpulan koordinat geometry ruas agar label berada di badan trase.
-      const p=pts[Math.floor(pts.length/2)];
-      const cp=map.latLngToContainerPoint([p[0],p[1]]);
-      if(!Number.isFinite(cp.x)||!Number.isFinite(cp.y)) return;
-      out.push({no:String(r.no_ruas||'-'),nama:String(r.nama||''),x:cp.x*sx,y:cp.y*sy});
+      const lines=candidates.get(key)||[];
+      if(!lines.length) return;
+      // Pilih garis yang paling panjang DALAM TAMPILAN PETA SAAT INI.
+      // Ini menghindari label jatuh ke feature pendek/terpisah dari ruas utama.
+      lines.sort((a,b)=>screenLength(b)-screenLength(a));
+      const pt=midpointScreen(lines[0]);
+      if(!pt || !Number.isFinite(pt.x)||!Number.isFinite(pt.y)) return;
+      out.push({no:String(r.no_ruas||'-'),nama:String(r.nama||''),x:pt.x*sx,y:pt.y*sy});
     });
     return out;
   }
