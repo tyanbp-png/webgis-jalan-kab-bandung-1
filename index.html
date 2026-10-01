@@ -420,6 +420,13 @@ body{
 .map-export-tools select#exportTarget{min-width:230px!important;max-width:320px}
 .map-export-tools .export-btn{min-height:38px!important;padding:8px 12px!important;border-radius:10px!important;font-size:12px!important;white-space:nowrap}
 .map-export-tools .export-secondary{background:linear-gradient(135deg,#0f766e,#155e75)!important}
+/* Kontrol export dipindahkan ke sidebar kiri agar menyatu dengan menu utama. */
+.sidebar-export-tools{display:flex;flex-direction:column;gap:7px;margin:8px 4px 0;padding:10px;border:1px solid rgba(255,255,255,.10);border-radius:14px;background:rgba(255,255,255,.055);box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.sidebar-export-tools select{width:100%;min-width:0;min-height:36px;padding:8px 9px;border:1px solid rgba(255,255,255,.16);border-radius:9px;background:#fff;color:#172b3a;font-size:12px;box-sizing:border-box}
+.sidebar-export-tools .export-btn{width:100%;min-height:36px;padding:8px 9px;border:0;border-radius:9px;color:#fff;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;background:linear-gradient(135deg,#2563eb,#1d4ed8)}
+.sidebar-export-tools .export-btn:hover{filter:brightness(1.06);transform:translateY(-1px)}
+.sidebar-export-tools .export-secondary{background:linear-gradient(135deg,#0f766e,#155e75)!important}
+.export-caption{margin-top:18px!important}
 .export-toast{position:fixed;right:24px;bottom:24px;z-index:99999;background:#123b56;color:#fff;padding:11px 15px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.2);font-size:13px;opacity:0;transform:translateY(8px);pointer-events:none;transition:.2s}
 .export-toast.show{opacity:1;transform:translateY(0)}
 .export-sheet{width:1120px;max-width:94vw;margin:0 auto;background:#fff;color:#162b3a;font-family:Arial,sans-serif}
@@ -579,6 +586,17 @@ body{
       </div>
     </div>
   </div>
+  <div class="nav-caption export-caption">EXPORT PETA</div>
+  <div class="sidebar-export-tools" id="sidebarExportTools" aria-label="Kontrol export peta">
+    <select id="exportScope" title="Pilih jenis peta yang akan diekspor">
+      <option value="kecamatan">Peta Kecamatan</option>
+      <option value="ruas">Peta Per Ruas</option>
+    </select>
+    <select id="exportTarget" title="Pilih wilayah atau ruas"></select>
+    <button type="button" id="exportPreviewBtn" class="export-btn sidebar-export-preview">👁 Preview</button>
+    <button type="button" id="exportPngBtn" class="export-btn">⬇ Export PNG</button>
+    <button type="button" id="exportPrintBtn" class="export-btn export-secondary">🖨 Cetak / PDF</button>
+  </div>
   <div class="side-footer">
     <div class="side-status"><span></span> Data aktif</div>
     <small>Dashboard Kondisi Ruas Jalan<br><strong>(tyanbpTA2026)</strong></small>
@@ -602,19 +620,8 @@ body{
 </div>
 <div class="kpis"><div class="kpi"><small>Jumlah Ruas</small><b id="n">0</b></div><div class="kpi"><small>Panjang</small><b id="p">0 km</b></div><div class="kpi"><small>Kondisi Baik</small><b id="b">0 km</b></div><div class="kpi"><small>Rusak Ringan + Berat</small><b id="r">0 km</b></div></div>
 <div class="grid"><section class="card map-card" id="map-section">
-  <div class="map-title-row">
-    <h3>Peta Trase Jalan</h3>
-    <div class="map-export-tools">
-      <select id="exportScope" title="Pilih jenis peta yang akan diekspor">
-        <option value="kecamatan">Peta Kecamatan</option>
-        <option value="ruas">Peta Per Ruas</option>
-      </select>
-      <select id="exportTarget" title="Pilih wilayah atau ruas"></select>
-      <button type="button" id="exportPreviewBtn" class="export-btn" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)!important">👁 Preview</button><button type="button" id="exportPngBtn" class="export-btn">⬇ Export PNG</button>
-      <button type="button" id="exportPrintBtn" class="export-btn export-secondary">🖨 Cetak / PDF</button>
-    </div>
-  </div>
-  <div style="position:relative">
+  <div class="map-title-row"><h3>Peta Trase Jalan</h3></div>
+<div style="position:relative">
   <div id="map"></div>
   <div class="map-info">Arahkan kursor ke trase untuk nama ruas • Klik untuk detail</div>
 </div><small id="status"></small></section><section class="card condition-card" id="condition-section"><h3>Komposisi Kondisi</h3><div class="chart"><canvas id="ch"></canvas></div></section></div>
