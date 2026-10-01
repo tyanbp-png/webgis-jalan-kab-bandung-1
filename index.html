@@ -1026,12 +1026,24 @@ render();
         }
       });
 
-      // Fit ke seluruh wilayah kecamatan agar peta benar-benar menampilkan
-      // gambaran wilayah lengkap, bukan hanya kumpulan trase terpilih.
+      // Fit ke KECAMATAN YANG DIPILIH + seluruh trase ruas di kecamatan tersebut.
+      // Jangan memakai bounds seluruh Kabupaten karena akan membuat ruas terpilih
+      // terlalu kecil dan sebagian jaringan ruas tidak terbaca jelas pada output.
       try{
-        const allBounds=administrativeLayers.kecamatan.getBounds();
-        if(allBounds.isValid()) map.fitBounds(allBounds,{padding:[25,25],maxZoom:11,animate:false});
-      }catch(e){}
+        const focusBounds=L.latLngBounds([]);
+        if(exportHighlight){
+          const b=exportHighlight.getBounds();
+          if(b && b.isValid()) focusBounds.extend(b);
+        }
+        // layer berisi seluruh trase hasil filter kecamatan setelah render().
+        if(layer && typeof layer.getBounds==='function'){
+          const rb=layer.getBounds();
+          if(rb && rb.isValid()) focusBounds.extend(rb);
+        }
+        if(focusBounds.isValid()){
+          map.fitBounds(focusBounds,{padding:[45,45],maxZoom:13,animate:false});
+        }
+      }catch(e){ console.warn('Gagal menyesuaikan extent kecamatan:',e); }
     }
 
     await new Promise(resolve=>setTimeout(resolve,650));
