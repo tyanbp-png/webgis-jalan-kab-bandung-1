@@ -1272,7 +1272,7 @@ render();
       // Jangan memakai extent koordinat hard-coded karena dapat membuat
       // inset terlihat bergeser terhadap posisi geografis sebenarnya.
       // Beri padding kecil hanya untuk konteks wilayah sekitar.
-      const kabInsetBounds = kabBounds.clone().pad(0.12);
+      const kabInsetBounds = L.latLngBounds(kabBounds.getSouthWest(), kabBounds.getNorthEast()).pad(0.12);
       map.fitBounds(kabInsetBounds,{padding:[0,0],animate:false,maxZoom:13});
       map.invalidateSize({pan:false,debounceMoveend:false});
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
