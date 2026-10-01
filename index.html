@@ -1918,34 +1918,54 @@ render();
     let stage='awal';
     try{
       showToast('Menyiapkan preview peta A3…');
+
+      // Validasi dependency sebelum mengubah tampilan dashboard.
+      stage='memeriksa komponen peta';
+      const mainMap=(typeof map!=='undefined' && map) ? map : null;
+      if(!mainMap) throw new Error('Objek peta utama (map) belum tersedia. Muat ulang halaman dengan Ctrl+F5.');
+      if(typeof L==='undefined') throw new Error('Leaflet (L) belum tersedia.');
+      if(typeof html2canvas!=='function'){
+        const ok=await ensureHtml2Canvas();
+        if(!ok) throw new Error('html2canvas belum tersedia. Periksa koneksi internet lalu muat ulang halaman.');
+      }
+
       stage='menyiapkan tampilan peta';
       restore=await prepareExportView(rs,scopeEl.value);
+
       stage='menangkap peta utama';
       const mapCanvas=await captureMap();
       if(!mapCanvas || !mapCanvas.width || !mapCanvas.height) throw new Error('Canvas peta utama kosong.');
+
       stage='membuat locator Kabupaten Bandung';
       const overviewCanvas=scopeEl.value==='kecamatan' ? await captureKabupatenOverview(rs) : null;
+
       stage='menyusun lembar A3';
       const scope=scopeEl.value, info=infoFor(rs,scope);
       const W=3508,H=2480,c=document.createElement('canvas');
       c.width=W;c.height=H;
       const ctx=c.getContext('2d');
-      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),[],overviewCanvas);
+      if(!ctx) throw new Error('Canvas 2D tidak tersedia pada browser.');
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,mainMap.getBounds(),[],overviewCanvas);
+
       stage='mengubah hasil menjadi gambar';
-      previewImg.src=c.toDataURL('image/png');
+      const dataUrl=c.toDataURL('image/png');
+      if(!dataUrl || dataUrl.length<1000) throw new Error('Hasil gambar preview kosong.');
+      previewImg.src=dataUrl;
       const st=stats(rs);
       const title=scope==='ruas'?`Preview Peta Ruas ${rs[0].no_ruas}`:`Preview Peta Kecamatan ${rs[0].kecamatan}`;
       previewTitle.textContent=title;
       previewCount.textContent=`${scope==='kecamatan'?'Kecamatan':'Ruas'}: ${scope==='kecamatan'?rs[0].kecamatan:rs[0].no_ruas} • ${st.count} ruas • ${fmtKm(st.length)}`;
       previewBackdrop.classList.add('show');
+
       if(restore) restore();
       restore=null;
       showToast('Preview siap. Periksa peta sebelum export.');
     }catch(err){
-      if(restore) restore();
-      console.error('Preview gagal pada tahap:',stage,err);
-      const detail=err?.message?` — ${err.message}`:'';
-      showToast(`Preview gagal pada tahap ${stage}${detail}`);
+      if(restore){try{restore();}catch(e){console.error('Restore gagal:',e)}}
+      const message=err && err.message ? String(err.message) : String(err||'Kesalahan tidak diketahui');
+      const stack=err && err.stack ? String(err.stack) : '';
+      console.error('PREVIEW ERROR', {stage,message,stack});
+      showToast(`Preview gagal pada tahap ${stage} — ${message}`);
     }
   }
 
