@@ -1236,6 +1236,40 @@ render();
     };
   }
 
+  function roadLabelPointsForExport(rs,mapCanvas){
+    if(!map || !mapCanvas) return [];
+    const wanted=new Map((rs||[]).map(r=>[String(r.no_ruas||'').trim().replace(/\s+/g,'').toUpperCase(),r]));
+    const byNo=new Map();
+    (geo?.features||[]).forEach(f=>{
+      const key=String(f?.properties?.no_ruas||'').trim().replace(/\s+/g,'').toUpperCase();
+      if(!wanted.has(key)) return;
+      const coords=[];
+      const walk=a=>{
+        if(Array.isArray(a) && a.length>=2 && Number.isFinite(Number(a[0])) && Number.isFinite(Number(a[1])) && typeof a[0]!=='object'){
+          coords.push([Number(a[1]),Number(a[0])]);
+        }else if(Array.isArray(a)){a.forEach(walk);}
+      };
+      walk(f?.geometry?.coordinates);
+      if(!coords.length) return;
+      if(!byNo.has(key)) byNo.set(key,[]);
+      byNo.get(key).push(...coords);
+    });
+    const rect=document.getElementById('map')?.getBoundingClientRect();
+    if(!rect || !rect.width || !rect.height) return [];
+    const sx=mapCanvas.width/rect.width, sy=mapCanvas.height/rect.height;
+    const out=[];
+    wanted.forEach((r,key)=>{
+      const pts=byNo.get(key)||[];
+      if(!pts.length) return;
+      // Ambil titik tengah dari kumpulan koordinat geometry ruas agar label berada di badan trase.
+      const p=pts[Math.floor(pts.length/2)];
+      const cp=map.latLngToContainerPoint([p[0],p[1]]);
+      if(!Number.isFinite(cp.x)||!Number.isFinite(cp.y)) return;
+      out.push({no:String(r.no_ruas||'-'),nama:String(r.nama||''),x:cp.x*sx,y:cp.y*sy});
+    });
+    return out;
+  }
+
   function drawCoordinateGrid(ctx, mainX, mainY, mainW, mainH, mapBounds){
     if(!mapBounds || !mapBounds.isValid || !mapBounds.isValid()) return;
     const south=mapBounds.getSouth(), north=mapBounds.getNorth();
@@ -1283,7 +1317,7 @@ render();
     ctx.restore();
   }
 
-  function drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,mapBounds){
+  function drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,mapBounds,roadLabels=[]){
     const M=55, gap=32, sideW=720;
     const mainX=M, mainY=M, mainW=W-M*2-sideW-gap, mainH=H-M*2;
     const sideX=mainX+mainW+gap, sideY=M;
@@ -1350,6 +1384,30 @@ render();
     ctx.drawImage(mapCanvas,dx,dy,dw,dh);
     ctx.restore();
     ctx.strokeStyle='#334155';ctx.lineWidth=2;ctx.strokeRect(mainX,mainY,mainW,mainH);
+    // Nomor ruas ditempel langsung pada trase dan disinkronkan dengan daftar NAMA TRASE JALAN.
+    // Posisi dihitung dari koordinat geometry yang sedang tampil pada map, sehingga label
+    // mengikuti posisi sebenarnya di peta export.
+    if(Array.isArray(roadLabels) && roadLabels.length){
+      ctx.save();
+      ctx.beginPath();ctx.rect(mainX,mainY,mainW,mainH);ctx.clip();
+      const scaleX=mainW/mapCanvas.width, scaleY=mainH/mapCanvas.height;
+      roadLabels.forEach((it)=>{
+        const px=mainX+it.x*scaleX, py=mainY+it.y*scaleY;
+        if(px<mainX+8||px>mainX+mainW-8||py<mainY+8||py>mainY+mainH-8) return;
+        const label=it.no;
+        ctx.font='700 14px Arial';
+        const tw=ctx.measureText(label).width;
+        const bw=tw+14, bh=22;
+        const bx=Math.max(mainX+4,Math.min(px-bw/2,mainX+mainW-bw-4));
+        const by=Math.max(mainY+4,Math.min(py-bh/2,mainY+mainH-bh-4));
+        ctx.fillStyle='rgba(255,255,255,.94)';
+        ctx.strokeStyle='#1769aa';ctx.lineWidth=1.5;
+        ctx.beginPath();ctx.roundRect(bx,by,bw,bh,5);ctx.fill();ctx.stroke();
+        ctx.fillStyle='#123b56';ctx.textAlign='center';ctx.textBaseline='middle';
+        ctx.fillText(label,bx+bw/2,by+bh/2+0.5);
+      });
+      ctx.restore();
+    }
     // Koordinat geografis di tepi peta, mengikuti extent map yang benar-benar tampil.
     drawCoordinateGrid(ctx,mainX,mainY,mainW,mainH,mapBounds);
     // Judul kecil di area peta
@@ -1372,7 +1430,7 @@ render();
       const mapCanvas=await captureMap();
       const scope=scopeEl.value, info=infoFor(rs,scope);
       const W=3508,H=2480,c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');
-      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds());
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),roadLabelPointsForExport(rs,mapCanvas));
       const a=document.createElement('a');a.download=`Peta_A3_${scope}_${String(scope==='ruas'?rs[0].no_ruas:rs[0].kecamatan).replace(/[^a-z0-9_-]+/gi,'_')}.png`;a.href=c.toDataURL('image/png');a.click();showToast('Peta A3 berhasil diekspor ke PNG.');
       if(restore) restore();
     }catch(err){if(restore) restore();console.error(err);showToast('Ekspor gagal. Coba lagi setelah peta selesai dimuat.');}
@@ -1389,7 +1447,7 @@ render();
       const W=3508,H=2480,c=document.createElement('canvas');
       c.width=W;c.height=H;
       const ctx=c.getContext('2d');
-      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds());
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),roadLabelPointsForExport(rs,mapCanvas));
       const img=c.toDataURL('image/png');
       const fileBase=`Peta_A3_${scope}_${String(scope==='ruas'?rs[0].no_ruas:rs[0].kecamatan).replace(/[^a-z0-9_-]+/gi,'_')}`;
 
@@ -1476,7 +1534,7 @@ render();
       const W=3508,H=2480,c=document.createElement('canvas');
       c.width=W;c.height=H;
       const ctx=c.getContext('2d');
-      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds());
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),roadLabelPointsForExport(rs,mapCanvas));
       previewImg.src=c.toDataURL('image/png');
       const st=stats(rs);
       const title=scope==='ruas'?`Preview Peta Ruas ${rs[0].no_ruas}`:`Preview Peta Kecamatan ${rs[0].kecamatan}`;
