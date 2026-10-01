@@ -9,8 +9,15 @@
 .excel-table tbody td:nth-child(2),.excel-table tbody td:nth-child(3),
 .excel-table tbody td:nth-child(4),.excel-table tbody td:nth-child(5),
 .excel-table tbody td:nth-child(21),.excel-table tbody td:nth-child(22){text-align:left}
-.excel-table .nama-cell{font-weight:600;min-width:240px}
+.excel-table .nama-cell{font-weight:600;min-width:240px;white-space:pre-wrap!important;word-break:normal!important;overflow-wrap:normal!important;text-align:left!important}
 .table-wrap{overflow:auto;max-width:100%;border:1px solid #d6dbe1;border-radius:8px}
+</style>
+<style>
+/* Nama ruas harus tampil sama persis dengan nilai sumber data, termasuk spasi. */
+.excel-table td.nama-cell{white-space:pre-wrap!important;text-align:left!important;word-break:normal!important;overflow-wrap:normal!important;}
+@media(max-width:600px){
+  .excel-table td.nama-cell{min-width:300px!important;font-size:12px!important;line-height:1.35!important;}
+}
 </style>
 <style>
 .excel-table th:nth-last-child(2),.excel-table th:nth-last-child(1){min-width:180px}
@@ -549,6 +556,22 @@ body{
 }
 </style>
 
+
+<style id="nama-ruas-normal-weight">
+.excel-table .nama-cell,
+.excel-table td.nama-cell {
+  font-weight: 400 !important;
+  font-family: Arial, sans-serif !important;
+}
+@media (max-width: 600px) {
+  .excel-table .nama-cell,
+  .excel-table td.nama-cell {
+    font-weight: 400 !important;
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+  }
+}
+</style>
 </head>
 <body>
 <aside class="side-nav" id="sideNav">
