@@ -1253,13 +1253,37 @@ render();
       // Jangan menggeser lagi ke centroid setelah fitBounds karena bentuk kabupaten
       // tidak simetris dan pergeseran tersebut dapat membuat sisi utara/selatan terpotong.
       const kabGeo=ADMIN_GEO?.kabupaten||null;
-      map.fitBounds(kabBounds,{padding:[28,28],animate:false,maxZoom:10});
-      // Pertahankan hasil fitBounds tanpa zoom-out tambahan agar peta Kabupaten Bandung
-      // tampil lebih besar tetapi seluruh batas kabupaten tetap masuk ke kotak.
+      // Zoom maksimum yang masih memastikan seluruh Kabupaten Bandung masuk.
+      // Padding diperkecil agar peta memenuhi kotak lebih optimal.
+      map.fitBounds(kabBounds,{padding:[3,3],animate:false,maxZoom:14});
       map.invalidateSize({pan:false,debounceMoveend:false});
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       await new Promise(resolve=>setTimeout(resolve,900));
       map.invalidateSize({pan:false,debounceMoveend:false});
+
+      // Coba tambah 1 level zoom. Hanya dipakai jika seluruh batas kabupaten
+      // masih berada di dalam viewport, sehingga tidak ada bagian yang terpotong.
+      const fitZoom=map.getZoom();
+      if(Number.isFinite(fitZoom)){
+        const candidate=fitZoom+1;
+        map.setZoom(candidate,{animate:false});
+        await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+
+        const view=map.getBounds();
+        const sw=kabBounds.getSouthWest();
+        const ne=kabBounds.getNorthEast();
+        const nw=kabBounds.getNorthWest();
+        const se=kabBounds.getSouthEast();
+        const inside =
+          view.contains(sw) && view.contains(ne) &&
+          view.contains(nw) && view.contains(se);
+
+        if(!inside){
+          map.setZoom(fitZoom,{animate:false});
+        }
+        map.invalidateSize({pan:false,debounceMoveend:false});
+        await new Promise(resolve=>setTimeout(resolve,350));
+      }
 
       // Simpan jejak polygon Kabupaten Bandung dalam koordinat pixel canvas.
       // Ini dipakai saat layout A3 untuk membuat area luar kabupaten lebih transparan.
@@ -1301,7 +1325,91 @@ render();
         useCORS:true,allowTaint:false,backgroundColor:'#ffffff',scale:2,
         logging:false,imageTimeout:20000
       });
-      return {canvas,bounds:map.getBounds(),maskPaths,focusBounds};
+
+      // ==========================================================
+      // FINAL INSET KABUPATEN BANDUNG
+      // Peta di-crop berdasarkan bounds Kabupaten Bandung, bukan
+      // berdasarkan seluruh viewport. Dengan demikian peta dapat
+      // diperbesar maksimal, tetap center, tidak terpotong, dan
+      // penanda kecamatan terpilih tetap ikut terlihat.
+      // ==========================================================
+      const TARGET_ASPECT = (720-36) / 360; // aspect kotak inset: 684 x 360
+      const sourceW = canvas.width;
+      const sourceH = canvas.height;
+      const scaleCanvas = 2;
+
+      const kabNW = map.latLngToContainerPoint(kabBounds.getNorthWest());
+      const kabSE = map.latLngToContainerPoint(kabBounds.getSouthEast());
+
+      let cropX = Math.min(kabNW.x,kabSE.x) * scaleCanvas;
+      let cropY = Math.min(kabNW.y,kabSE.y) * scaleCanvas;
+      let cropW = Math.abs(kabSE.x-kabNW.x) * scaleCanvas;
+      let cropH = Math.abs(kabSE.y-kabNW.y) * scaleCanvas;
+
+      // Ruang tipis agar garis batas tidak menempel ke tepi kotak.
+      const pad = Math.max(cropW,cropH) * 0.035;
+      cropX -= pad; cropY -= pad;
+      cropW += pad*2; cropH += pad*2;
+
+      // Samakan rasio crop dengan rasio kotak inset. Dimensi yang
+      // kurang diperluas secara simetris sehingga tidak ada pemotongan.
+      if(cropW/cropH < TARGET_ASPECT){
+        const wantedW = cropH * TARGET_ASPECT;
+        cropX -= (wantedW-cropW)/2;
+        cropW = wantedW;
+      }else if(cropW/cropH > TARGET_ASPECT){
+        const wantedH = cropW / TARGET_ASPECT;
+        cropY -= (wantedH-cropH)/2;
+        cropH = wantedH;
+      }
+
+      // Geser kembali ke dalam screenshot bila crop melewati tepi.
+      if(cropX < 0) cropX=0;
+      if(cropY < 0) cropY=0;
+      if(cropX+cropW > sourceW) cropX=Math.max(0,sourceW-cropW);
+      if(cropY+cropH > sourceH) cropY=Math.max(0,sourceH-cropH);
+
+      // Pengaman bila ukuran viewport lebih kecil dari crop yang diminta.
+      if(cropW > sourceW){
+        cropW=sourceW; cropH=cropW/TARGET_ASPECT;
+        cropY=Math.max(0,Math.min(cropY,sourceH-cropH));
+      }
+      if(cropH > sourceH){
+        cropH=sourceH; cropW=cropH*TARGET_ASPECT;
+        cropX=Math.max(0,Math.min(cropX,sourceW-cropW));
+      }
+
+      const cropCanvas=document.createElement('canvas');
+      cropCanvas.width=Math.max(1,Math.round(cropW));
+      cropCanvas.height=Math.max(1,Math.round(cropH));
+      const cropCtx=cropCanvas.getContext('2d');
+      cropCtx.fillStyle='#fff';
+      cropCtx.fillRect(0,0,cropCanvas.width,cropCanvas.height);
+      cropCtx.drawImage(canvas,
+        Math.round(cropX),Math.round(cropY),Math.round(cropW),Math.round(cropH),
+        0,0,cropCanvas.width,cropCanvas.height
+      );
+
+      // Mask dan kotak lokasi kecamatan dipindahkan ke koordinat crop.
+      const cropMaskPaths=maskPaths.map(pts=>pts.map(p=>[p[0]-cropX,p[1]-cropY]));
+      let cropFocusBounds=null;
+      if(focusBounds){
+        cropFocusBounds={
+          x:focusBounds.x-cropX,
+          y:focusBounds.y-cropY,
+          w:focusBounds.w,
+          h:focusBounds.h
+        };
+      }
+
+      return {
+        canvas,
+        cropCanvas,
+        bounds:map.getBounds(),
+        maskPaths:cropMaskPaths,
+        focusBounds:cropFocusBounds,
+        cropRect:{x:cropX,y:cropY,w:cropW,h:cropH}
+      };
     }catch(err){
       console.warn('Peta Kabupaten Bandung locator gagal dibuat:',err);
       return null;
@@ -1713,7 +1821,9 @@ render();
       // Inset PETA KABUPATEN BANDUNG.
       // Peta dibuat memenuhi kotak dan dipusatkan. Area DI LUAR Kabupaten Bandung
       // dibuat lebih transparan/faded, sedangkan area di dalam kabupaten tetap jelas.
-      const ov=overviewCanvas.canvas||overviewCanvas;
+      const ov=overviewCanvas.cropCanvas||overviewCanvas.canvas||overviewCanvas;
+      // cropCanvas sudah memiliki rasio yang sama dengan kotak inset,
+      // sehingga gambar dapat memenuhi kotak tanpa terpotong.
       const r=Math.max(overviewW/ov.width,overviewH/ov.height);
       const ow=ov.width*r, oh=ov.height*r;
       const ox=overviewX+(overviewW-ow)/2, oy=overviewY+(overviewH-oh)/2;
