@@ -1215,6 +1215,30 @@ render();
         tempLayers.push(selectedLayer);
         selectedLayerForInset=selectedLayer;
         selectedLayer.bringToFront();
+
+        // Penanda lokasi kecamatan terpilih pada Peta Kabupaten Bandung.
+        // Tidak membuat kotak/inset tambahan; lokasi ditunjukkan langsung
+        // di dalam peta kabupaten dengan titik dan label nama kecamatan.
+        try{
+          const cb=selectedLayer.getBounds();
+          if(cb && cb.isValid()){
+            const center=cb.getCenter();
+            const locMarker=L.circleMarker(center,{
+              radius:8, color:'#ffffff', weight:3, opacity:1,
+              fillColor:'#e11d48', fillOpacity:1, interactive:false
+            }).addTo(map);
+            tempLayers.push(locMarker);
+
+            const label=L.tooltip({
+              permanent:true, direction:'top', offset:[0,-10],
+              className:'kabupaten-lokasi-kecamatan-label', opacity:1
+            })
+              .setLatLng(center)
+              .setContent('KEC. '+selected)
+              .addTo(map);
+            tempLayers.push(label);
+          }
+        }catch(e){ console.warn('Label lokasi kecamatan gagal:',e); }
       }
 
       // Ambil bounds Kabupaten Bandung saja.
@@ -1876,7 +1900,17 @@ render();
         // Fallback bila library PDF gagal dimuat.
         const win=window.open('about:blank','_blank','width=1400,height=1000');
         if(!win){showToast('Popup diblokir dan library PDF tidak tersedia.');return;}
-        win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Peta A3</title><style>@page{size:A3 landscape;margin:0}html,body{margin:0;padding:0;background:#fff}.page{width:420mm;height:297mm}.page img{width:100%;height:100%;object-fit:contain;display:block}</style></head><body><div class="page"><img src="${img}" alt="Peta A3"></div><script>window.addEventListener('load',()=>setTimeout(()=>window.print(),500))<\/script></body></html>`);
+        win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Peta A3</title><style>@page{size:A3 landscape;margin:0}html,body{margin:0;padding:0;background:#fff}.page{width:420mm;height:297mm}.page img{width:100%;height:100%;object-fit:contain;display:block}</style>
+<style id="kabupaten-lokasi-kecamatan-style">
+.kabupaten-lokasi-kecamatan-label{
+  background:#ffffff!important; border:2px solid #e11d48!important;
+  border-radius:5px!important; box-shadow:0 2px 7px rgba(0,0,0,.22)!important;
+  color:#123b56!important; font:800 12px Arial,sans-serif!important;
+  padding:4px 7px!important; white-space:nowrap!important;
+}
+.kabupaten-lokasi-kecamatan-label:before{border-top-color:#e11d48!important;}
+</style>
+</head><body><div class="page"><img src="${img}" alt="Peta A3"></div><script>window.addEventListener('load',()=>setTimeout(()=>window.print(),500))<\/script></body></html>`);
         win.document.close();
         showToast('PDF library tidak tersedia. Dialog cetak dibuka sebagai fallback.');
       }
