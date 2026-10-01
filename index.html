@@ -1,6 +1,6 @@
 <!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WebGIS Kondisi Ruas Jalan Kabupaten</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-<style>*{box-sizing:border-box}body{margin:0;font:14px Arial;background:#f4f6f8;color:#1f2937}header{background:#0f3d56;color:white;padding:16px;position:sticky;top:0;z-index:9}h1{margin:0;font-size:21px}.wrap{max-width:1500px;margin:auto;padding:12px}.controls,.kpis,.grid{display:grid;gap:10px}.controls{grid-template-columns:1fr 1fr 2fr 110px;background:white;padding:10px;border-radius:10px}select,input,button{padding:11px;border:1px solid #ccd3da;border-radius:7px;font-size:14px}button{background:#0f3d56;color:white;font-weight:bold}.kpis{grid-template-columns:repeat(4,1fr);margin:10px 0}.card,.kpi{background:white;border-radius:10px;padding:12px;box-shadow:0 1px 5px #0001}.kpi small{color:#6b7280}.kpi b{display:block;font-size:23px;margin-top:5px}.grid{grid-template-columns:1.15fr .85fr}#map{height:570px;border-radius:8px}.ruas-label{background:rgba(255,255,255,.97);border:1px solid #1769aa;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.25);color:#123b56;font-weight:700;font-size:12px;line-height:1.3;padding:5px 8px;white-space:nowrap}.ruas-label:before{display:none}.map-info{position:absolute;z-index:500;right:20px;top:20px;background:rgba(255,255,255,.94);padding:7px 10px;border-radius:6px;box-shadow:0 1px 5px #0003;font-size:12px;color:#123b56}.chart{height:280px}.table{overflow:auto;max-height:550px}table{border-collapse:collapse;width:100%;min-width:800px;font-size:12px}th,td{padding:7px;border-bottom:1px solid #ddd;text-align:left}th{position:sticky;top:0;background:#eef2f5}@media(max-width:900px){.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}#map{height:55vh;min-height:350px}}@media(max-width:520px){header h1{font-size:17px}.wrap{padding:8px}.controls{grid-template-columns:1fr}#map{height:58vh}}</style>
+<style>*{box-sizing:border-box}body{margin:0;font:14px Arial;background:#f4f6f8;color:#1f2937}header{background:#0f3d56;color:white;padding:16px;position:sticky;top:0;z-index:9}h1{margin:0;font-size:21px}.wrap{max-width:1500px;margin:auto;padding:12px}.controls,.kpis,.grid{display:grid;gap:10px}.controls{grid-template-columns:1fr 1fr 2fr 110px;background:white;padding:10px;border-radius:10px}select,input,button{padding:11px;border:1px solid #ccd3da;border-radius:7px;font-size:14px}button{background:#0f3d56;color:white;font-weight:bold}.kpis{grid-template-columns:repeat(4,1fr);margin:10px 0}.card,.kpi{background:white;border-radius:10px;padding:12px;box-shadow:0 1px 5px #0001}.kpi small{color:#6b7280}.kpi b{display:block;font-size:23px;margin-top:5px}.grid{grid-template-columns:1.15fr .85fr}#map{height:570px;border-radius:8px}.ruas-label{background:rgba(255,255,255,.97);border:1px solid #1769aa;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.25);color:#123b56;font-weight:700;font-size:12px;line-height:1.3;padding:5px 8px;white-space:nowrap}.ruas-label:before{display:none}.ruas-no-label{background:rgba(255,255,255,.94);border:1px solid #1769aa;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.22);color:#123b56;font-weight:800;font-size:9px;line-height:1;padding:3px 4px;white-space:nowrap;pointer-events:auto;cursor:pointer}.ruas-no-label:hover{background:#eaf4fb;color:#0b4f78;border-color:#0b5d7a;transform:scale(1.06)}.map-info{position:absolute;z-index:500;right:20px;top:20px;background:rgba(255,255,255,.94);padding:7px 10px;border-radius:6px;box-shadow:0 1px 5px #0003;font-size:12px;color:#123b56}.chart{height:280px}.table{overflow:auto;max-height:550px}table{border-collapse:collapse;width:100%;min-width:800px;font-size:12px}th,td{padding:7px;border-bottom:1px solid #ddd;text-align:left}th{position:sticky;top:0;background:#eef2f5}@media(max-width:900px){.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}#map{height:55vh;min-height:350px}}@media(max-width:520px){header h1{font-size:17px}.wrap{padding:8px}.controls{grid-template-columns:1fr}#map{height:58vh}}</style>
 <style>
 .excel-table{font-size:11px;min-width:2100px;border-collapse:collapse}
 .excel-table th,.excel-table td{border:1px solid #d6dbe1;padding:6px 7px;vertical-align:middle}
@@ -651,6 +651,7 @@ const ADMIN_GEO={kabupaten:{"type":"FeatureCollection","features":[{"type":"Feat
 const administrativeLayers={kabupaten:L.layerGroup(),kecamatan:L.layerGroup(),desa:L.layerGroup()};
 const bridgeLayer=L.layerGroup();
 const roadOverlayGroup=L.layerGroup().addTo(map);
+const roadNoLabelLayer=L.layerGroup().addTo(roadOverlayGroup);
 let layer=L.geoJSON().addTo(roadOverlayGroup),chart;
 let roadLayerVisible=true,bridgeLayerVisible=true,administrativeVisible=true;
 
@@ -703,6 +704,120 @@ function updateRoadList(){
 function dom(r){return [['baik',r.baik],['sedang',r.sedang],['rr',r.rr],['rb',r.rb]].sort((a,b)=>b[1]-a[1])[0][0]}
 function col(x){return {baik:'#22a447',sedang:'#e1bd00',rr:'#f28c28',rb:'#d92727'}[x]||'#777'}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+function normalizeRoadNo(v){
+  return String(v??'').trim().replace(/\s+/g,'').toUpperCase();
+}
+function roadLabelPoint(feature){
+  const g=feature && feature.geometry;
+  if(!g) return null;
+  let lines=[];
+  if(g.type==='LineString') lines=[g.coordinates||[]];
+  else if(g.type==='MultiLineString') lines=(g.coordinates||[]);
+  else return null;
+  let best=[];
+  let bestLen=-1;
+  lines.forEach(coords=>{
+    if(!Array.isArray(coords)||coords.length<2) return;
+    let len=0;
+    for(let i=1;i<coords.length;i++){
+      const a=L.latLng(coords[i-1][1],coords[i-1][0]);
+      const b=L.latLng(coords[i][1],coords[i][0]);
+      len+=a.distanceTo(b);
+    }
+    if(len>bestLen){bestLen=len;best=coords;}
+  });
+  if(best.length<2) return null;
+  const target=bestLen/2;
+  let acc=0;
+  for(let i=1;i<best.length;i++){
+    const a=L.latLng(best[i-1][1],best[i-1][0]);
+    const b=L.latLng(best[i][1],best[i][0]);
+    const seg=a.distanceTo(b);
+    if(acc+seg>=target){
+      const t=seg?((target-acc)/seg):0;
+      return L.latLng(a.lat+(b.lat-a.lat)*t,a.lng+(b.lng-a.lng)*t);
+    }
+    acc+=seg;
+  }
+  const last=best[best.length-1];
+  return L.latLng(last[1],last[0]);
+}
+function addRoadNoLabels(features, roadRows){
+  roadNoLabelLayer.clearLayers();
+  const groups=new Map();
+  (features||[]).forEach(f=>{
+    const no=String(f.properties?.no_ruas||'').trim();
+    if(!no) return;
+    const key=normalizeRoadNo(no);
+    const arr=groups.get(key)||[];
+    arr.push(f);
+    groups.set(key,arr);
+  });
+  groups.forEach((fs,key)=>{
+    const row=roadRows.find(r=>normalizeRoadNo(r.no_ruas)===key);
+    const no=String(row?.no_ruas||fs[0].properties?.no_ruas||'').trim();
+    let chosen=null, bestLen=-1;
+    fs.forEach(f=>{
+      const pt=roadLabelPoint(f);
+      if(!pt) return;
+      const g=f.geometry;
+      const lines=g?.type==='LineString'?[g.coordinates||[]]:(g?.type==='MultiLineString'?(g.coordinates||[]):[]);
+      lines.forEach(coords=>{
+        let len=0;
+        for(let i=1;i<coords.length;i++) len+=L.latLng(coords[i-1][1],coords[i-1][0]).distanceTo(L.latLng(coords[i][1],coords[i][0]));
+        if(len>bestLen){bestLen=len;chosen=pt;}
+      });
+    });
+    if(!chosen) return;
+    const marker=L.marker(chosen,{
+      interactive:true,keyboard:false,zIndexOffset:1200,
+      icon:L.divIcon({
+        className:'ruas-no-label',
+        html:`<span>${esc(no)}</span>`,
+        iconSize:null,iconAnchor:[0,0]
+      })
+    });
+    marker._roadNo=no;
+    marker.on('click',function(e){
+      L.DomEvent.stopPropagation(e);
+      const matches=[];
+      layer.eachLayer(lyr=>{
+        if(normalizeRoadNo(lyr.feature?.properties?.no_ruas)===key) matches.push(lyr);
+      });
+      if(!matches.length) return;
+      let bounds=null;
+      matches.forEach(lyr=>{
+        if(!lyr.getBounds) return;
+        const b=lyr.getBounds();
+        if(b && b.isValid()) bounds=bounds?bounds.extend(b):b;
+      });
+      if(bounds && bounds.isValid()) map.fitBounds(bounds,{padding:[60,60],maxZoom:16});
+      const target=matches[0];
+      target._clickedGooglePoint={lat:chosen.lat,lng:chosen.lng};
+      activeGooglePoint=target._clickedGooglePoint;
+      target.openPopup();
+      target.setStyle({weight:8,opacity:1,color:'#0b63a5'});
+      setTimeout(()=>{try{target.setStyle({weight:5,opacity:.9,color:'#1976d2'});}catch(_e){}},1400);
+    });
+    roadNoLabelLayer.addLayer(marker);
+  });
+  function syncRoadNoLabelVisibility(){
+    const z=map.getZoom();
+    const show=!!c.value || !!k.value || !!q.value || z>=11;
+    const parentVisible=roadLayerVisible && map.hasLayer(roadOverlayGroup);
+    if(show && parentVisible){
+      if(!map.hasLayer(roadNoLabelLayer)) roadNoLabelLayer.addTo(roadOverlayGroup);
+    }else if(map.hasLayer(roadNoLabelLayer)){
+      roadOverlayGroup.removeLayer(roadNoLabelLayer);
+    }
+  }
+  syncRoadNoLabelVisibility();
+  if(!map._roadNoZoomBound){
+    map.on('zoomend',syncRoadNoLabelVisibility);
+    map._roadNoZoomBound=true;
+  }
+}
 function render(){
   let z=q.value.toLowerCase().trim();
   let rs=rows.filter(x=>
@@ -747,6 +862,7 @@ function render(){
 
   let set=new Set(rs.map(x=>String(x.no_ruas).trim()));
   layer.remove();
+  roadNoLabelLayer.clearLayers();
 
   // Pada mode dashboard normal hanya ruas hasil filter yang digambar.
   // Pada mode ekspor kecamatan, SEMUA geometri jalan digambar sehingga ruas
@@ -872,6 +988,10 @@ function render(){
       }
     }
   ).addTo(roadOverlayGroup);
+
+  // Label No. Ruas hanya untuk peta utama. Export tetap bersih tanpa label.
+  if(!exportMapMode) addRoadNoLabels(feats, rs);
+  else roadNoLabelLayer.clearLayers();
 
   if(!roadLayerVisible && map.hasLayer(roadOverlayGroup)) map.removeLayer(roadOverlayGroup);
 
