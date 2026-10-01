@@ -1910,7 +1910,136 @@ render();
 }
 .kabupaten-lokasi-kecamatan-label:before{border-top-color:#e11d48!important;}
 </style>
-</head><body><div class="page"><img src="${img}" alt="Peta A3"></div><script>window.addEventListener('load',()=>setTimeout(()=>window.print(),500))<\/script></body></html>`);
+</head><body><div class="page"><img src="${img}" alt="Peta A3"></div><script>window.addEventListener('load',()=>setTimeout(()=>window.print(),500))<\/script>
+<script id="kecamatan-dropdown-repair">
+(function(){
+  function uniqSorted(arr){
+    return [...new Set((arr||[]).map(v=>String(v||'').trim()).filter(Boolean))]
+      .sort((a,b)=>a.localeCompare(b,'id',{numeric:true,sensitivity:'base'}));
+  }
+
+  function repairKecamatanDropdowns(){
+    const data = (window.D && Array.isArray(window.D.roads)) ? window.D.roads : [];
+    const mainK = document.getElementById('k');
+    const mainC = document.getElementById('c');
+    const exportScope = document.getElementById('exportScope');
+    const exportTarget = document.getElementById('exportTarget');
+
+    if(!data.length) return;
+
+    const kecamatan = uniqSorted(data.map(r=>r.kecamatan));
+
+    /* Filter utama: pastikan daftar kecamatan selalu tersedia. */
+    if(mainK){
+      const oldK = mainK.value;
+      mainK.innerHTML = '';
+      mainK.add(new Option('Semua Kecamatan',''));
+      kecamatan.forEach(v=>mainK.add(new Option(v,v)));
+      if(kecamatan.includes(oldK)) mainK.value = oldK;
+      else mainK.value = '';
+    }
+
+    /* Daftar ruas mengikuti kecamatan yang dipilih. */
+    function refreshMainRoads(){
+      if(!mainC) return;
+      const oldC = mainC.value;
+      const selectedK = mainK ? mainK.value : '';
+      mainC.innerHTML = '';
+      mainC.add(new Option('Semua Ruas',''));
+      data
+        .filter(r=>!selectedK || String(r.kecamatan||'')===selectedK)
+        .sort((a,b)=>String(a.no_ruas||'').localeCompare(String(b.no_ruas||''),undefined,{numeric:true}))
+        .forEach(r=>{
+          mainC.add(new Option(
+            `${r.no_ruas||'-'} — ${r.nama||'Tanpa Nama'}`,
+            String(r.no_ruas||'')
+          ));
+        });
+      if([...mainC.options].some(o=>o.value===oldC)) mainC.value=oldC;
+      else mainC.value='';
+    }
+
+    refreshMainRoads();
+
+    if(mainK && !mainK.dataset.kecRepairBound){
+      mainK.addEventListener('change', function(){
+        refreshMainRoads();
+        if(typeof window.render === 'function') window.render();
+      });
+      mainK.dataset.kecRepairBound='1';
+    }
+
+    if(mainC && !mainC.dataset.kecRepairBound){
+      mainC.addEventListener('change', function(){
+        if(typeof window.render === 'function') window.render();
+      });
+      mainC.dataset.kecRepairBound='1';
+    }
+
+    /* Export: pilihan kecamatan jangan pernah kosong. */
+    function refreshExportTarget(){
+      if(!exportTarget) return;
+      const old = exportTarget.value;
+      exportTarget.innerHTML = '';
+
+      if(!exportScope || exportScope.value==='kecamatan'){
+        exportTarget.add(new Option('Pilih Kecamatan',''));
+        kecamatan.forEach(v=>exportTarget.add(new Option(v,v)));
+      }else{
+        exportTarget.add(new Option('Pilih Ruas Jalan',''));
+        data
+          .slice()
+          .sort((a,b)=>String(a.no_ruas||'').localeCompare(String(b.no_ruas||''),undefined,{numeric:true}))
+          .forEach(r=>{
+            exportTarget.add(new Option(
+              `${r.no_ruas||'-'} — ${r.nama||'Tanpa Nama'}`,
+              String(r.no_ruas||'')
+            ));
+          });
+      }
+
+      if([...exportTarget.options].some(o=>o.value===old)) exportTarget.value=old;
+      else exportTarget.value='';
+    }
+
+    refreshExportTarget();
+
+    if(exportScope && !exportScope.dataset.kecRepairBound){
+      exportScope.addEventListener('change', refreshExportTarget);
+      exportScope.dataset.kecRepairBound='1';
+    }
+
+    /* Pastikan teks select terlihat jelas pada desain terbaru. */
+    const styleId='kecamatan-dropdown-repair-style';
+    if(!document.getElementById(styleId)){
+      const st=document.createElement('style');
+      st.id=styleId;
+      st.textContent=`
+        #k, #c, #exportScope, #exportTarget{
+          color:#173b51 !important;
+          background:#fff !important;
+          opacity:1 !important;
+        }
+        #k option, #c option, #exportScope option, #exportTarget option{
+          color:#173b51 !important;
+          background:#fff !important;
+        }
+        #exportTarget{min-width:230px !important;}
+      `;
+      document.head.appendChild(st);
+    }
+  }
+
+  /* Jalankan setelah seluruh data D dan script dashboard selesai. */
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',()=>setTimeout(repairKecamatanDropdowns,50));
+  }else{
+    setTimeout(repairKecamatanDropdowns,50);
+  }
+})();
+</script>
+
+</body></html>`);
         win.document.close();
         showToast('PDF library tidak tersedia. Dialog cetak dibuka sebagai fallback.');
       }
