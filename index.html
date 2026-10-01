@@ -1152,6 +1152,7 @@ render();
     };
     const snapshots=[];
     const tempLayers=[];
+    let selectedLayerForInset=null;
 
     try{
       const selected=String(rs?.[0]?.kecamatan||'').trim().toUpperCase();
@@ -1203,36 +1204,17 @@ render();
       if(selectedFeature){
         const selectedLayer=L.geoJSON(selectedFeature,{
           style:{
-            color:'#f97316',
-            weight:4.5,
+            color:'#0f766e',
+            weight:3,
             opacity:1,
-            fillColor:'#fbbf24',
-            fillOpacity:0.58
+            fillColor:'#2dd4bf',
+            fillOpacity:0.48
           },
           interactive:false
         }).addTo(map);
         tempLayers.push(selectedLayer);
+        selectedLayerForInset=selectedLayer;
         selectedLayer.bringToFront();
-
-        // Penanda pusat kecamatan terpilih agar inset lokasi kecamatan
-        // tetap terlihat jelas pada peta Kabupaten Bandung saat preview/PDF.
-        try{
-          const sb=selectedLayer.getBounds();
-          if(sb && sb.isValid()){
-            const center=sb.getCenter();
-            const marker=L.circleMarker(center,{
-              radius:9,
-              color:'#9a3412',
-              weight:3,
-              opacity:1,
-              fillColor:'#ffffff',
-              fillOpacity:1,
-              interactive:false
-            }).addTo(map);
-            tempLayers.push(marker);
-            marker.bringToFront();
-          }
-        }catch(e){}
       }
 
       // Ambil bounds Kabupaten Bandung saja.
@@ -1268,12 +1250,15 @@ render();
           return sw ? L.latLng(sy/sw,sx/sw) : kabBounds.getCenter();
         }catch(e){ return kabBounds.getCenter(); }
       })();
-      map.fitBounds(kabBounds,{padding:[8,8],animate:false,maxZoom:11});
-      // Sedikit diperbesar agar Kabupaten Bandung memenuhi kotak inset,
-      // tetapi tetap menjaga seluruh wilayah kabupaten terlihat.
-      const fittedZoom=map.getZoom()||9;
-      const closer=Math.min(fittedZoom+1,11);
-      map.setView(kabCenter,closer,{animate:false});
+      // Sedikit dikurangi dari versi sebelumnya agar seluruh batas Kabupaten Bandung
+      // tetap masuk ke dalam frame tanpa terpotong.
+      map.fitBounds(kabBounds,{padding:[34,34],animate:false,maxZoom:10});
+      // Pertahankan pusat visual pada Kabupaten Bandung, tetapi jangan menaikkan zoom
+      // satu tingkat lagi karena itu menyebabkan sebagian wilayah terpotong.
+      if(kabCenter && Number.isFinite(kabCenter.lat) && Number.isFinite(kabCenter.lng)){
+        const fittedZoom=map.getZoom()||9;
+        map.setView(kabCenter,fittedZoom,{animate:false});
+      }
       map.invalidateSize({pan:false,debounceMoveend:false});
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       await new Promise(resolve=>setTimeout(resolve,900));
@@ -1298,11 +1283,28 @@ render();
         });
       });
 
+      // Area pixel kecamatan terpilih untuk dibuat sebagai inset kecil di panel kanan.
+      let focusBounds=null;
+      if(selectedLayerForInset){
+        const fb=selectedLayerForInset.getBounds();
+        if(fb && fb.isValid()){
+          const nw=map.latLngToContainerPoint(fb.getNorthWest());
+          const se=map.latLngToContainerPoint(fb.getSouthEast());
+          const sx=2, sy=2;
+          focusBounds={
+            x:Math.max(0,Math.min(nw.x,se.x)*sx),
+            y:Math.max(0,Math.min(nw.y,se.y)*sy),
+            w:Math.abs(se.x-nw.x)*sx,
+            h:Math.abs(se.y-nw.y)*sy
+          };
+        }
+      }
+
       const canvas=await html2canvas(mapEl,{
         useCORS:true,allowTaint:false,backgroundColor:'#ffffff',scale:2,
         logging:false,imageTimeout:20000
       });
-      return {canvas,bounds:map.getBounds(),maskPaths};
+      return {canvas,bounds:map.getBounds(),maskPaths,focusBounds};
     }catch(err){
       console.warn('Peta Kabupaten Bandung locator gagal dibuat:',err);
       return null;
@@ -1754,6 +1756,47 @@ render();
           });
           ctx.closePath();ctx.stroke();
         });
+
+        // Highlight kecamatan terpilih pada locator Kabupaten Bandung.
+        const fb=overviewCanvas.focusBounds;
+        if(fb && fb.w>2 && fb.h>2){
+          const fx=ox+fb.x*r, fy=oy+fb.y*r, fw=fb.w*r, fh=fb.h*r;
+          ctx.save();
+          ctx.fillStyle='rgba(45,212,191,.20)';
+          ctx.strokeStyle='#0f766e';
+          ctx.lineWidth=5;
+          ctx.setLineDash([10,7]);
+          ctx.fillRect(fx,fy,fw,fh);
+          ctx.strokeRect(fx,fy,fw,fh);
+          ctx.setLineDash([]);
+          ctx.restore();
+
+          // Inset kecil kecamatan terpilih: crop dari peta Kabupaten Bandung.
+          const insetW=Math.min(250,overviewW-36);
+          const insetH=Math.min(145,overviewH-36);
+          const insetX=overviewX+overviewW-insetW-16;
+          const insetY=overviewY+overviewH-insetH-16;
+          ctx.save();
+          ctx.fillStyle='rgba(255,255,255,.96)';
+          ctx.fillRect(insetX-5,insetY-5,insetW+10,insetH+10);
+          ctx.strokeStyle='#174a6b';ctx.lineWidth=2;ctx.strokeRect(insetX-5,insetY-5,insetW+10,insetH+10);
+          ctx.beginPath();ctx.rect(insetX,insetY,insetW,insetH);ctx.clip();
+          const pad=16;
+          const cropW=Math.max(fb.w,20), cropH=Math.max(fb.h,20);
+          const cropX=Math.max(0,fb.x-cropW*.35), cropY=Math.max(0,fb.y-cropH*.35);
+          const cropWW=Math.min(ov.width-cropX,cropW*1.7), cropHH=Math.min(ov.height-cropY,cropH*1.7);
+          const cr=Math.min((insetW-pad*2)/cropWW,(insetH-pad*2)/cropHH);
+          const dw=cropWW*cr, dh=cropHH*cr;
+          const dx=insetX+(insetW-dw)/2, dy=insetY+(insetH-dh)/2;
+          ctx.drawImage(ov,cropX,cropY,cropWW,cropHH,dx,dy,dw,dh);
+          // Bingkai fokus di dalam inset.
+          const ifx=dx+(fb.x-cropX)*cr, ify=dy+(fb.y-cropY)*cr;
+          const ifw=Math.max(8,fb.w*cr), ifh=Math.max(8,fb.h*cr);
+          ctx.fillStyle='rgba(45,212,191,.25)';ctx.fillRect(ifx,ify,ifw,ifh);
+          ctx.strokeStyle='#0f766e';ctx.lineWidth=3;ctx.strokeRect(ifx,ify,ifw,ifh);
+          ctx.restore();
+          ctx.fillStyle='#123b56';ctx.font='700 13px Arial';ctx.fillText('LOKASI KECAMATAN',insetX+8,insetY+16);
+        }
         ctx.restore();
       }
       ctx.restore();
