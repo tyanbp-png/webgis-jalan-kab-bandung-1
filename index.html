@@ -1150,13 +1150,20 @@ render();
       const rect=mapEl.getBoundingClientRect();
       const exportRatio=(3508-55*2-720-32)/(2480-55*2); // rasio area peta A3
       if(rect.width>0){
-        mapEl.style.height=Math.round(rect.width/exportRatio)+'px';
-        map.invalidateSize({pan:false});
+        // CSS dashboard memakai #map height !important, sehingga assignment biasa
+        // tidak mengubah tinggi container. Pakai inline !important agar canvas
+        // yang ditangkap benar-benar mempunyai rasio area peta A3.
+        const exportHeight=Math.round(rect.width/exportRatio);
+        mapEl.style.setProperty('height',exportHeight+'px','important');
+        mapEl.style.setProperty('width',rect.width+'px','important');
+        map.invalidateSize({pan:false,debounceMoveend:false});
       }
     }
 
     // Tunggu layout Leaflet selesai dihitung ulang sebelum fitBounds.
     await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+    map.invalidateSize({pan:false,debounceMoveend:false});
+    await new Promise(resolve=>setTimeout(resolve,250));
 
     // Fit berdasarkan SELURUH wilayah kecamatan terpilih + seluruh trase ruas
     // yang termasuk hasil filter kecamatan. Tidak menggunakan viewport lama.
@@ -1188,6 +1195,7 @@ render();
           padding:[55,55],
           animate:false
         });
+        map.invalidateSize({pan:false,debounceMoveend:false});
       }
     }catch(e){
       console.warn('Gagal menyesuaikan extent ekspor:',e);
@@ -1204,9 +1212,11 @@ render();
       adminSnapshots.forEach(s=>s.lyr.setStyle(s.style));
 
       if(mapEl){
-        mapEl.style.height=oldMapHeight;
-        mapEl.style.width=oldMapWidth;
-        map.invalidateSize({pan:false});
+        if(oldMapHeight) mapEl.style.setProperty('height',oldMapHeight,'important');
+        else mapEl.style.removeProperty('height');
+        if(oldMapWidth) mapEl.style.setProperty('width',oldMapWidth,'important');
+        else mapEl.style.removeProperty('width');
+        map.invalidateSize({pan:false,debounceMoveend:false});
       }
 
       k.value=oldK;
