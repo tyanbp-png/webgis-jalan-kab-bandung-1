@@ -1006,15 +1006,19 @@ render();
       administrativeLayers.kecamatan.eachLayer(lyr=>{
         const props=lyr.feature?.properties||{};
         const name=String(props.KECAMATAN||props.NAMOBJ||props.KEC||'').trim().toUpperCase();
+        const normalizeKec=v=>String(v||'').toUpperCase().replace(/^KEC\.?\s*/,'').replace(/\s+/g,' ').trim();
         adminSnapshots.push({lyr,style:{
           color:lyr.options.color,weight:lyr.options.weight,opacity:lyr.options.opacity,
           fillColor:lyr.options.fillColor,fillOpacity:lyr.options.fillOpacity
         }});
-        const hit=name===selected;
+        const hit=normalizeKec(name)===normalizeKec(selected);
+        // Kecamatan terpilih tetap memakai gaya normal, sedangkan kecamatan lain
+        // dibuat sangat transparan agar batas kecamatan pilihan terlihat jelas.
         lyr.setStyle(hit?{
-          color:'#0b7285',weight:4,opacity:1,fillColor:'#2ec4b6',fillOpacity:.42
+          color:adminStyles.kecamatan.color,weight:2.6,opacity:1,
+          fillColor:adminStyles.kecamatan.fillColor,fillOpacity:0.10
         }:{
-          color:'#94a3b8',weight:1,opacity:.22,fillColor:'#ffffff',fillOpacity:.06
+          color:'#94a3b8',weight:0.8,opacity:0.12,fillColor:'#ffffff',fillOpacity:0.015
         });
         if(hit){
           lyr.bringToFront();
