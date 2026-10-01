@@ -1222,7 +1222,54 @@ render();
     };
   }
 
-  function drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info){
+  function drawCoordinateGrid(ctx, mainX, mainY, mainW, mainH, mapBounds){
+    if(!mapBounds || !mapBounds.isValid || !mapBounds.isValid()) return;
+    const south=mapBounds.getSouth(), north=mapBounds.getNorth();
+    const west=mapBounds.getWest(), east=mapBounds.getEast();
+    if(![south,north,west,east].every(Number.isFinite) || south>=north || west>=east) return;
+
+    // Grid tipis mengikuti extent geografis yang benar-benar terlihat pada peta.
+    const xTicks=6, yTicks=6;
+    ctx.save();
+    ctx.strokeStyle='rgba(71,85,105,.34)';
+    ctx.fillStyle='#334155';
+    ctx.lineWidth=1.5;
+    ctx.font='16px Arial';
+
+    for(let i=0;i<xTicks;i++){
+      const t=i/(xTicks-1);
+      const x=mainX+t*mainW;
+      const lon=west+t*(east-west);
+      // tick + gridline
+      ctx.beginPath();ctx.moveTo(x,mainY+mainH);ctx.lineTo(x,mainY+mainH+9);ctx.stroke();
+      ctx.textAlign='center';ctx.textBaseline='top';
+      ctx.fillText(lon.toFixed(2),x,mainY+mainH+13);
+    }
+
+    for(let i=0;i<yTicks;i++){
+      const t=i/(yTicks-1);
+      const y=mainY+mainH-t*mainH;
+      const lat=south+t*(north-south);
+      ctx.beginPath();ctx.moveTo(mainX-9,y);ctx.lineTo(mainX,y);ctx.stroke();
+      ctx.textAlign='right';ctx.textBaseline='middle';
+      ctx.fillText(lat.toFixed(2),mainX-13,y);
+    }
+
+    // Label sumbu koordinat yang ringkas.
+    ctx.fillStyle='#64748b';
+    ctx.font='700 14px Arial';
+    ctx.textAlign='center';ctx.textBaseline='top';
+    ctx.fillText('Longitude (°)',mainX+mainW/2,mainY+mainH+35);
+    ctx.save();
+    ctx.translate(mainX-52,mainY+mainH/2);
+    ctx.rotate(-Math.PI/2);
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('Latitude (°)',0,0);
+    ctx.restore();
+    ctx.restore();
+  }
+
+  function drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,mapBounds){
     const M=55, gap=32, sideW=720;
     const mainX=M, mainY=M, mainW=W-M*2-sideW-gap, mainH=H-M*2;
     const sideX=mainX+mainW+gap, sideY=M;
@@ -1273,6 +1320,8 @@ render();
     ctx.drawImage(mapCanvas,dx,dy,dw,dh);
     ctx.restore();
     ctx.strokeStyle='#334155';ctx.lineWidth=2;ctx.strokeRect(mainX,mainY,mainW,mainH);
+    // Koordinat geografis di tepi peta, mengikuti extent map yang benar-benar tampil.
+    drawCoordinateGrid(ctx,mainX,mainY,mainW,mainH,mapBounds);
     // Judul kecil di area peta
     ctx.fillStyle='rgba(255,255,255,.92)';ctx.fillRect(mainX+22,mainY+22,Math.min(820,mainW-44),62);
     ctx.fillStyle='#123b56';ctx.font='800 27px Arial';ctx.fillText(title,mainX+40,mainY+60);
@@ -1293,7 +1342,7 @@ render();
       const mapCanvas=await captureMap();
       const scope=scopeEl.value, info=infoFor(rs,scope);
       const W=3508,H=2480,c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');
-      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info);
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds());
       const a=document.createElement('a');a.download=`Peta_A3_${scope}_${String(scope==='ruas'?rs[0].no_ruas:rs[0].kecamatan).replace(/[^a-z0-9_-]+/gi,'_')}.png`;a.href=c.toDataURL('image/png');a.click();showToast('Peta A3 berhasil diekspor ke PNG.');
       if(restore) restore();
     }catch(err){if(restore) restore();console.error(err);showToast('Ekspor gagal. Coba lagi setelah peta selesai dimuat.');}
@@ -1310,7 +1359,7 @@ render();
       const W=3508,H=2480,c=document.createElement('canvas');
       c.width=W;c.height=H;
       const ctx=c.getContext('2d');
-      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info);
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds());
       const img=c.toDataURL('image/png');
       const fileBase=`Peta_A3_${scope}_${String(scope==='ruas'?rs[0].no_ruas:rs[0].kecamatan).replace(/[^a-z0-9_-]+/gi,'_')}`;
 
@@ -1397,7 +1446,7 @@ render();
       const W=3508,H=2480,c=document.createElement('canvas');
       c.width=W;c.height=H;
       const ctx=c.getContext('2d');
-      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info);
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds());
       previewImg.src=c.toDataURL('image/png');
       const st=stats(rs);
       const title=scope==='ruas'?`Preview Peta Ruas ${rs[0].no_ruas}`:`Preview Peta Kecamatan ${rs[0].kecamatan}`;
