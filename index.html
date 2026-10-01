@@ -1757,7 +1757,7 @@ render();
     }
     // Judul dan informasi
     let y=sideY+kopH+48;
-    const title=scope==='ruas'?`PETA RUAS ${rs[0].no_ruas}`:`PETA KABUPATEN BANDUNG`;
+    const title=scope==='ruas'?`PETA RUAS ${rs[0].no_ruas}`:scope==='kecamatan'?`PETA KECAMATAN ${String(rs[0].kecamatan||'').replace(/^KEC\.\s*/i,'').trim()}`:`PETA KABUPATEN BANDUNG`;
     const sub=scope==='ruas'?rs[0].nama:`${stats(rs).count} ruas • ${fmtKm(stats(rs).length)}`;
     ctx.fillStyle='#123b56';ctx.font='800 28px Arial';
     const titleLines=wrapCanvasText(ctx,title,sideW-70,28); titleLines.forEach((t,i)=>ctx.fillText(t,sideX+35,y+i*34));
