@@ -1155,10 +1155,82 @@ render();
       <div class="export-sheet-note">Sumber: Data PKRMS 2026. Peta dan keterangan disusun dari data yang tersedia pada dashboard.</div>`;
     return sheet;
   }
+  async function ensureHtml2Canvas(){
+    if(typeof html2canvas==='function') return true;
+    const urls=[
+      'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+      'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js'
+    ];
+    for(const src of urls){
+      try{
+        await new Promise((resolve,reject)=>{
+          const sc=document.createElement('script');
+          sc.src=src; sc.async=true;
+          sc.onload=()=>resolve(); sc.onerror=()=>reject(new Error('Gagal memuat '+src));
+          document.head.appendChild(sc);
+        });
+        if(typeof html2canvas==='function') return true;
+      }catch(e){ console.warn(e); }
+    }
+    return false;
+  }
+  async function waitMapReady(){
+    if(typeof L==='undefined' || !map) throw new Error('Leaflet/peta utama belum siap.');
+    map.invalidateSize({pan:false,debounceMoveend:false});
+    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+    // Tunggu sampai ukuran container benar-benar tersedia.
+    for(let i=0;i<20;i++){
+      const el=document.getElementById('map');
+      const w=el?.clientWidth||0, h=el?.clientHeight||0;
+      if(w>100 && h>100) break;
+      await new Promise(r=>setTimeout(r,100));
+    }
+    await new Promise(r=>setTimeout(r,350));
+    map.invalidateSize({pan:false,debounceMoveend:false});
+  }
   async function captureMap(){
-    if(typeof html2canvas!=='function') throw new Error('Library ekspor belum termuat.');
+    const ok=await ensureHtml2Canvas();
+    if(!ok) throw new Error('Library html2canvas tidak berhasil dimuat.');
+    await waitMapReady();
     const mapEl=document.getElementById('map');
-    return await html2canvas(mapEl,{useCORS:true,allowTaint:false,backgroundColor:'#ffffff',scale:2,logging:false,imageTimeout:15000});
+    if(!mapEl) throw new Error('Elemen peta #map tidak ditemukan.');
+    const rect=mapEl.getBoundingClientRect();
+    if(rect.width<100 || rect.height<100) throw new Error('Ukuran peta belum siap.');
+
+    // Tangkap peta setelah seluruh tile/image yang sudah ada di DOM selesai.
+    const imgs=[...mapEl.querySelectorAll('img')];
+    await Promise.all(imgs.map(img=>new Promise(resolve=>{
+      if(img.complete) return resolve();
+      img.addEventListener('load',resolve,{once:true});
+      img.addEventListener('error',resolve,{once:true});
+      setTimeout(resolve,2500);
+    })));
+
+    try{
+      return await html2canvas(mapEl,{
+        useCORS:true,
+        allowTaint:false,
+        backgroundColor:'#ffffff',
+        scale:1.5,
+        logging:false,
+        imageTimeout:20000,
+        removeContainer:true
+      });
+    }catch(firstErr){
+      console.warn('Capture peta dengan CORS gagal, mencoba mode aman tanpa tile lintas-origin:',firstErr);
+      // Jika tile pihak ketiga menolak CORS, html2canvas dapat tetap membuat
+      // preview dari layer vektor/elemen lokal. Kita tangkap ulang dengan tile
+      // yang bermasalah diabaikan, sehingga Preview tidak berhenti total.
+      return await html2canvas(mapEl,{
+        useCORS:false,
+        allowTaint:false,
+        backgroundColor:'#ffffff',
+        scale:1.5,
+        logging:false,
+        imageTimeout:10000,
+        ignoreElements:el=>el instanceof HTMLImageElement && /server\.arcgisonline\.com|tile\./i.test(el.src||'')
+      });
+    }
   }
   async function captureKabupatenOverview(rs){
     if(typeof html2canvas!=='function' || typeof L==='undefined') return null;
@@ -1843,17 +1915,23 @@ render();
     if(!rs.length){showToast('Pilih Kecamatan atau Ruas terlebih dahulu.');return;}
     ensurePreviewModal();
     let restore=null;
+    let stage='awal';
     try{
       showToast('Menyiapkan preview peta A3…');
-      // Gunakan persis pipeline yang dipakai PNG/PDF sehingga preview = hasil export.
+      stage='menyiapkan tampilan peta';
       restore=await prepareExportView(rs,scopeEl.value);
+      stage='menangkap peta utama';
       const mapCanvas=await captureMap();
+      if(!mapCanvas || !mapCanvas.width || !mapCanvas.height) throw new Error('Canvas peta utama kosong.');
+      stage='membuat locator Kabupaten Bandung';
       const overviewCanvas=scopeEl.value==='kecamatan' ? await captureKabupatenOverview(rs) : null;
+      stage='menyusun lembar A3';
       const scope=scopeEl.value, info=infoFor(rs,scope);
       const W=3508,H=2480,c=document.createElement('canvas');
       c.width=W;c.height=H;
       const ctx=c.getContext('2d');
       drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),[],overviewCanvas);
+      stage='mengubah hasil menjadi gambar';
       previewImg.src=c.toDataURL('image/png');
       const st=stats(rs);
       const title=scope==='ruas'?`Preview Peta Ruas ${rs[0].no_ruas}`:`Preview Peta Kecamatan ${rs[0].kecamatan}`;
@@ -1865,8 +1943,9 @@ render();
       showToast('Preview siap. Periksa peta sebelum export.');
     }catch(err){
       if(restore) restore();
-      console.error(err);
-      showToast('Preview gagal. Coba lagi setelah peta selesai dimuat.');
+      console.error('Preview gagal pada tahap:',stage,err);
+      const detail=err?.message?` — ${err.message}`:'';
+      showToast(`Preview gagal pada tahap ${stage}${detail}`);
     }
   }
 
