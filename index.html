@@ -428,6 +428,21 @@ body{
 @media(max-width:900px){.map-export-tools{width:100%}.map-export-tools select#exportTarget{flex:1;min-width:180px}.export-sheet-info{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.map-export-tools>*{width:100%}.map-export-tools select#exportTarget{max-width:none}.export-sheet-info{grid-template-columns:1fr}.map-title-row{align-items:stretch}}
 </style>
+<style id="export-preview-style">
+.export-preview-backdrop{position:fixed;inset:0;background:rgba(8,25,38,.72);z-index:100000;display:none;align-items:center;justify-content:center;padding:20px}
+.export-preview-backdrop.show{display:flex}
+.export-preview-dialog{width:min(1500px,96vw);height:min(94vh,1000px);background:#eef3f6;border-radius:18px;box-shadow:0 25px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden}
+.export-preview-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;background:#123b56;color:#fff}
+.export-preview-head h3{margin:0;font-size:16px}
+.export-preview-head small{opacity:.78}
+.export-preview-actions{display:flex;gap:8px;align-items:center}
+.export-preview-actions button{border:0;border-radius:9px;padding:9px 13px;font-weight:700;cursor:pointer}
+.export-preview-close{background:#fff;color:#123b56}
+.export-preview-body{flex:1;overflow:auto;padding:18px;display:flex;align-items:flex-start;justify-content:center}
+.export-preview-body img{display:block;width:min(1400px,100%);height:auto;background:#fff;box-shadow:0 8px 28px rgba(0,0,0,.18)}
+.export-preview-foot{padding:10px 18px;background:#fff;border-top:1px solid #d9e2e8;color:#536b7a;font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.export-preview-count{font-weight:800;color:#123b56}
+</style>
 <div class="export-toast" id="exportToast"></div>
 <style id="google-maps-choice-style">
 .popup-actions{display:flex;justify-content:flex-start}
@@ -571,7 +586,7 @@ body{
         <option value="ruas">Peta Per Ruas</option>
       </select>
       <select id="exportTarget" title="Pilih wilayah atau ruas"></select>
-      <button type="button" id="exportPngBtn" class="export-btn">⬇ Export PNG</button>
+      <button type="button" id="exportPreviewBtn" class="export-btn" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)!important">👁 Preview</button><button type="button" id="exportPngBtn" class="export-btn">⬇ Export PNG</button>
       <button type="button" id="exportPrintBtn" class="export-btn export-secondary">🖨 Cetak / PDF</button>
     </div>
   </div>
@@ -1313,7 +1328,84 @@ render();
       showToast('Cetak gagal. Coba lagi setelah peta selesai dimuat.');
     }
   }
-  scopeEl.addEventListener('change',fillTargets);pngBtn.addEventListener('click',exportPng);printBtn.addEventListener('click',printPdf);fillTargets();
+  // ---------- PREVIEW SEBELUM EXPORT ----------
+  const previewBtn=document.getElementById('exportPreviewBtn');
+  let previewBackdrop=null, previewImg=null, previewTitle=null, previewCount=null;
+
+  function ensurePreviewModal(){
+    if(previewBackdrop) return;
+    previewBackdrop=document.createElement('div');
+    previewBackdrop.className='export-preview-backdrop';
+    previewBackdrop.innerHTML=`
+      <div class="export-preview-dialog" role="dialog" aria-modal="true" aria-label="Preview peta sebelum export">
+        <div class="export-preview-head">
+          <div>
+            <h3 id="exportPreviewTitle">Preview Peta</h3>
+            <small>Periksa seluruh ruas dan tampilan kecamatan sebelum membuat file.</small>
+          </div>
+          <div class="export-preview-actions">
+            <button type="button" id="exportPreviewPng" style="background:#24b5a5;color:#fff">⬇ PNG</button>
+            <button type="button" id="exportPreviewPrint" style="background:#1976d2;color:#fff">🖨 PDF / Cetak</button>
+            <button type="button" class="export-preview-close" id="exportPreviewClose">Tutup</button>
+          </div>
+        </div>
+        <div class="export-preview-body"><img id="exportPreviewImage" alt="Preview peta A3"></div>
+        <div class="export-preview-foot">
+          <span id="exportPreviewCount"></span>
+          <span>🔵 Trase kecamatan terpilih = jelas &nbsp; • &nbsp; Trase di luar = transparan</span>
+        </div>
+      </div>`;
+    document.body.appendChild(previewBackdrop);
+    previewImg=previewBackdrop.querySelector('#exportPreviewImage');
+    previewTitle=previewBackdrop.querySelector('#exportPreviewTitle');
+    previewCount=previewBackdrop.querySelector('#exportPreviewCount');
+    previewBackdrop.querySelector('#exportPreviewClose').addEventListener('click',()=>previewBackdrop.classList.remove('show'));
+    previewBackdrop.addEventListener('click',e=>{if(e.target===previewBackdrop) previewBackdrop.classList.remove('show')});
+    previewBackdrop.querySelector('#exportPreviewPng').addEventListener('click',async()=>{
+      const rs=getTargetRows();
+      if(!rs.length) return;
+      await exportPng();
+    });
+    previewBackdrop.querySelector('#exportPreviewPrint').addEventListener('click',async()=>{
+      const rs=getTargetRows();
+      if(!rs.length) return;
+      await printPdf();
+    });
+  }
+
+  async function previewExport(){
+    const rs=getTargetRows();
+    if(!rs.length){showToast('Pilih Kecamatan atau Ruas terlebih dahulu.');return;}
+    ensurePreviewModal();
+    let restore=null;
+    try{
+      showToast('Menyiapkan preview peta A3…');
+      // Gunakan persis pipeline yang dipakai PNG/PDF sehingga preview = hasil export.
+      restore=await prepareExportView(rs,scopeEl.value);
+      const mapCanvas=await captureMap();
+      const scope=scopeEl.value, info=infoFor(rs,scope);
+      const W=3508,H=2480,c=document.createElement('canvas');
+      c.width=W;c.height=H;
+      const ctx=c.getContext('2d');
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info);
+      previewImg.src=c.toDataURL('image/png');
+      const st=stats(rs);
+      const title=scope==='ruas'?`Preview Peta Ruas ${rs[0].no_ruas}`:`Preview Peta Kecamatan ${rs[0].kecamatan}`;
+      previewTitle.textContent=title;
+      previewCount.textContent=`${scope==='kecamatan'?'Kecamatan':'Ruas'}: ${scope==='kecamatan'?rs[0].kecamatan:rs[0].no_ruas} • ${st.count} ruas • ${fmtKm(st.length)}`;
+      previewBackdrop.classList.add('show');
+      if(restore) restore();
+      restore=null;
+      showToast('Preview siap. Periksa peta sebelum export.');
+    }catch(err){
+      if(restore) restore();
+      console.error(err);
+      showToast('Preview gagal. Coba lagi setelah peta selesai dimuat.');
+    }
+  }
+
+
+  scopeEl.addEventListener('change',fillTargets);if(previewBtn) previewBtn.addEventListener('click',previewExport);pngBtn.addEventListener('click',exportPng);printBtn.addEventListener('click',printPdf);fillTargets();
 })();
 </script>
 <script id="google-maps-choice-handler">
