@@ -997,14 +997,38 @@ render();
     const mapEl=document.getElementById('map');
     return await html2canvas(mapEl,{useCORS:true,allowTaint:false,backgroundColor:'#ffffff',scale:2,logging:false,imageTimeout:15000});
   }
+  function coordinateForRows(rs){
+    const wanted=new Set((rs||[]).map(r=>String(r.no_ruas||'').trim()));
+    const pts=[];
+    (geo?.features||[]).forEach(f=>{
+      const no=String(f?.properties?.no_ruas||'').trim();
+      if(!wanted.has(no)) return;
+      const c=f?.geometry?.coordinates;
+      if(!Array.isArray(c)) return;
+      const walk=a=>{
+        if(Array.isArray(a) && a.length>=2 && Number.isFinite(Number(a[0])) && Number.isFinite(Number(a[1])) && typeof a[0] !== 'object'){
+          pts.push([Number(a[1]),Number(a[0])]);
+        }else if(Array.isArray(a)){ a.forEach(walk); }
+      };
+      walk(c);
+    });
+    if(!pts.length) return null;
+    let minLat=Infinity,maxLat=-Infinity,minLng=Infinity,maxLng=-Infinity;
+    pts.forEach(([lat,lng])=>{minLat=Math.min(minLat,lat);maxLat=Math.max(maxLat,lat);minLng=Math.min(minLng,lng);maxLng=Math.max(maxLng,lng);});
+    return {lat:(minLat+maxLat)/2,lng:(minLng+maxLng)/2};
+  }
+  function formatCoord(v){ return Number(v).toFixed(6); }
   function infoFor(rs,scope){
     const st=stats(rs), r=rs[0]||{};
+    const coord=coordinateForRows(rs);
+    const coordRows=coord ? [['Latitude',formatCoord(coord.lat)],['Longitude',formatCoord(coord.lng)]] : [['Latitude','-'],['Longitude','-']];
     if(scope==='ruas') return [
       ['No. Ruas',r.no_ruas||'-'],['Nama Ruas',r.nama||'-'],['Kecamatan',r.kecamatan||'-'],['Panjang',fmtKm(r.panjang)],
+      ...coordRows,
       ['Baik / Sedang',`${fmtKm(r.baik)} / ${fmtKm(r.sedang)}`],['Rusak Ringan / Berat',`${fmtKm(r.rr)} / ${fmtKm(r.rb)}`],['Anggaran Rusak Ringan',fmtRp(r.anggaran_rr)],['Anggaran Rusak Berat',fmtRp(r.anggaran_rb)]
     ];
     return [
-      ['Kecamatan',r.kecamatan||targetEl.value],['Jumlah Ruas',String(st.count)],['Total Panjang',fmtKm(st.length)],['Kondisi Baik',fmtKm(st.baik)],
+      ['Kecamatan',r.kecamatan||targetEl.value],['Jumlah Ruas',String(st.count)],['Total Panjang',fmtKm(st.length)],...coordRows,['Kondisi Baik',fmtKm(st.baik)],
       ['Kondisi Sedang',fmtKm(st.sedang)],['Rusak Ringan',fmtKm(st.rr)],['Rusak Berat',fmtKm(st.rb)],['Total Anggaran RR+RB',fmtRp(st.rrRp+st.rbRp)]
     ];
   }
