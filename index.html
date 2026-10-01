@@ -1137,6 +1137,70 @@ render();
     const mapEl=document.getElementById('map');
     return await html2canvas(mapEl,{useCORS:true,allowTaint:false,backgroundColor:'#ffffff',scale:2,logging:false,imageTimeout:15000});
   }
+  async function captureKabupatenOverview(rs){
+    if(typeof html2canvas!=='function') return null;
+    const mapEl=document.getElementById('map');
+    if(!mapEl) return null;
+
+    const oldCenter=map.getCenter();
+    const oldZoom=map.getZoom();
+    const roadVisible=map.hasLayer(roadOverlayGroup);
+    const kecSnapshots=[];
+    let overviewFocus=null;
+
+    try{
+      // Locator map: tampilkan batas Kabupaten Bandung dan seluruh kecamatan,
+      // lalu sorot kecamatan yang sedang dipilih.
+      if(administrativeLayers?.kecamatan){
+        const selected=String(rs?.[0]?.kecamatan||'').trim().toUpperCase();
+        const normalizeKec=v=>String(v||'').toUpperCase()
+          .replace(/^KEC\.?\s*/,'').replace(/\s+/g,' ').trim();
+        administrativeLayers.kecamatan.eachLayer(lyr=>{
+          const props=lyr.feature?.properties||{};
+          const name=String(props.KECAMATAN||props.NAMOBJ||props.KEC||'').trim().toUpperCase();
+          kecSnapshots.push({lyr,style:{
+            color:lyr.options.color,weight:lyr.options.weight,opacity:lyr.options.opacity,
+            fillColor:lyr.options.fillColor,fillOpacity:lyr.options.fillOpacity
+          }});
+          const hit=normalizeKec(name)===normalizeKec(selected);
+          lyr.setStyle(hit?{
+            color:'#0f766e',weight:3,opacity:1,
+            fillColor:'#2dd4bf',fillOpacity:0.55
+          }:{
+            color:'#64748b',weight:1,opacity:0.65,
+            fillColor:'#cbd5e1',fillOpacity:0.06
+          });
+          if(hit){ lyr.bringToFront(); overviewFocus=lyr; }
+        });
+      }
+
+      // Hilangkan trase jalan dari locator supaya bentuk administrasi lebih jelas.
+      if(roadVisible) map.removeLayer(roadOverlayGroup);
+
+      const kabBounds=administrativeLayers?.kabupaten?.getBounds?.();
+      if(!kabBounds || !kabBounds.isValid()) return null;
+      map.fitBounds(kabBounds,{padding:[18,18],animate:false,maxZoom:10});
+      map.invalidateSize({pan:false,debounceMoveend:false});
+      await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+      await new Promise(resolve=>setTimeout(resolve,700));
+      map.invalidateSize({pan:false,debounceMoveend:false});
+
+      return await html2canvas(mapEl,{
+        useCORS:true,allowTaint:false,backgroundColor:'#ffffff',scale:2,logging:false,imageTimeout:15000
+      });
+    }catch(err){
+      console.warn('Locator map gagal dibuat:',err);
+      return null;
+    }finally{
+      // Pulihkan tampilan peta utama untuk proses berikutnya.
+      kecSnapshots.forEach(s=>s.lyr.setStyle(s.style));
+      if(roadVisible && !map.hasLayer(roadOverlayGroup)) roadOverlayGroup.addTo(map);
+      map.setView(oldCenter,oldZoom,{animate:false});
+      map.invalidateSize({pan:false,debounceMoveend:false});
+      await new Promise(resolve=>setTimeout(resolve,180));
+    }
+  }
+
   function coordinateForRows(rs){
     const wanted=new Set((rs||[]).map(r=>String(r.no_ruas||'').trim()));
     const pts=[];
@@ -1502,7 +1566,7 @@ render();
     ctx.restore();
   }
 
-  function drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,mapBounds,roadLabels=[]){
+  function drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,mapBounds,roadLabels=[],overviewCanvas=null){
     const M=55, gap=32, sideW=720;
     const mainX=M, mainY=M, mainW=W-M*2-sideW-gap, mainH=H-M*2;
     const sideX=mainX+mainW+gap, sideY=M;
@@ -1512,7 +1576,19 @@ render();
     ctx.strokeRect(sideX,sideY,sideW,mainH);
     // Area kop/header sengaja dikosongkan sementara.
     const kopH=360;
-    ctx.strokeStyle='#cbd5df';ctx.strokeRect(sideX+18,sideY+18,sideW-36,kopH);
+    const overviewX=sideX+18, overviewY=sideY+18, overviewW=sideW-36, overviewH=kopH;
+    ctx.strokeStyle='#cbd5df';ctx.strokeRect(overviewX,overviewY,overviewW,overviewH);
+    if(overviewCanvas){
+      const r=Math.min(overviewW/overviewCanvas.width,overviewH/overviewCanvas.height);
+      const ow=overviewCanvas.width*r, oh=overviewCanvas.height*r;
+      const ox=overviewX+(overviewW-ow)/2, oy=overviewY+(overviewH-oh)/2;
+      ctx.save();ctx.beginPath();ctx.rect(overviewX,overviewY,overviewW,overviewH);ctx.clip();
+      ctx.fillStyle='#f8fafc';ctx.fillRect(overviewX,overviewY,overviewW,overviewH);
+      ctx.drawImage(overviewCanvas,ox,oy,ow,oh);
+      ctx.restore();
+      ctx.fillStyle='rgba(255,255,255,.9)';ctx.fillRect(overviewX+12,overviewY+12,300,34);
+      ctx.fillStyle='#123b56';ctx.font='800 16px Arial';ctx.fillText('LOKASI DALAM KABUPATEN BANDUNG',overviewX+22,overviewY+35);
+    }
     // Judul dan informasi
     let y=sideY+kopH+48;
     const title=scope==='ruas'?`PETA RUAS ${rs[0].no_ruas}`:`PETA KECAMATAN ${rs[0].kecamatan}`;
@@ -1613,9 +1689,10 @@ render();
       showToast('Menyiapkan layout peta A3…');
       restore=await prepareExportView(rs,scopeEl.value);
       const mapCanvas=await captureMap();
+      const overviewCanvas=scopeEl.value==='kecamatan' ? await captureKabupatenOverview(rs) : null;
       const scope=scopeEl.value, info=infoFor(rs,scope);
       const W=3508,H=2480,c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');
-      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),[]);
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),[],overviewCanvas);
       const a=document.createElement('a');a.download=`Peta_A3_${scope}_${String(scope==='ruas'?rs[0].no_ruas:rs[0].kecamatan).replace(/[^a-z0-9_-]+/gi,'_')}.png`;a.href=c.toDataURL('image/png');a.click();showToast('Peta A3 berhasil diekspor ke PNG.');
       if(restore) restore();
     }catch(err){if(restore) restore();console.error(err);showToast('Ekspor gagal. Coba lagi setelah peta selesai dimuat.');}
@@ -1628,11 +1705,12 @@ render();
       showToast('Menyiapkan PDF A3…');
       restore=await prepareExportView(rs,scopeEl.value);
       const mapCanvas=await captureMap();
+      const overviewCanvas=scopeEl.value==='kecamatan' ? await captureKabupatenOverview(rs) : null;
       const scope=scopeEl.value, info=infoFor(rs,scope);
       const W=3508,H=2480,c=document.createElement('canvas');
       c.width=W;c.height=H;
       const ctx=c.getContext('2d');
-      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),[]);
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),[],overviewCanvas);
       const img=c.toDataURL('image/png');
       const fileBase=`Peta_A3_${scope}_${String(scope==='ruas'?rs[0].no_ruas:rs[0].kecamatan).replace(/[^a-z0-9_-]+/gi,'_')}`;
 
@@ -1715,11 +1793,12 @@ render();
       // Gunakan persis pipeline yang dipakai PNG/PDF sehingga preview = hasil export.
       restore=await prepareExportView(rs,scopeEl.value);
       const mapCanvas=await captureMap();
+      const overviewCanvas=scopeEl.value==='kecamatan' ? await captureKabupatenOverview(rs) : null;
       const scope=scopeEl.value, info=infoFor(rs,scope);
       const W=3508,H=2480,c=document.createElement('canvas');
       c.width=W;c.height=H;
       const ctx=c.getContext('2d');
-      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),[]);
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,map.getBounds(),[],overviewCanvas);
       previewImg.src=c.toDataURL('image/png');
       const st=stats(rs);
       const title=scope==='ruas'?`Preview Peta Ruas ${rs[0].no_ruas}`:`Preview Peta Kecamatan ${rs[0].kecamatan}`;
