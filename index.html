@@ -1225,40 +1225,14 @@ render();
       }
       if(!kabBounds || !kabBounds.isValid()) return null;
 
-      // Zoom ke Kabupaten Bandung dengan pusat visual yang lebih representatif.
-      // Bounds tetap menjadi acuan skala, tetapi pusat peta memakai centroid polygon
-      // sehingga bentuk Kabupaten Bandung tidak terlihat terlalu bergeser ke salah satu sisi.
+      // Posisikan locator benar-benar mengikuti seluruh bounds Kabupaten Bandung.
+      // Jangan menggeser lagi ke centroid setelah fitBounds karena bentuk kabupaten
+      // tidak simetris dan pergeseran tersebut dapat membuat sisi utara/selatan terpotong.
       const kabGeo=ADMIN_GEO?.kabupaten||null;
-      const kabCenter=(function(){
-        try{
-          const f=(kabGeo?.features||[])[0];
-          const g=f?.geometry;
-          if(!g) return kabBounds.getCenter();
-          const rings=[];
-          if(g.type==='Polygon') (g.coordinates||[]).forEach(r=>rings.push(r));
-          if(g.type==='MultiPolygon') (g.coordinates||[]).forEach(poly=>(poly||[]).forEach(r=>rings.push(r)));
-          let sx=0,sy=0,sw=0;
-          rings.filter(r=>r&&r.length>=3).forEach(r=>{
-            let a=0,cx=0,cy=0;
-            for(let i=0;i<r.length-1;i++){
-              const x0=r[i][0],y0=r[i][1],x1=r[i+1][0],y1=r[i+1][1];
-              const cr=x0*y1-x1*y0; a+=cr; cx+=(x0+x1)*cr; cy+=(y0+y1)*cr;
-            }
-            a/=2;
-            if(Math.abs(a)>1e-12){ sx+=cx/(6*a)*Math.abs(a); sy+=cy/(6*a)*Math.abs(a); sw+=Math.abs(a); }
-          });
-          return sw ? L.latLng(sy/sw,sx/sw) : kabBounds.getCenter();
-        }catch(e){ return kabBounds.getCenter(); }
-      })();
-      // Sedikit dikurangi dari versi sebelumnya agar seluruh batas Kabupaten Bandung
-      // tetap masuk ke dalam frame tanpa terpotong.
-      map.fitBounds(kabBounds,{padding:[34,34],animate:false,maxZoom:10});
-      // Pertahankan pusat visual pada Kabupaten Bandung, tetapi jangan menaikkan zoom
-      // satu tingkat lagi karena itu menyebabkan sebagian wilayah terpotong.
-      if(kabCenter && Number.isFinite(kabCenter.lat) && Number.isFinite(kabCenter.lng)){
-        const fittedZoom=map.getZoom()||9;
-        map.setView(kabCenter,fittedZoom,{animate:false});
-      }
+      map.fitBounds(kabBounds,{padding:[58,58],animate:false,maxZoom:9});
+      // Pastikan sedikit ruang aman tetap tersedia di semua sisi.
+      const z=map.getZoom();
+      if(Number.isFinite(z)) map.setZoom(Math.max(0,z-0.15),{animate:false});
       map.invalidateSize({pan:false,debounceMoveend:false});
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       await new Promise(resolve=>setTimeout(resolve,900));
@@ -1757,12 +1731,14 @@ render();
           ctx.closePath();ctx.stroke();
         });
 
-        // Highlight kecamatan terpilih pada locator Kabupaten Bandung.
+        // Highlight + inset kecamatan terpilih.
+        // Inset selalu dibuat jika polygon kecamatan ditemukan, tidak bergantung
+        // pada hasil maskPaths, sehingga lokasi kecamatan tetap terlihat.
         const fb=overviewCanvas.focusBounds;
         if(fb && fb.w>2 && fb.h>2){
           const fx=ox+fb.x*r, fy=oy+fb.y*r, fw=fb.w*r, fh=fb.h*r;
           ctx.save();
-          ctx.fillStyle='rgba(45,212,191,.20)';
+          ctx.fillStyle='rgba(45,212,191,.22)';
           ctx.strokeStyle='#0f766e';
           ctx.lineWidth=5;
           ctx.setLineDash([10,7]);
@@ -1771,31 +1747,37 @@ render();
           ctx.setLineDash([]);
           ctx.restore();
 
-          // Inset kecil kecamatan terpilih: crop dari peta Kabupaten Bandung.
-          const insetW=Math.min(250,overviewW-36);
-          const insetH=Math.min(145,overviewH-36);
-          const insetX=overviewX+overviewW-insetW-16;
-          const insetY=overviewY+overviewH-insetH-16;
+          // Inset kecil lokasi kecamatan terpilih.
+          // Dibuat lebih besar agar polygon kecamatan benar-benar terlihat.
+          const insetW=Math.min(290,overviewW-28);
+          const insetH=Math.min(165,overviewH-28);
+          const insetX=overviewX+overviewW-insetW-12;
+          const insetY=overviewY+12;
           ctx.save();
-          ctx.fillStyle='rgba(255,255,255,.96)';
-          ctx.fillRect(insetX-5,insetY-5,insetW+10,insetH+10);
-          ctx.strokeStyle='#174a6b';ctx.lineWidth=2;ctx.strokeRect(insetX-5,insetY-5,insetW+10,insetH+10);
-          ctx.beginPath();ctx.rect(insetX,insetY,insetW,insetH);ctx.clip();
-          const pad=16;
-          const cropW=Math.max(fb.w,20), cropH=Math.max(fb.h,20);
-          const cropX=Math.max(0,fb.x-cropW*.35), cropY=Math.max(0,fb.y-cropH*.35);
-          const cropWW=Math.min(ov.width-cropX,cropW*1.7), cropHH=Math.min(ov.height-cropY,cropH*1.7);
-          const cr=Math.min((insetW-pad*2)/cropWW,(insetH-pad*2)/cropHH);
+          ctx.fillStyle='rgba(255,255,255,.97)';
+          ctx.fillRect(insetX-6,insetY-6,insetW+12,insetH+12);
+          ctx.strokeStyle='#174a6b';ctx.lineWidth=2;ctx.strokeRect(insetX-6,insetY-6,insetW+12,insetH+12);
+          ctx.fillStyle='#123b56';ctx.font='700 13px Arial';
+          ctx.fillText('LOKASI KECAMATAN',insetX+10,insetY+18);
+
+          const pad=14;
+          const cropW=Math.max(fb.w,28), cropH=Math.max(fb.h,28);
+          const cropX=Math.max(0,Math.min(ov.width-cropW*1.8,fb.x-cropW*.4));
+          const cropY=Math.max(0,Math.min(ov.height-cropH*1.8,fb.y-cropH*.4));
+          const cropWW=Math.min(ov.width-cropX,Math.max(cropW*1.8,40));
+          const cropHH=Math.min(ov.height-cropY,Math.max(cropH*1.8,40));
+          const availW=insetW-pad*2, availH=insetH-34-pad;
+          const cr=Math.min(availW/cropWW,availH/cropHH);
           const dw=cropWW*cr, dh=cropHH*cr;
-          const dx=insetX+(insetW-dw)/2, dy=insetY+(insetH-dh)/2;
+          const dx=insetX+(insetW-dw)/2, dy=insetY+30+(availH-dh)/2;
+          ctx.beginPath();ctx.rect(insetX,insetY+26,insetW,insetH-26);ctx.clip();
           ctx.drawImage(ov,cropX,cropY,cropWW,cropHH,dx,dy,dw,dh);
-          // Bingkai fokus di dalam inset.
+          // Frame lokasi pada inset.
           const ifx=dx+(fb.x-cropX)*cr, ify=dy+(fb.y-cropY)*cr;
-          const ifw=Math.max(8,fb.w*cr), ifh=Math.max(8,fb.h*cr);
-          ctx.fillStyle='rgba(45,212,191,.25)';ctx.fillRect(ifx,ify,ifw,ifh);
+          const ifw=Math.max(10,fb.w*cr), ifh=Math.max(10,fb.h*cr);
+          ctx.fillStyle='rgba(45,212,191,.35)';ctx.fillRect(ifx,ify,ifw,ifh);
           ctx.strokeStyle='#0f766e';ctx.lineWidth=3;ctx.strokeRect(ifx,ify,ifw,ifh);
           ctx.restore();
-          ctx.fillStyle='#123b56';ctx.font='700 13px Arial';ctx.fillText('LOKASI KECAMATAN',insetX+8,insetY+16);
         }
         ctx.restore();
       }
