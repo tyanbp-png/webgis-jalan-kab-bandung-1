@@ -1142,6 +1142,45 @@ render();
     return {count:rs.length,length:sumRows(rs,'panjang'),baik:sumRows(rs,'baik'),sedang:sumRows(rs,'sedang'),rr:sumRows(rs,'rr'),rb:sumRows(rs,'rb'),rrRp:sumRows(rs,'anggaran_rr'),rbRp:sumRows(rs,'anggaran_rb')};
   }
   function escHtml(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+  // Informasi ringkas untuk lembar A3. Fungsi ini wajib tersedia untuk
+  // preview, PNG, dan PDF; sebelumnya fungsi ini hilang sehingga proses
+  // berhenti pada tahap 'menyusun lembar A3' dengan error infoFor is not defined.
+  function infoFor(rs, scope){
+    const st=stats(rs||[]);
+    if(!rs || !rs.length) return [
+      ['STATUS','Tidak ada data'],
+      ['JUMLAH RUAS','0'],
+      ['PANJANG','0.000 km']
+    ];
+
+    if(scope==='ruas'){
+      const r=rs[0];
+      return [
+        ['NO. RUAS', String(r.no_ruas||'-')],
+        ['NAMA RUAS', String(r.nama||'-')],
+        ['KECAMATAN', String(r.kecamatan||'-')],
+        ['DESA', String(r.desa||'-')],
+        ['PANJANG', fmtKm(r.panjang)],
+        ['LEBAR', num(r.lebar).toLocaleString('id-ID',{maximumFractionDigits:2})+' m'],
+        ['KONDISI BAIK', fmtKm(r.baik)],
+        ['KONDISI SEDANG', fmtKm(r.sedang)],
+        ['RUSAK RINGAN', fmtKm(r.rr)],
+        ['RUSAK BERAT', fmtKm(r.rb)]
+      ];
+    }
+
+    return [
+      ['KECAMATAN', String(rs[0].kecamatan||'-')],
+      ['JUMLAH RUAS', String(st.count)],
+      ['PANJANG TOTAL', fmtKm(st.length)],
+      ['BAIK', fmtKm(st.baik)],
+      ['SEDANG', fmtKm(st.sedang)],
+      ['RUSAK RINGAN', fmtKm(st.rr)],
+      ['RUSAK BERAT', fmtKm(st.rb)],
+      ['ANGGARAN R. RINGAN', fmtRp(st.rrRp)],
+      ['ANGGARAN R. BERAT', fmtRp(st.rbRp)]
+    ];
+  }
   function roadLegendHtml(rs){
     const items=(rs||[]).map((r,i)=>`<span class="road-legend-item"><b>${escHtml(r.no_ruas||'-')}</b> ${escHtml(r.nama||'Tanpa Nama')}</span>`).join('');
     return `<div class="road-legend-title">NAMA TRASE JALAN</div><div class="road-legend-list">${items}</div>`;
