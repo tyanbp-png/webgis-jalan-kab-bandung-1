@@ -1287,6 +1287,337 @@ render();
     }
   }
 
+  async function prepareExportView(rs,scope){
+    const oldK=k.value, oldC=c.value, oldQ=q.value;
+    const adminSnapshots=[];
+    let exportHighlight=null;
+    let exportSelectedLayer=null;
+
+    // Simpan ukuran peta agar layout dashboard dapat dipulihkan persis setelah ekspor.
+    const mapEl=document.getElementById('map');
+    const oldMapHeight=mapEl ? mapEl.style.height : '';
+    const oldMapWidth=mapEl ? mapEl.style.width : '';
+
+    exportMapMode=(scope==='kecamatan');
+    exportTargetKecamatan=scope==='kecamatan' ? String(rs[0].kecamatan||'').trim() : '';
+    scopeExportModeKecamatan=(scope==='kecamatan');
+
+    if(scope==='kecamatan'){
+      k.value=rs[0].kecamatan||'';
+      c.value='';
+    }else{
+      k.value=rs[0].kecamatan||'';
+      updateRoadList();
+      c.value=String(rs[0].no_ruas);
+    }
+    q.value='';
+    render();
+
+    // Untuk ekspor kecamatan: tampilkan seluruh administrasi,
+    // kecamatan terpilih normal/jelas, kecamatan lain transparan.
+    if(scope==='kecamatan' && administrativeLayers?.kecamatan){
+      const selected=String(rs[0].kecamatan||'').trim().toUpperCase();
+      administrativeLayers.kecamatan.eachLayer(lyr=>{
+        const props=lyr.feature?.properties||{};
+        const name=String(props.KECAMATAN||props.NAMOBJ||props.KEC||'').trim().toUpperCase();
+        const normalizeKec=v=>String(v||'').toUpperCase()
+          .replace(/^KEC\.?\s*/,'').replace(/\s+/g,' ').trim();
+
+        adminSnapshots.push({lyr,style:{
+          color:lyr.options.color,weight:lyr.options.weight,opacity:lyr.options.opacity,
+          fillColor:lyr.options.fillColor,fillOpacity:lyr.options.fillOpacity
+        }});
+
+        const hit=normalizeKec(name)===normalizeKec(selected);
+        lyr.setStyle(hit?{
+          color:adminStyles.kecamatan.color,
+          weight:2.8,
+          opacity:1,
+          fillColor:adminStyles.kecamatan.fillColor,
+          fillOpacity:0.08
+        }:{
+          color:'#94a3b8',
+          weight:0.8,
+          opacity:0.10,
+          fillColor:'#ffffff',
+          fillOpacity:0.012
+        });
+
+        if(hit){
+          lyr.bringToFront();
+          exportHighlight=lyr;
+        }
+      });
+    }
+
+
+    /*
+     * EXPORT HIGHLIGHT: buat layer khusus yang hanya berisi seluruh trase
+     * kecamatan terpilih. Layer ini diletakkan paling atas agar TIDAK tertutup
+     * oleh polygon administrasi atau jaringan jalan konteks.
+     */
+    if(scope==='kecamatan'){
+      const normalizeRoadNo=v=>String(v??'').trim().replace(/\s+/g,'').toUpperCase();
+      const targetNos=new Set(rs.map(r=>normalizeRoadNo(r.no_ruas)));
+      const selectedFeatures=allRoadFeaturesForExport().filter(f=>
+        targetNos.has(normalizeRoadNo(f.properties?.no_ruas))
+      );
+
+      if(selectedFeatures.length){
+        exportSelectedLayer=L.geoJSON(
+          {type:'FeatureCollection',features:selectedFeatures},
+          {
+            interactive:false,
+            bubblingMouseEvents:false,
+            style:{color:'#1769aa',weight:5.5,opacity:0.98,lineCap:'round',lineJoin:'round'}
+          }
+        ).addTo(map);
+        exportSelectedLayer.bringToFront();
+      }
+    }
+
+    /*
+     * PENTING:
+     * Tampilan dashboard sengaja landscape/lebar, sedangkan layout A3 memiliki
+     * panel peta yang jauh lebih tinggi. Jika langsung mengambil screenshot map
+     * dashboard lalu "crop to fill", ruas di sisi kiri/kanan bisa terpotong.
+     *
+     * Karena itu ukuran #map sementara disamakan dengan rasio area peta A3.
+     * Setelah screenshot selesai, ukuran asli dashboard dikembalikan.
+     */
+    if(mapEl){
+      const rect=mapEl.getBoundingClientRect();
+      const exportRatio=(3508-55*2-720-32)/(2480-55*2); // rasio area peta A3
+      if(rect.width>0){
+        // CSS dashboard memakai #map height !important, sehingga assignment biasa
+        // tidak mengubah tinggi container. Pakai inline !important agar canvas
+        // yang ditangkap benar-benar mempunyai rasio area peta A3.
+        const exportHeight=Math.round(rect.width/exportRatio);
+        mapEl.style.setProperty('height',exportHeight+'px','important');
+        mapEl.style.setProperty('width',rect.width+'px','important');
+        map.invalidateSize({pan:false,debounceMoveend:false});
+      }
+    }
+
+    // Tunggu layout Leaflet selesai dihitung ulang sebelum fitBounds.
+    await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+    map.invalidateSize({pan:false,debounceMoveend:false});
+    await new Promise(resolve=>setTimeout(resolve,250));
+
+    // Fit berdasarkan SELURUH wilayah kecamatan terpilih + seluruh trase ruas
+    // yang termasuk hasil filter kecamatan. Tidak menggunakan viewport lama.
+    try{
+      const focusBounds=L.latLngBounds([]);
+
+      if(scope==='kecamatan' && exportHighlight){
+        const b=exportHighlight.getBounds();
+        if(b && b.isValid()) focusBounds.extend(b);
+      }
+
+      // Jangan memakai layer.getBounds() pada mode ekspor kecamatan karena
+      // layer tersebut sengaja berisi seluruh jaringan sebagai konteks.
+      // Extent utama harus berasal dari SELURUH ruas kecamatan target.
+      if(scope==='kecamatan'){
+        // Gunakan layer highlight yang benar-benar berisi SEMUA trase target.
+        // Ini menjadi sumber extent utama, bukan viewport dashboard.
+        const sb=exportSelectedLayer && exportSelectedLayer.getBounds
+          ? exportSelectedLayer.getBounds()
+          : null;
+        if(sb && sb.isValid()) focusBounds.extend(sb);
+      }else if(layer && typeof layer.getBounds==='function'){
+        const rb=layer.getBounds();
+        if(rb && rb.isValid()) focusBounds.extend(rb);
+      }
+
+      if(focusBounds.isValid()){
+        map.fitBounds(focusBounds,{
+          padding:[55,55],
+          animate:false
+        });
+        map.invalidateSize({pan:false,debounceMoveend:false});
+      }
+    }catch(e){
+      console.warn('Gagal menyesuaikan extent ekspor:',e);
+    }
+
+    // Beri waktu tile/background map dan Leaflet selesai menggambar.
+    await new Promise(resolve=>setTimeout(resolve,1100));
+    map.invalidateSize({pan:false});
+    await new Promise(resolve=>setTimeout(resolve,350));
+
+    return ()=>{
+      if(exportSelectedLayer && map.hasLayer(exportSelectedLayer)) map.removeLayer(exportSelectedLayer);
+      exportSelectedLayer=null;
+      adminSnapshots.forEach(s=>s.lyr.setStyle(s.style));
+
+      if(mapEl){
+        if(oldMapHeight) mapEl.style.setProperty('height',oldMapHeight,'important');
+        else mapEl.style.removeProperty('height');
+        if(oldMapWidth) mapEl.style.setProperty('width',oldMapWidth,'important');
+        else mapEl.style.removeProperty('width');
+        map.invalidateSize({pan:false,debounceMoveend:false});
+      }
+
+      k.value=oldK;
+      updateRoadList();
+      c.value=oldC;
+      q.value=oldQ;
+      exportMapMode=false;
+      exportTargetKecamatan='';
+      scopeExportModeKecamatan=false;
+      render();
+
+      if(exportHighlight) exportHighlight.bringToFront();
+    };
+  }
+
+  function roadLabelPointsForExport(rs,mapCanvas){
+    if(!map || !mapCanvas) return [];
+    const norm=v=>String(v??'').trim().replace(/\s+/g,'').toUpperCase();
+    const wanted=new Map((rs||[]).map(r=>[norm(r.no_ruas),r]));
+    const rect=document.getElementById('map')?.getBoundingClientRect();
+    if(!rect || !rect.width || !rect.height) return [];
+    const sx=mapCanvas.width/rect.width, sy=mapCanvas.height/rect.height;
+
+    /*
+     * LABEL HARUS MENGIKUTI GARIS YANG BENAR-BENAR TERGAMBAR.
+     * Jangan menghitung ulang dari koordinat GeoJSON mentah, karena satu nomor
+     * ruas bisa terdiri dari beberapa feature. Kita ambil path Leaflet dari
+     * exportSelectedLayer yang sudah difilter + sudah fitBounds, lalu mencari
+     * segmen terpanjang dalam koordinat layar. Dengan cara ini anchor label
+     * pasti berada tepat pada trase yang terlihat di preview/PDF.
+     */
+    const candidates=new Map();
+    const collect=(layer)=>{
+      if(!layer) return;
+      if(layer.feature?.properties?.no_ruas!=null && layer.getLatLngs){
+        const key=norm(layer.feature.properties.no_ruas);
+        if(!wanted.has(key)) return;
+        const raw=layer.getLatLngs();
+        const lines=[];
+        const flatten=a=>{
+          if(!Array.isArray(a)||!a.length) return;
+          if(a[0] && typeof a[0].lat==='number') lines.push(a);
+          else a.forEach(flatten);
+        };
+        flatten(raw);
+        if(!candidates.has(key)) candidates.set(key,[]);
+        lines.forEach(line=>{
+          if(line.length>=2) candidates.get(key).push(line);
+        });
+      }else if(layer.eachLayer){
+        layer.eachLayer(collect);
+      }
+    };
+    if(typeof exportSelectedLayer!=='undefined' && exportSelectedLayer) collect(exportSelectedLayer);
+
+    // Fallback ke GeoJSON jika layer Leaflet belum tersedia.
+    if(!candidates.size){
+      (geo?.features||[]).forEach(f=>{
+        const key=norm(f?.properties?.no_ruas);
+        if(!wanted.has(key)) return;
+        const g=f?.geometry;
+        if(!g) return;
+        const add=(arr)=>{
+          if(!Array.isArray(arr)||arr.length<2) return;
+          const pts=arr.map(c=>L.latLng(Number(c[1]),Number(c[0]))).filter(x=>Number.isFinite(x.lat)&&Number.isFinite(x.lng));
+          if(pts.length>=2){if(!candidates.has(key)) candidates.set(key,[]);candidates.get(key).push(pts);}
+        };
+        if(g.type==='LineString') add(g.coordinates);
+        else if(g.type==='MultiLineString') g.coordinates.forEach(add);
+      });
+    }
+
+    const screenLength=line=>{
+      let d=0;
+      for(let i=1;i<line.length;i++){
+        const a=map.latLngToContainerPoint(line[i-1]);
+        const b=map.latLngToContainerPoint(line[i]);
+        d+=Math.hypot(b.x-a.x,b.y-a.y);
+      }
+      return d;
+    };
+    const midpointScreen=line=>{
+      const seg=[];let total=0;
+      for(let i=1;i<line.length;i++){
+        const a=map.latLngToContainerPoint(line[i-1]);
+        const b=map.latLngToContainerPoint(line[i]);
+        const d=Math.hypot(b.x-a.x,b.y-a.y);seg.push({a,b,d});total+=d;
+      }
+      if(!total) return null;
+      let acc=0,half=total/2;
+      for(const q of seg){
+        if(acc+q.d>=half){
+          const t=(half-acc)/(q.d||1);
+          return {x:q.a.x+(q.b.x-q.a.x)*t,y:q.a.y+(q.b.y-q.a.y)*t};
+        }
+        acc+=q.d;
+      }
+      const z=seg[seg.length-1]; return z?{x:z.b.x,y:z.b.y}:null;
+    };
+
+    const out=[];
+    wanted.forEach((r,key)=>{
+      const lines=candidates.get(key)||[];
+      if(!lines.length) return;
+      // Pilih garis yang paling panjang DALAM TAMPILAN PETA SAAT INI.
+      // Ini menghindari label jatuh ke feature pendek/terpisah dari ruas utama.
+      lines.sort((a,b)=>screenLength(b)-screenLength(a));
+      const pt=midpointScreen(lines[0]);
+      if(!pt || !Number.isFinite(pt.x)||!Number.isFinite(pt.y)) return;
+      out.push({no:String(r.no_ruas||'-'),nama:String(r.nama||''),x:pt.x*sx,y:pt.y*sy});
+    });
+    return out;
+  }
+
+  function drawCoordinateGrid(ctx, mainX, mainY, mainW, mainH, mapBounds){
+    if(!mapBounds || !mapBounds.isValid || !mapBounds.isValid()) return;
+    const south=mapBounds.getSouth(), north=mapBounds.getNorth();
+    const west=mapBounds.getWest(), east=mapBounds.getEast();
+    if(![south,north,west,east].every(Number.isFinite) || south>=north || west>=east) return;
+
+    // Grid tipis mengikuti extent geografis yang benar-benar terlihat pada peta.
+    const xTicks=6, yTicks=6;
+    ctx.save();
+    ctx.strokeStyle='rgba(71,85,105,.34)';
+    ctx.fillStyle='#334155';
+    ctx.lineWidth=1.5;
+    ctx.font='16px Arial';
+
+    for(let i=0;i<xTicks;i++){
+      const t=i/(xTicks-1);
+      const x=mainX+t*mainW;
+      const lon=west+t*(east-west);
+      // tick + gridline
+      ctx.beginPath();ctx.moveTo(x,mainY+mainH);ctx.lineTo(x,mainY+mainH+9);ctx.stroke();
+      ctx.textAlign='center';ctx.textBaseline='top';
+      ctx.fillText(lon.toFixed(2),x,mainY+mainH+13);
+    }
+
+    for(let i=0;i<yTicks;i++){
+      const t=i/(yTicks-1);
+      const y=mainY+mainH-t*mainH;
+      const lat=south+t*(north-south);
+      ctx.beginPath();ctx.moveTo(mainX-9,y);ctx.lineTo(mainX,y);ctx.stroke();
+      ctx.textAlign='right';ctx.textBaseline='middle';
+      ctx.fillText(lat.toFixed(2),mainX-13,y);
+    }
+
+    // Label sumbu koordinat yang ringkas.
+    ctx.fillStyle='#64748b';
+    ctx.font='700 14px Arial';
+    ctx.textAlign='center';ctx.textBaseline='top';
+    ctx.fillText('Longitude (°)',mainX+mainW/2,mainY+mainH+35);
+    ctx.save();
+    ctx.translate(mainX-52,mainY+mainH/2);
+    ctx.rotate(-Math.PI/2);
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('Latitude (°)',0,0);
+    ctx.restore();
+    ctx.restore();
+  }
+
+
   function drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info,mapBounds,roadLabels=[],overviewCanvas=null){
     const M=55, gap=32, sideW=720;
     const mainX=M, mainY=M, mainW=W-M*2-sideW-gap, mainH=H-M*2;
