@@ -1249,6 +1249,17 @@ render();
       }
       if(!kabBounds || !kabBounds.isValid()) return null;
 
+      // Validasi spasial sederhana: kecamatan terpilih harus berada di dalam
+      // extent Kabupaten Bandung. Ini mencegah fitur administrasi yang salah
+      // ikut menjadi penanda inset.
+      if(selectedFeature){
+        const selectedCheck=L.geoJSON(selectedFeature);
+        const selectedBounds=selectedCheck.getBounds();
+        if(!selectedBounds.isValid() || !kabBounds.intersects(selectedBounds)){
+          selectedFeature=null;
+        }
+      }
+
       // ==========================================================
       // INSET DIBUAT SEBAGAI PETA LOKASI, BUKAN CROP BOUNDARY
       // Kabupaten Bandung harus tetap berada pada POSISI GEOGRAFIS ASLINYA
@@ -1257,11 +1268,12 @@ render();
       // seperti dipindahkan ke tengah gambar.
       // ==========================================================
       const kabGeo=ADMIN_GEO?.kabupaten||null;
-      const kabRegionalBounds=L.latLngBounds(
-        [-7.42,107.00],
-        [-6.68,108.18]
-      );
-      map.fitBounds(kabRegionalBounds,{padding:[0,0],animate:false,maxZoom:12});
+      // Gunakan geometri Kabupaten Bandung sebagai sumber kebenaran posisi.
+      // Jangan memakai extent koordinat hard-coded karena dapat membuat
+      // inset terlihat bergeser terhadap posisi geografis sebenarnya.
+      // Beri padding kecil hanya untuk konteks wilayah sekitar.
+      const kabInsetBounds = kabBounds.clone().pad(0.12);
+      map.fitBounds(kabInsetBounds,{padding:[0,0],animate:false,maxZoom:13});
       map.invalidateSize({pan:false,debounceMoveend:false});
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       await new Promise(resolve=>setTimeout(resolve,900));
