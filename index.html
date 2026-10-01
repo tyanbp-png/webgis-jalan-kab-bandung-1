@@ -657,6 +657,11 @@ Object.keys(administrativeLayers).forEach(key=>{
 });
 const k=document.getElementById('k'),c=document.getElementById('c'),q=document.getElementById('q');
 let activeGooglePoint=null;
+// Mode khusus saat ekspor: semua geometri jalan tetap digambar sebagai konteks,
+// tetapi hanya ruas yang termasuk kecamatan target yang dibuat tegas.
+let exportMapMode=false;
+let exportTargetKecamatan='';
+let scopeExportModeKecamatan=false;
 function setGroupVisibility(group,visible){if(visible){if(!map.hasLayer(group))group.addTo(map)}else{if(map.hasLayer(group))map.removeLayer(group)}}
 function syncLayerMenu(){document.getElementById('toggleAdministrasi').checked=administrativeVisible;document.getElementById('toggleJalanJembatan').checked=roadLayerVisible||bridgeLayerVisible}
 document.querySelectorAll('input[name="baseMap"]').forEach(r=>r.addEventListener('change',e=>{const next=baseMaps[e.target.value];if(!next||next===activeBaseMap)return;map.removeLayer(activeBaseMap);activeBaseMap=next.addTo(map)}));
@@ -727,17 +732,29 @@ function render(){
   let set=new Set(rs.map(x=>String(x.no_ruas).trim()));
   layer.remove();
 
-  let feats=(geo && Array.isArray(geo.features))
-    ? geo.features.filter(f=>set.has(String(f.properties?.no_ruas||'').trim()))
-    : [];
+  // Pada mode dashboard normal hanya ruas hasil filter yang digambar.
+  // Pada mode ekspor kecamatan, SEMUA geometri jalan digambar sehingga ruas
+  // di luar kecamatan tetap menjadi konteks transparan dan tidak hilang.
+  const allFeats=(geo && Array.isArray(geo.features)) ? geo.features : [];
+  let feats=exportMapMode
+    ? allFeats
+    : allFeats.filter(f=>set.has(String(f.properties?.no_ruas||'').trim()));
+  const selectedKec=String(exportTargetKecamatan||'').trim().toUpperCase();
+  const rowByNo=new Map(rows.map(r=>[String(r.no_ruas).trim(),r]));
 
   layer=L.geoJSON(
     {type:'FeatureCollection',features:feats},
     {
-      style:{
-        color:'#1769aa',
-        weight:5,
-        opacity:0.9
+      style:(feature)=>{
+        const no=String(feature.properties?.no_ruas||'').trim();
+        const rr=rowByNo.get(no);
+        if(exportMapMode && scopeExportModeKecamatan){
+          const isSelected=rr && String(rr.kecamatan||'').trim().toUpperCase()===selectedKec;
+          return isSelected
+            ? {color:'#1769aa',weight:5,opacity:0.95}
+            : {color:'#64748b',weight:2.2,opacity:0.16};
+        }
+        return {color:'#1769aa',weight:5,opacity:0.9};
       },
       onEachFeature:(f,l)=>{
         let x=rows.find(a=>a.no_ruas===String(f.properties?.no_ruas||'').trim());
@@ -953,6 +970,7 @@ render();
     }
   }
   function num(v){return Number(v||0)}
+  function allRoadFeaturesForExport(){return (geo&&Array.isArray(geo.features))?geo.features:[]}
   function fmtKm(v){return num(v).toLocaleString('id-ID',{minimumFractionDigits:3,maximumFractionDigits:3})+' km'}
   function fmtRp(v){return num(v)?'Rp '+Math.round(num(v)).toLocaleString('id-ID'):'-'}
   function sumRows(rs,key){return rs.reduce((a,r)=>a+num(r[key]),0)}
@@ -994,65 +1012,147 @@ render();
     const oldK=k.value, oldC=c.value, oldQ=q.value;
     const adminSnapshots=[];
     let exportHighlight=null;
-    if(scope==='kecamatan'){ k.value=rs[0].kecamatan||''; c.value=''; }
-    else { k.value=rs[0].kecamatan||''; updateRoadList(); c.value=String(rs[0].no_ruas); }
+
+    // Simpan ukuran peta agar layout dashboard dapat dipulihkan persis setelah ekspor.
+    const mapEl=document.getElementById('map');
+    const oldMapHeight=mapEl ? mapEl.style.height : '';
+    const oldMapWidth=mapEl ? mapEl.style.width : '';
+
+    exportMapMode=(scope==='kecamatan');
+    exportTargetKecamatan=scope==='kecamatan' ? String(rs[0].kecamatan||'').trim() : '';
+    scopeExportModeKecamatan=(scope==='kecamatan');
+
+    if(scope==='kecamatan'){
+      k.value=rs[0].kecamatan||'';
+      c.value='';
+    }else{
+      k.value=rs[0].kecamatan||'';
+      updateRoadList();
+      c.value=String(rs[0].no_ruas);
+    }
     q.value='';
     render();
 
-    // Untuk export kecamatan: tampilkan seluruh Kabupaten Bandung,
-    // kecamatan terpilih dibuat menonjol, kecamatan lain dibuat transparan/redup.
+    // Untuk ekspor kecamatan: tampilkan seluruh administrasi,
+    // kecamatan terpilih normal/jelas, kecamatan lain transparan.
     if(scope==='kecamatan' && administrativeLayers?.kecamatan){
       const selected=String(rs[0].kecamatan||'').trim().toUpperCase();
       administrativeLayers.kecamatan.eachLayer(lyr=>{
         const props=lyr.feature?.properties||{};
         const name=String(props.KECAMATAN||props.NAMOBJ||props.KEC||'').trim().toUpperCase();
-        const normalizeKec=v=>String(v||'').toUpperCase().replace(/^KEC\.?\s*/,'').replace(/\s+/g,' ').trim();
+        const normalizeKec=v=>String(v||'').toUpperCase()
+          .replace(/^KEC\.?\s*/,'').replace(/\s+/g,' ').trim();
+
         adminSnapshots.push({lyr,style:{
           color:lyr.options.color,weight:lyr.options.weight,opacity:lyr.options.opacity,
           fillColor:lyr.options.fillColor,fillOpacity:lyr.options.fillOpacity
         }});
+
         const hit=normalizeKec(name)===normalizeKec(selected);
-        // Kecamatan terpilih tetap memakai gaya normal, sedangkan kecamatan lain
-        // dibuat sangat transparan agar batas kecamatan pilihan terlihat jelas.
         lyr.setStyle(hit?{
-          color:adminStyles.kecamatan.color,weight:2.6,opacity:1,
-          fillColor:adminStyles.kecamatan.fillColor,fillOpacity:0.10
+          color:adminStyles.kecamatan.color,
+          weight:2.8,
+          opacity:1,
+          fillColor:adminStyles.kecamatan.fillColor,
+          fillOpacity:0.08
         }:{
-          color:'#94a3b8',weight:0.8,opacity:0.12,fillColor:'#ffffff',fillOpacity:0.015
+          color:'#94a3b8',
+          weight:0.8,
+          opacity:0.10,
+          fillColor:'#ffffff',
+          fillOpacity:0.012
         });
+
         if(hit){
           lyr.bringToFront();
           exportHighlight=lyr;
         }
       });
-
-      // Fit ke KECAMATAN YANG DIPILIH + seluruh trase ruas di kecamatan tersebut.
-      // Jangan memakai bounds seluruh Kabupaten karena akan membuat ruas terpilih
-      // terlalu kecil dan sebagian jaringan ruas tidak terbaca jelas pada output.
-      try{
-        const focusBounds=L.latLngBounds([]);
-        if(exportHighlight){
-          const b=exportHighlight.getBounds();
-          if(b && b.isValid()) focusBounds.extend(b);
-        }
-        // layer berisi seluruh trase hasil filter kecamatan setelah render().
-        if(layer && typeof layer.getBounds==='function'){
-          const rb=layer.getBounds();
-          if(rb && rb.isValid()) focusBounds.extend(rb);
-        }
-        if(focusBounds.isValid()){
-          map.fitBounds(focusBounds,{padding:[45,45],maxZoom:13,animate:false});
-        }
-      }catch(e){ console.warn('Gagal menyesuaikan extent kecamatan:',e); }
     }
 
-    await new Promise(resolve=>setTimeout(resolve,650));
+    /*
+     * PENTING:
+     * Tampilan dashboard sengaja landscape/lebar, sedangkan layout A3 memiliki
+     * panel peta yang jauh lebih tinggi. Jika langsung mengambil screenshot map
+     * dashboard lalu "crop to fill", ruas di sisi kiri/kanan bisa terpotong.
+     *
+     * Karena itu ukuran #map sementara disamakan dengan rasio area peta A3.
+     * Setelah screenshot selesai, ukuran asli dashboard dikembalikan.
+     */
+    if(mapEl){
+      const rect=mapEl.getBoundingClientRect();
+      const exportRatio=(3508-55*2-720-32)/(2480-55*2); // rasio area peta A3
+      if(rect.width>0){
+        mapEl.style.height=Math.round(rect.width/exportRatio)+'px';
+        map.invalidateSize({pan:false});
+      }
+    }
+
+    // Tunggu layout Leaflet selesai dihitung ulang sebelum fitBounds.
+    await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+
+    // Fit berdasarkan SELURUH wilayah kecamatan terpilih + seluruh trase ruas
+    // yang termasuk hasil filter kecamatan. Tidak menggunakan viewport lama.
+    try{
+      const focusBounds=L.latLngBounds([]);
+
+      if(scope==='kecamatan' && exportHighlight){
+        const b=exportHighlight.getBounds();
+        if(b && b.isValid()) focusBounds.extend(b);
+      }
+
+      // Jangan memakai layer.getBounds() pada mode ekspor kecamatan karena
+      // layer tersebut sengaja berisi seluruh jaringan sebagai konteks.
+      // Extent utama harus berasal dari SELURUH ruas kecamatan target.
+      if(scope==='kecamatan'){
+        const targetNos=new Set(rs.map(r=>String(r.no_ruas).trim()));
+        const selectedFeatures=allRoadFeaturesForExport().filter(f=>targetNos.has(String(f.properties?.no_ruas||'').trim()));
+        const selectedLayer=L.geoJSON({type:'FeatureCollection',features:selectedFeatures});
+        const sb=selectedLayer.getBounds();
+        if(sb && sb.isValid()) focusBounds.extend(sb);
+      }else if(layer && typeof layer.getBounds==='function'){
+        const rb=layer.getBounds();
+        if(rb && rb.isValid()) focusBounds.extend(rb);
+      }
+
+      if(focusBounds.isValid()){
+        map.fitBounds(focusBounds,{
+          padding:[35,35],
+          maxZoom:14,
+          animate:false
+        });
+      }
+    }catch(e){
+      console.warn('Gagal menyesuaikan extent ekspor:',e);
+    }
+
+    // Beri waktu tile/background map dan Leaflet selesai menggambar.
+    await new Promise(resolve=>setTimeout(resolve,1100));
+    map.invalidateSize({pan:false});
+    await new Promise(resolve=>setTimeout(resolve,350));
+
     return ()=>{
       adminSnapshots.forEach(s=>s.lyr.setStyle(s.style));
-      k.value=oldK; updateRoadList(); c.value=oldC; q.value=oldQ; render();
+
+      if(mapEl){
+        mapEl.style.height=oldMapHeight;
+        mapEl.style.width=oldMapWidth;
+        map.invalidateSize({pan:false});
+      }
+
+      k.value=oldK;
+      updateRoadList();
+      c.value=oldC;
+      q.value=oldQ;
+      exportMapMode=false;
+      exportTargetKecamatan='';
+      scopeExportModeKecamatan=false;
+      render();
+
       if(exportHighlight) exportHighlight.bringToFront();
     };
   }
+
   function drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info){
     const M=55, gap=32, sideW=720;
     const mainX=M, mainY=M, mainW=W-M*2-sideW-gap, mainH=H-M*2;
