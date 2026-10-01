@@ -1779,18 +1779,11 @@ render();
         });
         ctx.restore();
 
-        // Garis batas kabupaten dibuat tipis dan tegas.
-        ctx.save();
-        ctx.strokeStyle='rgba(23,74,107,.9)';ctx.lineWidth=3;
-        paths.forEach(pts=>{
-          if(!pts.length) return;
-          ctx.beginPath();
-          pts.forEach((p,i)=>{
-            const px=ox+p[0]*r, py=oy+p[1]*r;
-            if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
-          });
-          ctx.closePath();ctx.stroke();
-        });
+        // Jangan menggambar ulang batas Kabupaten Bandung di atas basemap.
+        // Basemap sudah memiliki posisi geografis Kabupaten Bandung yang asli.
+        // Penggambaran ulang polygon di sini sebelumnya membuat seolah ada
+        // dua lokasi/batas Kabupaten Bandung dan salah satunya tampak bergeser.
+        // Kita hanya mempertahankan efek transparansi di luar kabupaten.
 
         // Lokasi kecamatan terpilih mengikuti POLIGON ASLI kecamatan.
         // Tidak lagi menggunakan bounding-box, sehingga penanda tidak bergeser.
