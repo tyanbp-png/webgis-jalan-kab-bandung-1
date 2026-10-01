@@ -992,12 +992,50 @@ render();
   }
   async function prepareExportView(rs,scope){
     const oldK=k.value, oldC=c.value, oldQ=q.value;
+    const adminSnapshots=[];
+    let exportHighlight=null;
     if(scope==='kecamatan'){ k.value=rs[0].kecamatan||''; c.value=''; }
     else { k.value=rs[0].kecamatan||''; updateRoadList(); c.value=String(rs[0].no_ruas); }
     q.value='';
     render();
-    await new Promise(resolve=>setTimeout(resolve,450));
-    return ()=>{ k.value=oldK; updateRoadList(); c.value=oldC; q.value=oldQ; render(); };
+
+    // Untuk export kecamatan: tampilkan seluruh Kabupaten Bandung,
+    // kecamatan terpilih dibuat menonjol, kecamatan lain dibuat transparan/redup.
+    if(scope==='kecamatan' && administrativeLayers?.kecamatan){
+      const selected=String(rs[0].kecamatan||'').trim().toUpperCase();
+      administrativeLayers.kecamatan.eachLayer(lyr=>{
+        const props=lyr.feature?.properties||{};
+        const name=String(props.KECAMATAN||props.NAMOBJ||props.KEC||'').trim().toUpperCase();
+        adminSnapshots.push({lyr,style:{
+          color:lyr.options.color,weight:lyr.options.weight,opacity:lyr.options.opacity,
+          fillColor:lyr.options.fillColor,fillOpacity:lyr.options.fillOpacity
+        }});
+        const hit=name===selected;
+        lyr.setStyle(hit?{
+          color:'#0b7285',weight:4,opacity:1,fillColor:'#2ec4b6',fillOpacity:.42
+        }:{
+          color:'#94a3b8',weight:1,opacity:.22,fillColor:'#ffffff',fillOpacity:.06
+        });
+        if(hit){
+          lyr.bringToFront();
+          exportHighlight=lyr;
+        }
+      });
+
+      // Fit ke seluruh wilayah kecamatan agar peta benar-benar menampilkan
+      // gambaran wilayah lengkap, bukan hanya kumpulan trase terpilih.
+      try{
+        const allBounds=administrativeLayers.kecamatan.getBounds();
+        if(allBounds.isValid()) map.fitBounds(allBounds,{padding:[25,25],maxZoom:11,animate:false});
+      }catch(e){}
+    }
+
+    await new Promise(resolve=>setTimeout(resolve,650));
+    return ()=>{
+      adminSnapshots.forEach(s=>s.lyr.setStyle(s.style));
+      k.value=oldK; updateRoadList(); c.value=oldC; q.value=oldQ; render();
+      if(exportHighlight) exportHighlight.bringToFront();
+    };
   }
   function drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info){
     const M=55, gap=32, sideW=720;
@@ -1040,9 +1078,15 @@ render();
     ctx.fillStyle='#64748b';ctx.font='14px Arial';ctx.fillText('Peta utama menggunakan tampilan WebGIS aktif.',sideX+35,y+95);
     ctx.fillText('Sumber: Data PKRMS 2026.',sideX+35,y+118);
     // Peta utama
-    const pad=12, maxW=mainW-pad*2, maxH=mainH-pad*2;
-    const ratio=Math.min(maxW/mapCanvas.width,maxH/mapCanvas.height);const dw=mapCanvas.width*ratio,dh=mapCanvas.height*ratio;
-    ctx.drawImage(mapCanvas,mainX+(mainW-dw)/2,mainY+(mainH-dh)/2,dw,dh);
+    const pad=0, maxW=mainW, maxH=mainH;
+    // Isi seluruh frame peta. Jika rasio berbeda, crop tipis di sisi yang berlebih
+    // agar tidak menyisakan bidang putih seperti layout sebelumnya.
+    const ratio=Math.max(maxW/mapCanvas.width,maxH/mapCanvas.height);
+    const dw=mapCanvas.width*ratio,dh=mapCanvas.height*ratio;
+    const dx=mainX+(mainW-dw)/2, dy=mainY+(mainH-dh)/2;
+    ctx.save();ctx.beginPath();ctx.rect(mainX,mainY,mainW,mainH);ctx.clip();
+    ctx.drawImage(mapCanvas,dx,dy,dw,dh);
+    ctx.restore();
     ctx.strokeStyle='#334155';ctx.lineWidth=2;ctx.strokeRect(mainX,mainY,mainW,mainH);
     // Judul kecil di area peta
     ctx.fillStyle='rgba(255,255,255,.92)';ctx.fillRect(mainX+22,mainY+22,Math.min(820,mainW-44),62);
@@ -1072,18 +1116,32 @@ render();
   async function printPdf(){
     const rs=getTargetRows();
     if(!rs.length){showToast('Pilih Kecamatan atau Ruas terlebih dahulu.');return;}
+    // Buka jendela cetak SEGERA saat tombol diklik agar tidak dianggap popup otomatis.
+    const win=window.open('about:blank','_blank','width=1400,height=1000');
+    if(!win){showToast('Popup browser diblokir. Izinkan pop-up untuk mencetak.');return;}
+    win.document.write('<!doctype html><html><head><title>Menyiapkan Peta…</title></head><body style="font-family:Arial,sans-serif;padding:30px;text-align:center"><h3>Menyiapkan layout peta A3…</h3><p>Mohon tunggu.</p></body></html>');
+    win.document.close();
     let restore=null;
     try{
       showToast('Menyiapkan layout A3 untuk cetak/PDF…');
       restore=await prepareExportView(rs,scopeEl.value);
       const mapCanvas=await captureMap();
       const scope=scopeEl.value, info=infoFor(rs,scope), title=scope==='ruas'?`Peta Ruas ${rs[0].no_ruas}`:`Peta Kecamatan ${rs[0].kecamatan}`;
-      const W=3508,H=2480,c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info);
-      const img=c.toDataURL('image/png');const win=window.open('','_blank','width=1400,height=1000');
-      if(!win){showToast('Popup browser diblokir. Izinkan pop-up untuk mencetak.');if(restore)restore();return;}
-      win.document.write(`<!doctype html><html><head><title>${escHtml(title)}</title><style>@page{size:A3 landscape;margin:0}html,body{margin:0;padding:0;background:#fff}body{display:flex;justify-content:center;align-items:flex-start}.page{width:420mm;height:297mm}.page img{width:100%;height:100%;object-fit:contain;display:block}</style></head><body><div class="page"><img src="${img}" alt="Peta A3"></div><script>window.onload=()=>setTimeout(()=>window.print(),700)<\/script></body></html>`);win.document.close();
+      const W=3508,H=2480,c=document.createElement('canvas');c.width=W;c.height=H;const ctx=c.getContext('2d');
+      drawExportFrame(ctx,W,H,scope,rs,mapCanvas,info);
+      const img=c.toDataURL('image/png');
+      const safeTitle=escHtml(title);
+      win.document.open();
+      win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${safeTitle}</title><style>@page{size:A3 landscape;margin:0}html,body{margin:0;padding:0;background:#fff}body{display:flex;justify-content:center;align-items:flex-start}.page{width:420mm;height:297mm}.page img{width:100%;height:100%;object-fit:contain;display:block}</style></head><body><div class="page"><img src="${img}" alt="Peta A3"></div><script>window.addEventListener('load',()=>{setTimeout(()=>{window.focus();window.print()},500)})<\/script></body></html>`);
+      win.document.close();
+      showToast('Layout siap. Dialog cetak/PDF dibuka.');
       if(restore) restore();
-    }catch(err){if(restore) restore();console.error(err);showToast('Cetak gagal. Coba lagi setelah peta selesai dimuat.');}
+    }catch(err){
+      if(restore) restore();
+      console.error(err);
+      try{win.document.open();win.document.write('<p style="font-family:Arial;padding:30px">Gagal menyiapkan peta. Silakan tutup jendela ini dan coba lagi setelah peta selesai dimuat.</p>');win.document.close();}catch(e){}
+      showToast('Cetak gagal. Coba lagi setelah peta selesai dimuat.');
+    }
   }
   scopeEl.addEventListener('change',fillTargets);pngBtn.addEventListener('click',exportPng);printBtn.addEventListener('click',printPdf);fillTargets();
 })();
