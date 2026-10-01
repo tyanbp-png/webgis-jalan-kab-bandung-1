@@ -1249,41 +1249,23 @@ render();
       }
       if(!kabBounds || !kabBounds.isValid()) return null;
 
-      // Posisikan locator benar-benar mengikuti seluruh bounds Kabupaten Bandung.
-      // Jangan menggeser lagi ke centroid setelah fitBounds karena bentuk kabupaten
-      // tidak simetris dan pergeseran tersebut dapat membuat sisi utara/selatan terpotong.
+      // ==========================================================
+      // INSET DIBUAT SEBAGAI PETA LOKASI, BUKAN CROP BOUNDARY
+      // Kabupaten Bandung harus tetap berada pada POSISI GEOGRAFIS ASLINYA
+      // terhadap Bandung dan wilayah sekitarnya. Jadi jangan fit/crop hanya
+      // ke bounding-box Kabupaten Bandung karena itu membuat kabupaten terlihat
+      // seperti dipindahkan ke tengah gambar.
+      // ==========================================================
       const kabGeo=ADMIN_GEO?.kabupaten||null;
-      // Zoom maksimum yang masih memastikan seluruh Kabupaten Bandung masuk.
-      // Padding diperkecil agar peta memenuhi kotak lebih optimal.
-      map.fitBounds(kabBounds,{padding:[3,3],animate:false,maxZoom:14});
+      const kabRegionalBounds=L.latLngBounds(
+        [-7.42,107.00],
+        [-6.68,108.18]
+      );
+      map.fitBounds(kabRegionalBounds,{padding:[0,0],animate:false,maxZoom:12});
       map.invalidateSize({pan:false,debounceMoveend:false});
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       await new Promise(resolve=>setTimeout(resolve,900));
       map.invalidateSize({pan:false,debounceMoveend:false});
-
-      // Coba tambah 1 level zoom. Hanya dipakai jika seluruh batas kabupaten
-      // masih berada di dalam viewport, sehingga tidak ada bagian yang terpotong.
-      const fitZoom=map.getZoom();
-      if(Number.isFinite(fitZoom)){
-        const candidate=fitZoom+1;
-        map.setZoom(candidate,{animate:false});
-        await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-
-        const view=map.getBounds();
-        const sw=kabBounds.getSouthWest();
-        const ne=kabBounds.getNorthEast();
-        const nw=kabBounds.getNorthWest();
-        const se=kabBounds.getSouthEast();
-        const inside =
-          view.contains(sw) && view.contains(ne) &&
-          view.contains(nw) && view.contains(se);
-
-        if(!inside){
-          map.setZoom(fitZoom,{animate:false});
-        }
-        map.invalidateSize({pan:false,debounceMoveend:false});
-        await new Promise(resolve=>setTimeout(resolve,350));
-      }
 
       // Simpan jejak polygon Kabupaten Bandung dalam koordinat pixel canvas.
       // Ini dipakai saat layout A3 untuk membuat area luar kabupaten lebih transparan.
@@ -1304,22 +1286,22 @@ render();
         });
       });
 
-      // Area pixel kecamatan terpilih untuk dibuat sebagai inset kecil di panel kanan.
-      let focusBounds=null;
-      if(selectedLayerForInset){
-        const fb=selectedLayerForInset.getBounds();
-        if(fb && fb.isValid()){
-          const nw=map.latLngToContainerPoint(fb.getNorthWest());
-          const se=map.latLngToContainerPoint(fb.getSouthEast());
-          const sx=2, sy=2;
-          focusBounds={
-            x:Math.max(0,Math.min(nw.x,se.x)*sx),
-            y:Math.max(0,Math.min(nw.y,se.y)*sy),
-            w:Math.abs(se.x-nw.x)*sx,
-            h:Math.abs(se.y-nw.y)*sy
-          };
-        }
-      }
+      // Lokasi kecamatan terpilih dibuat dari GEOMETRI ASLI kecamatan,
+      // bukan bounding-box. Bounding-box sebelumnya dapat membuat kotak
+      // terlihat bergeser sehingga tidak tepat mengikuti posisi kecamatan.
+      let focusPaths=[];
+      const focusGeo=selectedFeature?.geometry||null;
+      const focusPolys=focusGeo?.type==='Polygon' ? [focusGeo.coordinates] :
+                       focusGeo?.type==='MultiPolygon' ? (focusGeo.coordinates||[]) : [];
+      focusPolys.forEach(poly=>{
+        (poly||[]).forEach(ring=>{
+          const pts=(ring||[]).map(c=>{
+            const q=map.latLngToContainerPoint([c[1],c[0]]);
+            return [q.x*2,q.y*2];
+          });
+          if(pts.length>=3) focusPaths.push(pts);
+        });
+      });
 
       const canvas=await html2canvas(mapEl,{
         useCORS:true,allowTaint:false,backgroundColor:'#ffffff',scale:2,
@@ -1328,86 +1310,32 @@ render();
 
       // ==========================================================
       // FINAL INSET KABUPATEN BANDUNG
-      // Peta di-crop berdasarkan bounds Kabupaten Bandung, bukan
-      // berdasarkan seluruh viewport. Dengan demikian peta dapat
-      // diperbesar maksimal, tetap center, tidak terpotong, dan
-      // penanda kecamatan terpilih tetap ikut terlihat.
+      // Gunakan SELURUH VIEWPORT REGIONAL. Tidak ada crop berdasarkan
+      // bounding-box Kabupaten Bandung, sehingga posisi geografis kabupaten
+      // terhadap wilayah sekitarnya tetap benar.
       // ==========================================================
-      const TARGET_ASPECT = (720-36) / 360; // aspect kotak inset: 684 x 360
       const sourceW = canvas.width;
       const sourceH = canvas.height;
-      const scaleCanvas = 2;
-
-      const kabNW = map.latLngToContainerPoint(kabBounds.getNorthWest());
-      const kabSE = map.latLngToContainerPoint(kabBounds.getSouthEast());
-
-      let cropX = Math.min(kabNW.x,kabSE.x) * scaleCanvas;
-      let cropY = Math.min(kabNW.y,kabSE.y) * scaleCanvas;
-      let cropW = Math.abs(kabSE.x-kabNW.x) * scaleCanvas;
-      let cropH = Math.abs(kabSE.y-kabNW.y) * scaleCanvas;
-
-      // Ruang tipis agar garis batas tidak menempel ke tepi kotak.
-      const pad = Math.max(cropW,cropH) * 0.035;
-      cropX -= pad; cropY -= pad;
-      cropW += pad*2; cropH += pad*2;
-
-      // Samakan rasio crop dengan rasio kotak inset. Dimensi yang
-      // kurang diperluas secara simetris sehingga tidak ada pemotongan.
-      if(cropW/cropH < TARGET_ASPECT){
-        const wantedW = cropH * TARGET_ASPECT;
-        cropX -= (wantedW-cropW)/2;
-        cropW = wantedW;
-      }else if(cropW/cropH > TARGET_ASPECT){
-        const wantedH = cropW / TARGET_ASPECT;
-        cropY -= (wantedH-cropH)/2;
-        cropH = wantedH;
-      }
-
-      // Geser kembali ke dalam screenshot bila crop melewati tepi.
-      if(cropX < 0) cropX=0;
-      if(cropY < 0) cropY=0;
-      if(cropX+cropW > sourceW) cropX=Math.max(0,sourceW-cropW);
-      if(cropY+cropH > sourceH) cropY=Math.max(0,sourceH-cropH);
-
-      // Pengaman bila ukuran viewport lebih kecil dari crop yang diminta.
-      if(cropW > sourceW){
-        cropW=sourceW; cropH=cropW/TARGET_ASPECT;
-        cropY=Math.max(0,Math.min(cropY,sourceH-cropH));
-      }
-      if(cropH > sourceH){
-        cropH=sourceH; cropW=cropH*TARGET_ASPECT;
-        cropX=Math.max(0,Math.min(cropX,sourceW-cropW));
-      }
+      const cropX = 0, cropY = 0, cropW = sourceW, cropH = sourceH;
 
       const cropCanvas=document.createElement('canvas');
-      cropCanvas.width=Math.max(1,Math.round(cropW));
-      cropCanvas.height=Math.max(1,Math.round(cropH));
+      cropCanvas.width=sourceW;
+      cropCanvas.height=sourceH;
       const cropCtx=cropCanvas.getContext('2d');
       cropCtx.fillStyle='#fff';
-      cropCtx.fillRect(0,0,cropCanvas.width,cropCanvas.height);
-      cropCtx.drawImage(canvas,
-        Math.round(cropX),Math.round(cropY),Math.round(cropW),Math.round(cropH),
-        0,0,cropCanvas.width,cropCanvas.height
-      );
+      cropCtx.fillRect(0,0,sourceW,sourceH);
+      cropCtx.drawImage(canvas,0,0);
 
-      // Mask dan kotak lokasi kecamatan dipindahkan ke koordinat crop.
-      const cropMaskPaths=maskPaths.map(pts=>pts.map(p=>[p[0]-cropX,p[1]-cropY]));
-      let cropFocusBounds=null;
-      if(focusBounds){
-        cropFocusBounds={
-          x:focusBounds.x-cropX,
-          y:focusBounds.y-cropY,
-          w:focusBounds.w,
-          h:focusBounds.h
-        };
-      }
+      // Koordinat polygon sudah berada pada viewport penuh.
+      const cropMaskPaths=maskPaths;
+      const cropFocusPaths=focusPaths;
 
       return {
         canvas,
         cropCanvas,
         bounds:map.getBounds(),
         maskPaths:cropMaskPaths,
-        focusBounds:cropFocusBounds,
+        focusPaths:cropFocusPaths,
         cropRect:{x:cropX,y:cropY,w:cropW,h:cropH}
       };
     }catch(err){
@@ -1836,7 +1764,7 @@ render();
       const paths=overviewCanvas.maskPaths||[];
       if(paths.length){
         ctx.save();
-        ctx.fillStyle='rgba(255,255,255,.72)';
+        ctx.fillStyle='rgba(255,255,255,.38)';
         ctx.fillRect(overviewX,overviewY,overviewW,overviewH);
         ctx.globalCompositeOperation='destination-out';
         paths.forEach(pts=>{
@@ -1864,23 +1792,26 @@ render();
           ctx.closePath();ctx.stroke();
         });
 
-        // Highlight + inset kecamatan terpilih.
-        // Inset selalu dibuat jika polygon kecamatan ditemukan, tidak bergantung
-        // pada hasil maskPaths, sehingga lokasi kecamatan tetap terlihat.
-        const fb=overviewCanvas.focusBounds;
-        if(fb && fb.w>2 && fb.h>2){
-          const fx=ox+fb.x*r, fy=oy+fb.y*r, fw=fb.w*r, fh=fb.h*r;
+        // Lokasi kecamatan terpilih mengikuti POLIGON ASLI kecamatan.
+        // Tidak lagi menggunakan bounding-box, sehingga penanda tidak bergeser.
+        const fps=overviewCanvas.focusPaths||[];
+        if(fps.length){
           ctx.save();
-          ctx.fillStyle='rgba(45,212,191,.22)';
+          ctx.fillStyle='rgba(45,212,191,.30)';
           ctx.strokeStyle='#0f766e';
           ctx.lineWidth=5;
-          ctx.setLineDash([10,7]);
-          ctx.fillRect(fx,fy,fw,fh);
-          ctx.strokeRect(fx,fy,fw,fh);
-          ctx.setLineDash([]);
+          fps.forEach(pts=>{
+            if(!pts.length) return;
+            ctx.beginPath();
+            pts.forEach((p,i)=>{
+              const px=ox+p[0]*r, py=oy+p[1]*r;
+              if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+            });
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+          });
           ctx.restore();
-
-          // Kotak inset lokasi kecamatan sengaja dihilangkan.
         }
         ctx.restore();
       }
