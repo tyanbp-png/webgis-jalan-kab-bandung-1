@@ -1150,63 +1150,72 @@ render();
       kecamatan:map.hasLayer(administrativeLayers.kecamatan),
       desa:map.hasLayer(administrativeLayers.desa)
     };
-    const kecSnapshots=[];
-    let overviewFocus=null;
+    const snapshots=[];
+    const tempLayers=[];
 
     try{
       const selected=String(rs?.[0]?.kecamatan||'').trim().toUpperCase();
       const normalizeKec=v=>String(v||'').toUpperCase()
         .replace(/^KEC\.?\s*/,'').replace(/\s+/g,' ').trim();
 
-      // Pastikan layer administrasi yang dibutuhkan benar-benar tampil di locator,
-      // meskipun pada WebGIS utama user sebelumnya mematikannya.
+      // ==========================================================
+      // LOCATOR: HANYA PETA KABUPATEN BANDUNG
+      // - Tidak menampilkan layer desa.
+      // - Tidak menampilkan seluruh kecamatan.
+      // - Tidak menampilkan jaringan/trase jalan.
+      // - Hanya batas Kabupaten Bandung + lokasi kecamatan terpilih.
+      // ==========================================================
+
+      // Pastikan batas Kabupaten tersedia.
       if(!map.hasLayer(administrativeLayers.kabupaten)) administrativeLayers.kabupaten.addTo(map);
-      if(!map.hasLayer(administrativeLayers.kecamatan)) administrativeLayers.kecamatan.addTo(map);
-      if(!map.hasLayer(administrativeLayers.desa)) administrativeLayers.desa.addTo(map);
 
-      // Kabupaten: outline tegas sebagai batas Kabupaten Bandung.
+      // Simpan style Kabupaten lalu tampilkan tegas.
       administrativeLayers.kabupaten.eachLayer(lyr=>{
-        kecSnapshots.push({lyr,style:{
+        snapshots.push({lyr,style:{
           color:lyr.options.color,weight:lyr.options.weight,opacity:lyr.options.opacity,
           fillColor:lyr.options.fillColor,fillOpacity:lyr.options.fillOpacity
         }});
-        lyr.setStyle({color:'#0b5d7a',weight:3,opacity:1,fillColor:'#dbeafe',fillOpacity:0.10});
-        lyr.bringToBack();
-      });
-
-      // Kecamatan: semua kecamatan terlihat, kecamatan terpilih disorot.
-      administrativeLayers.kecamatan.eachLayer(lyr=>{
-        const props=lyr.feature?.properties||{};
-        const name=String(props.KECAMATAN||props.NAMOBJ||props.KEC||'').trim().toUpperCase();
-        kecSnapshots.push({lyr,style:{
-          color:lyr.options.color,weight:lyr.options.weight,opacity:lyr.options.opacity,
-          fillColor:lyr.options.fillColor,fillOpacity:lyr.options.fillOpacity
-        }});
-        const hit=normalizeKec(name)===normalizeKec(selected);
-        lyr.setStyle(hit?{
-          color:'#0f766e',weight:4,opacity:1,
-          fillColor:'#2dd4bf',fillOpacity:0.58
-        }:{
-          color:'#64748b',weight:1.25,opacity:0.72,
-          fillColor:'#cbd5e1',fillOpacity:0.035
+        lyr.setStyle({
+          color:'#174a6b',weight:3,opacity:1,
+          fillColor:'#dbeafe',fillOpacity:0.16
         });
-        if(hit){ lyr.bringToFront(); overviewFocus=lyr; }
-      });
-
-      // Desa tidak diperlukan pada peta locator karena terlalu padat.
-      administrativeLayers.desa.eachLayer(lyr=>{
-        kecSnapshots.push({lyr,style:{
-          color:lyr.options.color,weight:lyr.options.weight,opacity:lyr.options.opacity,
-          fillColor:lyr.options.fillColor,fillOpacity:lyr.options.fillOpacity
-        }});
-        lyr.setStyle({color:'#94a3b8',weight:.5,opacity:.18,fillOpacity:0});
         lyr.bringToBack();
       });
 
-      // Hilangkan trase jalan dari locator agar fokus pada lokasi kecamatan.
+      // Sembunyikan seluruh layer kecamatan/desa untuk locator.
+      // Kita hanya buat satu layer sementara untuk kecamatan yang dipilih.
+      if(map.hasLayer(administrativeLayers.kecamatan)) map.removeLayer(administrativeLayers.kecamatan);
+      if(map.hasLayer(administrativeLayers.desa)) map.removeLayer(administrativeLayers.desa);
       if(roadVisible) map.removeLayer(roadOverlayGroup);
 
-      // Ambil bounds dari layer yang aktif. Bila kosong, bangun sementara langsung dari ADMIN_GEO.
+      // Cari polygon kecamatan terpilih dari ADMIN_GEO.
+      let selectedFeature=null;
+      const kecFeatures=ADMIN_GEO?.kecamatan?.features||[];
+      for(const f of kecFeatures){
+        const props=f?.properties||{};
+        const name=String(props.KECAMATAN||props.NAMOBJ||props.KEC||'').trim().toUpperCase();
+        if(normalizeKec(name)===normalizeKec(selected)){
+          selectedFeature=f;
+          break;
+        }
+      }
+
+      if(selectedFeature){
+        const selectedLayer=L.geoJSON(selectedFeature,{
+          style:{
+            color:'#0f766e',
+            weight:3,
+            opacity:1,
+            fillColor:'#2dd4bf',
+            fillOpacity:0.48
+          },
+          interactive:false
+        }).addTo(map);
+        tempLayers.push(selectedLayer);
+        selectedLayer.bringToFront();
+      }
+
+      // Ambil bounds Kabupaten Bandung saja.
       let kabBounds=administrativeLayers?.kabupaten?.getBounds?.();
       if(!kabBounds || !kabBounds.isValid()){
         const tmpKab=L.geoJSON(ADMIN_GEO?.kabupaten||null);
@@ -1214,7 +1223,8 @@ render();
       }
       if(!kabBounds || !kabBounds.isValid()) return null;
 
-      map.fitBounds(kabBounds,{padding:[18,18],animate:false,maxZoom:10});
+      // Zoom ketat ke Kabupaten Bandung, bukan ke kecamatan/trase.
+      map.fitBounds(kabBounds,{padding:[8,8],animate:false,maxZoom:10});
       map.invalidateSize({pan:false,debounceMoveend:false});
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       await new Promise(resolve=>setTimeout(resolve,900));
@@ -1225,20 +1235,29 @@ render();
         logging:false,imageTimeout:20000
       });
     }catch(err){
-      console.warn('Locator map gagal dibuat:',err);
+      console.warn('Peta Kabupaten Bandung locator gagal dibuat:',err);
       return null;
     }finally{
-      // Pulihkan style administrasi persis seperti sebelum preview.
+      tempLayers.forEach(lyr=>{
+        try{ if(map.hasLayer(lyr)) map.removeLayer(lyr); }catch(e){}
+      });
+
+      // Pulihkan style/layer persis seperti sebelum preview.
       const restored=new Set();
-      kecSnapshots.forEach(s=>{
+      snapshots.forEach(s=>{
         if(restored.has(s.lyr)) return;
         restored.add(s.lyr);
         try{s.lyr.setStyle(s.style)}catch(e){}
       });
+
       if(roadVisible && !map.hasLayer(roadOverlayGroup)) roadOverlayGroup.addTo(map);
+      if(adminVisibleState.kabupaten && !map.hasLayer(administrativeLayers.kabupaten)) administrativeLayers.kabupaten.addTo(map);
       if(!adminVisibleState.kabupaten && map.hasLayer(administrativeLayers.kabupaten)) map.removeLayer(administrativeLayers.kabupaten);
+      if(adminVisibleState.kecamatan && !map.hasLayer(administrativeLayers.kecamatan)) administrativeLayers.kecamatan.addTo(map);
       if(!adminVisibleState.kecamatan && map.hasLayer(administrativeLayers.kecamatan)) map.removeLayer(administrativeLayers.kecamatan);
+      if(adminVisibleState.desa && !map.hasLayer(administrativeLayers.desa)) administrativeLayers.desa.addTo(map);
       if(!adminVisibleState.desa && map.hasLayer(administrativeLayers.desa)) map.removeLayer(administrativeLayers.desa);
+
       map.setView(oldCenter,oldZoom,{animate:false});
       map.invalidateSize({pan:false,debounceMoveend:false});
       await new Promise(resolve=>setTimeout(resolve,180));
