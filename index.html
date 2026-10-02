@@ -884,6 +884,129 @@ body{
  .nav-item>span:last-child{font-size:15px!important}
 }
 </style>
+
+<style id="sidebar-layout-final-v2">
+/* === SIDEBAR LAYOUT FINAL V2: RAPi, PROPORSIONAL, CHEVRON TIDAK KELUAR === */
+.side-nav{box-sizing:border-box!important;}
+
+/* Semua tombol section mempunyai ukuran dan posisi yang sama */
+.nav-caption.nav-section-toggle{
+  box-sizing:border-box!important;
+  width:calc(100% - 16px)!important;
+  min-width:0!important;
+  height:58px!important;
+  min-height:58px!important;
+  margin:0 8px!important;
+  padding:0 12px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  overflow:hidden!important;
+}
+
+/* Jarak vertikal antar section dibuat konsisten */
+.nav-caption.nav-section-toggle.layer-caption,
+.nav-caption.nav-section-toggle.export-caption{
+  margin-top:14px!important;
+}
+
+/* Ikon section tidak ikut melebar/menyempit */
+.nav-caption.nav-section-toggle .section-icon{
+  width:38px!important;
+  height:38px!important;
+  min-width:38px!important;
+  min-height:38px!important;
+  flex:0 0 38px!important;
+  border-radius:12px!important;
+}
+
+/* Teks mengambil ruang tengah */
+.nav-caption.nav-section-toggle .section-label{
+  flex:1 1 auto!important;
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  line-height:1!important;
+}
+
+/* Panah selalu berada DI DALAM tombol */
+.nav-caption.nav-section-toggle .section-chevron{
+  width:24px!important;
+  height:24px!important;
+  min-width:24px!important;
+  min-height:24px!important;
+  flex:0 0 24px!important;
+  margin:0!important;
+  padding:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+  font-size:17px!important;
+  line-height:1!important;
+  text-align:center!important;
+  overflow:hidden!important;
+}
+
+/* Panel isi selalu sejajar dengan tombol section */
+.nav-collapsible{
+  box-sizing:border-box!important;
+  width:calc(100% - 16px)!important;
+  margin-left:8px!important;
+  margin-right:8px!important;
+}
+
+/* Saat tertutup benar-benar tidak mengambil ruang */
+.nav-collapsible:not(.is-open){
+  max-height:0!important;
+  opacity:0!important;
+  margin-top:0!important;
+  margin-bottom:0!important;
+  padding-top:0!important;
+  padding-bottom:0!important;
+  border-width:0!important;
+  overflow:hidden!important;
+}
+
+/* Saat terbuka tetap rapih dan tidak terlalu jauh dari tombol */
+.nav-collapsible.is-open{
+  margin-top:8px!important;
+  margin-bottom:8px!important;
+}
+
+.nav-menu.nav-collapsible.is-open{
+  padding:4px 4px 8px!important;
+}
+
+.map-layer-panel.nav-collapsible.is-open,
+.sidebar-export-tools.nav-collapsible.is-open{
+  padding:14px!important;
+  border-radius:16px!important;
+}
+
+/* Footer tidak terdorong terlalu jauh */
+.side-footer{margin-top:18px!important;}
+
+@media(max-width:700px){
+  .nav-caption.nav-section-toggle{
+    height:54px!important;
+    min-height:54px!important;
+    margin-left:6px!important;
+    margin-right:6px!important;
+    width:calc(100% - 12px)!important;
+    padding:0 11px!important;
+  }
+  .nav-caption.nav-section-toggle.layer-caption,
+  .nav-caption.nav-section-toggle.export-caption{margin-top:12px!important;}
+  .nav-caption.nav-section-toggle .section-icon{
+    width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important;flex-basis:36px!important;
+  }
+  .nav-caption.nav-section-toggle .section-label{font-size:13px!important;letter-spacing:.13em!important;}
+  .nav-caption.nav-section-toggle .section-chevron{width:22px!important;min-width:22px!important;flex-basis:22px!important;font-size:16px!important;}
+  .nav-collapsible{width:calc(100% - 12px)!important;margin-left:6px!important;margin-right:6px!important;}
+}
+</style>
 </head>
 <body>
 <aside class="side-nav" id="sideNav">
