@@ -1070,32 +1070,117 @@ body{
   .brand-modern .brand-title-modern{font-size:17px!important;}
 }
 </style>
+
+<style id="sidebar-visual-final">
+/* === SIDEBAR VISUAL FINAL — mengikuti komposisi referensi === */
+body{padding-left:300px!important}
+.side-nav{
+  width:300px!important;
+  padding:22px 16px 18px!important;
+  background:
+    radial-gradient(circle at 12% 5%,rgba(79,221,202,.24),transparent 27%),
+    radial-gradient(circle at 92% 25%,rgba(67,126,255,.22),transparent 34%),
+    linear-gradient(180deg,#0d3b4d 0%,#10354a 45%,#102c40 100%)!important;
+  border-right:1px solid rgba(121,226,221,.22)!important;
+  box-shadow:10px 0 34px rgba(5,24,38,.18)!important;
+}
+.brand-modern{
+  display:flex!important;align-items:center!important;gap:14px!important;
+  width:100%!important;box-sizing:border-box!important;
+  margin:0 0 30px!important;padding:2px 4px 0!important;
+}
+.brand-modern .brand-logo{
+  flex:0 0 88px!important;width:88px!important;height:88px!important;
+  border-radius:24px!important;overflow:hidden!important;
+  box-shadow:0 14px 30px rgba(31,167,196,.28),inset 0 1px 0 rgba(255,255,255,.48)!important;
+}
+.brand-modern .brand-title-modern{
+  flex:1 1 auto!important;min-width:0!important;
+  display:flex!important;flex-direction:column!important;
+  justify-content:center!important;gap:0!important;
+  font-size:19px!important;line-height:1.04!important;font-weight:900!important;
+  letter-spacing:-.035em!important;color:#fff!important;
+  white-space:normal!important;text-shadow:0 2px 8px rgba(0,0,0,.16)!important;
+}
+.brand-modern .brand-title-modern span{display:block!important;white-space:nowrap!important}
+.brand-modern .brand-title-modern span:nth-child(3){color:#48e2df!important}
+.nav-caption.nav-section-toggle{
+  width:100%!important;height:64px!important;min-height:64px!important;
+  margin:0!important;padding:0 14px!important;box-sizing:border-box!important;
+  border-radius:21px!important;display:flex!important;align-items:center!important;
+  gap:14px!important;overflow:hidden!important;
+  background:linear-gradient(135deg,rgba(57,165,190,.38),rgba(65,117,205,.55))!important;
+  border:1px solid rgba(151,229,229,.22)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 9px 22px rgba(2,18,31,.10)!important;
+  color:#fff!important;cursor:pointer!important;
+}
+.nav-caption.nav-section-toggle:hover{filter:brightness(1.05)!important;transform:translateY(-1px)!important}
+.nav-caption.nav-section-toggle.layer-caption,.nav-caption.nav-section-toggle.export-caption{margin-top:16px!important}
+.nav-caption.nav-section-toggle .section-icon{
+  width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;
+  flex:0 0 42px!important;border-radius:14px!important;
+  display:grid!important;place-items:center!important;color:#fff!important;
+}
+.nav-caption.nav-section-toggle .section-label{
+  flex:1 1 auto!important;min-width:0!important;overflow:visible!important;
+  text-overflow:clip!important;white-space:nowrap!important;
+  font-size:15px!important;line-height:1!important;letter-spacing:.13em!important;
+  font-weight:900!important;color:#eef9fc!important;
+}
+.nav-caption.nav-section-toggle .section-chevron{
+  width:22px!important;height:22px!important;min-width:22px!important;flex:0 0 22px!important;
+  margin:0!important;display:flex!important;align-items:center!important;justify-content:center!important;
+  font-size:17px!important;color:#c6dce7!important;line-height:1!important;
+}
+.nav-caption.nav-section-toggle[aria-expanded="true"]{box-shadow:inset 4px 0 0 #65e0d1,inset 0 1px 0 rgba(255,255,255,.14),0 10px 24px rgba(2,18,31,.14)!important}
+.nav-menu.nav-collapsible{width:100%!important;margin:8px 0 0!important;padding:6px 6px 10px!important}
+.nav-item{min-height:52px!important;height:52px!important;border-radius:16px!important;padding:0 10px!important;gap:12px!important}
+.nav-item>span:last-child{font-size:15px!important;font-weight:750!important;white-space:nowrap!important}
+.nav-icon{width:38px!important;height:38px!important;min-width:38px!important;flex:0 0 38px!important;border-radius:12px!important}
+.map-layer-panel.nav-collapsible.is-open,.sidebar-export-tools.nav-collapsible.is-open{
+  width:100%!important;margin:8px 0!important;padding:15px!important;border-radius:18px!important;
+  background:rgba(255,255,255,.055)!important;border:1px solid rgba(140,218,223,.16)!important;
+}
+.side-footer{margin-top:auto!important;padding:18px 10px 2px!important;border-top:1px solid rgba(190,220,230,.14)!important}
+.side-status{font-size:13px!important;font-weight:800!important;color:#eef9fc!important}
+.side-status span{width:9px!important;height:9px!important;margin-right:8px!important;background:#55e1c8!important;box-shadow:0 0 0 5px rgba(85,225,200,.10),0 0 16px rgba(85,225,200,.35)!important}
+.side-footer small{font-size:11px!important;color:#86a9b9!important;line-height:1.6!important}
+@media(max-width:900px){
+  body{padding-left:0!important}
+  .side-nav{width:320px!important;padding:22px 16px 18px!important}
+  .brand-modern{gap:13px!important;margin-bottom:28px!important}
+  .brand-modern .brand-logo{flex-basis:86px!important;width:86px!important;height:86px!important}
+  .brand-modern .brand-title-modern{font-size:18px!important}
+}
+@media(max-width:360px){
+  .side-nav{width:100%!important;max-width:320px!important}
+  .brand-modern .brand-logo{flex-basis:78px!important;width:78px!important;height:78px!important;border-radius:21px!important}
+  .brand-modern .brand-title-modern{font-size:17px!important}
+  .nav-caption.nav-section-toggle .section-label{font-size:14px!important;letter-spacing:.11em!important}
+}
+</style>
+
 </head>
 <body>
 <aside class="side-nav" id="sideNav">
   <div class="brand brand-modern">
     <div class="brand-mark brand-logo" aria-label="AS">
       <svg viewBox="0 0 100 100" aria-hidden="true">
-        <defs>
-          <linearGradient id="asLogoBg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#39d8c5"/>
-            <stop offset="55%" stop-color="#22aee4"/>
-            <stop offset="100%" stop-color="#315dcc"/>
-          </linearGradient>
-          <linearGradient id="asRoad" x1="0" y1="1" x2="1" y2="0">
-            <stop offset="0%" stop-color="#f7ffff"/>
-            <stop offset="100%" stop-color="#bfe8ff"/>
-          </linearGradient>
-        </defs>
-        <rect x="1.5" y="1.5" width="97" height="97" rx="25" fill="url(#asLogoBg)"/>
-        <path d="M0 70 Q25 50 48 61 T100 48 V100 H0Z" fill="rgba(9,52,84,.20)"/>
-        <path d="M5 72 Q28 56 50 64 T96 53" fill="none" stroke="#dffbff" stroke-width="3.2" opacity=".9"/>
-        <path d="M5 83 Q35 69 57 73 T98 62" fill="none" stroke="url(#asRoad)" stroke-width="9" stroke-linecap="round"/>
-        <path d="M8 83 Q35 70 57 74 T96 63" fill="none" stroke="#3772d6" stroke-width="1.5" stroke-dasharray="6 7"/>
-        <path d="M57 64 L61 46 L66 41 L71 46 L75 64" fill="none" stroke="#e9fbff" stroke-width="2.4" opacity=".9"/>
-        <path d="M61 46 Q66 37 71 46" fill="none" stroke="#e9fbff" stroke-width="2.4" opacity=".9"/>
-        <text x="50" y="40" text-anchor="middle" fill="#fff" font-size="24" font-family="Arial,Helvetica,sans-serif" font-weight="900" letter-spacing="-1">AS</text>
-      </svg>
+<defs>
+ <linearGradient id="asFinalBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#67e0ce"/><stop offset=".52" stop-color="#36a9d0"/><stop offset="1" stop-color="#3d66cf"/></linearGradient>
+ <linearGradient id="asFinalRoad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#bfeeff"/></linearGradient>
+ <linearGradient id="asFinalHill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0e718b"/><stop offset="1" stop-color="#16518a"/></linearGradient>
+</defs>
+<rect width="100" height="100" rx="24" fill="url(#asFinalBg)"/>
+<path d="M0 68 Q18 54 34 61 Q51 68 66 54 Q82 41 100 46 V100 H0Z" fill="url(#asFinalHill)" opacity=".75"/>
+<path d="M0 73 Q18 60 35 65 Q53 70 67 57 Q84 44 100 49" fill="none" stroke="#dffcff" stroke-width="2.8" opacity=".95"/>
+<path d="M4 80 Q27 67 46 72 Q64 77 98 58" fill="none" stroke="url(#asFinalRoad)" stroke-width="10" stroke-linecap="round"/>
+<path d="M4 80 Q27 67 46 72 Q64 77 98 58" fill="none" stroke="#3879d9" stroke-width="1.5" stroke-dasharray="6 6"/>
+<path d="M56 69 L60 48 Q64 42 68 48 L72 66" fill="none" stroke="#eaffff" stroke-width="2.2"/>
+<path d="M60 48 Q64 39 68 48" fill="none" stroke="#eaffff" stroke-width="2.2"/>
+<path d="M52 67 Q64 62 76 62" fill="none" stroke="#c9f8ff" stroke-width="1.2" opacity=".8"/>
+<text x="50" y="38" text-anchor="middle" fill="#fff" font-size="24" font-family="Arial,Helvetica,sans-serif" font-weight="900" letter-spacing="-1.2">AS</text>
+</svg>
     </div>
     <div class="brand-title brand-title-modern"><span>Jalan</span><span>Jembatan</span><span>Kab. Bandung</span></div>
   </div>
