@@ -2507,6 +2507,83 @@ render();
  .nav-item>span:last-child{font-size:15px!important}
 }
 </style>
+
+<style id="sidebar-menu-text-footer-final">
+/* FINAL SIDEBAR: label lengkap + footer terkunci di kiri bawah */
+.side-nav{
+  position:fixed!important;
+  box-sizing:border-box!important;
+  padding-bottom:104px!important;
+}
+.nav-caption.nav-section-toggle{
+  overflow:hidden!important;
+}
+.nav-caption.nav-section-toggle .section-label{
+  flex:1 1 auto!important;
+  min-width:0!important;
+  width:auto!important;
+  max-width:none!important;
+  overflow:visible!important;
+  text-overflow:clip!important;
+  white-space:nowrap!important;
+  font-size:12px!important;
+  letter-spacing:.08em!important;
+  line-height:1!important;
+  text-align:left!important;
+}
+.nav-caption.nav-section-toggle .section-chevron{
+  flex:0 0 22px!important;
+  width:22px!important;
+  min-width:22px!important;
+  margin-left:4px!important;
+  font-size:15px!important;
+  line-height:1!important;
+}
+.nav-caption.nav-section-toggle .section-icon{
+  flex:0 0 36px!important;
+  width:36px!important;
+  min-width:36px!important;
+  height:36px!important;
+}
+/* Footer selalu di kiri bawah sidebar */
+.side-footer{
+  position:absolute!important;
+  left:18px!important;
+  right:18px!important;
+  bottom:16px!important;
+  margin:0!important;
+  padding:13px 0 0!important;
+  border-top:1px solid rgba(190,220,230,.13)!important;
+  background:transparent!important;
+  z-index:5!important;
+}
+.side-footer .side-status{
+  font-size:12px!important;
+  line-height:1.3!important;
+  margin-bottom:7px!important;
+}
+.side-footer small{
+  display:block!important;
+  font-size:10px!important;
+  line-height:1.45!important;
+  color:#7899a9!important;
+}
+@media(max-width:900px){
+  .side-nav{padding-bottom:104px!important;}
+  .nav-caption.nav-section-toggle .section-label{
+    font-size:11px!important;
+    letter-spacing:.065em!important;
+  }
+  .nav-caption.nav-section-toggle .section-chevron{font-size:14px!important;}
+  .side-footer{left:15px!important;right:15px!important;bottom:14px!important;}
+}
+@media(max-width:360px){
+  .nav-caption.nav-section-toggle .section-label{
+    font-size:10.5px!important;
+    letter-spacing:.045em!important;
+  }
+}
+</style>
 </head><body><div class="page"><img src="${img}" alt="Peta A3"></div><script>window.addEventListener('load',()=>setTimeout(()=>window.print(),500))<\/script>
 
 </body></html>`);
