@@ -778,6 +778,54 @@ body{
 }
 </style>
 
+<style>
+/* === FINAL COLLAPSIBLE SIDEBAR FIX === */
+.nav-caption.nav-section-toggle{
+  box-sizing:border-box!important;
+  width:calc(100% - 16px)!important;
+  min-height:54px!important;
+  margin:12px 8px 0!important;
+  padding:0 14px!important;
+  border:1px solid rgba(122,220,211,.16)!important;
+  border-radius:16px!important;
+  background:linear-gradient(135deg,rgba(53,127,150,.52),rgba(48,102,173,.72))!important;
+  box-shadow:0 7px 20px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.08)!important;
+  gap:10px!important;
+  letter-spacing:.14em!important;
+  transition:background .2s ease,transform .2s ease,box-shadow .2s ease!important;
+}
+.nav-caption.nav-section-toggle:before{display:none!important;content:none!important}
+.nav-caption.nav-section-toggle .section-accent{
+  width:26px!important;height:4px!important;border-radius:99px!important;
+}
+.nav-caption.nav-section-toggle .section-chevron{
+  margin-left:auto!important;font-size:18px!important;line-height:1!important;
+}
+.nav-caption.nav-section-toggle:hover{
+  transform:translateY(-1px)!important;
+  background:linear-gradient(135deg,rgba(68,155,166,.68),rgba(58,116,193,.82))!important;
+}
+.nav-caption.nav-section-toggle[aria-expanded="true"]{
+  background:linear-gradient(135deg,#2f8794,#326fc1)!important;
+  box-shadow:0 9px 24px rgba(31,113,160,.22), inset 0 1px 0 rgba(255,255,255,.10)!important;
+}
+.nav-collapsible{
+  box-sizing:border-box!important;
+  width:calc(100% - 16px)!important;
+  margin-left:8px!important;margin-right:8px!important;
+}
+.nav-collapsible.is-open{margin-top:10px!important;margin-bottom:8px!important}
+.nav-menu.nav-collapsible.is-open{padding:4px 4px 8px!important}
+.nav-menu.nav-collapsible.is-open .nav-item{margin-left:0!important;margin-right:0!important}
+.map-layer-panel.nav-collapsible.is-open,.sidebar-export-tools.nav-collapsible.is-open{padding:14px!important;border-radius:16px!important}
+.nav-section-toggle + .nav-section-toggle{margin-top:18px!important}
+.side-footer{margin-top:18px!important}
+@media(max-width:700px){
+  .nav-caption.nav-section-toggle{min-height:52px!important;margin-top:10px!important}
+  .nav-section-toggle + .nav-section-toggle{margin-top:14px!important}
+}
+
+</style>
 </head>
 <body>
 <aside class="side-nav" id="sideNav">
@@ -2134,38 +2182,9 @@ render();
         // Fallback bila library PDF gagal dimuat.
         const win=window.open('about:blank','_blank','width=1400,height=1000');
         if(!win){showToast('Popup diblokir dan library PDF tidak tersedia.');return;}
-        win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Peta A3</title><style>@page{size:A3 landscape;margin:0}html,body{margin:0;padding:0;background:#fff}.page{width:420mm;height:297mm}.page img{width:100%;height:100%;object-fit:contain;display:block}</style></head><body><div class="page"><img src="${img}" alt="Peta A3"></div><script>window.addEventListener('load',()=>setTimeout(()=>window.print(),500))<\/script>
-<script id="sidebar-section-collapse">
-(function(){
-  function initSidebarSections(){
-    document.querySelectorAll('.nav-section-toggle[data-target]').forEach(function(btn){
-      if(btn.dataset.bound==='1') return;
-      btn.dataset.bound='1';
-      var target=document.getElementById(btn.dataset.target);
-      if(!target) return;
-      target.classList.remove('is-open');
-      btn.setAttribute('aria-expanded','false');
-      btn.addEventListener('click',function(){
-        var open=btn.getAttribute('aria-expanded')==='true';
-        // Tutup section lain agar sidebar tetap ringkas
-        if(!open){
-          document.querySelectorAll('.nav-section-toggle[data-target]').forEach(function(other){
-            if(other!==btn){
-              other.setAttribute('aria-expanded','false');
-              var otherTarget=document.getElementById(other.dataset.target);
-              if(otherTarget) otherTarget.classList.remove('is-open');
-            }
-          });
-        }
-        btn.setAttribute('aria-expanded',String(!open));
-        target.classList.toggle('is-open',!open);
-      });
-    });
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initSidebarSections);
-  else initSidebarSections();
-})();
-</script>
+        win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Peta A3</title><style>@page{size:A3 landscape;margin:0}html,body{margin:0;padding:0;background:#fff}.page{width:420mm;height:297mm}.page img{width:100%;height:100%;object-fit:contain;display:block}
+</style></head><body><div class="page"><img src="${img}" alt="Peta A3"></div><script>window.addEventListener('load',()=>setTimeout(()=>window.print(),500))<\/script>
+
 </body></html>`);
         win.document.close();
         showToast('PDF library tidak tersedia. Dialog cetak dibuka sebagai fallback.');
@@ -2332,6 +2351,40 @@ document.addEventListener('click', function(e){
   const step=520;
   if(left) left.addEventListener('click',()=>wrap.scrollBy({left:-step,behavior:'smooth'}));
   if(right) right.addEventListener('click',()=>wrap.scrollBy({left:step,behavior:'smooth'}));
+})();
+</script>
+
+<script id="sidebar-section-collapse-fixed">
+(function(){
+  function initSidebarSections(){
+    var buttons=document.querySelectorAll('.nav-section-toggle[data-target]');
+    buttons.forEach(function(btn){
+      if(btn.dataset.bound==='1') return;
+      var target=document.getElementById(btn.dataset.target);
+      if(!target) return;
+      btn.dataset.bound='1';
+      btn.setAttribute('aria-expanded','false');
+      target.classList.remove('is-open');
+      btn.addEventListener('click',function(e){
+        e.preventDefault(); e.stopPropagation();
+        var willOpen=btn.getAttribute('aria-expanded')!=='true';
+        buttons.forEach(function(other){
+          if(other!==btn){
+            other.setAttribute('aria-expanded','false');
+            var ot=document.getElementById(other.dataset.target);
+            if(ot) ot.classList.remove('is-open');
+          }
+        });
+        btn.setAttribute('aria-expanded',String(willOpen));
+        target.classList.toggle('is-open',willOpen);
+        if(willOpen){
+          setTimeout(function(){ if(window.innerWidth<=900 && window.L && typeof window.map?.invalidateSize==='function') window.map.invalidateSize(); },320);
+        }
+      });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initSidebarSections);
+  else initSidebarSections();
 })();
 </script>
 </body></html>
