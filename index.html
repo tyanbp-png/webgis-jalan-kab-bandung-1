@@ -740,6 +740,42 @@ body{
 .sidebar-export-tools .export-secondary{background:linear-gradient(135deg,#e39b4c,#d96567)!important}
 .side-status span{background:#5fe0c9!important;box-shadow:0 0 10px #5fe0c9!important}
 @media(max-width:900px){.side-nav{width:280px!important}}
+
+/* === COLLAPSIBLE SIDEBAR SECTIONS === */
+.nav-section-toggle{
+  width:100%; border:0; background:transparent; color:#9db8c6; cursor:pointer;
+  display:flex!important; align-items:center; gap:10px; text-align:left;
+  font:inherit; padding:0; margin:0; letter-spacing:.16em;
+}
+.nav-section-toggle .section-accent{
+  width:27px;height:5px;border-radius:99px;
+  background:linear-gradient(90deg,#73e0cf,#4b86e2); flex:0 0 auto;
+  box-shadow:0 0 12px rgba(92,218,205,.25);
+}
+.nav-section-toggle .section-chevron{margin-left:auto;font-size:18px;letter-spacing:0;color:#8fb3c3;transition:transform .2s ease}
+.nav-section-toggle[aria-expanded="true"] .section-chevron{transform:rotate(180deg)}
+.nav-section-toggle:hover{color:#dffaf6!important}
+.nav-collapsible{
+  overflow:hidden!important; max-height:0!important; opacity:0!important;
+  margin-top:0!important; margin-bottom:0!important; pointer-events:none!important;
+  transition:max-height .28s ease,opacity .2s ease,margin .28s ease!important;
+}
+.nav-collapsible.is-open{
+  max-height:1800px!important; opacity:1!important; margin-top:12px!important;
+  margin-bottom:12px!important; pointer-events:auto!important;
+}
+.nav-section-toggle[aria-expanded="true"]{
+  color:#e6fbf8!important;
+}
+.nav-section-toggle[aria-expanded="true"] .section-accent{
+  background:linear-gradient(90deg,#5fe0cf,#5d8df0);
+}
+/* Layer/export controls stay visually inside their section when expanded */
+.map-layer-panel.is-open,.sidebar-export-tools.is-open{display:flex!important;flex-direction:column}
+@media(max-width:700px){
+  .nav-section-toggle{min-height:34px}
+  .nav-collapsible.is-open{max-height:2200px!important}
+}
 </style>
 
 </head>
@@ -749,15 +785,19 @@ body{
     <div class="brand-mark">ASBRT</div>
     <div><div class="brand-title">Jalan Jembatan<br>Kab. Bandung</div></div>
   </div>
-  <div class="nav-caption">MENU UTAMA</div>
-  <nav class="nav-menu">
+  <button type="button" class="nav-caption nav-section-toggle" data-target="mainMenuPanel" aria-expanded="false">
+    <span class="section-accent"></span><span>MENU UTAMA</span><span class="section-chevron">⌄</span>
+  </button>
+  <nav class="nav-menu nav-collapsible" id="mainMenuPanel">
     <a href="#dashboard" class="nav-item active"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
     <a href="#map-section" class="nav-item"><span class="nav-icon">⌖</span><span>Peta Ruas</span></a>
     <a href="#condition-section" class="nav-item"><span class="nav-icon">◔</span><span>Kondisi Jalan</span></a>
     <a href="#roads-section" class="nav-item"><span class="nav-icon">☷</span><span>Daftar Ruas</span></a>
   </nav>
-  <div class="nav-caption layer-caption">LAYER PETA</div>
-  <div class="map-layer-panel" id="mapLayerPanel" aria-label="Kontrol peta">
+  <button type="button" class="nav-caption layer-caption nav-section-toggle nav-collapsible-toggle" data-target="mapLayerPanel" aria-expanded="false">
+    <span class="section-accent"></span><span>LAYER PETA</span><span class="section-chevron">⌄</span>
+  </button>
+  <div class="map-layer-panel nav-collapsible" id="mapLayerPanel" aria-label="Kontrol peta">
     <div class="map-layer-title">Peta Dasar</div>
     <label class="map-layer-row"><input type="radio" name="baseMap" value="satellite"><span>SATELLITE</span></label>
     <label class="map-layer-row"><input type="radio" name="baseMap" value="terrain"><span>TERRAIN</span></label>
@@ -779,8 +819,10 @@ body{
       </div>
     </div>
   </div>
-  <div class="nav-caption export-caption">EXPORT PETA</div>
-  <div class="sidebar-export-tools" id="sidebarExportTools" aria-label="Kontrol export peta">
+  <button type="button" class="nav-caption export-caption nav-section-toggle nav-collapsible-toggle" data-target="sidebarExportTools" aria-expanded="false">
+    <span class="section-accent"></span><span>EXPORT PETA</span><span class="section-chevron">⌄</span>
+  </button>
+  <div class="sidebar-export-tools nav-collapsible" id="sidebarExportTools" aria-label="Kontrol export peta">
     <select id="exportScope" title="Pilih jenis peta yang akan diekspor">
       <option value="kecamatan">Peta Kecamatan</option>
       <option value="ruas">Peta Per Ruas</option>
@@ -2092,7 +2134,39 @@ render();
         // Fallback bila library PDF gagal dimuat.
         const win=window.open('about:blank','_blank','width=1400,height=1000');
         if(!win){showToast('Popup diblokir dan library PDF tidak tersedia.');return;}
-        win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Peta A3</title><style>@page{size:A3 landscape;margin:0}html,body{margin:0;padding:0;background:#fff}.page{width:420mm;height:297mm}.page img{width:100%;height:100%;object-fit:contain;display:block}</style></head><body><div class="page"><img src="${img}" alt="Peta A3"></div><script>window.addEventListener('load',()=>setTimeout(()=>window.print(),500))<\/script></body></html>`);
+        win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Peta A3</title><style>@page{size:A3 landscape;margin:0}html,body{margin:0;padding:0;background:#fff}.page{width:420mm;height:297mm}.page img{width:100%;height:100%;object-fit:contain;display:block}</style></head><body><div class="page"><img src="${img}" alt="Peta A3"></div><script>window.addEventListener('load',()=>setTimeout(()=>window.print(),500))<\/script>
+<script id="sidebar-section-collapse">
+(function(){
+  function initSidebarSections(){
+    document.querySelectorAll('.nav-section-toggle[data-target]').forEach(function(btn){
+      if(btn.dataset.bound==='1') return;
+      btn.dataset.bound='1';
+      var target=document.getElementById(btn.dataset.target);
+      if(!target) return;
+      target.classList.remove('is-open');
+      btn.setAttribute('aria-expanded','false');
+      btn.addEventListener('click',function(){
+        var open=btn.getAttribute('aria-expanded')==='true';
+        // Tutup section lain agar sidebar tetap ringkas
+        if(!open){
+          document.querySelectorAll('.nav-section-toggle[data-target]').forEach(function(other){
+            if(other!==btn){
+              other.setAttribute('aria-expanded','false');
+              var otherTarget=document.getElementById(other.dataset.target);
+              if(otherTarget) otherTarget.classList.remove('is-open');
+            }
+          });
+        }
+        btn.setAttribute('aria-expanded',String(!open));
+        target.classList.toggle('is-open',!open);
+      });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initSidebarSections);
+  else initSidebarSections();
+})();
+</script>
+</body></html>`);
         win.document.close();
         showToast('PDF library tidak tersedia. Dialog cetak dibuka sebagai fallback.');
       }
