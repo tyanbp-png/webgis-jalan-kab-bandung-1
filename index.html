@@ -1160,29 +1160,62 @@ body{padding-left:300px!important}
 }
 </style>
 
+
+<style id="sidebar-polished-final">
+/* POLISHED SIDEBAR: compact, aligned, complete labels */
+.side-nav{width:374px!important;max-width:374px!important;padding:28px 24px 20px!important;box-sizing:border-box!important;overflow-x:hidden!important;}
+.brand.brand-modern{display:flex!important;align-items:center!important;gap:16px!important;margin:0 0 30px!important;padding:0!important;min-width:0!important;}
+.brand-modern .brand-logo{flex:0 0 134px!important;width:134px!important;height:134px!important;border-radius:30px!important;display:grid!important;place-items:center!important;overflow:hidden!important;background:none!important;box-shadow:0 12px 30px rgba(38,190,210,.18)!important;}
+.brand-modern .brand-logo svg{width:100%!important;height:100%!important;display:block!important;}
+.brand-modern .brand-title-modern{min-width:0!important;display:flex!important;flex-direction:column!important;gap:0!important;font-size:19px!important;line-height:1.08!important;letter-spacing:-.03em!important;font-weight:850!important;color:#fff!important;white-space:nowrap!important;}
+.brand-modern .brand-title-modern span{display:block!important;white-space:nowrap!important;}
+.nav-section-toggle{width:100%!important;min-height:72px!important;height:72px!important;margin:0 0 12px!important;padding:0 20px!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;gap:16px!important;border-radius:22px!important;overflow:hidden!important;}
+.section-icon{flex:0 0 52px!important;width:52px!important;height:52px!important;border-radius:16px!important;display:grid!important;place-items:center!important;}
+.section-icon svg{width:25px!important;height:25px!important;}
+.section-label{flex:1 1 auto!important;min-width:0!important;font-size:15px!important;line-height:1!important;letter-spacing:.08em!important;font-weight:800!important;white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important;color:#eef7fb!important;}
+.section-chevron{flex:0 0 16px!important;width:16px!important;margin-left:auto!important;text-align:center!important;font-size:18px!important;line-height:1!important;}
+.nav-collapsible{margin:-2px 0 12px!important;}
+.nav-item{min-height:46px!important;font-size:13px!important;}
+.side-footer{left:24px!important;right:24px!important;bottom:18px!important;}
+.side-footer strong{font-size:14px!important}.side-footer small{font-size:11px!important;line-height:1.45!important}
+@media(max-width:700px){
+ .side-nav{width:100%!important;max-width:100%!important;padding:22px 18px 18px!important;}
+ .brand.brand-modern{gap:13px!important;margin-bottom:24px!important;}
+ .brand-modern .brand-logo{flex-basis:104px!important;width:104px!important;height:104px!important;border-radius:25px!important;}
+ .brand-modern .brand-title-modern{font-size:17px!important;}
+ .nav-section-toggle{min-height:60px!important;height:60px!important;padding:0 14px!important;border-radius:18px!important;gap:12px!important;}
+ .section-icon{flex-basis:44px!important;width:44px!important;height:44px!important;border-radius:14px!important;}
+ .section-icon svg{width:22px!important;height:22px!important;}
+ .section-label{font-size:13px!important;letter-spacing:.07em!important;}
+ .section-chevron{font-size:16px!important;}
+}
+</style>
+
 </head>
 <body>
 <aside class="side-nav" id="sideNav">
   <div class="brand brand-modern">
     <div class="brand-mark brand-logo" aria-label="AS">
-      <svg viewBox="0 0 100 100" aria-hidden="true">
+<svg viewBox="0 0 120 120" aria-hidden="true">
 <defs>
- <linearGradient id="asFinalBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#67e0ce"/><stop offset=".52" stop-color="#36a9d0"/><stop offset="1" stop-color="#3d66cf"/></linearGradient>
- <linearGradient id="asFinalRoad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#bfeeff"/></linearGradient>
- <linearGradient id="asFinalHill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0e718b"/><stop offset="1" stop-color="#16518a"/></linearGradient>
+ <linearGradient id="asPolBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6be4d3"/><stop offset=".48" stop-color="#36b5df"/><stop offset="1" stop-color="#3264d1"/></linearGradient>
+ <linearGradient id="asPolRoad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#dffbff"/></linearGradient>
+ <linearGradient id="asPolHill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b6b7d"/><stop offset="1" stop-color="#174c91"/></linearGradient>
+ <filter id="asPolGlow"><feGaussianBlur stdDeviation="1.3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 </defs>
-<rect width="100" height="100" rx="24" fill="url(#asFinalBg)"/>
-<path d="M0 68 Q18 54 34 61 Q51 68 66 54 Q82 41 100 46 V100 H0Z" fill="url(#asFinalHill)" opacity=".75"/>
-<path d="M0 73 Q18 60 35 65 Q53 70 67 57 Q84 44 100 49" fill="none" stroke="#dffcff" stroke-width="2.8" opacity=".95"/>
-<path d="M4 80 Q27 67 46 72 Q64 77 98 58" fill="none" stroke="url(#asFinalRoad)" stroke-width="10" stroke-linecap="round"/>
-<path d="M4 80 Q27 67 46 72 Q64 77 98 58" fill="none" stroke="#3879d9" stroke-width="1.5" stroke-dasharray="6 6"/>
-<path d="M56 69 L60 48 Q64 42 68 48 L72 66" fill="none" stroke="#eaffff" stroke-width="2.2"/>
-<path d="M60 48 Q64 39 68 48" fill="none" stroke="#eaffff" stroke-width="2.2"/>
-<path d="M52 67 Q64 62 76 62" fill="none" stroke="#c9f8ff" stroke-width="1.2" opacity=".8"/>
-<text x="50" y="38" text-anchor="middle" fill="#fff" font-size="24" font-family="Arial,Helvetica,sans-serif" font-weight="900" letter-spacing="-1.2">AS</text>
-</svg>
-    </div>
-    <div class="brand-title brand-title-modern"><span>Jalan</span><span>Jembatan</span><span>Kab. Bandung</span></div>
+<rect x="2" y="2" width="116" height="116" rx="28" fill="url(#asPolBg)" stroke="#8df5eb" stroke-width="2"/>
+<path d="M3 77 Q20 60 38 66 Q54 72 69 58 Q91 39 117 49 V118 H3Z" fill="url(#asPolHill)" opacity=".9"/>
+<path d="M4 78 Q21 64 38 69 Q55 74 70 61 Q92 43 117 51" fill="none" stroke="#d9ffff" stroke-width="3.4" opacity=".96"/>
+<!-- stylized bridge -->
+<path d="M54 73 L59 45 Q60 38 65 36 Q70 38 71 45 L76 69" fill="none" stroke="#f2ffff" stroke-width="2.8"/>
+<path d="M60 45 Q65 33 70 45" fill="none" stroke="#f2ffff" stroke-width="2.8"/>
+<path d="M50 71 Q65 65 81 65" fill="none" stroke="#c9fbff" stroke-width="1.8" opacity=".9"/>
+<!-- road -->
+<path d="M4 91 Q26 77 46 83 Q64 89 116 65" fill="none" stroke="url(#asPolRoad)" stroke-width="12" stroke-linecap="round"/>
+<path d="M4 91 Q26 77 46 83 Q64 89 116 65" fill="none" stroke="#2f79dc" stroke-width="2" stroke-dasharray="8 8" stroke-linecap="round"/>
+<text x="60" y="48" text-anchor="middle" fill="#fff" font-size="31" font-family="Arial,Helvetica,sans-serif" font-weight="900" letter-spacing="-1.8" filter="url(#asPolGlow)">AS</text>
+</svg></div>
+     <div class="brand-title brand-title-modern"><span>Jalan</span><span>Jembatan</span><span>Kab. Bandung</span></div>
   </div>
   <button type="button" class="nav-caption nav-section-toggle" data-target="mainMenuPanel" aria-expanded="false">
     <span class="section-icon section-icon-main" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 11.5 12 5l8 6.5"/><path d="M6.5 10.5V19h11v-8.5"/><path d="M9.5 19v-5h5v5"/></svg></span><span class="section-label">MENU UTAMA</span><span class="section-chevron">⌄</span>
