@@ -1035,6 +1035,41 @@ body{
   .brand-title-modern{font-size:19px!important;line-height:1.08!important}
 }
 </style>
+
+<style id="brand-desktop-fit-fix">
+/* Brand desktop: pastikan seluruh judul terlihat di laptop tanpa terpotong */
+.brand-modern{
+  width:100%!important; box-sizing:border-box!important;
+  gap:12px!important; margin-bottom:30px!important;
+  align-items:center!important;
+}
+.brand-modern .brand-logo{
+  flex:0 0 86px!important; width:86px!important; height:86px!important;
+  border-radius:23px!important;
+}
+.brand-modern .brand-title-modern{
+  flex:1 1 auto!important; min-width:0!important;
+  width:auto!important; max-width:100%!important;
+  font-size:18px!important; line-height:1.08!important;
+  white-space:normal!important; overflow:visible!important;
+  word-break:normal!important; overflow-wrap:normal!important;
+}
+.brand-modern .brand-title-modern span{
+  display:block!important; white-space:nowrap!important;
+}
+@media (min-width:901px){
+  .side-nav{padding-left:18px!important;padding-right:18px!important;}
+}
+@media (max-width:900px){
+  .brand-modern{gap:11px!important;margin-bottom:26px!important;}
+  .brand-modern .brand-logo{flex-basis:82px!important;width:82px!important;height:82px!important;}
+  .brand-modern .brand-title-modern{font-size:18px!important;line-height:1.08!important;}
+}
+@media (max-width:360px){
+  .brand-modern .brand-logo{flex-basis:76px!important;width:76px!important;height:76px!important;}
+  .brand-modern .brand-title-modern{font-size:17px!important;}
+}
+</style>
 </head>
 <body>
 <aside class="side-nav" id="sideNav">
