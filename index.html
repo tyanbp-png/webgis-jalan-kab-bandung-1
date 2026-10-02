@@ -826,6 +826,64 @@ body{
 }
 
 </style>
+
+<style id="sidebar-rapi-final">
+/* === SIDEBAR RAPi & PROPORSIONAL === */
+.side-nav{
+  background:linear-gradient(180deg,#173e4b 0%,#17374b 46%,#17344b 100%)!important;
+  padding:28px 22px 22px!important;
+}
+.brand{margin:0 0 30px!important;align-items:center!important;gap:14px!important}
+.brand-mark{width:92px!important;height:64px!important;border-radius:22px!important;font-size:20px!important;letter-spacing:-.03em!important;box-shadow:0 12px 28px rgba(24,129,180,.18)!important}
+.brand-title{font-size:20px!important;line-height:1.12!important;letter-spacing:-.02em!important}
+.nav-section-toggle{
+  position:relative!important; width:100%!important; min-height:58px!important;
+  margin:0 0 12px!important; padding:0 16px!important;
+  display:flex!important; align-items:center!important; gap:12px!important;
+  border-radius:17px!important; border:1px solid rgba(140,218,223,.20)!important;
+  background:linear-gradient(135deg,rgba(62,139,158,.52),rgba(56,105,178,.72))!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.09)!important;
+}
+.nav-section-toggle:hover{transform:none!important;filter:brightness(1.06)!important}
+.nav-section-toggle[aria-expanded="true"]{background:linear-gradient(135deg,#338e9a,#336fc1)!important;border-color:rgba(124,226,215,.45)!important}
+.section-accent{display:none!important}
+.section-icon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;flex:0 0 34px;background:rgba(255,255,255,.13);color:#a6eee2;box-shadow:inset 0 1px 0 rgba(255,255,255,.10)}
+.section-icon svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.section-icon-main{background:linear-gradient(135deg,#54cdbd,#4f8cdb);color:#fff}
+.section-icon-layer{background:linear-gradient(135deg,#4a9fc1,#4c7cdb);color:#fff}
+.section-icon-export{background:linear-gradient(135deg,#e4a65a,#df6d75);color:#fff}
+.section-label{font-size:14px!important;font-weight:800!important;letter-spacing:.15em!important;color:#b9d0da!important;white-space:nowrap!important}
+.nav-section-toggle[aria-expanded="true"] .section-label{color:#fff!important}
+.section-chevron{margin-left:auto!important;font-size:18px!important;color:#9fb8c5!important;transform:rotate(0deg);transition:transform .2s ease}
+.nav-section-toggle[aria-expanded="true"] .section-chevron{transform:rotate(180deg);color:#fff!important}
+.nav-collapsible{width:100%!important;margin:0 0 14px!important;box-sizing:border-box!important}
+.nav-menu.nav-collapsible{padding:0 4px!important}
+.nav-menu.nav-collapsible.is-open{padding:2px 4px 8px!important}
+.nav-item{height:54px!important;margin:5px 0!important;padding:0 12px!important;border-radius:15px!important;gap:13px!important}
+.nav-item:hover{background:rgba(93,190,200,.12)!important}
+.nav-item.active{background:linear-gradient(135deg,rgba(76,190,184,.25),rgba(62,108,193,.30))!important;box-shadow:inset 3px 0 0 #6ed7ca!important}
+.nav-icon{width:38px!important;height:38px!important;border-radius:12px!important;display:grid!important;place-items:center!important;flex:0 0 38px!important;background:rgba(255,255,255,.08)!important;color:#b6d8df!important}
+.nav-item.active .nav-icon{background:linear-gradient(135deg,#43b9b0,#4e82df)!important;color:#fff!important}
+.nav-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav-item>span:last-child{font-size:16px!important;font-weight:700!important;color:#e0ebef!important}
+.map-layer-panel.nav-collapsible.is-open,.sidebar-export-tools.nav-collapsible.is-open{padding:14px!important;margin-top:-2px!important;border-radius:17px!important;background:rgba(255,255,255,.055)!important;border:1px solid rgba(140,218,223,.14)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)!important}
+.map-layer-title{font-size:15px!important;letter-spacing:.10em!important}
+.map-layer-row{min-height:40px!important}
+.sidebar-export-tools select{min-height:40px!important}
+.sidebar-export-tools .export-btn{min-height:40px!important}
+.nav-section-toggle + .nav-section-toggle{margin-top:12px!important}
+.side-footer{margin-top:22px!important;padding-top:18px!important;border-top:1px solid rgba(190,220,230,.13)!important}
+.side-footer small{line-height:1.55!important}
+@media(max-width:700px){
+ .side-nav{padding:22px 18px 18px!important}
+ .brand{margin-bottom:24px!important}
+ .brand-mark{width:88px!important;height:60px!important}
+ .brand-title{font-size:18px!important}
+ .nav-section-toggle{min-height:56px!important}
+ .section-label{font-size:13px!important}
+ .nav-item>span:last-child{font-size:15px!important}
+}
+</style>
 </head>
 <body>
 <aside class="side-nav" id="sideNav">
@@ -834,16 +892,16 @@ body{
     <div><div class="brand-title">Jalan Jembatan<br>Kab. Bandung</div></div>
   </div>
   <button type="button" class="nav-caption nav-section-toggle" data-target="mainMenuPanel" aria-expanded="false">
-    <span class="section-accent"></span><span>MENU UTAMA</span><span class="section-chevron">⌄</span>
+    <span class="section-icon section-icon-main" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 11.5 12 5l8 6.5"/><path d="M6.5 10.5V19h11v-8.5"/><path d="M9.5 19v-5h5v5"/></svg></span><span class="section-label">MENU UTAMA</span><span class="section-chevron">⌄</span>
   </button>
   <nav class="nav-menu nav-collapsible" id="mainMenuPanel">
-    <a href="#dashboard" class="nav-item active"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
-    <a href="#map-section" class="nav-item"><span class="nav-icon">⌖</span><span>Peta Ruas</span></a>
-    <a href="#condition-section" class="nav-item"><span class="nav-icon">◔</span><span>Kondisi Jalan</span></a>
-    <a href="#roads-section" class="nav-item"><span class="nav-icon">☷</span><span>Daftar Ruas</span></a>
+    <a href="#dashboard" class="nav-item active"><span class="nav-icon icon-dashboard"><svg viewBox="0 0 24 24"><path d="M4 11.5 12 5l8 6.5"/><path d="M6.5 10.5V19h11v-8.5"/><path d="M9.5 19v-5h5v5"/></svg></span><span>Dashboard</span></a>
+    <a href="#map-section" class="nav-item"><span class="nav-icon icon-road"><svg viewBox="0 0 24 24"><path d="M6 21 10 3"/><path d="M18 21 14 3"/><path d="M11 7h2M10 12h4M9 17h6"/></svg></span><span>Peta Ruas</span></a>
+    <a href="#condition-section" class="nav-item"><span class="nav-icon icon-condition"><svg viewBox="0 0 24 24"><path d="M12 4a8 8 0 1 0 8 8"/><path d="M12 4v8h8"/></svg></span><span>Kondisi Jalan</span></a>
+    <a href="#roads-section" class="nav-item"><span class="nav-icon icon-list"><svg viewBox="0 0 24 24"><path d="M5 6h2M11 6h8M5 12h2M11 12h8M5 18h2M11 18h8"/></svg></span><span>Daftar Ruas</span></a>
   </nav>
   <button type="button" class="nav-caption layer-caption nav-section-toggle nav-collapsible-toggle" data-target="mapLayerPanel" aria-expanded="false">
-    <span class="section-accent"></span><span>LAYER PETA</span><span class="section-chevron">⌄</span>
+    <span class="section-icon section-icon-layer" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 4 8 4-8 4-8-4 8-4Z"/><path d="m4 12 8 4 8-4"/><path d="m4 16 8 4 8-4"/></svg></span><span class="section-label">LAYER PETA</span><span class="section-chevron">⌄</span>
   </button>
   <div class="map-layer-panel nav-collapsible" id="mapLayerPanel" aria-label="Kontrol peta">
     <div class="map-layer-title">Peta Dasar</div>
@@ -868,7 +926,7 @@ body{
     </div>
   </div>
   <button type="button" class="nav-caption export-caption nav-section-toggle nav-collapsible-toggle" data-target="sidebarExportTools" aria-expanded="false">
-    <span class="section-accent"></span><span>EXPORT PETA</span><span class="section-chevron">⌄</span>
+    <span class="section-icon section-icon-export" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v11"/><path d="m8 10 4 4 4-4"/><path d="M5 15v4h14v-4"/></svg></span><span class="section-label">EXPORT PETA</span><span class="section-chevron">⌄</span>
   </button>
   <div class="sidebar-export-tools nav-collapsible" id="sidebarExportTools" aria-label="Kontrol export peta">
     <select id="exportScope" title="Pilih jenis peta yang akan diekspor">
@@ -2183,7 +2241,65 @@ render();
         const win=window.open('about:blank','_blank','width=1400,height=1000');
         if(!win){showToast('Popup diblokir dan library PDF tidak tersedia.');return;}
         win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Peta A3</title><style>@page{size:A3 landscape;margin:0}html,body{margin:0;padding:0;background:#fff}.page{width:420mm;height:297mm}.page img{width:100%;height:100%;object-fit:contain;display:block}
-</style></head><body><div class="page"><img src="${img}" alt="Peta A3"></div><script>window.addEventListener('load',()=>setTimeout(()=>window.print(),500))<\/script>
+</style>
+<style id="sidebar-rapi-final">
+/* === SIDEBAR RAPi & PROPORSIONAL === */
+.side-nav{
+  background:linear-gradient(180deg,#173e4b 0%,#17374b 46%,#17344b 100%)!important;
+  padding:28px 22px 22px!important;
+}
+.brand{margin:0 0 30px!important;align-items:center!important;gap:14px!important}
+.brand-mark{width:92px!important;height:64px!important;border-radius:22px!important;font-size:20px!important;letter-spacing:-.03em!important;box-shadow:0 12px 28px rgba(24,129,180,.18)!important}
+.brand-title{font-size:20px!important;line-height:1.12!important;letter-spacing:-.02em!important}
+.nav-section-toggle{
+  position:relative!important; width:100%!important; min-height:58px!important;
+  margin:0 0 12px!important; padding:0 16px!important;
+  display:flex!important; align-items:center!important; gap:12px!important;
+  border-radius:17px!important; border:1px solid rgba(140,218,223,.20)!important;
+  background:linear-gradient(135deg,rgba(62,139,158,.52),rgba(56,105,178,.72))!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.09)!important;
+}
+.nav-section-toggle:hover{transform:none!important;filter:brightness(1.06)!important}
+.nav-section-toggle[aria-expanded="true"]{background:linear-gradient(135deg,#338e9a,#336fc1)!important;border-color:rgba(124,226,215,.45)!important}
+.section-accent{display:none!important}
+.section-icon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;flex:0 0 34px;background:rgba(255,255,255,.13);color:#a6eee2;box-shadow:inset 0 1px 0 rgba(255,255,255,.10)}
+.section-icon svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.section-icon-main{background:linear-gradient(135deg,#54cdbd,#4f8cdb);color:#fff}
+.section-icon-layer{background:linear-gradient(135deg,#4a9fc1,#4c7cdb);color:#fff}
+.section-icon-export{background:linear-gradient(135deg,#e4a65a,#df6d75);color:#fff}
+.section-label{font-size:14px!important;font-weight:800!important;letter-spacing:.15em!important;color:#b9d0da!important;white-space:nowrap!important}
+.nav-section-toggle[aria-expanded="true"] .section-label{color:#fff!important}
+.section-chevron{margin-left:auto!important;font-size:18px!important;color:#9fb8c5!important;transform:rotate(0deg);transition:transform .2s ease}
+.nav-section-toggle[aria-expanded="true"] .section-chevron{transform:rotate(180deg);color:#fff!important}
+.nav-collapsible{width:100%!important;margin:0 0 14px!important;box-sizing:border-box!important}
+.nav-menu.nav-collapsible{padding:0 4px!important}
+.nav-menu.nav-collapsible.is-open{padding:2px 4px 8px!important}
+.nav-item{height:54px!important;margin:5px 0!important;padding:0 12px!important;border-radius:15px!important;gap:13px!important}
+.nav-item:hover{background:rgba(93,190,200,.12)!important}
+.nav-item.active{background:linear-gradient(135deg,rgba(76,190,184,.25),rgba(62,108,193,.30))!important;box-shadow:inset 3px 0 0 #6ed7ca!important}
+.nav-icon{width:38px!important;height:38px!important;border-radius:12px!important;display:grid!important;place-items:center!important;flex:0 0 38px!important;background:rgba(255,255,255,.08)!important;color:#b6d8df!important}
+.nav-item.active .nav-icon{background:linear-gradient(135deg,#43b9b0,#4e82df)!important;color:#fff!important}
+.nav-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav-item>span:last-child{font-size:16px!important;font-weight:700!important;color:#e0ebef!important}
+.map-layer-panel.nav-collapsible.is-open,.sidebar-export-tools.nav-collapsible.is-open{padding:14px!important;margin-top:-2px!important;border-radius:17px!important;background:rgba(255,255,255,.055)!important;border:1px solid rgba(140,218,223,.14)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)!important}
+.map-layer-title{font-size:15px!important;letter-spacing:.10em!important}
+.map-layer-row{min-height:40px!important}
+.sidebar-export-tools select{min-height:40px!important}
+.sidebar-export-tools .export-btn{min-height:40px!important}
+.nav-section-toggle + .nav-section-toggle{margin-top:12px!important}
+.side-footer{margin-top:22px!important;padding-top:18px!important;border-top:1px solid rgba(190,220,230,.13)!important}
+.side-footer small{line-height:1.55!important}
+@media(max-width:700px){
+ .side-nav{padding:22px 18px 18px!important}
+ .brand{margin-bottom:24px!important}
+ .brand-mark{width:88px!important;height:60px!important}
+ .brand-title{font-size:18px!important}
+ .nav-section-toggle{min-height:56px!important}
+ .section-label{font-size:13px!important}
+ .nav-item>span:last-child{font-size:15px!important}
+}
+</style>
+</head><body><div class="page"><img src="${img}" alt="Peta A3"></div><script>window.addEventListener('load',()=>setTimeout(()=>window.print(),500))<\/script>
 
 </body></html>`);
         win.document.close();
