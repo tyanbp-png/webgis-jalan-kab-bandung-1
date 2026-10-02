@@ -1007,12 +1007,62 @@ body{
   .nav-collapsible{width:calc(100% - 12px)!important;margin-left:6px!important;margin-right:6px!important;}
 }
 </style>
+
+<style id="brand-as-design-final">
+/* BRAND: mengikuti konsep banner AS — logo jalan/jembatan + tipografi bertingkat */
+.brand-modern{
+  display:flex!important;align-items:center!important;gap:16px!important;
+  margin:0 0 34px!important;padding:4px 2px 0!important;
+}
+.brand-logo{
+  position:relative!important;flex:0 0 96px!important;width:96px!important;height:96px!important;
+  padding:0!important;border-radius:25px!important;overflow:hidden!important;
+  background:linear-gradient(135deg,#39d8c5,#22aee4 55%,#315dcc)!important;
+  box-shadow:0 16px 34px rgba(16,111,170,.30),inset 0 1px 0 rgba(255,255,255,.45)!important;
+}
+.brand-logo svg{width:100%!important;height:100%!important;display:block!important}
+.brand-title-modern{
+  display:flex!important;flex-direction:column!important;justify-content:center!important;gap:0!important;
+  margin:0!important;padding:0!important;color:#fff!important;
+  font-size:22px!important;line-height:1.05!important;font-weight:900!important;
+  letter-spacing:-.035em!important;text-shadow:0 2px 8px rgba(0,0,0,.12)!important;
+  white-space:nowrap!important;
+}
+.brand-title-modern span:nth-child(3){color:#39dfe0!important}
+@media(max-width:700px){
+  .brand-modern{gap:13px!important;margin-bottom:28px!important;padding:2px 0 0!important}
+  .brand-logo{flex-basis:82px!important;width:82px!important;height:82px!important;border-radius:22px!important}
+  .brand-title-modern{font-size:19px!important;line-height:1.08!important}
+}
+</style>
 </head>
 <body>
 <aside class="side-nav" id="sideNav">
-  <div class="brand">
-    <div class="brand-mark">AS</div>
-    <div><div class="brand-title">Jalan Jembatan<br>Kab. Bandung</div></div>
+  <div class="brand brand-modern">
+    <div class="brand-mark brand-logo" aria-label="AS">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <defs>
+          <linearGradient id="asLogoBg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#39d8c5"/>
+            <stop offset="55%" stop-color="#22aee4"/>
+            <stop offset="100%" stop-color="#315dcc"/>
+          </linearGradient>
+          <linearGradient id="asRoad" x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0%" stop-color="#f7ffff"/>
+            <stop offset="100%" stop-color="#bfe8ff"/>
+          </linearGradient>
+        </defs>
+        <rect x="1.5" y="1.5" width="97" height="97" rx="25" fill="url(#asLogoBg)"/>
+        <path d="M0 70 Q25 50 48 61 T100 48 V100 H0Z" fill="rgba(9,52,84,.20)"/>
+        <path d="M5 72 Q28 56 50 64 T96 53" fill="none" stroke="#dffbff" stroke-width="3.2" opacity=".9"/>
+        <path d="M5 83 Q35 69 57 73 T98 62" fill="none" stroke="url(#asRoad)" stroke-width="9" stroke-linecap="round"/>
+        <path d="M8 83 Q35 70 57 74 T96 63" fill="none" stroke="#3772d6" stroke-width="1.5" stroke-dasharray="6 7"/>
+        <path d="M57 64 L61 46 L66 41 L71 46 L75 64" fill="none" stroke="#e9fbff" stroke-width="2.4" opacity=".9"/>
+        <path d="M61 46 Q66 37 71 46" fill="none" stroke="#e9fbff" stroke-width="2.4" opacity=".9"/>
+        <text x="50" y="40" text-anchor="middle" fill="#fff" font-size="24" font-family="Arial,Helvetica,sans-serif" font-weight="900" letter-spacing="-1">AS</text>
+      </svg>
+    </div>
+    <div class="brand-title brand-title-modern"><span>Jalan</span><span>Jembatan</span><span>Kab. Bandung</span></div>
   </div>
   <button type="button" class="nav-caption nav-section-toggle" data-target="mainMenuPanel" aria-expanded="false">
     <span class="section-icon section-icon-main" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 11.5 12 5l8 6.5"/><path d="M6.5 10.5V19h11v-8.5"/><path d="M9.5 19v-5h5v5"/></svg></span><span class="section-label">MENU UTAMA</span><span class="section-chevron">⌄</span>
