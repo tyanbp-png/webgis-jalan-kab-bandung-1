@@ -660,7 +660,7 @@ html, body { min-width: 0; }
       <div class="actions-right">
         <button class="h-btn">☀️ Light</button>
         <button class="h-btn status"><span class="dot"></span>Data terbaru</button>
-        <button class="h-btn blue" id="btnFolder" title="Pilih folder data sekali. Excel menjadi master dan seluruh komponen SHP trase dicari otomatis sampai subfolder.">📁 Folder Terhubung</button>
+        <button class="h-btn blue" id="btnFolder" title="PC admin: pilih folder Excel + SHP. Dashboard publik membaca data yang sudah dipublikasikan ke server.">📁 Folder Terhubung</button>
         <button class="h-btn">📥 Ekspor</button>
         <button class="h-btn" id="currentDateBtn">📅 Memuat tanggal...</button>
       </div>
@@ -1801,6 +1801,77 @@ function updateCurrentDate(){
 updateCurrentDate();
 setInterval(updateCurrentDate,60000);
 
+
+/* ================= ASBRAT STATIC SERVER DATA =================
+   Public dashboard: Excel/SHP are NOT needed in the browser.
+   The published GitHub Pages files are:
+   ./data/roads.json
+   ./data/jalan.geojson
+   ./data/status.json
+   Excel remains the master at the admin PC; SHP is geometry only.
+================================================================ */
+async function loadPublishedData(){
+  const cacheBust = Date.now();
+  const statusRes = await fetch(`./data/status.json?v=${cacheBust}`, {cache:"no-store"});
+  if(!statusRes.ok) throw new Error("status.json tidak tersedia");
+  const meta = await statusRes.json();
+  const version = encodeURIComponent(meta.syncedAt || meta.version || cacheBust);
+
+  const [roadsRes, geoRes] = await Promise.all([
+    fetch(`./data/roads.json?v=${version}`, {cache:"no-store"}),
+    fetch(`./data/jalan.geojson?v=${version}`, {cache:"no-store"})
+  ]);
+  if(!roadsRes.ok) throw new Error("roads.json tidak tersedia");
+  if(!geoRes.ok) throw new Error("jalan.geojson tidak tersedia");
+
+  const roads = await roadsRes.json();
+  const geo = await geoRes.json();
+
+  if(!Array.isArray(roads)) throw new Error("roads.json bukan array data ruas");
+  if(!geo || geo.type!=="FeatureCollection") throw new Error("jalan.geojson bukan FeatureCollection");
+
+  state.roads = roads;
+  state.allRows = roads.slice();
+  state.roadByNo = new Map();
+  roads.forEach(r=>{
+    const k=roadKey(r.no);
+    if(k && !state.roadByNo.has(k)) state.roadByNo.set(k,r);
+  });
+
+  state.workbookName = meta.source?.excel || "PKRMS (server)";
+  state.shpName = meta.source?.shp || "SHP (server)";
+  state.shpGeoJSON = geo;
+  state.shpFeatureCount = Number(meta.traceCount || geo.features.length || 0);
+  indexGeoJSON(geo);
+  state.shpMatchedCount = [...state.roadByNo.keys()]
+    .filter(k=>state.shpIndex.has(k)).length;
+
+  state.diagnostics = {
+    visibleSheets: meta.visibleSheets || 31,
+    totalRoads: roads.length,
+    sheetCounts: meta.sheetCounts || {}
+  };
+
+  populateKecamatan();
+  refreshAll();
+
+  const synced = meta.syncedAtDisplay || meta.syncedAt || "";
+  const time = synced ? String(synced).match(/(\d{2}:\d{2}:\d{2})/)?.[1] : "";
+  const stamp = time || new Date().toLocaleTimeString("id-ID",{
+    hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false
+  });
+
+  setStatus(`Data tersinkronisasi • ${roads.length.toLocaleString("id-ID")} ruas jalan • ${state.shpFeatureCount.toLocaleString("id-ID")} trase • Sinkronisasi ${stamp}`);
+
+  console.info("ASBRAT STATIC DATA LOADED", {
+    roads: roads.length,
+    traces: state.shpFeatureCount,
+    matched: state.shpMatchedCount,
+    syncedAt: meta.syncedAt
+  });
+  return true;
+}
+
 /* ---------------- FOLDER CONNECT + AUTO SYNC ----------------
    Browser security requires the user to select the folder once.
    After permission is granted, the directory handle is persisted
@@ -2039,31 +2110,37 @@ $("btnPeta")?.addEventListener("click",function(){
 const roadLayerGroup=L.layerGroup().addTo(map);
 window.roadLayerGroup=roadLayerGroup;
 
-/* Initial state: no fake roads.
-   If the user has connected this folder before and permission is still
-   granted by the browser, restore it automatically and start auto-sync. */
-setStatus("Folder belum terhubung • Pilih Folder Terhubung sekali");
+/* Public mode: read the published static data first.
+   This works on desktop, Android, and iPhone/Safari because the phone
+   does not need direct access to the admin PC folder. */
+setStatus("Memuat data ASBRAT…");
 setKpi([]);
 renderCondition([]);
 renderTable([]);
 
-(async function bootstrapAutoSync(){
+(async function bootstrapData(){
+  try{
+    await loadPublishedData();
+    return;
+  }catch(e){
+    console.warn("Published data belum tersedia:",e);
+    setStatus("Data server belum tersedia • Coba Folder Terhubung di PC");
+  }
+
+  // Fallback for the admin PC: retain the existing local-folder workflow.
   try{
     if(!window.showDirectoryPicker){
-      setStatus("Browser tidak mendukung Auto Sync • Gunakan Chrome/Edge");
+      setStatus("Data server belum tersedia • Browser HP tidak perlu Auto Sync lokal");
       return;
     }
 
     const handle=await restoreFolderHandle();
     if(!handle){
-      setStatus("Folder belum terhubung • Pilih Folder Terhubung sekali");
+      setStatus("Data server belum tersedia • Hubungkan folder di PC admin");
       return;
     }
 
     state.folderHandle=handle;
-
-    // Chrome/Edge may return "prompt" after a browser restart.
-    // Permission cannot be requested automatically without a user gesture.
     const permission=await handle.queryPermission({mode:"read"});
 
     if(permission==="granted"){
@@ -2073,8 +2150,8 @@ renderTable([]);
       setStatus("Folder tersimpan • Klik Folder Terhubung untuk mengaktifkan kembali");
     }
   }catch(e){
-    console.warn("Auto Sync bootstrap:",e);
-    setStatus("Folder belum terhubung • Pilih Folder Terhubung");
+    console.warn("Local Auto Sync fallback:",e);
+    setStatus("Data server belum tersedia • Hubungkan folder di PC admin");
   }
 })();
 </script>
