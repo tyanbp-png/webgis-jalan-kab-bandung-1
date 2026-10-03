@@ -433,6 +433,131 @@ body.parallax-mode @keyframes pxValuePop{
 }
 </style>
 
+
+<style id="browser-responsive-fix">
+/* =========================================================
+   RESPONSIVE BROWSER FIX
+   Menjaga dashboard tetap rapi saat dibuka langsung di browser
+   pada ukuran desktop/laptop yang berbeda.
+   ========================================================= */
+html, body { min-width: 0; }
+.content-wrapper { min-width: 0; }
+.top-header, .filters-bar, .kpi-row, .middle-grid { min-width: 0; }
+.title-group, .search-box, .actions-right, .f-card, .k-card, .card-box { min-width: 0; }
+.search-box { z-index: 1100; }
+.search-suggestions { max-height: min(420px, 55vh); overflow-y: auto; }
+
+/* Laptop / browser window menengah */
+@media (max-width: 1500px) {
+  :root { --sidebar-w: 76px; }
+  .content-wrapper { padding: 12px 16px 28px; gap: 10px; }
+  .top-header { gap: 9px; }
+  .title-group h1 { font-size: 17px; }
+  .title-group h2 { font-size: 13.5px; }
+  .search-box { max-width: 360px; }
+  .actions-right { gap: 6px; }
+  .h-btn { padding: 0 10px; font-size: 11px; }
+  .kpi-row { gap: 8px; }
+  .k-card { padding: 10px 11px; gap: 9px; }
+  .k-icon-wrap { width: 40px; height: 40px; }
+  .k-val { font-size: 18px; }
+  .middle-grid { gap: 10px; }
+  .card-box { padding: 12px 13px; }
+}
+
+/* Laptop kecil: ubah area tengah menjadi 2 kolom agar tidak sempit */
+@media (max-width: 1250px) {
+  .top-header { flex-wrap: wrap; }
+  .title-group { flex: 0 0 auto; }
+  .search-box { flex: 1 1 300px; max-width: none; }
+  .actions-right { flex: 1 1 100%; justify-content: flex-end; }
+
+  .kpi-row { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .middle-grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+  .map-card-box { grid-row: span 2; }
+  .donut-gauge, .donut-budget { width: 130px; height: 130px; }
+  .donut-cut, .donut-budget-cut { width: 86px; height: 86px; }
+  .chart-content-row { gap: 10px; padding-left: 2px; padding-right: 2px; }
+  .bar-fill { width: 30px; }
+}
+
+/* Browser tablet / layar sempit */
+@media (max-width: 980px) {
+  :root { --sidebar-w: 68px; }
+  .sidebar { width: var(--sidebar-w); }
+  .sb-logo-svg { width: 42px; height: 48px; }
+  .nav-list { padding: 0 5px; }
+  .nav-btn { font-size: 9px; padding: 8px 1px; }
+  .content-wrapper { padding: 10px 12px 24px; }
+  .actions-right { overflow-x: auto; justify-content: flex-start; padding-bottom: 2px; }
+  .h-btn { flex: 0 0 auto; }
+
+  .filters-bar { grid-template-columns: minmax(0,1fr) minmax(0,1fr) auto; }
+  .f-card { padding-left: 9px; padding-right: 9px; gap: 7px; }
+  .f-icon-box { width: 32px; height: 32px; }
+  .f-body select { font-size: 12.5px; }
+
+  .middle-grid { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+  .map-wrap { min-height: 400px; }
+  .chart-content-row { align-items: center; }
+  .donut-gauge, .donut-budget { width: 115px; height: 115px; }
+  .donut-cut, .donut-budget-cut { width: 76px; height: 76px; }
+  .donut-cut strong { font-size: 14px; }
+  .donut-budget-cut strong { font-size: 12px; }
+  .d-item { font-size: 10.5px; }
+  .d-item-right small { min-width: 54px; }
+}
+
+/* Ponsel / jendela sangat sempit */
+@media (max-width: 720px) {
+  body { overflow: hidden; }
+  :root { --sidebar-w: 60px; }
+  .sidebar { width: var(--sidebar-w); }
+  .sb-logo { margin-top: 10px; margin-bottom: 10px; }
+  .sb-logo-svg { width: 36px; height: 42px; }
+  .nav-list { gap: 4px; }
+  .nav-btn { font-size: 8px; padding: 7px 0; }
+  .nav-btn svg { width: 17px; height: 17px; }
+  .sb-footer .kab { font-size: 9px; }
+  .sb-footer .dot-status { font-size: 7px; }
+
+  .content-wrapper { padding: 8px 9px 20px; gap: 8px; }
+  .top-header { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .title-group h1 { font-size: 16px; }
+  .title-group h2 { font-size: 12px; }
+  .search-box { width: 100%; max-width: none; }
+  .actions-right { width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+
+  .filters-bar { grid-template-columns: 1fr; gap: 7px; }
+  .f-card, .reset-btn { width: 100%; }
+  .reset-btn { justify-content: center; }
+
+  .kpi-row { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 7px; }
+  .k-card { padding: 9px 10px; }
+  .k-icon-wrap { width: 36px; height: 36px; }
+  .k-icon-wrap svg { width: 24px; height: 24px; }
+  .k-label { font-size: 10px; }
+  .k-val { font-size: 16px; }
+  .k-sub { font-size: 9px; }
+
+  .middle-grid { grid-template-columns: 1fr; }
+  .map-card-box { grid-row: auto; }
+  .map-wrap { min-height: 360px; }
+  .chart-content-row { justify-content: center; }
+  .donut-gauge, .donut-budget { width: 125px; height: 125px; }
+  .donut-cut, .donut-budget-cut { width: 82px; height: 82px; }
+  .pavement-wrap { overflow-x: auto; }
+  .pavement-chart { min-width: 420px; }
+  .data-table-card { overflow: hidden; }
+  .data-table-card .table-scroll, .main-data-table-wrap { overflow-x: auto; }
+  .main-data-table { min-width: 760px; }
+}
+
+/* Jangan biarkan tabel/isi panjang memaksa grid melebar */
+.main-data-table td, .main-data-table th,
+.mini-table td, .mini-table th { overflow-wrap: anywhere; }
+</style>
+
 </head>
 <body>
 
