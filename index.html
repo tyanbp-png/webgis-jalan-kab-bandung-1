@@ -575,7 +575,7 @@ html, body { min-width: 0; }
         <div id="searchSuggestions" class="search-suggestions" role="listbox" aria-label="Rekomendasi pencarian"></div>
       </div>
       <div class="actions-right">
-        <button class="h-btn">☀️ Light</button>
+        <button class="h-btn">☀️️ Light</button>
         <button class="h-btn status"><span class="dot"></span>Data terbaru</button>
         <button class="h-btn blue" id="btnFolder" title="Hubungkan ke Google Drive untuk membaca data ASBRAT master.">☁️ Google Drive Terhubung</button>
         <button class="h-btn">📥 Ekspor</button>
@@ -1143,7 +1143,6 @@ function processWorkbook(wb, sourceName="Google Sheets"){
   state.workbookName=sourceName;
   const visible=[];
   
-  // Daftar kata kunci sheet non-kecamatan yang wajib dilewati
   const IGNORED_SHEETS = [
     "REKAP", 
     "REKAPITULASI", 
@@ -1163,7 +1162,7 @@ function processWorkbook(wb, sourceName="Google Sheets"){
                       sheetNorm === "2026" || 
                       sheetNorm.startsWith("2026");
 
-    if (isIgnored) return; // Lewati sheet tahunan/rekap
+    if (isIgnored) return;
     visible.push(name);
   });
 
@@ -1714,16 +1713,60 @@ async function downloadProxyFile(file, filename, type="application/octet-stream"
   return new File([bytes], filename, {type, lastModified:Date.now()});
 }
 
-/* FUNGSI YANG DIUPDATE: LANGSUNG MENERIMA ARRAY JSON DARI APPS SCRIPT */
-async function loadGoogleDriveData(){
+/* ================= FAST CACHE & CLOUD SYNC SYSTEM ================= */
+const CACHE_KEY_SHEETS = "ASBRAT_SHEETS_CACHE";
+const CACHE_KEY_VER = "ASBRAT_DATA_VERSION";
+
+async function checkCloudVersion() {
+  try {
+    const res = await fetch(`${GOOGLE_DRIVE_CONFIG.proxyUrl}?file=version&_t=${Date.now()}`);
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.status === "OK" ? json.version : null;
+  } catch(e) {
+    return null;
+  }
+}
+
+async function loadGoogleDriveData(forceDownload = false){
   if(!googleDriveConfigured()) throw new Error("Konfigurasi Apps Script belum lengkap.");
 
-  setStatus("Google Drive • melalui Apps Script • membaca master data…");
+  const localVer = localStorage.getItem(CACHE_KEY_VER);
+  const cachedData = localStorage.getItem(CACHE_KEY_SHEETS);
+
+  setStatus("Memeriksa pembaruan Google Drive…");
+  const cloudVer = await checkCloudVersion();
+
+  // 1. JIKA TIDAK ADA PERUBAHAN DI DRIVE: LOAD INSTAN DARI MEMORI LOKAL (< 0.5 detik)
+  if (!forceDownload && cachedData && cloudVer && localVer === cloudVer) {
+    setStatus("Memuat data cache lokal…");
+    const jsonSheet = JSON.parse(cachedData);
+
+    const wb = XLSX.utils.book_new();
+    jsonSheet.sheets.forEach(s => {
+      const ws = XLSX.utils.aoa_to_sheet(s.data);
+      XLSX.utils.book_append_sheet(wb, ws, s.name);
+    });
+    const count = processWorkbook(wb, "Google Sheets (Lokal Cepat)");
+
+    const now = new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
+    setStatus(`Data lokal aktif • ${count.toLocaleString("id-ID")} ruas • ${now}`);
+    return { count, cached: true };
+  }
+
+  // 2. JIKA ADA PERUBAHAN ATAU DATA BELUM PERNAH TERSIMPAN: UNDUH BARU DARI DRIVE
+  setStatus("Ada pembaruan data • mengunduh master data…");
   const jsonSheet = await fetchProxyJson("sheet");
   let count = 0;
 
   if (jsonSheet.sheets && Array.isArray(jsonSheet.sheets)) {
-    // Membaca array sheets JSON langsung dari Apps Script
+    try {
+      localStorage.setItem(CACHE_KEY_SHEETS, JSON.stringify(jsonSheet));
+      if (cloudVer) localStorage.setItem(CACHE_KEY_VER, cloudVer);
+    } catch(err) {
+      console.warn("Storage browser penuh:", err);
+    }
+
     const wb = XLSX.utils.book_new();
     jsonSheet.sheets.forEach(s => {
       const ws = XLSX.utils.aoa_to_sheet(s.data);
@@ -1731,18 +1774,16 @@ async function loadGoogleDriveData(){
     });
     count = processWorkbook(wb, "Google Sheets PKRMS");
   } else if (jsonSheet.data) {
-    // Membaca format Base64 jika tersedia
     const bytes = base64ToBytes(jsonSheet.data);
     const excel = new File([bytes], "pkrms 2026-.xlsx", {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     });
     count = await readExcel(excel);
   } else {
-    throw new Error(jsonSheet.message || "Data sheet dari Apps Script kosong atau tidak dikenali.");
+    throw new Error(jsonSheet.message || "Gagal membaca format sheets.");
   }
 
-  setStatus(`Google Drive • master ${count.toLocaleString("id-ID")} ruas • membaca SHP…`);
-  
+  // Unduh trase geometri SHP
   let shpOk = false;
   try {
     const shp = await downloadProxyFile("shp","Jalan-Kab-Bandung.shp");
@@ -1759,15 +1800,15 @@ async function loadGoogleDriveData(){
   });
   setStatus(shpOk
     ? `Google Drive tersinkronisasi • ${count.toLocaleString("id-ID")} ruas • ${state.shpFeatureCount.toLocaleString("id-ID")} trase • ${now}`
-    : `Google Drive • ${count.toLocaleString("id-ID")} ruas • Geometri SHP belum aktif • ${now}`);
-  return {count, shpOk};
+    : `Google Drive tersinkronisasi • ${count.toLocaleString("id-ID")} ruas • ${now}`);
+  return {count, shpOk, cached: false};
 }
 
 async function syncGoogleDrive(force=false){
   if(state.autoSyncBusy)return false;
   state.autoSyncBusy=true;
   try{
-    await loadGoogleDriveData();
+    await loadGoogleDriveData(force);
     return true;
   }catch(err){
     console.error("GOOGLE DRIVE SYNC:",err);
@@ -1841,7 +1882,7 @@ renderTable([]);
 
 (async function bootstrapData(){
   try{
-    await syncGoogleDrive(true);
+    await syncGoogleDrive(false);
     if(state.workbookName) startGoogleDriveAutoSync();
   }catch(e){
     console.warn("Google Drive bootstrap:",e);
