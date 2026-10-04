@@ -575,7 +575,7 @@ html, body { min-width: 0; }
         <div id="searchSuggestions" class="search-suggestions" role="listbox" aria-label="Rekomendasi pencarian"></div>
       </div>
       <div class="actions-right">
-        <button class="h-btn">☀️️ Light</button>
+        <button class="h-btn">☀️ Light</button>
         <button class="h-btn status"><span class="dot"></span>Data terbaru</button>
         <button class="h-btn blue" id="btnFolder" title="Hubungkan ke Google Drive untuk membaca data ASBRAT master.">☁️ Google Drive Terhubung</button>
         <button class="h-btn">📥 Ekspor</button>
@@ -1192,7 +1192,6 @@ function processWorkbook(wb, sourceName="Google Sheets"){
   const badSheets=Object.entries(EXPECTED_KEC_COUNTS).filter(([k,v])=>sheetDiagnostics[k]!==v);
   const status=badSheets.length?`Data terbaru • ${roads.length.toLocaleString("id-ID")} ruas • cek ${badSheets.length} sheet`:`Data terbaru • ${roads.length.toLocaleString("id-ID")} ruas • ${visible.length} kecamatan`;
   setStatus(status);
-  console.info("SHEET KECAMATAN AKTIF DIPROSES:", visible);
   return roads.length;
 }
 
@@ -1713,60 +1712,15 @@ async function downloadProxyFile(file, filename, type="application/octet-stream"
   return new File([bytes], filename, {type, lastModified:Date.now()});
 }
 
-/* ================= FAST CACHE & CLOUD SYNC SYSTEM ================= */
-const CACHE_KEY_SHEETS = "ASBRAT_SHEETS_CACHE";
-const CACHE_KEY_VER = "ASBRAT_DATA_VERSION";
-
-async function checkCloudVersion() {
-  try {
-    const res = await fetch(`${GOOGLE_DRIVE_CONFIG.proxyUrl}?file=version&_t=${Date.now()}`);
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json.status === "OK" ? json.version : null;
-  } catch(e) {
-    return null;
-  }
-}
-
-async function loadGoogleDriveData(forceDownload = false){
+/* ================= SERVER DIRECT SYNC (BEBAS LOCALSTORAGE) ================= */
+async function loadGoogleDriveData(force = false){
   if(!googleDriveConfigured()) throw new Error("Konfigurasi Apps Script belum lengkap.");
 
-  const localVer = localStorage.getItem(CACHE_KEY_VER);
-  const cachedData = localStorage.getItem(CACHE_KEY_SHEETS);
-
-  setStatus("Memeriksa pembaruan Google Drive…");
-  const cloudVer = await checkCloudVersion();
-
-  // 1. JIKA TIDAK ADA PERUBAHAN DI DRIVE: LOAD INSTAN DARI MEMORI LOKAL (< 0.5 detik)
-  if (!forceDownload && cachedData && cloudVer && localVer === cloudVer) {
-    setStatus("Memuat data cache lokal…");
-    const jsonSheet = JSON.parse(cachedData);
-
-    const wb = XLSX.utils.book_new();
-    jsonSheet.sheets.forEach(s => {
-      const ws = XLSX.utils.aoa_to_sheet(s.data);
-      XLSX.utils.book_append_sheet(wb, ws, s.name);
-    });
-    const count = processWorkbook(wb, "Google Sheets (Lokal Cepat)");
-
-    const now = new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
-    setStatus(`Data lokal aktif • ${count.toLocaleString("id-ID")} ruas • ${now}`);
-    return { count, cached: true };
-  }
-
-  // 2. JIKA ADA PERUBAHAN ATAU DATA BELUM PERNAH TERSIMPAN: UNDUH BARU DARI DRIVE
-  setStatus("Ada pembaruan data • mengunduh master data…");
+  setStatus("Memuat data langsung dari server…");
   const jsonSheet = await fetchProxyJson("sheet");
   let count = 0;
 
   if (jsonSheet.sheets && Array.isArray(jsonSheet.sheets)) {
-    try {
-      localStorage.setItem(CACHE_KEY_SHEETS, JSON.stringify(jsonSheet));
-      if (cloudVer) localStorage.setItem(CACHE_KEY_VER, cloudVer);
-    } catch(err) {
-      console.warn("Storage browser penuh:", err);
-    }
-
     const wb = XLSX.utils.book_new();
     jsonSheet.sheets.forEach(s => {
       const ws = XLSX.utils.aoa_to_sheet(s.data);
@@ -1783,53 +1737,47 @@ async function loadGoogleDriveData(forceDownload = false){
     throw new Error(jsonSheet.message || "Gagal membaca format sheets.");
   }
 
-  // Unduh trase geometri SHP
+  // Muat geometri SHP sekali saat sesi dibuka
   let shpOk = false;
-  try {
-    const shp = await downloadProxyFile("shp","Jalan-Kab-Bandung.shp");
-    const dbf = await downloadProxyFile("dbf","Jalan-Kab-Bandung.dbf");
-    const prj = await downloadProxyFile("prj","Jalan-Kab-Bandung.prj","text/plain");
-    shpOk = await loadSHPParts([shp,dbf,prj]);
-  } catch(e) {
-    console.warn("Apps Script SHP dilewati/gagal:", e);
+  if (!state.shpGeoJSON) {
+    try {
+      const shp = await downloadProxyFile("shp", "Jalan-Kab-Bandung.shp");
+      const dbf = await downloadProxyFile("dbf", "Jalan-Kab-Bandung.dbf");
+      const prj = await downloadProxyFile("prj", "Jalan-Kab-Bandung.prj", "text/plain");
+      shpOk = await loadSHPParts([shp, dbf, prj]);
+    } catch(e) {
+      console.warn("Apps Script SHP dilewati/gagal:", e);
+    }
+  } else {
+    shpOk = true;
   }
 
-  state.lastAutoSync=Date.now();
-  const now=new Date().toLocaleTimeString("id-ID",{
-    hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false
-  });
+  state.lastAutoSync = Date.now();
+  const now = new Date().toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
   setStatus(shpOk
-    ? `Google Drive tersinkronisasi • ${count.toLocaleString("id-ID")} ruas • ${state.shpFeatureCount.toLocaleString("id-ID")} trase • ${now}`
-    : `Google Drive tersinkronisasi • ${count.toLocaleString("id-ID")} ruas • ${now}`);
-  return {count, shpOk, cached: false};
+    ? `Tersinkron • ${count.toLocaleString("id-ID")} ruas • ${state.shpFeatureCount.toLocaleString("id-ID")} trase • ${now}`
+    : `Tersinkron • ${count.toLocaleString("id-ID")} ruas • ${now}`);
+  return { count, shpOk };
 }
 
 async function syncGoogleDrive(force=false){
-  if(state.autoSyncBusy)return false;
-  state.autoSyncBusy=true;
+  if(state.autoSyncBusy) return false;
+  state.autoSyncBusy = true;
   try{
     await loadGoogleDriveData(force);
     return true;
   }catch(err){
-    console.error("GOOGLE DRIVE SYNC:",err);
-    const msg=err?.message||String(err);
-    if(/Failed to fetch|CORS|NetworkError|fetch/i.test(msg)){
-      setStatus("Apps Script • koneksi gagal / CORS");
-    }else{
-      setStatus("Apps Script • "+msg.slice(0,140));
-    }
-    if(force){
-      alert("Data cloud belum dapat dibaca.\n\n"+msg+"\n\nPastikan Web App Apps Script masih aktif dan aksesnya = Siapa saja.");
-    }
+    console.error("GOOGLE DRIVE SYNC:", err);
+    setStatus("Gagal membaca Google Drive");
     return false;
   }finally{
-    state.autoSyncBusy=false;
+    state.autoSyncBusy = false;
   }
 }
 
 function startGoogleDriveAutoSync(){
   if(state.autoSyncTimer) clearInterval(state.autoSyncTimer);
-  state.autoSyncTimer=setInterval(()=>syncGoogleDrive(false),GOOGLE_DRIVE_SYNC_INTERVAL);
+  state.autoSyncTimer = setInterval(()=>syncGoogleDrive(false), GOOGLE_DRIVE_SYNC_INTERVAL);
 }
 
 async function connectGoogleDrive(){
@@ -1837,22 +1785,22 @@ async function connectGoogleDrive(){
   if(state.workbookName) startGoogleDriveAutoSync();
 }
 
-$("btnFolder")?.addEventListener("click",connectGoogleDrive);
-$("btnReset")?.addEventListener("click",()=>{
-  $("selKec").value="";
+$("btnFolder")?.addEventListener("click", connectGoogleDrive);
+$("btnReset")?.addEventListener("click", ()=>{
+  $("selKec").value = "";
   populateRuas();
-  $("selRuas").value="";
-  $("searchInput").value="";
+  $("selRuas").value = "";
+  $("searchInput").value = "";
   refreshAll();
 });
-$("selKec")?.addEventListener("change",()=>{ populateRuas(); refreshAll(); });
-$("selRuas")?.addEventListener("change",refreshAll);
-$("searchInput")?.addEventListener("input",()=>{ renderSearchSuggestions(); refreshAll(); });
-$("searchSuggestions")?.addEventListener("click",e=>{
-  const btn=e.target.closest(".search-suggestion");
+$("selKec")?.addEventListener("change", ()=>{ populateRuas(); refreshAll(); });
+$("selRuas")?.addEventListener("change", refreshAll);
+$("searchInput")?.addEventListener("input", ()=>{ renderSearchSuggestions(); refreshAll(); });
+$("searchSuggestions")?.addEventListener("click", e=>{
+  const btn = e.target.closest(".search-suggestion");
   if(btn) chooseSearchSuggestion(btn);
 });
-document.addEventListener("click",e=>{
+document.addEventListener("click", e=>{
   if(!e.target.closest(".search-box")) closeSearchSuggestions();
 });
 
@@ -1875,18 +1823,18 @@ $("btnPeta")?.addEventListener("click",function(){
 const roadLayerGroup=L.layerGroup().addTo(map);
 window.roadLayerGroup=roadLayerGroup;
 
-setStatus("Menghubungkan ke Google Drive…");
-setKpi([]);
-renderCondition([]);
-renderTable([]);
-
+/* Inisialisasi awal saat halaman dibuka */
 (async function bootstrapData(){
+  setKpi([]);
+  renderCondition([]);
+  renderTable([]);
+  setStatus("Menghubungkan ke Google Drive…");
   try{
     await syncGoogleDrive(false);
     if(state.workbookName) startGoogleDriveAutoSync();
   }catch(e){
-    console.warn("Google Drive bootstrap:",e);
-    setStatus("Google Drive • klik Google Drive Terhubung untuk mencoba lagi");
+    console.warn("Bootstrap error:", e);
+    setStatus("Klik Google Drive Terhubung untuk memuat data");
   }
 })();
 </script>
