@@ -198,7 +198,6 @@ body { background: var(--bg-main); color: #1e293b; display: flex; height: 100vh;
 .c-head-sub { font-size: 11px; color: #64748b; font-weight: 500; margin-top: 2px; }
 .head-pill { font-size: 11px; font-weight: 800; color: #1e40af; background: #eff6ff; padding: 4px 9px; border-radius: 6px; }
 
-/* ICON SECTION HEADER KECIL KOTAK ROUNDED */
 .sec-ico {
   width: 26px; height: 26px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
@@ -298,15 +297,12 @@ body { background: var(--bg-main); color: #1e293b; display: flex; height: 100vh;
 <script src="https://cdn.jsdelivr.net/npm/proj4@2.15.0/dist/proj4.js"></script>
 
 <style id="data-engine-fixes">
-/* Data engine helpers; visual design remains the uploaded master design. */
 #donutKondisi,#donutBudget{transition:background .2s ease}
 .view-link{cursor:pointer;text-decoration:none}
 </style>
 <style>
 /* ===== PARALLAX TRANSITION MODE ===== */
-:root{
-  --px-ease:cubic-bezier(.22,.8,.24,1);
-}
+:root{ --px-ease:cubic-bezier(.22,.8,.24,1); }
 body.parallax-mode .card,
 body.parallax-mode .kpi-card,
 body.parallax-mode .panel,
@@ -330,25 +326,19 @@ body.parallax-mode .px-enter{
     transform:translate3d(0,var(--px-y,18px),var(--px-z,0)) scale(.985);
     filter:blur(1.5px);
   }
-  55%{
-    opacity:1;
-  }
+  55%{ opacity:1; }
   100%{
     opacity:1;
     transform:translate3d(0,0,0) scale(1);
     filter:blur(0);
   }
 }
-
-/* Subtle depth movement while hovering, preserving existing layout */
 body.parallax-mode .px-depth{
   transition:transform 380ms var(--px-ease), box-shadow 380ms var(--px-ease);
 }
 body.parallax-mode .px-depth:hover{
   transform:translateY(-2px);
 }
-
-/* Smooth content swap instead of abrupt redraw */
 body.parallax-mode .px-refresh{
   animation:pxRefresh 480ms var(--px-ease) both;
 }
@@ -356,7 +346,6 @@ body.parallax-mode .px-refresh{
   0%{opacity:.35;transform:translate3d(0,10px,0) scale(.992)}
   100%{opacity:1;transform:translate3d(0,0,0) scale(1)}
 }
-
 @media (prefers-reduced-motion:reduce){
   body.parallax-mode .px-enter,
   body.parallax-mode .px-refresh{
@@ -368,60 +357,14 @@ body.parallax-mode .px-refresh{
 }
 </style>
 <style>
-/* ===== DISTRIBUTION PARALLAX ===== */
-body.parallax-mode body.parallax-mode body.parallax-mode body.parallax-mode body.parallax-mode body.parallax-mode body.parallax-mode body.parallax-mode @keyframes pxDistributionIn{
-  0%{
-    opacity:0;
-    transform:translate3d(0,24px,70px) rotateX(7deg) scale(.965);
-  }
-  55%{opacity:1}
-  100%{
-    opacity:1;
-    transform:translate3d(0,0,0) rotateX(0) scale(1);
-  }
-}
-@keyframes pxDistributionChart{
-  0%{
-    opacity:0;
-    transform:translate3d(0,18px,90px) rotateY(-6deg) scale(.94);
-  }
-  60%{opacity:1}
-  100%{
-    opacity:1;
-    transform:translate3d(0,0,0) rotateY(0) scale(1);
-  }
-}
-body.parallax-mode @keyframes pxValuePop{
-  0%{opacity:0;transform:translate3d(0,8px,35px) scale(.92)}
-  70%{opacity:1}
-  100%{opacity:1;transform:translate3d(0,0,0) scale(1)}
-}
-@media (prefers-reduced-motion:reduce){
-  body.parallax-mode }
-</style>
-<style>
-
-
-
-/* =========================================================
-   DISTRIBUTION CHART ANIMATION — DRAW DONUT + GROW BAR
-   Hanya isi grafik yang dianimasikan. Card/judul/legend tetap diam.
-   ========================================================= */
 .donut-gauge,.donut-budget,.bar-fill{will-change:background, height;}
 @media (prefers-reduced-motion:reduce){
   .donut-gauge,.donut-budget,.bar-fill{will-change:auto;}
 }
 </style>
-
 <style id="budget-money-icon-style">
-.budget-money-icon{
-  display:grid;
-  place-items:center;
-  border-radius:9px;
-}
+.budget-money-icon{ display:grid; place-items:center; border-radius:9px; }
 .budget-money-icon svg{display:block;overflow:visible}
-
-/* === PERAPIAN JARAK TEKS DROPDOWN === */
 .f-body select {
   padding-left: 8px !important;
   padding-right: 30px !important;
@@ -432,14 +375,7 @@ body.parallax-mode @keyframes pxValuePop{
   padding-right: 8px;
 }
 </style>
-
-
 <style id="browser-responsive-fix">
-/* =========================================================
-   RESPONSIVE BROWSER FIX
-   Menjaga dashboard tetap rapi saat dibuka langsung di browser
-   pada ukuran desktop/laptop yang berbeda.
-   ========================================================= */
 html, body { min-width: 0; }
 .content-wrapper { min-width: 0; }
 .top-header, .filters-bar, .kpi-row, .middle-grid { min-width: 0; }
@@ -447,7 +383,6 @@ html, body { min-width: 0; }
 .search-box { z-index: 1100; }
 .search-suggestions { max-height: min(420px, 55vh); overflow-y: auto; }
 
-/* Laptop / browser window menengah */
 @media (max-width: 1500px) {
   :root { --sidebar-w: 76px; }
   .content-wrapper { padding: 12px 16px 28px; gap: 10px; }
@@ -465,13 +400,11 @@ html, body { min-width: 0; }
   .card-box { padding: 12px 13px; }
 }
 
-/* Laptop kecil: ubah area tengah menjadi 2 kolom agar tidak sempit */
 @media (max-width: 1250px) {
   .top-header { flex-wrap: wrap; }
   .title-group { flex: 0 0 auto; }
   .search-box { flex: 1 1 300px; max-width: none; }
   .actions-right { flex: 1 1 100%; justify-content: flex-end; }
-
   .kpi-row { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .middle-grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
   .map-card-box { grid-row: span 2; }
@@ -481,7 +414,6 @@ html, body { min-width: 0; }
   .bar-fill { width: 30px; }
 }
 
-/* Browser tablet / layar sempit */
 @media (max-width: 980px) {
   :root { --sidebar-w: 68px; }
   .sidebar { width: var(--sidebar-w); }
@@ -491,12 +423,10 @@ html, body { min-width: 0; }
   .content-wrapper { padding: 10px 12px 24px; }
   .actions-right { overflow-x: auto; justify-content: flex-start; padding-bottom: 2px; }
   .h-btn { flex: 0 0 auto; }
-
   .filters-bar { grid-template-columns: minmax(0,1fr) minmax(0,1fr) auto; }
   .f-card { padding-left: 9px; padding-right: 9px; gap: 7px; }
   .f-icon-box { width: 32px; height: 32px; }
   .f-body select { font-size: 12.5px; }
-
   .middle-grid { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
   .map-wrap { min-height: 400px; }
   .chart-content-row { align-items: center; }
@@ -508,7 +438,6 @@ html, body { min-width: 0; }
   .d-item-right small { min-width: 54px; }
 }
 
-/* Ponsel / jendela sangat sempit */
 @media (max-width: 720px) {
   body { overflow: hidden; }
   :root { --sidebar-w: 60px; }
@@ -520,18 +449,15 @@ html, body { min-width: 0; }
   .nav-btn svg { width: 17px; height: 17px; }
   .sb-footer .kab { font-size: 9px; }
   .sb-footer .dot-status { font-size: 7px; }
-
   .content-wrapper { padding: 8px 9px 20px; gap: 8px; }
   .top-header { display: grid; grid-template-columns: 1fr; gap: 8px; }
   .title-group h1 { font-size: 16px; }
   .title-group h2 { font-size: 12px; }
   .search-box { width: 100%; max-width: none; }
   .actions-right { width: 100%; overflow-x: auto; flex-wrap: nowrap; }
-
   .filters-bar { grid-template-columns: 1fr; gap: 7px; }
   .f-card, .reset-btn { width: 100%; }
   .reset-btn { justify-content: center; }
-
   .kpi-row { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 7px; }
   .k-card { padding: 9px 10px; }
   .k-icon-wrap { width: 36px; height: 36px; }
@@ -539,7 +465,6 @@ html, body { min-width: 0; }
   .k-label { font-size: 10px; }
   .k-val { font-size: 16px; }
   .k-sub { font-size: 9px; }
-
   .middle-grid { grid-template-columns: 1fr; }
   .map-card-box { grid-row: auto; }
   .map-wrap { min-height: 360px; }
@@ -549,22 +474,18 @@ html, body { min-width: 0; }
   .pavement-wrap { overflow-x: auto; }
   .pavement-chart { min-width: 420px; }
   .data-table-card { overflow: hidden; }
-  .data-table-card .table-scroll, .main-data-table-wrap { overflow-x: auto; }
   .main-data-table { min-width: 760px; }
 }
 
-/* Jangan biarkan tabel/isi panjang memaksa grid melebar */
 .main-data-table td, .main-data-table th,
 .mini-table td, .mini-table th { overflow-wrap: anywhere; }
 </style>
-
 </head>
 <body>
 
   <!-- 1. SIDEBAR KIRI -->
   <aside class="sidebar">
     <div class="sb-logo">
-      <!-- Lambang Asli Kabupaten Bandung (Repeh Rapih Kerta Raharja) Sesuai Gambar 100% -->
       <svg class="sb-logo-svg" viewBox="0 0 250 220" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <clipPath id="shieldClip">
@@ -579,7 +500,6 @@ html, body { min-width: 0; }
           <path d="M65 30L75 20L85 30L95 20L105 30L115 20L125 30L135 20L145 30L155 20L165 30L175 20L185 30" stroke="#000000" stroke-width="8" stroke-linecap="square"/>
           <path d="M45 10L125 90V185C125 185 45 135 45 85V10Z" fill="#dc2626"/>
 
-          <!-- Tangkai Daun Teh Hijau -->
           <g transform="translate(62, 70)">
             <line x1="22" y1="52" x2="22" y2="10" stroke="#15803d" stroke-width="3" stroke-linecap="round"/>
             <ellipse cx="22" cy="12" rx="4" ry="7" fill="#22c55e" stroke="#15803d" stroke-width="1.2"/>
@@ -592,10 +512,8 @@ html, body { min-width: 0; }
             <ellipse cx="36" cy="40" rx="4.5" ry="8" transform="rotate(65 36 40)" fill="#22c55e" stroke="#15803d" stroke-width="1.2"/>
           </g>
 
-          <!-- Siluet Gunung Hijau Trapesium -->
           <polygon points="135,46 175,46 185,55 125,55" fill="#15803d" stroke="#000000" stroke-width="1.5"/>
 
-          <!-- Riak Gelombang Air Biru-Putih -->
           <g transform="translate(125, 85)">
             <path d="M0 0V100C30 90 60 70 80 65L0 0Z" fill="#ffffff"/>
             <path d="M0 8C15 4 30 16 45 10C55 6 65 14 80 10V20C65 24 55 16 45 20C30 26 15 14 0 18V8Z" fill="#0284c7"/>
@@ -607,7 +525,6 @@ html, body { min-width: 0; }
         
         <path d="M45 10H205V85C205 135 125 185 125 185C125 185 45 135 45 85V10Z" stroke="#000000" stroke-width="4.5" fill="none"/>
         
-        <!-- Pita Kuning Semboyan Daerah -->
         <g transform="translate(0, 172)">
           <polygon points="5,15 25,2 25,28" fill="#eab308" stroke="#000" stroke-width="1.8"/>
           <polygon points="245,15 225,2 225,28" fill="#eab308" stroke="#000" stroke-width="1.8"/>
@@ -660,15 +577,14 @@ html, body { min-width: 0; }
       <div class="actions-right">
         <button class="h-btn">☀️ Light</button>
         <button class="h-btn status"><span class="dot"></span>Data terbaru</button>
-        <button class="h-btn blue" id="btnFolder" title="PC admin: pilih folder Excel + SHP. Dashboard publik membaca data yang sudah dipublikasikan ke server.">📁 Folder Terhubung</button>
+        <button class="h-btn blue" id="btnFolder" title="Hubungkan ke Google Drive untuk membaca data ASBRAT master.">☁️ Google Drive Terhubung</button>
         <button class="h-btn">📥 Ekspor</button>
         <button class="h-btn" id="currentDateBtn">📅 Memuat tanggal...</button>
       </div>
     </header>
 
-    <!-- BAR FILTER (100% IDENTIK PERSIS ZOOM GAMBAR) -->
+    <!-- BAR FILTER -->
     <section class="filters-bar">
-      <!-- 1. Kecamatan: Lonceng Trapesium Biru Bertitik Putih -->
       <div class="f-card">
         <div class="f-icon-box">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -682,7 +598,6 @@ html, body { min-width: 0; }
         </div>
       </div>
 
-      <!-- 2. Ruas Jalan: Jalan Perspektif Biru dengan Garis Putus Putih -->
       <div class="f-card">
         <div class="f-icon-box">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -697,7 +612,6 @@ html, body { min-width: 0; }
         </div>
       </div>
 
-      <!-- 5. Tombol Reset Filter -->
       <button class="reset-btn" id="btnReset">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0b1d33" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/>
@@ -706,9 +620,8 @@ html, body { min-width: 0; }
       </button>
     </section>
 
-    <!-- KPI ROW (7 KARTU IDENTIK PERSIS TARGET) -->
+    <!-- KPI ROW -->
     <section class="kpi-row">
-      <!-- 1. Total Ruas -->
       <div class="k-card">
         <div class="k-icon-wrap" style="background:#eff6ff">
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -716,10 +629,9 @@ html, body { min-width: 0; }
             <line x1="14" y1="8" x2="14" y2="12" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </div>
-        <div class="k-info"><div class="k-label">Total Ruas</div><div class="k-val" id="kpiRuas">699</div><div class="k-sub">ruas jalan</div></div>
+        <div class="k-info"><div class="k-label">Total Ruas</div><div class="k-val" id="kpiRuas">0</div><div class="k-sub">ruas jalan</div></div>
       </div>
 
-      <!-- 2. Total Panjang -->
       <div class="k-card">
         <div class="k-icon-wrap" style="background:#f5f3ff">
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -730,10 +642,9 @@ html, body { min-width: 0; }
             <path d="M5 19L12 14L19 8L23 17" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <div class="k-info"><div class="k-label">Total Panjang</div><div class="k-val" id="kpiPanjang">1.428,36 km</div></div>
+        <div class="k-info"><div class="k-label">Total Panjang</div><div class="k-val" id="kpiPanjang">0,00 km</div></div>
       </div>
 
-      <!-- 3. Baik -->
       <div class="k-card">
         <div class="k-icon-wrap" style="background:#ecfdf5">
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -741,11 +652,10 @@ html, body { min-width: 0; }
             <path d="M8.5 14L12.5 18L19.5 10" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <div class="k-info"><div class="k-label">Baik</div><div class="k-val" id="kpiBaik">965,68 km</div><div class="k-sub" id="pctBaik">67,6%</div></div>
-        <div class="k-bar" style="background:var(--c-baik);width:67.6%"></div>
+        <div class="k-info"><div class="k-label">Baik</div><div class="k-val" id="kpiBaik">0,00 km</div><div class="k-sub" id="pctBaik">0,0%</div></div>
+        <div class="k-bar" id="progBaik" style="background:var(--c-baik);width:0%"></div>
       </div>
 
-      <!-- 4. Sedang -->
       <div class="k-card">
         <div class="k-icon-wrap" style="background:#fffbeb">
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -754,22 +664,20 @@ html, body { min-width: 0; }
             <circle cx="14" cy="19.5" r="1.3" fill="#ffffff"/>
           </svg>
         </div>
-        <div class="k-info"><div class="k-label">Sedang</div><div class="k-val" id="kpiSedang">259,08 km</div><div class="k-sub" id="pctSedang">18,1%</div></div>
-        <div class="k-bar" style="background:var(--c-sedang);width:18.1%"></div>
+        <div class="k-info"><div class="k-label">Sedang</div><div class="k-val" id="kpiSedang">0,00 km</div><div class="k-sub" id="pctSedang">0,0%</div></div>
+        <div class="k-bar" id="progSedang" style="background:var(--c-sedang);width:0%"></div>
       </div>
 
-      <!-- 5. Rusak Ringan -->
       <div class="k-card">
         <div class="k-icon-wrap" style="background:#fff7ed">
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
             <path d="M20 4.5C18.2 4.5 16.7 5.7 16.2 7.4L10 13.6C9.3 13.4 8.5 13.6 7.9 14.2C7.1 15 7.1 16.2 7.9 17C8.7 17.8 9.9 17.8 10.7 17C11.3 16.4 11.5 15.6 11.3 14.9L17.5 8.7C19.2 8.2 20.4 6.7 20.4 4.9L18.5 6.8L17.2 5.5L20 4.5Z" fill="#f97316"/>
           </svg>
         </div>
-        <div class="k-info"><div class="k-label">Rusak Ringan</div><div class="k-val" id="kpiRR">107,82 km</div><div class="k-sub" id="pctRR">7,5%</div></div>
-        <div class="k-bar" style="background:var(--c-rr);width:7.5%"></div>
+        <div class="k-info"><div class="k-label">Rusak Ringan</div><div class="k-val" id="kpiRR">0,00 km</div><div class="k-sub" id="pctRR">0,0%</div></div>
+        <div class="k-bar" id="progRR" style="background:var(--c-rr);width:0%"></div>
       </div>
 
-      <!-- 6. Rusak Berat -->
       <div class="k-card">
         <div class="k-icon-wrap" style="background:#fef2f2">
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -777,11 +685,10 @@ html, body { min-width: 0; }
             <path d="M9.5 9.5L18.5 18.5M18.5 9.5L9.5 18.5" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
           </svg>
         </div>
-        <div class="k-info"><div class="k-label">Rusak Berat</div><div class="k-val" id="kpiRB">95,78 km</div><div class="k-sub" id="pctRB">6,7%</div></div>
-        <div class="k-bar" style="background:var(--c-rb);width:6.7%"></div>
+        <div class="k-info"><div class="k-label">Rusak Berat</div><div class="k-val" id="kpiRB">0,00 km</div><div class="k-sub" id="pctRB">0,0%</div></div>
+        <div class="k-bar" id="progRB" style="background:var(--c-rb);width:0%"></div>
       </div>
 
-      <!-- 7. Total RAB -->
       <div class="k-card">
         <div class="k-icon-wrap" style="background:#f0fdf4">
           <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -790,13 +697,12 @@ html, body { min-width: 0; }
             <path d="M5 13V19C5 21 9 22.5 14 22.5C19 21 23 21 23 19V13" stroke="#0284c7" stroke-width="2.2"/>
           </svg>
         </div>
-        <div class="k-info"><div class="k-label">Total RAB</div><div class="k-val" id="kpiRAB">Rp 999,38 M</div></div>
+        <div class="k-info"><div class="k-label">Total RAB</div><div class="k-val" id="kpiRAB">Rp 0</div></div>
       </div>
     </section>
 
-    <!-- MIDDLE WORKSPACE (PETA & 4 KARTU IDENTIK PERSIS) -->
+    <!-- MIDDLE WORKSPACE -->
     <div class="middle-grid">
-      <!-- KIRI: PETA SATELIT DENGAN RIBUAN JARINGAN TRASE JALAN -->
       <div class="card-box map-card-box">
         <div class="c-head">
           <div>
@@ -830,11 +736,10 @@ html, body { min-width: 0; }
         </div>
       </div>
 
-      <!-- 1. TENGAH ATAS: DISTRIBUSI KONDISI JALAN -->
+      <!-- 1. DISTRIBUSI KONDISI JALAN -->
       <div class="card-box">
         <div class="c-head">
           <div class="c-head-title">
-            <!-- Boks Hijau Muda Isi Segitiga Seru Hijau -->
             <div class="sec-ico" style="background:#d1fae5">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
                 <path d="M12 4L3 20H21L12 4Z" fill="#10b981"/>
@@ -844,45 +749,43 @@ html, body { min-width: 0; }
             </div>
             <h3>Distribusi Kondisi Jalan</h3>
           </div>
-          <!-- Ikon Mini Grafik Garis Kanan -->
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
             <polyline points="16 7 22 7 22 13"/>
           </svg>
         </div>
         <div class="chart-content-row">
-          <div class="donut-gauge" id="donutKondisi" style="background: conic-gradient(var(--c-baik) 0% 67.6%, var(--c-sedang) 67.6% 85.7%, var(--c-rr) 85.7% 93.3%, var(--c-rb) 93.3% 100%);">
+          <div class="donut-gauge" id="donutKondisi">
             <div class="donut-cut">
-              <strong id="donutKmTotal">1.428,36</strong>
+              <strong id="donutKmTotal">0,00</strong>
               <span>km</span>
             </div>
           </div>
           <div class="donut-legend-list">
             <div class="d-item">
               <div class="d-item-left"><i style="background:var(--c-baik);width:8px;height:8px;border-radius:50%;display:inline-block"></i>Baik</div>
-              <div class="d-item-right"><b>67,6%</b><small id="legKmBaik">965,68 km</small></div>
+              <div class="d-item-right"><b>0,0%</b><small id="legKmBaik">0,00 km</small></div>
             </div>
             <div class="d-item">
               <div class="d-item-left"><i style="background:var(--c-sedang);width:8px;height:8px;border-radius:50%;display:inline-block"></i>Sedang</div>
-              <div class="d-item-right"><b>18,1%</b><small id="legKmSedang">259,08 km</small></div>
+              <div class="d-item-right"><b>0,0%</b><small id="legKmSedang">0,00 km</small></div>
             </div>
             <div class="d-item">
               <div class="d-item-left"><i style="background:var(--c-rr);width:8px;height:8px;border-radius:50%;display:inline-block"></i>Rusak Ringan</div>
-              <div class="d-item-right"><b>7,5%</b><small id="legKmRR">107,82 km</small></div>
+              <div class="d-item-right"><b>0,0%</b><small id="legKmRR">0,00 km</small></div>
             </div>
             <div class="d-item">
               <div class="d-item-left"><i style="background:var(--c-rb);width:8px;height:8px;border-radius:50%;display:inline-block"></i>Rusak Berat</div>
-              <div class="d-item-right"><b>6,7%</b><small id="legKmRB">95,78 km</small></div>
+              <div class="d-item-right"><b>0,0%</b><small id="legKmRB">0,00 km</small></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 2. KANAN ATAS: DISTRIBUSI ANGGARAN -->
+      <!-- 2. DISTRIBUSI ANGGARAN -->
       <div class="card-box">
         <div class="c-head">
           <div class="c-head-title">
-            <!-- Ikon Anggaran: tumpukan koin / Rupiah -->
             <div class="sec-ico budget-money-icon" style="background:#fff4d6">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <ellipse cx="9" cy="6" rx="5.5" ry="2.7" fill="#f59e0b"/>
@@ -898,32 +801,31 @@ html, body { min-width: 0; }
           </div>
         </div>
         <div class="chart-content-row">
-          <div id="donutBudget" class="donut-budget" style="background: conic-gradient(var(--c-rr) 0% 31.4%, var(--c-rb) 31.4% 100%);">
+          <div id="donutBudget" class="donut-budget">
             <div class="donut-budget-cut">
-              <strong id="budgetTotal">Rp 999,38</strong>
+              <strong id="budgetTotal">Rp 0</strong>
               <span>Miliar</span>
             </div>
           </div>
           <div class="donut-legend-list">
             <div class="d-item">
               <div class="d-item-left"><i style="background:var(--c-rr);width:8px;height:8px;border-radius:2px;display:inline-block"></i>Rusak Ringan</div>
-              <div class="d-item-right"><b id="budgetPctRR">31,4%</b></div>
+              <div class="d-item-right"><b id="budgetPctRR">0,0%</b></div>
             </div>
-            <div id="budgetValueRR" style="font-size:10.5px;color:#64748b;margin-top:-5px;padding-left:14px;font-weight:600">Rp 313,78 M</div>
+            <div id="budgetValueRR" style="font-size:10.5px;color:#64748b;margin-top:-5px;padding-left:14px;font-weight:600">Rp 0</div>
             <div class="d-item" style="margin-top:6px">
               <div class="d-item-left"><i style="background:var(--c-rb);width:8px;height:8px;border-radius:2px;display:inline-block"></i>Rusak Berat</div>
-              <div class="d-item-right"><b id="budgetPctRB">68,6%</b></div>
+              <div class="d-item-right"><b id="budgetPctRB">0,0%</b></div>
             </div>
-            <div id="budgetValueRB" style="font-size:10.5px;color:#64748b;margin-top:-5px;padding-left:14px;font-weight:600">Rp 685,60 M</div>
+            <div id="budgetValueRB" style="font-size:10.5px;color:#64748b;margin-top:-5px;padding-left:14px;font-weight:600">Rp 0</div>
           </div>
         </div>
       </div>
 
-      <!-- 3. TENGAH BAWAH: DISTRIBUSI JENIS PERKERASAN DENGAN GRID Y -->
+      <!-- 3. DISTRIBUSI JENIS PERKERASAN -->
       <div class="card-box">
         <div class="c-head">
           <div class="c-head-title">
-            <!-- Boks Biru Muda Isi Layers Biru -->
             <div class="sec-ico" style="background:#eff6ff">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
                 <path d="M12 4L4 8L12 12L20 8L12 4Z" fill="#1d72fe"/>
@@ -933,7 +835,7 @@ html, body { min-width: 0; }
             </div>
             <h3>Distribusi Jenis Perkerasan</h3>
           </div>
-          <span class="head-pill">Total: 1.428,36 km</span>
+          <span class="head-pill" id="pavementTotalPill">Total: 0,00 km</span>
         </div>
         <div class="pavement-wrap">
           <div class="pavement-grid-y">
@@ -973,11 +875,10 @@ html, body { min-width: 0; }
         </div>
       </div>
 
-      <!-- 4. KANAN BAWAH: DISTRIBUSI DESA DILALUI -->
+      <!-- 4. DISTRIBUSI DESA DILALUI -->
       <div class="card-box">
         <div class="c-head">
           <div class="c-head-title">
-            <!-- Boks Merah Muda Isi Pin Peta Merah -->
             <div class="sec-ico" style="background:#fee2e2">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="8.5" r="5" fill="#f43f5e"/>
@@ -1011,7 +912,7 @@ html, body { min-width: 0; }
             <span style="color:#10b981;font-size:16px;font-weight:900;">A</span>
             <h3 style="font-size:14px">Daftar Ruas Jalan</h3>
           </div>
-          <div class="c-head-sub" id="tableNoteCount">Menampilkan 699 ruas dari Excel (sesuai filter aktif)</div>
+          <div class="c-head-sub" id="tableNoteCount">Menampilkan 0 ruas dari Excel</div>
         </div>
         <div class="tb-actions">
           <button class="h-btn">𝄀𝄀𝄀 Kolom</button>
@@ -1028,7 +929,6 @@ html, body { min-width: 0; }
             </tr>
           </thead>
           <tbody id="roadsTableBody">
-            <!-- Baris data dirender oleh JavaScript -->
           </tbody>
         </table>
       </div>
@@ -1038,14 +938,6 @@ html, body { min-width: 0; }
 
   <!-- SCRIPT ENGINE -->
   <script>
-/* ============================================================
-   DATA ENGINE
-   - Excel = MASTER DATA
-   - Visible kecamatan sheets only
-   - Hidden sheets (2026/Rekap/Intersec) are ignored
-   - SHP = GEOMETRY ONLY
-   ============================================================ */
-
 const $ = id => document.getElementById(id);
 const state = {
   roads: [],
@@ -1093,7 +985,6 @@ function num(v){
   if(typeof v==="number") return isFinite(v)?v:0;
   let s=String(v).trim().replace(/\s/g,"");
   if(!s) return 0;
-  // Indonesian formats: 1.234,56 ; 1234,56 ; 1234.56
   if(s.includes(",") && s.includes(".")) s=s.replace(/\./g,"").replace(",",".");
   else if(s.includes(",")) s=s.replace(",",".");
   else {
@@ -1135,8 +1026,6 @@ function findCol(h, names, fallback=-1){
   return fallback;
 }
 function detectColumns(rows){
-  // Struktur setiap sheet dapat berbeda jumlah kolom DESA, tetapi label utama tetap sama.
-  // Karena itu indeks kolom dibaca dari header sheet, bukan dipatok secara global.
   let hi=2;
   for(let i=0;i<Math.min(8,rows.length);i++){
     const hm=headerMap(rows[i]);
@@ -1157,9 +1046,7 @@ function detectColumns(rows){
   const akses=idx(h3,["AKSES KE"],-1);
   const rabrr=idx(h3,["KEBUTUHAN ANGGARAN RUSAK RINGAN","ANGGARAN RUSAK RINGAN","ANGGARAN RR","RAB RR"],-1);
   const rabrb=idx(h3,["KEBUTUHAN ANGGARAN RUSAK BERAT","ANGGARAN RUSAK BERAT","ANGGARAN RB","RAB RB"],-1);
-  // Header "DESA YANG DILALUI" muncul 2 kali pada banyak sheet.
-  // Jangan mengambil dari object h3 karena key yang sama akan tertimpa.
-  // Baca langsung posisi kolom pada baris header agar kedua blok terdeteksi.
+
   const desaStarts=[];
   const headerCells=rows[hi]||[];
   headerCells.forEach((v,i)=>{
@@ -1206,25 +1093,12 @@ function dominantPerk(p){
   ].sort((a,b)=>b[1]-a[1]);
   return items[0][1]>0?items[0][0]:"";
 }
-function getPerk(raw,c){
-  return dominantPerk(getPerkBreakdown(raw,c));
-}
 function parseVillageCells(raw,c){
   const out=[];
-  // SUMBER DESA WAJIB DARI EXCEL PKRMS.
-  // Pada setiap sheet terdapat blok pertama "DESA YANG DILALUI" berisi
-  // teks seperti "SUGIHMUKTI = 2,707 km" dan blok kedua berisi angka panjang.
-  // Kita hanya membaca blok teks pertama agar tidak mengambil data SHP
-  // maupun kolom angka turunan.
-  const headerRow = c.headerIndex>=0 ? state._currentHeaderRow : null;
   let start=4, end=c.panjang>=0?c.panjang:Math.min(raw.length,16);
-  // c.desaStarts berisi indeks semua header "DESA YANG DILALUI" pada baris header.
-  // Ambil area di antara header pertama dan header kedua (jika ada).
   if(Array.isArray(c.desaStarts) && c.desaStarts.length){
     const starts=[...new Set(c.desaStarts)].sort((a,b)=>a-b);
     start=starts[0]+1;
-    // Blok pertama adalah nama desa + panjang dalam teks.
-    // Blok kedua berisi angka panjang turunan, jadi berhenti tepat sebelum blok kedua.
     end=starts.length>1 ? starts[1] : end;
   }
   for(let i=start;i<end;i++){
@@ -1258,22 +1132,41 @@ function makeRoad(raw, kecName, c, rowNumber){
     kondisi:dominantCondition({baik,sedang,rr,rb}),
     perk:dominantPerk(p), perkData:p,
     rabRR:rabrr,rabRB:rabrb,rab:rabrr+rabrb,
-    // DESA DARI EXCEL PKRMS SAJA; SHP TIDAK DIGUNAKAN UNTUK DATA DESA.
     desaList,
     desa:desaList.map(x=>x.name).join(", "),
     row:rowNumber
   };
 }
-async function readExcel(file){
-  const ab=await file.arrayBuffer();
-  const wb=XLSX.read(ab,{type:"array",cellDates:false});
-  state.workbookName=file.name;
+
+/* Engine memproses Workbook XLSX: HANYA SHEET KECAMATAN (Sheet 2026 & Rekap otomatis diabaikan) */
+function processWorkbook(wb, sourceName="Google Sheets"){
+  state.workbookName=sourceName;
   const visible=[];
+  
+  // Daftar kata kunci sheet non-kecamatan yang wajib dilewati
+  const IGNORED_SHEETS = [
+    "REKAP", 
+    "REKAPITULASI", 
+    "2026", 
+    "PKRMS2026", 
+    "PKRMS 2026",
+    "INTERSEC",
+    "INTERSEKSI"
+  ];
+
   wb.SheetNames.forEach((name,i)=>{
     const meta=(wb.Workbook?.Sheets||[])[i]||{};
     if(meta.Hidden) return;
+
+    const sheetNorm = norm(name);
+    const isIgnored = IGNORED_SHEETS.some(ign => sheetNorm.includes(norm(ign))) || 
+                      sheetNorm === "2026" || 
+                      sheetNorm.startsWith("2026");
+
+    if (isIgnored) return; // Lewati sheet tahunan/rekap
     visible.push(name);
   });
+
   const roads=[];
   const sheetDiagnostics={};
   for(const sheetName of visible){
@@ -1300,15 +1193,16 @@ async function readExcel(file){
   const badSheets=Object.entries(EXPECTED_KEC_COUNTS).filter(([k,v])=>sheetDiagnostics[k]!==v);
   const status=badSheets.length?`Data terbaru • ${roads.length.toLocaleString("id-ID")} ruas • cek ${badSheets.length} sheet`:`Data terbaru • ${roads.length.toLocaleString("id-ID")} ruas • ${visible.length} kecamatan`;
   setStatus(status);
-  const villageCount=roads.reduce((n,r)=>n+(r.desaList||[]).length,0);
-  console.info("MONITORING DATA VALIDATION",state.diagnostics,badSheets);
-  console.info("VILLAGE DATA FROM EXCEL",{
-    rowsWithVillage:roads.filter(r=>(r.desaList||[]).length>0).length,
-    villageEntries:villageCount,
-    sample:roads.filter(r=>(r.desaList||[]).length>0).slice(0,5).map(r=>({kecamatan:r.kec,ruas:r.noDisplay,desa:r.desaList}))
-  });
+  console.info("SHEET KECAMATAN AKTIF DIPROSES:", visible);
   return roads.length;
 }
+
+async function readExcel(file){
+  const ab=await file.arrayBuffer();
+  const wb=XLSX.read(ab,{type:"array",cellDates:false});
+  return processWorkbook(wb, file.name);
+}
+
 function populateKecamatan(){
   const sel=$("selKec");
   const current=sel.value;
@@ -1347,8 +1241,6 @@ function currentRows(){
   return state.roads.filter(r=>{
     if(kec && r.kec!==kec) return false;
     if(ruas && (r.no!==ruas && r.nama!==ruas)) return false;
-    // Pencarian header difokuskan pada KECAMATAN dan RUAS JALAN.
-    // Mendukung kata sebagian, nomor ruas, dan pencarian tanpa memperhatikan huruf besar/kecil.
     if(q){
       const kecText=normalizeSearchText(r.kec);
       const ruasText=normalizeSearchText(r.nama);
@@ -1359,10 +1251,6 @@ function currentRows(){
     }
     return true;
   });
-}
-function updateSearchPlaceholder(){
-  const input=$("searchInput"); if(!input) return;
-  if(!String(input.value||"").trim()) input.title="Ketik minimal 1 huruf untuk melihat rekomendasi kecamatan atau ruas jalan";
 }
 function renderSearchSuggestions(){
   const input=$("searchInput"), box=$("searchSuggestions"); if(!input||!box)return;
@@ -1410,7 +1298,7 @@ function setKpi(rows){
   setText("kpiRR",fmtKm(rr)); setText("pctRR",km?((rr/km)*100).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+"%":"0,0%");
   setText("kpiRB",fmtKm(rb)); setText("pctRB",km?((rb/km)*100).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+"%":"0,0%");
   setText("kpiRAB",fmtRp(rab));
-  // progress bars in KPI if present
+  
   const vals=[b,se,rr,rb], ids=["progBaik","progSedang","progRR","progRB"];
   ids.forEach((id,i)=>{const e=$(id);if(e)e.style.width=(km?vals[i]/km*100:0)+"%";});
 }
@@ -1434,7 +1322,6 @@ function animateDonutGradient(el, parts){
   const finalBg=`conic-gradient(${parts.join(",")})`;
   if(reduced){ el.style.background=finalBg; return; }
 
-  // Mulai sebagai cincin kosong, lalu "digambar" searah jarum jam.
   const parsed=parts.map(part=>{
     const m=part.match(/(.+?)\s+([0-9.]+)%\s+([0-9.]+)%$/);
     return m ? {color:m[1],start:parseFloat(m[2]),end:parseFloat(m[3])} : null;
@@ -1489,8 +1376,6 @@ function renderCondition(rows){
   });
 }
 function renderBudget(rows){
-  // Distribusi anggaran selalu dihitung dari rows yang sedang aktif setelah seluruh filter.
-  // Excel tetap menjadi master; SHP tidak ikut menentukan nilai anggaran.
   const rr=rows.reduce((s,r)=>s+(Number(r.rabRR)||0),0);
   const rb=rows.reduce((s,r)=>s+(Number(r.rabRB)||0),0);
   const total=rr+rb;
@@ -1529,6 +1414,10 @@ function renderPavement(rows){
     TANAH:groups.TANAH,
     LAINNYA:groups.TELFORD
   };
+  const totalKm = Object.values(map).reduce((a,b)=>a+b,0);
+  const pill = $("pavementTotalPill");
+  if(pill) pill.textContent = `Total: ${fmtKm(totalKm)}`;
+
   document.querySelectorAll("[data-perk]").forEach(el=>{
     const key=el.getAttribute("data-perk");
     const val=map[key]||0;
@@ -1559,14 +1448,10 @@ function renderPavement(rows){
 }
 function renderVillage(rows){
   const groups={};
-  // rows sudah merupakan currentRows(), sehingga seluruh distribusi desa
-  // otomatis mengikuti Kecamatan/Ruas/Perkerasan/Kondisi/Pencarian yang aktif.
-  // Sumber panjang desa: kolom "DESA YANG DILALUI" pada Excel PKRMS.
-
   rows.forEach(r=>{
     (r.desaList||[]).forEach(v=>{
       if(!v.name) return;
-      const key=norm(v.name); // normalisasi nama desa agar variasi spasi tidak dihitung sebagai desa berbeda
+      const key=norm(v.name);
       if(!groups[key]) groups[key]={name:v.name,km:0};
       groups[key].km+=v.km;
     });
@@ -1639,7 +1524,6 @@ function renderRoadMap(rows){
     }
   });
 
-  // Saat filter Kecamatan/Ruas berubah, fokus ke trase yang sedang ditampilkan.
   if(visible.length && rows.length<state.roads.length){
     try{
       const fg=L.featureGroup(visible);
@@ -1669,8 +1553,6 @@ function normalizeProjectedGeoJSON(geo, prjText){
   const sample=shpCoordSample(geo.features.map(f=>f.geometry).filter(Boolean));
   if(!sample || Math.abs(sample[0])<=180 && Math.abs(sample[1])<=90) return geo;
 
-  // The Kabupaten Bandung SHP commonly uses UTM Zone 48 South.
-  // Prefer the .prj definition; if it cannot be interpreted, use EPSG:32748.
   let transformer=null;
   if(window.proj4){
     try{
@@ -1697,10 +1579,6 @@ function normalizeProjectedGeoJSON(geo, prjText){
     }catch(e){
       console.warn("Transformasi geometri gagal:",e);
     }
-  });
-  console.info("SHP coordinate transform",{
-    convertedVertices:converted,
-    source:prjText?"PRJ":"EPSG:32748 fallback"
   });
   return geo;
 }
@@ -1729,12 +1607,9 @@ async function loadSHPParts(parts){
 
   let geometries, records;
   try{
-    // Parse with the PRJ first. If it still returns projected coordinates,
-    // normalizeProjectedGeoJSON() below handles the coordinate system.
     geometries=shp.parseShp(shpBuf, prjText || undefined);
     records=shp.parseDbf(dbfBuf);
   }catch(err){
-    console.error("SHP/DBF parse error",err);
     throw new Error("Gagal membaca SHP/DBF: "+(err.message||err));
   }
 
@@ -1759,16 +1634,8 @@ async function loadSHPParts(parts){
   state.shpMatchedCount=[...state.roadByNo.keys()]
     .filter(k=>state.shpIndex.has(k)).length;
 
-  console.info("SHP LOADED",{
-    file:state.shpName,
-    features:state.shpFeatureCount,
-    matchedRoads:state.shpMatchedCount,
-    sampleProperties:geo.features[0]?.properties||null
-  });
-
   renderRoadMap(currentRows());
 
-  // Zoom to all matched geometries currently visible.
   const wanted=new Set(currentRows().map(r=>roadKey(r.no)).filter(Boolean));
   const visibleFeatures=geo.features.filter(f=>wanted.has(shpKey(f.properties)));
   if(visibleFeatures.length && window.map){
@@ -1776,9 +1643,7 @@ async function loadSHPParts(parts){
       const group=L.featureGroup(visibleFeatures.map(f=>L.geoJSON(f)));
       const b=group.getBounds();
       if(b.isValid()) window.map.fitBounds(b,{padding:[25,25],maxZoom:14});
-    }catch(e){
-      console.warn("Fit bounds SHP:",e);
-    }
+    }catch(e){}
   }
 
   return true;
@@ -1801,294 +1666,153 @@ function updateCurrentDate(){
 updateCurrentDate();
 setInterval(updateCurrentDate,60000);
 
+/* ================= ASBRAT GOOGLE APPS SCRIPT DATA BRIDGE ================= */
+const ASBRAT_PROXY_URL = "https://script.google.com/macros/s/AKfycbyCAmBtUjGMhmBCnc_tKH0omJjMr7GUaWsAiNQe4Dqi-7nQBKiWvhG7OKb2ngSsqZ8b/exec";
+const GOOGLE_DRIVE_CONFIG = {
+  proxyUrl: ASBRAT_PROXY_URL,
+  syncInterval: 300000
+};
+const GOOGLE_DRIVE_SYNC_INTERVAL = GOOGLE_DRIVE_CONFIG.syncInterval;
 
-/* ================= ASBRAT STATIC SERVER DATA =================
-   Public dashboard: Excel/SHP are NOT needed in the browser.
-   The published GitHub Pages files are:
-   ./data/roads.json
-   ./data/jalan.geojson
-   ./data/status.json
-   Excel remains the master at the admin PC; SHP is geometry only.
-================================================================ */
-async function loadPublishedData(){
-  const cacheBust = Date.now();
-  const statusRes = await fetch(`./data/status.json?v=${cacheBust}`, {cache:"no-store"});
-  if(!statusRes.ok) throw new Error("status.json tidak tersedia");
-  const meta = await statusRes.json();
-  const version = encodeURIComponent(meta.syncedAt || meta.version || cacheBust);
+function googleDriveConfigured(){
+  return !!GOOGLE_DRIVE_CONFIG.proxyUrl;
+}
 
-  const [roadsRes, geoRes] = await Promise.all([
-    fetch(`./data/roads.json?v=${version}`, {cache:"no-store"}),
-    fetch(`./data/jalan.geojson?v=${version}`, {cache:"no-store"})
-  ]);
-  if(!roadsRes.ok) throw new Error("roads.json tidak tersedia");
-  if(!geoRes.ok) throw new Error("jalan.geojson tidak tersedia");
+function proxyUrl(file){
+  return `${GOOGLE_DRIVE_CONFIG.proxyUrl}?file=${encodeURIComponent(file)}&_asbrat=${Date.now()}`;
+}
 
-  const roads = await roadsRes.json();
-  const geo = await geoRes.json();
+function base64ToBytes(base64){
+  const clean=String(base64||"").replace(/\s/g,"");
+  const binary=atob(clean);
+  const bytes=new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+  return bytes;
+}
 
-  if(!Array.isArray(roads)) throw new Error("roads.json bukan array data ruas");
-  if(!geo || geo.type!=="FeatureCollection") throw new Error("jalan.geojson bukan FeatureCollection");
-
-  state.roads = roads;
-  state.allRows = roads.slice();
-  state.roadByNo = new Map();
-  roads.forEach(r=>{
-    const k=roadKey(r.no);
-    if(k && !state.roadByNo.has(k)) state.roadByNo.set(k,r);
+async function fetchProxyJson(file){
+  const res=await fetch(proxyUrl(file),{
+    method:"GET",
+    mode:"cors",
+    cache:"no-store",
+    credentials:"omit"
   });
+  if(!res.ok) throw new Error(`Apps Script HTTP ${res.status} saat membaca ${file}.`);
+  const text=await res.text();
+  let json;
+  try{ json=JSON.parse(text); }
+  catch(e){ throw new Error(`Respons Apps Script untuk ${file} bukan JSON.`); }
+  if(json.status && json.status !== "OK") throw new Error(json.message || `Apps Script gagal membaca ${file}.`);
+  return json;
+}
 
-  state.workbookName = meta.source?.excel || "PKRMS (server)";
-  state.shpName = meta.source?.shp || "SHP (server)";
-  state.shpGeoJSON = geo;
-  state.shpFeatureCount = Number(meta.traceCount || geo.features.length || 0);
-  indexGeoJSON(geo);
-  state.shpMatchedCount = [...state.roadByNo.keys()]
-    .filter(k=>state.shpIndex.has(k)).length;
+async function downloadProxyFile(file, filename, type="application/octet-stream"){
+  const json=await fetchProxyJson(file);
+  if(!json.data) throw new Error(`Data base64 untuk ${filename} tidak ada.`);
+  const bytes=base64ToBytes(json.data);
+  if(!bytes.byteLength) throw new Error(`${filename} kosong.`);
+  return new File([bytes], filename, {type, lastModified:Date.now()});
+}
 
-  state.diagnostics = {
-    visibleSheets: meta.visibleSheets || 31,
-    totalRoads: roads.length,
-    sheetCounts: meta.sheetCounts || {}
-  };
+/* FUNGSI YANG DIUPDATE: LANGSUNG MENERIMA ARRAY JSON DARI APPS SCRIPT */
+async function loadGoogleDriveData(){
+  if(!googleDriveConfigured()) throw new Error("Konfigurasi Apps Script belum lengkap.");
 
-  populateKecamatan();
-  refreshAll();
+  setStatus("Google Drive • melalui Apps Script • membaca master data…");
+  const jsonSheet = await fetchProxyJson("sheet");
+  let count = 0;
 
-  const synced = meta.syncedAtDisplay || meta.syncedAt || "";
-  const time = synced ? String(synced).match(/(\d{2}:\d{2}:\d{2})/)?.[1] : "";
-  const stamp = time || new Date().toLocaleTimeString("id-ID",{
+  if (jsonSheet.sheets && Array.isArray(jsonSheet.sheets)) {
+    // Membaca array sheets JSON langsung dari Apps Script
+    const wb = XLSX.utils.book_new();
+    jsonSheet.sheets.forEach(s => {
+      const ws = XLSX.utils.aoa_to_sheet(s.data);
+      XLSX.utils.book_append_sheet(wb, ws, s.name);
+    });
+    count = processWorkbook(wb, "Google Sheets PKRMS");
+  } else if (jsonSheet.data) {
+    // Membaca format Base64 jika tersedia
+    const bytes = base64ToBytes(jsonSheet.data);
+    const excel = new File([bytes], "pkrms 2026-.xlsx", {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    });
+    count = await readExcel(excel);
+  } else {
+    throw new Error(jsonSheet.message || "Data sheet dari Apps Script kosong atau tidak dikenali.");
+  }
+
+  setStatus(`Google Drive • master ${count.toLocaleString("id-ID")} ruas • membaca SHP…`);
+  
+  let shpOk = false;
+  try {
+    const shp = await downloadProxyFile("shp","Jalan-Kab-Bandung.shp");
+    const dbf = await downloadProxyFile("dbf","Jalan-Kab-Bandung.dbf");
+    const prj = await downloadProxyFile("prj","Jalan-Kab-Bandung.prj","text/plain");
+    shpOk = await loadSHPParts([shp,dbf,prj]);
+  } catch(e) {
+    console.warn("Apps Script SHP dilewati/gagal:", e);
+  }
+
+  state.lastAutoSync=Date.now();
+  const now=new Date().toLocaleTimeString("id-ID",{
     hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false
   });
-
-  setStatus(`Data tersinkronisasi • ${roads.length.toLocaleString("id-ID")} ruas jalan • ${state.shpFeatureCount.toLocaleString("id-ID")} trase • Sinkronisasi ${stamp}`);
-
-  console.info("ASBRAT STATIC DATA LOADED", {
-    roads: roads.length,
-    traces: state.shpFeatureCount,
-    matched: state.shpMatchedCount,
-    syncedAt: meta.syncedAt
-  });
-  return true;
+  setStatus(shpOk
+    ? `Google Drive tersinkronisasi • ${count.toLocaleString("id-ID")} ruas • ${state.shpFeatureCount.toLocaleString("id-ID")} trase • ${now}`
+    : `Google Drive • ${count.toLocaleString("id-ID")} ruas • Geometri SHP belum aktif • ${now}`);
+  return {count, shpOk};
 }
 
-/* ---------------- FOLDER CONNECT + AUTO SYNC ----------------
-   Browser security requires the user to select the folder once.
-   After permission is granted, the directory handle is persisted
-   in IndexedDB and the app checks the folder automatically.
----------------------------------------------------------------- */
-const AUTO_SYNC_INTERVAL = 5000;
-const DB_NAME = "monitoring-jalan-kab-bandung";
-const DB_STORE = "settings";
-
-function openHandleDB(){
-  return new Promise((resolve,reject)=>{
-    if(!("indexedDB" in window)) return reject(new Error("IndexedDB tidak tersedia."));
-    const req=indexedDB.open(DB_NAME,1);
-    req.onupgradeneeded=()=>req.result.createObjectStore(DB_STORE);
-    req.onsuccess=()=>resolve(req.result);
-    req.onerror=()=>reject(req.error);
-  });
-}
-async function saveFolderHandle(handle){
-  try{
-    const db=await openHandleDB();
-    await new Promise((resolve,reject)=>{
-      const tx=db.transaction(DB_STORE,"readwrite");
-      tx.objectStore(DB_STORE).put(handle,"folderHandle");
-      tx.oncomplete=resolve; tx.onerror=()=>reject(tx.error);
-    });
-    db.close();
-  }catch(e){ console.warn("Handle folder tidak dapat disimpan:",e); }
-}
-async function restoreFolderHandle(){
-  try{
-    const db=await openHandleDB();
-    const handle=await new Promise((resolve,reject)=>{
-      const tx=db.transaction(DB_STORE,"readonly");
-      const req=tx.objectStore(DB_STORE).get("folderHandle");
-      req.onsuccess=()=>resolve(req.result||null);
-      req.onerror=()=>reject(req.error);
-    });
-    db.close();
-    return handle;
-  }catch(e){
-    console.warn("Gagal memulihkan folder:",e);
-    return null;
-  }
-}
-async function folderPermission(handle, mode="read"){
-  if(!handle)return false;
-  try{
-    if((await handle.queryPermission({mode}))==="granted") return true;
-    return (await handle.requestPermission({mode}))==="granted";
-  }catch(e){ return false; }
-}
-async function scanConnectedFolder(handle){
-  const files=[];
-
-  // Baca folder dan seluruh subfolder secara rekursif.
-  // Ini membuat file SHP tetap terdeteksi walaupun disimpan dalam
-  // subfolder "SHP", "Trase", "GIS", atau folder data lainnya.
-  async function walk(dir, prefix=""){
-    for await(const [name,h] of dir.entries()){
-      if(h.kind==="file"){
-        try{
-          const f=await h.getFile();
-          files.push(f);
-        }catch(e){
-          console.warn("Tidak dapat membaca file:",prefix+name,e);
-        }
-      }else if(h.kind==="directory"){
-        await walk(h,prefix+name+"/");
-      }
-    }
-  }
-  await walk(handle);
-
-  const excel=files.find(f=>/\.(xlsx|xls)$/i.test(f.name));
-
-  // Semua komponen SHP dikumpulkan. File .sbn/.sbx/.xml bersifat tambahan.
-  const shpParts=files.filter(f=>/\.(shp|dbf|shx|prj|cpg|sbn|sbx|xml)$/i.test(f.name));
-
-  return {files,excel,shpParts};
-}
-function folderSignature(files){
-  return files
-    .filter(f=>/\.(xlsx|xls|shp|dbf|shx|prj|cpg)$/i.test(f.name))
-    .map(f=>`${f.name}|${f.size}|${f.lastModified}`)
-    .sort()
-    .join("||");
-}
-async function syncConnectedFolder(force=false){
-  const handle=state.folderHandle;
-  if(!handle || state.autoSyncBusy)return false;
-
-  const granted=await folderPermission(handle,"read");
-  if(!granted){
-    setStatus("Folder tersimpan • izin perlu diberikan");
-    return false;
-  }
-
+async function syncGoogleDrive(force=false){
+  if(state.autoSyncBusy)return false;
   state.autoSyncBusy=true;
   try{
-    const {files,excel,shpParts}=await scanConnectedFolder(handle);
-    if(!excel) throw new Error("File Excel (.xlsx/.xls) tidak ditemukan di folder.");
-
-    const sig=folderSignature(files);
-    if(!force && sig===state.folderSignature){
-      // Tetap pastikan peta sudah terisi bila sebelumnya belum berhasil.
-      if(!state.shpGeoJSON && shpParts.some(f=>/\.shp$/i.test(f.name))){
-        await loadSHPParts(shpParts);
-      }
-      return false;
-    }
-
-    state.folderSignature=sig;
-
-    // EXCEL = MASTER DATA
-    const count=await readExcel(excel);
-
-    // SHP = GEOMETRY ONLY
-    let shpOk=false;
-    if(shpParts.some(f=>/\.shp$/i.test(f.name))){
-      try{
-        shpOk=await loadSHPParts(shpParts);
-      }catch(shpErr){
-        console.error("SHP AUTO SYNC:",shpErr);
-        state.shpGeoJSON=null;
-        state.shpIndex.clear();
-        state.shpFeatureCount=0;
-        state.shpMatchedCount=0;
-      }
-    }else{
-      state.shpGeoJSON=null;
-      state.shpIndex.clear();
-      state.shpFeatureCount=0;
-      state.shpMatchedCount=0;
-      renderRoadMap(currentRows());
-    }
-
-    state.lastAutoSync=Date.now();
-    const now=new Date().toLocaleTimeString("id-ID",{
-      hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false
-    });
-
-    if(shpOk){
-      setStatus(`Data tersinkronisasi • ${count.toLocaleString("id-ID")} ruas jalan • ${state.shpFeatureCount.toLocaleString("id-ID")} trase • Sinkronisasi ${now}`);
-    }else{
-      setStatus(`Auto Sync Excel aktif • ${count.toLocaleString("id-ID")} ruas • SHP belum terbaca • ${now}`);
-    }
+    await loadGoogleDriveData();
     return true;
   }catch(err){
-    console.error("AUTO SYNC:",err);
-    setStatus("Auto Sync • menunggu perubahan");
+    console.error("GOOGLE DRIVE SYNC:",err);
+    const msg=err?.message||String(err);
+    if(/Failed to fetch|CORS|NetworkError|fetch/i.test(msg)){
+      setStatus("Apps Script • koneksi gagal / CORS");
+    }else{
+      setStatus("Apps Script • "+msg.slice(0,140));
+    }
+    if(force){
+      alert("Data cloud belum dapat dibaca.\n\n"+msg+"\n\nPastikan Web App Apps Script masih aktif dan aksesnya = Siapa saja.");
+    }
     return false;
   }finally{
     state.autoSyncBusy=false;
   }
 }
-function getDataConnectionStatus(){
-  return {
-    excel: state.workbookName || null,
-    shp: state.shpName || null,
-    shpFeatures: state.shpFeatureCount || 0,
-    shpMatchedRoads: state.shpMatchedCount || 0,
-    autoSync: !!state.autoSyncTimer
-  };
+
+function startGoogleDriveAutoSync(){
+  if(state.autoSyncTimer) clearInterval(state.autoSyncTimer);
+  state.autoSyncTimer=setInterval(()=>syncGoogleDrive(false),GOOGLE_DRIVE_SYNC_INTERVAL);
 }
 
-function startAutoSync(){
-  if(state.autoSyncTimer) clearInterval(state.autoSyncTimer);
-  state.autoSyncTimer=setInterval(()=>syncConnectedFolder(false),AUTO_SYNC_INTERVAL);
-  syncConnectedFolder(false);
+async function connectGoogleDrive(){
+  await syncGoogleDrive(true);
+  if(state.workbookName) startGoogleDriveAutoSync();
 }
-async function connectFolder(){
-  if(!window.showDirectoryPicker){
-    alert("Browser ini tidak mendukung Folder Terhubung. Gunakan Google Chrome/Edge desktop terbaru.");
-    return;
-  }
-  try{
-    const handle=await window.showDirectoryPicker({mode:"read"});
-    state.folderHandle=handle;
-    await saveFolderHandle(handle);
-    const granted=await folderPermission(handle,"read");
-    if(!granted){
-      setStatus("Folder terhubung • izin baca belum diberikan");
-      return;
-    }
-    state.folderSignature="";
-    await syncConnectedFolder(true);
-    startAutoSync();
-  }catch(err){
-    console.error(err);
-    if(err?.name!=="AbortError") alert("Gagal membaca folder: "+err.message);
-  }
-}
-$("btnFolder")?.addEventListener("click",connectFolder);
-$("selKec")?.addEventListener("change",()=>{populateRuas();refreshAll();});
-["selRuas"].forEach(id=>$(id)?.addEventListener("change",refreshAll));
-$("searchInput")?.addEventListener("input",()=>{ updateSearchPlaceholder(); renderSearchSuggestions(); refreshAll(); });
-$("searchSuggestions")?.addEventListener("mousedown",e=>{const item=e.target.closest(".search-suggestion");if(item){e.preventDefault();chooseSearchSuggestion(item);}});
-$("searchInput")?.addEventListener("keydown",e=>{const box=$("searchSuggestions");if(!box?.classList.contains("show"))return;const items=[...box.querySelectorAll(".search-suggestion")];if(e.key==="Escape"){closeSearchSuggestions();return;}if((e.key==="ArrowDown"||e.key==="ArrowUp")&&items.length){e.preventDefault();let i=items.findIndex(x=>x.classList.contains("active"));i=e.key==="ArrowDown"?(i+1)%items.length:(i<=0?items.length-1:i-1);items.forEach(x=>x.classList.remove("active"));items[i].classList.add("active");items[i].scrollIntoView({block:"nearest"});}else if(e.key==="Enter"){const item=items.find(x=>x.classList.contains("active"));if(item){e.preventDefault();chooseSearchSuggestion(item);}}});
-document.addEventListener("click",e=>{if(!e.target.closest(".search-box"))closeSearchSuggestions();});
+
+$("btnFolder")?.addEventListener("click",connectGoogleDrive);
 $("btnReset")?.addEventListener("click",()=>{
-  $("selKec").value=""; populateRuas(); $("selRuas").value="";
+  $("selKec").value="";
+  populateRuas();
+  $("selRuas").value="";
   $("searchInput").value="";
-  closeSearchSuggestions();
-  updateSearchPlaceholder();
   refreshAll();
 });
-$("roadsTableBody")?.addEventListener("click",e=>{
-  const a=e.target.closest(".view-link"); if(!a)return;
-  e.preventDefault();
-  const no=a.dataset.no;
-  const road=state.roadByNo.get(no);
-  if(road && state.shpIndex.has(no)){
-    const feats=state.shpIndex.get(no);
-    const gj=L.featureGroup(feats.map(f=>L.geoJSON(f)));
-    try{map.fitBounds(gj.getBounds(),{padding:[30,30]});}catch(_){}
-  }
+$("selKec")?.addEventListener("change",()=>{ populateRuas(); refreshAll(); });
+$("selRuas")?.addEventListener("change",refreshAll);
+$("searchInput")?.addEventListener("input",()=>{ renderSearchSuggestions(); refreshAll(); });
+$("searchSuggestions")?.addEventListener("click",e=>{
+  const btn=e.target.closest(".search-suggestion");
+  if(btn) chooseSearchSuggestion(btn);
+});
+document.addEventListener("click",e=>{
+  if(!e.target.closest(".search-box")) closeSearchSuggestions();
 });
 
 /* ---------------- MAP BASE ---------------- */
@@ -2110,62 +1834,27 @@ $("btnPeta")?.addEventListener("click",function(){
 const roadLayerGroup=L.layerGroup().addTo(map);
 window.roadLayerGroup=roadLayerGroup;
 
-/* Public mode: read the published static data first.
-   This works on desktop, Android, and iPhone/Safari because the phone
-   does not need direct access to the admin PC folder. */
-setStatus("Memuat data ASBRAT…");
+setStatus("Menghubungkan ke Google Drive…");
 setKpi([]);
 renderCondition([]);
 renderTable([]);
 
 (async function bootstrapData(){
   try{
-    await loadPublishedData();
-    return;
+    await syncGoogleDrive(true);
+    if(state.workbookName) startGoogleDriveAutoSync();
   }catch(e){
-    console.warn("Published data belum tersedia:",e);
-    setStatus("Data server belum tersedia • Coba Folder Terhubung di PC");
-  }
-
-  // Fallback for the admin PC: retain the existing local-folder workflow.
-  try{
-    if(!window.showDirectoryPicker){
-      setStatus("Data server belum tersedia • Browser HP tidak perlu Auto Sync lokal");
-      return;
-    }
-
-    const handle=await restoreFolderHandle();
-    if(!handle){
-      setStatus("Data server belum tersedia • Hubungkan folder di PC admin");
-      return;
-    }
-
-    state.folderHandle=handle;
-    const permission=await handle.queryPermission({mode:"read"});
-
-    if(permission==="granted"){
-      await syncConnectedFolder(true);
-      startAutoSync();
-    }else{
-      setStatus("Folder tersimpan • Klik Folder Terhubung untuk mengaktifkan kembali");
-    }
-  }catch(e){
-    console.warn("Local Auto Sync fallback:",e);
-    setStatus("Data server belum tersedia • Hubungkan folder di PC admin");
+    console.warn("Google Drive bootstrap:",e);
+    setStatus("Google Drive • klik Google Drive Terhubung untuk mencoba lagi");
   }
 })();
 </script>
 
 <script>
-/* ===== PARALLAX TRANSITION CONTROLLER ===== */
+/* ===== PARALLAX CONTROLLER ===== */
 (function(){
   document.body.classList.add('parallax-mode');
-
-  const selectors = [
-    '.kpi-card','.card','.panel','.map-card','.chart-card','.table-card',
-    '.dashboard-card','.content-card'
-  ];
-
+  const selectors = ['.kpi-card','.card','.panel','.map-card','.chart-card','.table-card','.card-box'];
   function collect(){
     const nodes=[];
     selectors.forEach(sel=>{
@@ -2175,7 +1864,6 @@ renderTable([]);
     });
     return nodes;
   }
-
   function applyParallax(){
     const nodes=collect();
     nodes.forEach((el,i)=>{
@@ -2188,13 +1876,7 @@ renderTable([]);
       el.classList.add('px-enter');
     });
   }
-
-  // Initial entrance
-  window.addEventListener('DOMContentLoaded', ()=>{
-    setTimeout(applyParallax,80);
-  });
-
-  // Re-trigger on filter/control changes without changing the existing handlers.
+  window.addEventListener('DOMContentLoaded', ()=>{ setTimeout(applyParallax,80); });
   document.addEventListener('change', e=>{
     if(!e.target.closest('select,input')) return;
     setTimeout(()=>{
@@ -2205,36 +1887,7 @@ renderTable([]);
       });
     },30);
   });
-
-  // Also support buttons such as Reset Filter / navigation / export.
-  document.addEventListener('click', e=>{
-    const btn=e.target.closest('button,[role="button"],a');
-    if(!btn) return;
-    if(btn.closest('#map') || btn.closest('.leaflet-control')) return;
-    setTimeout(()=>{
-      collect().forEach(el=>{
-        el.classList.remove('px-enter','px-refresh');
-        void el.offsetWidth;
-        el.classList.add('px-refresh');
-      });
-    },40);
-  });
-
-  window.enableParallaxMode = function(enabled=true){
-    document.body.classList.toggle('parallax-mode', !!enabled);
-    if(enabled) applyParallax();
-  };
 })();
 </script>
-
-
-
-
-
-<script>
-/* Chart animation is handled directly by renderCondition/renderBudget/renderPavement.
-   No card/title/legend/table parallax is applied. */
-</script>
-
 </body>
 </html>
