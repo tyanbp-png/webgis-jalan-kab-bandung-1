@@ -4477,7 +4477,6 @@ $("currentDateBtn").textContent = "📅 " + new Intl.DateTimeFormat("id-ID", {
     try {
       const ok = (await sha256(value)) === HASH;
       if (ok) {
-        sessionStorage.setItem('kabbdg_access', '1');
         document.body.classList.remove('password-locked');
         gate.remove();
       } else {
@@ -4491,11 +4490,8 @@ $("currentDateBtn").textContent = "📅 " + new Intl.DateTimeFormat("id-ID", {
     }
   }
 
-  if (sessionStorage.getItem('kabbdg_access') === '1') {
-    document.body.classList.remove('password-locked');
-    gate.remove();
-    return;
-  }
+  // Password selalu diminta ulang setiap kali halaman di-refresh/dibuka.
+  // Tidak menggunakan localStorage/sessionStorage untuk menyimpan status login.
   btn.addEventListener('click', unlock);
   input.addEventListener('keydown', e => { if (e.key === 'Enter') unlock(); });
   setTimeout(() => input.focus(), 50);
