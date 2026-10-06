@@ -1238,6 +1238,94 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .gis-map-frame { height: 360px !important; }
 }
 
+
+/* MOBILE/TABLET — TABEL DESA TIDAK BOLEH TERPOTONG HORIZONTAL */
+@media (max-width: 768px) {
+  .village-table-scroll {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    box-sizing: border-box !important;
+  }
+  .village-mini-table {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    table-layout: fixed !important;
+  }
+  .village-mini-table th,
+  .village-mini-table td {
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+  }
+  .village-mini-table th:nth-child(1),
+  .village-mini-table td:nth-child(1) {
+    width: 38px !important;
+  }
+  .village-mini-table th:nth-child(2),
+  .village-mini-table td:nth-child(2) {
+    width: auto !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+  .village-mini-table th:nth-child(3),
+  .village-mini-table td:nth-child(3) {
+    width: 96px !important;
+    max-width: 96px !important;
+    overflow: hidden !important;
+  }
+  .village-mini-table .prog-cell {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 4px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+  }
+  .village-mini-table .prog-cell .p-bar {
+    width: auto !important;
+    flex: 1 1 auto !important;
+    min-width: 8px !important;
+    max-width: 42px !important;
+    height: 8px !important;
+    flex-shrink: 1 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .village-table-scroll {
+    height: 175px !important;
+    max-height: 175px !important;
+  }
+  .village-mini-table {
+    font-size: 10.5px !important;
+  }
+  .village-mini-table th {
+    padding: 7px 6px !important;
+  }
+  .village-mini-table td {
+    padding: 6px !important;
+  }
+  .village-mini-table th:nth-child(1),
+  .village-mini-table td:nth-child(1) {
+    width: 34px !important;
+  }
+  .village-mini-table th:nth-child(3),
+  .village-mini-table td:nth-child(3) {
+    width: 92px !important;
+    max-width: 92px !important;
+  }
+  .village-mini-table .prog-cell .p-bar {
+    max-width: 34px !important;
+  }
+}
+
 /* LANDSCAPE PHONE */
 @media (max-width: 900px) and (orientation: landscape) {
   .sidebar, .nav-list { height: 54px; min-height: 54px; }
@@ -1721,6 +1809,197 @@ button, select, input { touch-action: manipulation; }
 }
 </style>
 
+
+<style id="responsive-landscape-phone-v13">
+/* =========================================================
+   V13 — OPTIMASI KHUSUS HP LANDSCAPE
+   Memaksimalkan area horizontal tanpa tumpang tindih.
+   ========================================================= */
+@media (max-width: 900px) and (orientation: landscape) {
+  html, body { width:100%; max-width:100%; overflow-x:hidden !important; }
+  body {
+    display:flex !important;
+    flex-direction:column !important;
+    height:100dvh !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+  }
+
+  /* Bottom navigation lebih tipis agar area kerja maksimal */
+  .sidebar {
+    order:2 !important;
+    width:100% !important;
+    height:52px !important;
+    min-height:52px !important;
+    flex:0 0 52px !important;
+  }
+  .nav-list {
+    height:52px !important;
+    min-height:52px !important;
+    padding:3px 6px !important;
+    gap:3px !important;
+    overflow:hidden !important;
+  }
+  .nav-btn {
+    flex:1 1 0 !important;
+    width:auto !important;
+    min-width:0 !important;
+    height:46px !important;
+    padding:2px 3px !important;
+    gap:2px !important;
+    font-size:7.5px !important;
+    line-height:1 !important;
+  }
+  .nav-btn svg { width:16px !important; height:16px !important; }
+
+  .content-wrapper {
+    order:1 !important;
+    width:100% !important;
+    height:calc(100dvh - 52px) !important;
+    min-height:0 !important;
+    padding:5px 7px 7px !important;
+    gap:6px !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  /* Header compact */
+  .top-header {
+    display:grid !important;
+    grid-template-columns:minmax(145px,.75fr) minmax(190px,1.2fr) auto !important;
+    gap:6px !important;
+    align-items:center !important;
+  }
+  .title-group h1 { font-size:12px !important; }
+  .title-group h2 { font-size:8px !important; }
+  .search-box { height:32px !important; min-height:32px !important; }
+  .search-box input { font-size:10px !important; }
+  .actions-right { gap:4px !important; overflow:hidden !important; }
+  .h-btn { height:29px !important; min-height:29px !important; padding:0 6px !important; font-size:8px !important; white-space:nowrap !important; }
+
+  /* Dashboard: manfaatkan lebar landscape */
+  #viewDashboard .kpi-row { grid-template-columns:repeat(4,minmax(0,1fr)) !important; gap:6px !important; }
+  #viewDashboard .middle-grid {
+    grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) !important;
+    gap:7px !important;
+    align-items:stretch !important;
+  }
+  #viewDashboard .middle-grid > .card-box:first-child { grid-column:1 / -1 !important; }
+  #viewDashboard .map-card-box .map-wrap { height:230px !important; min-height:230px !important; }
+  #viewDashboard .pavement-wrap { height:145px !important; }
+  #viewDashboard .village-table-scroll { height:145px !important; max-height:145px !important; }
+
+  /* PETA: hampir seluruh viewport dipakai map */
+  #viewPeta { min-height:0 !important; overflow:hidden !important; }
+  #viewPeta .peta-full-wrap {
+    width:100% !important;
+    height:calc(100dvh - 59px) !important;
+    min-height:300px !important;
+    max-height:none !important;
+    border-radius:10px !important;
+  }
+
+  /* Kontrol kiri atas: ringkas dan tidak menutupi seluruh map */
+  #viewPeta .floating-peta-controls {
+    top:6px !important;
+    left:6px !important;
+    right:auto !important;
+    width:min(58%,430px) !important;
+    max-width:58% !important;
+    display:flex !important;
+    flex-wrap:wrap !important;
+    align-items:center !important;
+    gap:4px !important;
+    padding:5px !important;
+    border-radius:9px !important;
+  }
+  #viewPeta .floating-peta-controls > span {
+    flex:0 0 100% !important;
+    height:22px !important;
+    line-height:22px !important;
+    font-size:8.5px !important;
+    white-space:nowrap !important;
+  }
+  #viewPeta .floating-peta-controls .map-filter-group {
+    flex:1 1 calc(50% - 4px) !important;
+    width:auto !important;
+    min-width:0 !important;
+    height:30px !important;
+    min-height:30px !important;
+    padding:2px 5px !important;
+  }
+  #viewPeta .floating-peta-controls .map-filter-group span { display:none !important; }
+  #viewPeta .floating-peta-controls .map-filter-group select {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    height:25px !important;
+    font-size:9px !important;
+  }
+  #viewPeta .floating-peta-controls .h-btn {
+    flex:1 1 calc(33.333% - 4px) !important;
+    width:auto !important;
+    min-width:0 !important;
+    height:28px !important;
+    padding:0 4px !important;
+    font-size:8px !important;
+  }
+
+  /* Panel desa: sisi kanan, bukan menimpa tengah peta */
+  #viewPeta .village-result-panel {
+    top:6px !important;
+    right:6px !important;
+    bottom:6px !important;
+    left:auto !important;
+    width:min(40%,330px) !important;
+    max-width:40% !important;
+    max-height:none !important;
+    margin:0 !important;
+    padding:9px !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    border-radius:11px !important;
+  }
+  #viewPeta .village-result-title { font-size:11px !important; }
+  #viewPeta .village-result-meta { font-size:8.5px !important; }
+  #viewPeta .village-highlight-legend { font-size:8px !important; }
+  #viewPeta .village-road-item {
+    grid-template-columns:68px minmax(0,1fr) !important;
+    min-height:30px !important;
+    padding:5px !important;
+    font-size:8.5px !important;
+  }
+  #viewPeta .village-road-name { line-height:1.15 !important; overflow-wrap:anywhere !important; }
+
+  /* Zoom tidak bertabrakan dengan panel kanan */
+  #viewPeta #mapMax .leaflet-top.leaflet-left {
+    top:auto !important;
+    bottom:7px !important;
+    left:7px !important;
+    right:auto !important;
+  }
+  #viewPeta #mapMax .leaflet-control-zoom { margin:0 !important; }
+
+  /* Popup ruas tetap terbaca di landscape */
+  #viewPeta .leaflet-popup-content {
+    max-width:calc(100vw - 35px) !important;
+    min-width:190px !important;
+    font-size:10px !important;
+  }
+
+  /* Daftar ruas */
+  #viewDaftarRuas { height:calc(100dvh - 59px) !important; min-height:0 !important; }
+  #dedicatedRuasTableContainer { height:calc(100dvh - 155px) !important; min-height:180px !important; }
+
+  /* Analisis */
+  #viewAnalisis .analisis-grid-4 { grid-template-columns:repeat(4,minmax(0,1fr)) !important; gap:6px !important; }
+
+  /* Laporan */
+  #viewLaporan { min-height:0 !important; }
+  #viewLaporan .gis-map-frame { height:calc(100dvh - 150px) !important; min-height:230px !important; }
+}
+</style>
 </head>
 <body>
   <div id="passwordGate" aria-modal="true" role="dialog">
