@@ -1308,6 +1308,167 @@ body.password-locked { overflow:hidden !important; }
   #passwordGate { padding:16px; }
   #passwordGate .pg-card { padding:23px 19px; border-radius:17px; }
 }
+
+
+/* =========================================================
+   FINAL MOBILE / TABLET POLISH — V10
+   Fokus: Peta tidak saling menimpa, panel desa tidak menutup
+   kontrol, dan area peta tetap proporsional.
+   ========================================================= */
+@media (max-width: 900px) {
+  #viewPeta { min-height: 0 !important; overflow: hidden !important; }
+  #viewPeta .peta-full-wrap {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: calc(100dvh - 72px) !important;
+    min-height: 0 !important;
+    border-radius: 12px !important;
+  }
+
+  /* Kontrol peta: title + 2 filter + 3 tombol, tidak bertumpuk */
+  #viewPeta .floating-peta-controls {
+    top: 8px !important;
+    left: 8px !important;
+    right: 8px !important;
+    width: auto !important;
+    max-width: none !important;
+    display: grid !important;
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    align-items: center !important;
+    gap: 5px !important;
+    padding: 6px !important;
+    box-sizing: border-box !important;
+    z-index: 1200 !important;
+  }
+  #viewPeta .floating-peta-controls > span {
+    grid-column: 1 / -1 !important;
+    min-width: 0 !important;
+    height: 27px !important;
+    font-size: 9.5px !important;
+    line-height: 27px !important;
+    white-space: nowrap !important;
+  }
+  #viewPeta .floating-peta-controls .map-filter-group {
+    grid-column: span 3 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 34px !important;
+    height: 34px !important;
+    padding: 3px 6px !important;
+    box-sizing: border-box !important;
+  }
+  #viewPeta .floating-peta-controls .map-filter-group span {
+    display: none !important;
+  }
+  #viewPeta .floating-peta-controls .map-filter-group select {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    font-size: 10px !important;
+    height: 27px !important;
+  }
+  #viewPeta .floating-peta-controls .h-btn {
+    grid-column: span 2 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 32px !important;
+    padding: 0 5px !important;
+    font-size: 9px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Panel desa dipindah ke bawah agar TIDAK menutupi kontrol peta. */
+  #viewPeta .village-result-panel {
+    top: auto !important;
+    bottom: 10px !important;
+    left: 8px !important;
+    right: 8px !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: 43% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 10px !important;
+    border-radius: 12px !important;
+    z-index: 1250 !important;
+    box-sizing: border-box !important;
+  }
+  #viewPeta .village-result-title { font-size: 12px !important; }
+  #viewPeta .village-result-meta { font-size: 9.5px !important; }
+  #viewPeta .village-highlight-legend { font-size: 9px !important; }
+  #viewPeta .village-road-item {
+    grid-template-columns: 82px minmax(0,1fr) !important;
+    min-height: 36px !important;
+    padding: 7px 6px !important;
+  }
+  #viewPeta .village-road-name {
+    min-width: 0 !important;
+    overflow-wrap: anywhere !important;
+    line-height: 1.25 !important;
+  }
+
+  /* Leaflet controls selalu di sudut kanan bawah dan tidak tertutup panel */
+  #viewPeta #mapMax .leaflet-top.leaflet-left {
+    top: auto !important;
+    bottom: 12px !important;
+    left: auto !important;
+    right: 8px !important;
+  }
+  #viewPeta #mapMax .leaflet-control-zoom {
+    margin: 0 !important;
+  }
+}
+
+/* HP kecil: beri ruang lebih untuk peta dan panel desa */
+@media (max-width: 480px) {
+  #viewPeta .peta-full-wrap {
+    height: calc(100dvh - 66px) !important;
+    border-radius: 10px !important;
+  }
+  #viewPeta .floating-peta-controls {
+    top: 6px !important;
+    left: 6px !important;
+    right: 6px !important;
+    gap: 4px !important;
+    padding: 5px !important;
+  }
+  #viewPeta .floating-peta-controls > span {
+    height: 24px !important;
+    line-height: 24px !important;
+    font-size: 9px !important;
+  }
+  #viewPeta .floating-peta-controls .map-filter-group {
+    min-height: 32px !important;
+    height: 32px !important;
+  }
+  #viewPeta .floating-peta-controls .map-filter-group select {
+    font-size: 9.5px !important;
+  }
+  #viewPeta .floating-peta-controls .h-btn {
+    height: 30px !important;
+    font-size: 8.5px !important;
+  }
+  #viewPeta .village-result-panel {
+    bottom: 8px !important;
+    left: 6px !important;
+    right: 6px !important;
+    max-height: 41% !important;
+    padding: 9px !important;
+  }
+  #viewPeta .village-road-item {
+    grid-template-columns: 76px minmax(0,1fr) !important;
+    min-height: 34px !important;
+    padding: 6px !important;
+  }
+}
+
+/* Tablet portrait: kontrol tetap ringkas dan panel desa berada di bawah */
+@media (min-width: 481px) and (max-width: 900px) and (orientation: portrait) {
+  #viewPeta .peta-full-wrap { height: calc(100dvh - 74px) !important; }
+  #viewPeta .village-result-panel { max-width: 520px !important; margin: 0 auto !important; }
+}
+
 </style>
 
 <style id="responsive-v8-max-mobile-tablet">
