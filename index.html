@@ -703,6 +703,213 @@ path.trase-path-highlight:hover {
 .instansi-block span { font-size: 9.5px; color: #64748b; font-weight: 700; }
 
 /* PRINT MODE A3 LANDSCAPE */
+
+/* =========================================================
+   RESPONSIVE MOBILE / TABLET
+   Menjaga layout desktop tetap sama, dan menata ulang UI
+   untuk layar kecil tanpa mengubah fungsi JavaScript.
+   ========================================================= */
+@media (max-width: 900px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .sidebar {
+    order: 2;
+    width: 100%;
+    height: 64px;
+    min-height: 64px;
+    flex: 0 0 64px;
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    top: auto;
+    border-right: 0;
+    border-top: 1px solid rgba(255,255,255,.10);
+    background-position: center 55%;
+  }
+
+  .nav-list {
+    height: 64px;
+    padding: 5px 6px;
+    gap: 3px;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-around;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-list::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    flex: 0 0 68px;
+    width: 68px;
+    padding: 4px 2px;
+    gap: 2px;
+    font-size: 8.5px;
+    border-radius: 9px;
+  }
+  .nav-btn svg { width: 19px; height: 19px; }
+  .sb-footer { display: none; }
+
+  .content-wrapper {
+    order: 1;
+    width: 100%;
+    height: calc(100dvh - 64px);
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px 10px 20px;
+    gap: 10px;
+  }
+
+  .top-header {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .title-group h1 { font-size: 17px; }
+  .title-group h2 { font-size: 13px; }
+
+  .search-box {
+    width: 100%;
+    max-width: none;
+    height: 40px;
+  }
+
+  .actions-right {
+    width: 100%;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+  .actions-right::-webkit-scrollbar { display: none; }
+  .h-btn {
+    flex: 0 0 auto;
+    height: 36px;
+    padding: 0 10px;
+    font-size: 10.5px;
+  }
+
+  .filters-bar {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+  .f-card { height: 50px; }
+  .reset-btn {
+    width: 100%;
+    height: 44px;
+    justify-content: center;
+  }
+
+  .kpi-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+  .k-card {
+    min-width: 0;
+    padding: 9px 10px;
+    gap: 8px;
+  }
+  .k-icon-wrap { width: 34px; height: 34px; border-radius: 9px; }
+  .k-icon-wrap svg { width: 19px; height: 19px; }
+  .k-label { font-size: 9.5px; }
+  .k-val { font-size: 15px; }
+  .k-sub { font-size: 9px; }
+
+  .middle-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .map-card-box { grid-row: auto; }
+  .card-box {
+    min-width: 0;
+    padding: 12px;
+    border-radius: 12px;
+  }
+  .c-head { margin-bottom: 10px; }
+  .c-head-title h3 { font-size: 13px; }
+  .head-pill { font-size: 9.5px; padding: 4px 7px; }
+
+  .map-wrap {
+    min-height: 330px;
+    height: 330px;
+  }
+
+  .chart-content-row {
+    gap: 12px;
+    padding: 4px 0;
+  }
+  .donut-gauge, .donut-budget {
+    width: 122px;
+    height: 122px;
+  }
+  .donut-cut, .donut-budget-cut {
+    width: 80px;
+    height: 80px;
+  }
+  .donut-cut strong { font-size: 15px; }
+  .donut-cut span { font-size: 10px; }
+  .donut-budget-cut strong { font-size: 12px; }
+  .donut-budget-cut span { font-size: 9px; }
+  .donut-legend-list { gap: 7px; }
+  .d-item { gap: 5px; font-size: 10.5px; }
+  .d-item b { min-width: 40px; font-size: 11px; }
+  .d-item small { min-width: 52px; font-size: 9.5px; }
+
+  .pavement-wrap { height: 190px; overflow-x: auto; overflow-y: hidden; }
+  .pavement-chart { min-width: 420px; }
+
+  .table-scroll {
+    max-height: 190px;
+    overflow-x: auto;
+  }
+  .mini-table { min-width: 420px; }
+
+  .data-table-card { overflow: hidden; }
+  .main-data-table { min-width: 900px; }
+}
+
+@media (max-width: 480px) {
+  .content-wrapper { padding: 8px 8px 16px; }
+  .title-group h1 { font-size: 15px; }
+  .title-group h2 { font-size: 11.5px; }
+
+  .nav-btn {
+    flex-basis: 62px;
+    width: 62px;
+    font-size: 8px;
+  }
+  .nav-btn svg { width: 18px; height: 18px; }
+
+  .k-card { padding: 8px; gap: 7px; }
+  .k-icon-wrap { width: 31px; height: 31px; }
+  .k-icon-wrap svg { width: 17px; height: 17px; }
+  .k-val { font-size: 14px; }
+
+  .card-box { padding: 10px; }
+  .sec-ico { width: 28px; height: 28px; }
+  .sec-ico svg { width: 16px; height: 16px; }
+  .c-head-title { gap: 7px; }
+  .c-head-title h3 { font-size: 12.5px; }
+
+  .chart-content-row { gap: 9px; }
+  .donut-gauge, .donut-budget { width: 108px; height: 108px; }
+  .donut-cut, .donut-budget-cut { width: 70px; height: 70px; }
+  .donut-cut strong { font-size: 13px; }
+  .donut-budget-cut strong { font-size: 10.5px; }
+  .d-item-left { gap: 5px; }
+  .d-item b { min-width: 36px; }
+  .d-item small { min-width: 48px; }
+
+  .map-wrap { min-height: 290px; height: 290px; }
+}
+
 @media print {
   @page {
     size: A3 landscape;
