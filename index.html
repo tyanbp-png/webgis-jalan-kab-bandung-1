@@ -3295,6 +3295,101 @@ button,select,input{touch-action:manipulation}
 }
 </style>
 
+
+<style id="fix-v24-mobile-village-popup-reset">
+/* V24: HP portrait — seluruh kontrol Peta (termasuk Reset) harus selalu terlihat.
+   Popup hasil desa ditempatkan di bawah area kontrol agar tidak menutup filter/reset. */
+@media (max-width:480px) and (orientation:portrait){
+  #viewPeta.active .floating-peta-controls{
+    top:8px!important;
+    left:8px!important;
+    right:8px!important;
+    width:auto!important;
+    max-width:none!important;
+    max-height:none!important;
+    height:auto!important;
+    overflow:visible!important;
+    display:grid!important;
+    grid-template-columns:repeat(6,minmax(0,1fr))!important;
+    grid-auto-rows:auto!important;
+    align-items:center!important;
+    gap:5px!important;
+    padding:7px!important;
+    box-sizing:border-box!important;
+  }
+  #viewPeta.active .floating-peta-controls > span{
+    grid-column:1 / -1!important;
+    height:25px!important;
+    line-height:25px!important;
+    font-size:10px!important;
+    overflow:hidden!important;
+  }
+  #viewPeta.active .floating-peta-controls .map-filter-group{
+    grid-column:span 2!important;
+    width:100%!important;
+    min-width:0!important;
+    height:34px!important;
+    min-height:34px!important;
+    padding:3px 5px!important;
+    box-sizing:border-box!important;
+  }
+  #viewPeta.active .floating-peta-controls .map-filter-group span{display:none!important}
+  #viewPeta.active .floating-peta-controls .map-filter-group select{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    height:27px!important;
+    font-size:10px!important;
+    font-weight:800!important;
+  }
+  #viewPeta.active .floating-peta-controls .h-btn{
+    grid-column:span 2!important;
+    width:100%!important;
+    min-width:0!important;
+    height:32px!important;
+    min-height:32px!important;
+    padding:0 4px!important;
+    font-size:9px!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  /* Popup dimulai di bawah kontrol, bukan menimpa Reset. */
+  #viewPeta.active .village-result-panel{
+    top:auto!important;
+    left:8px!important;
+    right:8px!important;
+    bottom:74px!important;
+    width:auto!important;
+    max-width:none!important;
+    height:auto!important;
+    max-height:28dvh!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    padding:8px!important;
+    border-radius:14px!important;
+    z-index:1200!important;
+  }
+  /* Sisakan ruang peta dan pastikan zoom tidak tertutup bottom nav. */
+  #viewPeta.active #mapMax .leaflet-control-zoom{
+    margin-left:9px!important;
+    margin-bottom:82px!important;
+    z-index:1300!important;
+  }
+}
+
+@media (max-width:900px) and (orientation:landscape){
+  #viewPeta.active .floating-peta-controls{
+    max-height:none!important;
+    overflow:visible!important;
+  }
+  #viewPeta.active .village-result-panel{
+    bottom:8px!important;
+    max-height:42dvh!important;
+  }
+}
+</style>
+
 </head>
 <body>
   <div id="passwordGate" aria-modal="true" role="dialog">
