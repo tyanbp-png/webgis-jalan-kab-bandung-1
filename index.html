@@ -2242,95 +2242,7 @@ button, select, input { touch-action: manipulation; }
 }
 </style>
 
-<style id="mobile-leaflet-popup-final">
-/* =========================================================
-   POPUP PETA HP/TABLET — tap ruas, popup tetap dekat titik
-   dan otomatis diposisikan Leaflet agar tidak keluar layar.
-   Desktop tetap menggunakan hover.
-   ========================================================= */
-@media (max-width:900px){
-  #viewPeta .leaflet-popup{
-    max-width:calc(100vw - 18px) !important;
-  }
-
-  #viewPeta .leaflet-popup-content-wrapper{
-    max-width:calc(100vw - 18px) !important;
-    max-height:48dvh !important;
-    overflow:hidden !important;
-    border-radius:12px !important;
-    box-shadow:0 6px 22px rgba(15,23,42,.25) !important;
-  }
-
-  #viewPeta .leaflet-popup-content{
-    box-sizing:border-box !important;
-    width:auto !important;
-    min-width:0 !important;
-    max-width:calc(100vw - 46px) !important;
-    max-height:calc(48dvh - 14px) !important;
-    overflow-y:auto !important;
-    -webkit-overflow-scrolling:touch !important;
-    margin:9px 11px !important;
-    padding:0 3px 3px 0 !important;
-    font-size:11px !important;
-    line-height:1.3 !important;
-  }
-
-  #viewPeta .leaflet-popup-content > div{
-    min-width:0 !important;
-    max-width:100% !important;
-    width:100% !important;
-    overflow-wrap:anywhere !important;
-  }
-
-  #viewPeta .leaflet-popup-content a{
-    min-height:36px !important;
-    box-sizing:border-box !important;
-    justify-content:center !important;
-    width:100% !important;
-    font-size:11px !important;
-  }
-
-  #viewPeta .leaflet-popup-close-button{
-    z-index:5 !important;
-    width:32px !important;
-    height:32px !important;
-    line-height:30px !important;
-    font-size:23px !important;
-    padding:0 !important;
-    right:2px !important;
-    top:2px !important;
-    border-radius:50% !important;
-    background:rgba(255,255,255,.94) !important;
-  }
-
-  #viewPeta .leaflet-popup-tip-container{
-    display:block !important;
-  }
-}
-
-@media (max-width:600px) and (orientation:portrait){
-  #viewPeta .leaflet-popup-content{
-    font-size:10.5px !important;
-  }
-  #viewPeta .leaflet-popup-content-wrapper{
-    max-height:44dvh !important;
-  }
-  #viewPeta .leaflet-popup-content{
-    max-height:calc(44dvh - 12px) !important;
-  }
-}
-
-@media (max-width:900px) and (orientation:landscape){
-  #viewPeta .leaflet-popup-content-wrapper{
-    max-height:55dvh !important;
-  }
-  #viewPeta .leaflet-popup-content{
-    max-height:calc(55dvh - 12px) !important;
-  }
-}
-</style>
-
-<style id="responsive-v14-final-max">
+<style id="responsive-v15-device-max">
 /* =========================================================
    V14 FINAL — MAXIMIZED TABLET / HP / HP LANDSCAPE
    Override terakhir agar tidak kalah oleh responsive lama.
@@ -2547,6 +2459,220 @@ button,select,input{font-family:inherit}
   background: rgba(255,255,255,.8);
 }
 </style>
+
+<style id="responsive-v14-final-max">
+/* =========================================================
+   RESPONSIVE V14 FINAL — HP / HP LANDSCAPE / TABLET
+   Lapisan terakhir agar mengalahkan override responsif lama.
+   Tidak mengubah data, JS, peta, atau logika RAB.
+   ========================================================= */
+html, body { max-width:100%; }
+body { min-width:0; }
+.content-wrapper, .view-panel, .middle-grid, .card-box, .data-table-card,
+.top-header, .filters-bar, .kpi-row { min-width:0; }
+img, svg, canvas { max-width:100%; }
+button, select, input { font-family:inherit; }
+
+/* ===================== HP PORTRAIT ===================== */
+@media (max-width:480px) and (orientation:portrait){
+  body { height:100dvh !important; overflow:hidden !important; }
+  .sidebar { height:56px !important; min-height:56px !important; flex:0 0 56px !important; width:100% !important; }
+  .nav-list { height:56px !important; min-height:56px !important; width:100% !important; padding:3px 5px !important; gap:3px !important; flex-direction:row !important; align-items:stretch !important; }
+  .nav-btn { flex:1 1 0 !important; width:auto !important; min-width:0 !important; height:50px !important; padding:2px 1px !important; border-radius:9px !important; gap:2px !important; font-size:7.2px !important; line-height:1 !important; }
+  .nav-btn svg { width:17px !important; height:17px !important; }
+  .sb-footer { display:none !important; }
+
+  .content-wrapper { width:100% !important; height:calc(100dvh - 56px) !important; padding:6px 6px calc(9px + env(safe-area-inset-bottom)) !important; gap:6px !important; overflow-x:hidden !important; overflow-y:auto !important; }
+  .view-panel { width:100% !important; gap:7px !important; }
+  .top-header { display:grid !important; grid-template-columns:1fr !important; gap:6px !important; width:100% !important; }
+  .title-group { min-width:0 !important; }
+  .title-group h1 { font-size:14px !important; line-height:1.1 !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .title-group h2 { font-size:9.5px !important; line-height:1.15 !important; }
+  .search-box { width:100% !important; max-width:none !important; height:37px !important; min-height:37px !important; }
+  .search-box input { font-size:11px !important; }
+  .actions-right { width:100% !important; max-width:100% !important; display:flex !important; overflow-x:auto !important; overflow-y:hidden !important; padding-bottom:1px !important; scrollbar-width:none; }
+  .actions-right::-webkit-scrollbar { display:none; }
+  .h-btn { flex:0 0 auto !important; height:31px !important; min-height:31px !important; padding:0 8px !important; font-size:8.5px !important; }
+
+  .filters-bar { display:grid !important; grid-template-columns:1fr !important; gap:6px !important; }
+  .f-card { width:100% !important; height:44px !important; min-width:0 !important; padding:5px 9px !important; }
+  .f-icon-box { width:30px !important; height:30px !important; }
+  .f-body select { font-size:11.5px !important; }
+  .reset-btn { width:100% !important; height:38px !important; justify-content:center !important; }
+
+  .kpi-row { display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:5px !important; }
+  .k-card { min-width:0 !important; min-height:69px !important; padding:7px !important; gap:6px !important; }
+  .k-icon-wrap { width:28px !important; height:28px !important; flex:0 0 28px !important; }
+  .k-icon-wrap svg { width:16px !important; height:16px !important; }
+  .k-label { font-size:7.8px !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .k-val { font-size:12px !important; line-height:1.05 !important; white-space:nowrap; }
+  .k-sub { font-size:7.3px !important; }
+
+  .middle-grid { display:grid !important; grid-template-columns:1fr !important; gap:6px !important; }
+  .card-box { min-width:0 !important; padding:8px !important; border-radius:10px !important; }
+  .c-head { min-width:0 !important; margin-bottom:7px !important; }
+  .c-head-title { min-width:0 !important; }
+  .c-head-title h3 { font-size:11px !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .head-pill { font-size:8px !important; padding:3px 6px !important; white-space:nowrap; }
+  .sec-ico { width:26px !important; height:26px !important; flex:0 0 26px !important; }
+  .sec-ico svg { width:15px !important; height:15px !important; }
+
+  .map-card-box .map-wrap, .map-wrap { height:245px !important; min-height:245px !important; flex:none !important; }
+  .chart-content-row { min-width:0 !important; gap:6px !important; }
+  .donut-gauge, .donut-budget { width:84px !important; height:84px !important; flex:0 0 84px !important; }
+  .donut-cut, .donut-budget-cut { width:54px !important; height:54px !important; }
+  .d-list { min-width:0 !important; }
+  .d-item { min-width:0 !important; font-size:9px !important; }
+  .d-item span { min-width:0 !important; }
+  .d-item b { font-size:9px !important; }
+  .d-item small { font-size:7.5px !important; }
+  .pavement-wrap { height:165px !important; min-height:165px !important; overflow:hidden !important; }
+  .pavement-chart { min-width:0 !important; width:100% !important; }
+  .village-table-scroll { height:170px !important; max-height:170px !important; overflow:auto !important; }
+
+  .data-table-card { min-width:0 !important; width:100% !important; }
+  #dedicatedRuasTableContainer { width:100% !important; max-width:100% !important; height:calc(100dvh - 250px) !important; min-height:230px !important; overflow:auto !important; -webkit-overflow-scrolling:touch !important; }
+  #dedicatedRuasTableContainer .main-data-table { min-width:1100px !important; }
+  #dedicatedRuasTableContainer .main-data-table th { position:sticky !important; top:0 !important; z-index:5 !important; }
+  #dedicatedRuasTableContainer .main-data-table th, #dedicatedRuasTableContainer .main-data-table td { padding:7px 8px !important; font-size:9.5px !important; }
+
+  #viewPeta { min-width:0 !important; }
+  #viewPeta .peta-full-wrap { width:100% !important; height:calc(100dvh - 70px) !important; min-height:420px !important; }
+  #viewPeta .floating-peta-controls { left:6px !important; right:6px !important; top:6px !important; width:auto !important; max-width:none !important; display:grid !important; grid-template-columns:1fr 1fr !important; gap:5px !important; padding:6px !important; }
+  #viewPeta .floating-peta-controls > span { grid-column:1/-1 !important; max-width:100% !important; white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important; font-size:8.5px !important; }
+  #viewPeta .map-filter-group { min-width:0 !important; width:100% !important; }
+  #viewPeta .map-filter-group span { display:none !important; }
+  #viewPeta .map-filter-group select { width:100% !important; min-width:0 !important; font-size:8.5px !important; }
+  #viewPeta .floating-peta-controls .h-btn { width:100% !important; min-width:0 !important; height:29px !important; font-size:8.5px !important; padding:0 4px !important; }
+  #viewPeta .village-result-panel { top:126px !important; left:6px !important; right:6px !important; width:auto !important; max-width:none !important; max-height:45% !important; overflow:auto !important; }
+
+  .leaflet-popup-content { min-width:170px !important; max-width:calc(100vw - 36px) !important; margin:9px 11px !important; font-size:11px !important; }
+  .leaflet-control-zoom a { width:30px !important; height:30px !important; line-height:30px !important; }
+}
+
+/* ===================== HP LANDSCAPE ===================== */
+@media (min-width:481px) and (max-width:900px) and (orientation:landscape){
+  body { height:100dvh !important; overflow:hidden !important; }
+  .sidebar { width:100% !important; height:48px !important; min-height:48px !important; flex:0 0 48px !important; }
+  .nav-list { width:100% !important; height:48px !important; min-height:48px !important; padding:2px 7px !important; gap:3px !important; flex-direction:row !important; }
+  .nav-btn { flex:1 1 0 !important; width:auto !important; min-width:0 !important; height:44px !important; padding:1px 2px !important; gap:2px !important; font-size:7px !important; line-height:1 !important; }
+  .nav-btn svg { width:14px !important; height:14px !important; }
+  .sb-footer { display:none !important; }
+
+  .content-wrapper { width:100% !important; height:calc(100dvh - 48px) !important; padding:5px 7px 7px !important; gap:6px !important; overflow-x:hidden !important; overflow-y:auto !important; }
+  .view-panel { width:100% !important; gap:6px !important; }
+  .top-header { display:grid !important; grid-template-columns:minmax(145px,.8fr) minmax(160px,1.2fr) auto !important; gap:6px !important; align-items:center !important; }
+  .title-group h1 { font-size:11.5px !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .title-group h2 { font-size:8px !important; }
+  .search-box { width:100% !important; max-width:none !important; height:31px !important; min-height:31px !important; }
+  .search-box input { font-size:9px !important; }
+  .actions-right { min-width:0 !important; max-width:100% !important; overflow-x:auto !important; gap:3px !important; scrollbar-width:none; }
+  .actions-right::-webkit-scrollbar { display:none; }
+  .h-btn { flex:0 0 auto !important; height:28px !important; min-height:28px !important; padding:0 6px !important; font-size:7.5px !important; }
+
+  .filters-bar { grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto !important; gap:5px !important; }
+  .f-card { height:38px !important; padding:4px 7px !important; }
+  .f-icon-box { width:27px !important; height:27px !important; }
+  .f-body span { font-size:7px !important; }
+  .f-body select { font-size:9.5px !important; padding-left:3px !important; padding-right:18px !important; }
+  .reset-btn { height:38px !important; padding:0 9px !important; font-size:8px !important; }
+
+  .kpi-row { grid-template-columns:repeat(7,minmax(0,1fr)) !important; gap:4px !important; }
+  .k-card { min-width:0 !important; min-height:50px !important; padding:5px !important; gap:4px !important; border-radius:8px !important; }
+  .k-icon-wrap { width:22px !important; height:22px !important; flex:0 0 22px !important; border-radius:7px !important; }
+  .k-icon-wrap svg { width:13px !important; height:13px !important; }
+  .k-label { font-size:6.5px !important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .k-val { font-size:9.5px !important; line-height:1 !important; white-space:nowrap; }
+  .k-sub { font-size:6px !important; }
+
+  /* Dashboard landscape: peta + grafik memakai lebar layar, tidak memaksa 4 baris */
+  #viewDashboard .middle-grid { grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) !important; gap:6px !important; align-items:stretch !important; }
+  #viewDashboard .middle-grid > .map-card-box { grid-column:1 !important; grid-row:span 2 !important; }
+  #viewDashboard .middle-grid > .card-box:not(.map-card-box) { min-height:145px !important; }
+  #viewDashboard .map-card-box .map-wrap { height:315px !important; min-height:315px !important; }
+  #viewDashboard .chart-content-row { gap:5px !important; }
+  #viewDashboard .donut-gauge, #viewDashboard .donut-budget { width:74px !important; height:74px !important; flex:0 0 74px !important; }
+  #viewDashboard .donut-cut, #viewDashboard .donut-budget-cut { width:48px !important; height:48px !important; }
+  #viewDashboard .d-item { font-size:7.5px !important; }
+  #viewDashboard .d-item b { font-size:8px !important; }
+  #viewDashboard .d-item small { font-size:6.5px !important; }
+  #viewDashboard .pavement-wrap { height:125px !important; min-height:125px !important; }
+  #viewDashboard .village-table-scroll { height:125px !important; max-height:125px !important; }
+
+  #viewPeta .peta-full-wrap { height:calc(100dvh - 58px) !important; min-height:290px !important; width:100% !important; }
+  #viewPeta .floating-peta-controls { top:5px !important; left:5px !important; right:auto !important; width:min(58%,500px) !important; max-width:58% !important; display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:4px !important; padding:5px !important; }
+  #viewPeta .floating-peta-controls > span { grid-column:1/-1 !important; font-size:7.5px !important; }
+  #viewPeta .map-filter-group { min-width:0 !important; height:27px !important; }
+  #viewPeta .map-filter-group span { display:none !important; }
+  #viewPeta .map-filter-group select { width:100% !important; min-width:0 !important; height:23px !important; font-size:8px !important; }
+  #viewPeta .floating-peta-controls .h-btn { height:25px !important; font-size:7.5px !important; }
+  #viewPeta .village-result-panel { top:5px !important; right:5px !important; left:auto !important; bottom:5px !important; width:min(34%,300px) !important; max-width:34% !important; max-height:none !important; overflow:auto !important; }
+
+  #viewDaftarRuas { min-width:0 !important; height:calc(100dvh - 54px) !important; }
+  #dedicatedRuasTableContainer { height:calc(100dvh - 118px) !important; min-height:170px !important; overflow:auto !important; -webkit-overflow-scrolling:touch !important; }
+  #dedicatedRuasTableContainer .main-data-table { min-width:1100px !important; }
+  #dedicatedRuasTableContainer .main-data-table th { position:sticky !important; top:0 !important; z-index:5 !important; }
+  #dedicatedRuasTableContainer .main-data-table th, #dedicatedRuasTableContainer .main-data-table td { padding:6px 8px !important; font-size:9px !important; }
+}
+
+/* ===================== TABLET PORTRAIT ===================== */
+@media (min-width:481px) and (max-width:768px) and (orientation:portrait){
+  body { height:100dvh !important; overflow:hidden !important; }
+  .sidebar { width:100% !important; height:64px !important; min-height:64px !important; flex:0 0 64px !important; }
+  .nav-list { width:100% !important; height:64px !important; padding:4px 8px !important; gap:5px !important; flex-direction:row !important; }
+  .nav-btn { flex:1 1 0 !important; width:auto !important; min-width:0 !important; height:56px !important; padding:3px !important; gap:3px !important; font-size:8px !important; }
+  .nav-btn svg { width:19px !important; height:19px !important; }
+  .sb-footer { display:none !important; }
+  .content-wrapper { height:calc(100dvh - 64px) !important; padding:8px 9px 12px !important; overflow-y:auto !important; }
+  .top-header { display:grid !important; grid-template-columns:minmax(170px,.8fr) minmax(220px,1.2fr) auto !important; gap:8px !important; }
+  .title-group h1 { font-size:16px !important; }
+  .title-group h2 { font-size:11px !important; }
+  .search-box { height:39px !important; max-width:none !important; }
+  .actions-right { overflow-x:auto !important; scrollbar-width:none; }
+  .actions-right::-webkit-scrollbar { display:none; }
+  .h-btn { flex:0 0 auto !important; height:34px !important; font-size:9px !important; }
+  .filters-bar { grid-template-columns:1fr 1fr !important; gap:7px !important; }
+  .filters-bar .reset-btn { grid-column:1/-1 !important; justify-content:center !important; }
+  .kpi-row { grid-template-columns:repeat(4,minmax(0,1fr)) !important; gap:7px !important; }
+  .k-card { min-width:0 !important; padding:8px !important; }
+  .k-label { font-size:8px !important; }.k-val { font-size:13px !important; }
+  .middle-grid { grid-template-columns:1fr 1fr !important; gap:8px !important; }
+  .middle-grid > .map-card-box { grid-column:1/-1 !important; }
+  .map-card-box .map-wrap { height:330px !important; min-height:330px !important; }
+  .pavement-wrap { min-height:170px !important; height:170px !important; }
+  .village-table-scroll { height:170px !important; max-height:170px !important; }
+  #dedicatedRuasTableContainer { height:calc(100dvh - 300px) !important; min-height:280px !important; overflow:auto !important; }
+}
+
+/* ===================== TABLET LANDSCAPE ===================== */
+@media (min-width:769px) and (max-width:1100px) and (orientation:landscape){
+  body { min-width:0 !important; }
+  .content-wrapper { padding:8px 10px 12px !important; gap:8px !important; }
+  .top-header { grid-template-columns:minmax(175px,.8fr) minmax(230px,1.2fr) auto !important; gap:8px !important; }
+  .title-group h1 { font-size:15px !important; }.title-group h2 { font-size:10px !important; }
+  .search-box { height:38px !important; max-width:none !important; }
+  .h-btn { height:32px !important; font-size:8.5px !important; padding:0 7px !important; }
+  .filters-bar { grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto !important; gap:7px !important; }
+  .f-card, .reset-btn { height:44px !important; }
+  .kpi-row { grid-template-columns:repeat(7,minmax(0,1fr)) !important; gap:6px !important; }
+  .k-card { padding:7px 8px !important; gap:6px !important; }
+  .k-icon-wrap { width:30px !important; height:30px !important; flex:0 0 30px !important; }
+  .k-label { font-size:8px !important; }.k-val { font-size:13px !important; }
+  .middle-grid { grid-template-columns:minmax(0,1.35fr) minmax(0,.95fr) minmax(0,.95fr) !important; gap:8px !important; }
+  .map-card-box .map-wrap { height:355px !important; min-height:355px !important; }
+  .donut-gauge, .donut-budget { width:88px !important; height:88px !important; flex-basis:88px !important; }
+  .donut-cut, .donut-budget-cut { width:58px !important; height:58px !important; }
+  .pavement-wrap, .village-table-scroll { height:165px !important; min-height:165px !important; }
+}
+
+/* Sentuhan layar: target klik minimum tanpa membesarkan desktop */
+@media (hover:none) and (pointer:coarse) and (max-width:1100px){
+  select, button, .nav-btn, .h-btn, .reset-btn { -webkit-user-select:none; user-select:none; }
+  .leaflet-control a { touch-action:manipulation; }
+  .village-mini-table tbody tr, .main-data-table tbody tr { min-height:34px; }
+}
+</style>
+
 </head>
 <body>
   <div id="passwordGate" aria-modal="true" role="dialog">
@@ -3921,18 +4047,13 @@ function parseRekapBudget(wb){
 }
 
 function getBudgetForRows(rows){
-  const kecSet=new Set(rows.map(r=>norm(r.kec)));
-  const isFull=!document.querySelector("#selKec")?.value && !document.querySelector("#selRuas")?.value && !String(document.querySelector("#searchInput")?.value||"").trim();
-  if(isFull && state.rekapBudget && state.rekapBudget.total>0){
-    return { rr:state.rekapBudget.rr, rb:state.rekapBudget.rb, total:state.rekapBudget.total, source:"Rekap" };
-  }
-  if(kecSet.size===1 && state.rekapBudget && state.rekapBudget.byKec.size){
-    const item=state.rekapBudget.byKec.get([...kecSet][0]);
-    if(item) return { rr:item.rr, rb:item.rb, total:item.total, source:"Rekap Kecamatan" };
-  }
-  const rr=rows.reduce((s,r)=>s+r.rabRR,0);
-  const rb=rows.reduce((s,r)=>s+r.rabRB,0);
-  return { rr, rb, total:rr+rb, source:"Ruas" };
+  // Satu sumber kebenaran RAB dashboard: hanya ruas yang sedang tampil/filter.
+  // RAB tiap ruas = RAB Rusak Ringan + RAB Rusak Berat.
+  // Sheet REKAP tetap dibaca sebagai referensi, tetapi tidak menggantikan agregasi RAB dashboard.
+  const visibleRows = Array.isArray(rows) ? rows : [];
+  const rr = visibleRows.reduce((s,r)=>s + Number(r?.rabRR || 0), 0);
+  const rb = visibleRows.reduce((s,r)=>s + Number(r?.rabRB || 0), 0);
+  return { rr, rb, total: rr + rb, source: "Ruas" };
 }
 
 function processWorkbook(wb, sourceName="Google Sheets"){
@@ -4768,32 +4889,13 @@ function renderAnalysisTable(){
   const sTot = filteredAnalysisRoads.reduce((s,r)=>s+r.sedang, 0);
   const rrTot = filteredAnalysisRoads.reduce((s,r)=>s+r.rr, 0);
   const rbTot = filteredAnalysisRoads.reduce((s,r)=>s+r.rb, 0);
-  // RAB kondisi kemantapan harus mengikuti sheet Rekap sebagai sumber
-  // rekapitulasi anggaran resmi. Untuk filter ruas tertentu, gunakan
-  // penjumlahan RAB pada data ruas karena tidak ada subtotal Rekap khusus ruas.
-  let budgetAnalysis;
-  if(!kecFilter && !ruasFilter && state.rekapBudget && state.rekapBudget.total > 0){
-    budgetAnalysis = {
-      rr: state.rekapBudget.rr,
-      rb: state.rekapBudget.rb,
-      total: state.rekapBudget.total
-    };
-  } else if(kecFilter && !ruasFilter && state.rekapBudget?.byKec?.size){
-    const item = state.rekapBudget.byKec.get(norm(kecFilter));
-    budgetAnalysis = item
-      ? { rr:item.rr, rb:item.rb, total:item.total }
-      : {
-          rr: filteredAnalysisRoads.reduce((s,r)=>s+r.rabRR,0),
-          rb: filteredAnalysisRoads.reduce((s,r)=>s+r.rabRB,0),
-          total: filteredAnalysisRoads.reduce((s,r)=>s+r.rab,0)
-        };
-  } else {
-    budgetAnalysis = {
-      rr: filteredAnalysisRoads.reduce((s,r)=>s+r.rabRR,0),
-      rb: filteredAnalysisRoads.reduce((s,r)=>s+r.rabRB,0),
-      total: filteredAnalysisRoads.reduce((s,r)=>s+r.rab,0)
-    };
-  }
+  // RAB kondisi kemantapan menggunakan sumber yang sama dengan dashboard:
+  // penjumlahan RAB Rusak Ringan + RAB Rusak Berat dari ruas yang terfilter.
+  const budgetAnalysis = {
+    rr: filteredAnalysisRoads.reduce((s,r)=>s + Number(r?.rabRR || 0), 0),
+    rb: filteredAnalysisRoads.reduce((s,r)=>s + Number(r?.rabRB || 0), 0),
+    total: filteredAnalysisRoads.reduce((s,r)=>s + Number(r?.rabRR || 0) + Number(r?.rabRB || 0), 0)
+  };
   const rabRRTot = budgetAnalysis.rr;
   const rabRBTot = budgetAnalysis.rb;
   const rabTot = budgetAnalysis.total;
@@ -4893,11 +4995,9 @@ function renderAnalysisTable(){
       const ikjKecNum = calcKemantapan(g.b, g.s, g.rr, g.rb, g.km);
       const ikjKecStr = ikjKecNum.toFixed(1) + "%";
 
-      // Total RAB per kecamatan mengikuti tab Rekap Google Sheet,
-      // bukan penjumlahan kolom RAB per ruas yang dapat berbeda dari
-      // subtotal resmi Rekap.
-      const rekapKec = state.rekapBudget?.byKec?.get(norm(kec));
-      const kecRab = rekapKec ? rekapKec.total : g.rab;
+      // Total RAB per kecamatan mengikuti penjumlahan RAB ruas yang
+      // sedang ditampilkan, sehingga konsisten dengan KPI dan tabel ruas.
+      const kecRab = g.rab;
 
       return `
         <tr>
@@ -5157,70 +5257,6 @@ function renderRoadMap(rows){
           const gmapsUrl = (lat !== null && lng !== null)
             ? `https://www.google.com/maps/search/?api=1&query=${lat.toFixed(6)},${lng.toFixed(6)}`
             : "#";
-
-function attachRoadPopupInteraction(lyr){
-  // Desktop/laptop: popup tampil saat mouse berada di atas ruas.
-  // HP/tablet: popup tampil saat ruas disentuh/tap.
-  const hasFinePointer = () => window.matchMedia("(hover:hover) and (pointer:fine)").matches;
-  let closeTimer = null;
-  let popupEl = null;
-  let popupInside = false;
-
-  const keepOpen = () => {
-    if(closeTimer) clearTimeout(closeTimer);
-    closeTimer = null;
-  };
-
-  const scheduleClose = () => {
-    if(closeTimer) clearTimeout(closeTimer);
-    closeTimer = setTimeout(() => {
-      if(!popupInside){
-        try { lyr.closePopup(); } catch(e){}
-      }
-    }, 180);
-  };
-
-  lyr.on("mouseover", () => {
-    if(!hasFinePointer()) return;
-    keepOpen();
-    try { lyr.openPopup(); } catch(e){}
-  });
-
-  lyr.on("mouseout", () => {
-    if(!hasFinePointer()) return;
-    scheduleClose();
-  });
-
-  lyr.on("popupopen", (e) => {
-    if(!hasFinePointer()) return;
-    popupEl = e.popup && e.popup.getElement ? e.popup.getElement() : null;
-    if(!popupEl) return;
-    popupInside = false;
-    popupEl.addEventListener("mouseenter", () => {
-      popupInside = true;
-      keepOpen();
-    });
-    popupEl.addEventListener("mouseleave", () => {
-      popupInside = false;
-      scheduleClose();
-    });
-  });
-
-  lyr.on("popupclose", () => {
-    popupInside = false;
-    popupEl = null;
-    if(closeTimer) clearTimeout(closeTimer);
-  });
-
-  // Leaflet bindPopup sudah menangani click/tap. Listener ini hanya
-  // memastikan perangkat touch membuka popup secara konsisten.
-  lyr.on("click", () => {
-    if(!hasFinePointer()){
-      try { lyr.openPopup(); } catch(e){}
-    }
-  });
-}
-
           lyr.bindPopup(`<div style="min-width:235px">
   <div style="font-weight:900;font-size:14px;margin-bottom:7px">${escapeHtml(details.nama)}</div>
   <div><small>No Ruas</small><br><b>${escapeHtml(details.no)}</b></div>
@@ -5230,7 +5266,6 @@ function attachRoadPopupInteraction(lyr){
   <div style="margin-top:8px"><small>Koordinat</small><br><b>${coordText}</b></div>
   <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 10px;background:#1d72fe;color:#fff;border-radius:8px;text-decoration:none;font-weight:800;font-size:12px">Buka di Google Maps</a>
 </div>`);
-          attachRoadPopupInteraction(lyr);
         }
       }).addTo(roadLayerGroup);
 
@@ -5321,7 +5356,6 @@ function renderRoadMapMax(){
   <div style="margin-top:8px"><small>Koordinat</small><br><b>${coordText}</b></div>
   <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 10px;background:#1d72fe;color:#fff;border-radius:8px;text-decoration:none;font-weight:800;font-size:12px">Buka di Google Maps</a>
 </div>`);
-          attachRoadPopupInteraction(lyr);
           if(isVillageRoad){
             lyr.on('add', () => { try { lyr.bringToFront(); } catch(e){} });
           }
@@ -5405,7 +5439,6 @@ function renderRoadMapReport(){
   <div style="margin-top:8px"><small>Koordinat</small><br><b>${coordText}</b></div>
   <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 10px;background:#1d72fe;color:#fff;border-radius:8px;text-decoration:none;font-weight:800;font-size:12px">Buka di Google Maps</a>
 </div>`);
-          attachRoadPopupInteraction(lyr);
         }
       });
       roadClusterReport.addLayer(layer);
