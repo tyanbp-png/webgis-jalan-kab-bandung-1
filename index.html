@@ -3390,6 +3390,22 @@ button,select,input{touch-action:manipulation}
 }
 </style>
 
+
+<style id="fix-village-condition-header">
+/* FIX HEADER KONDISI JALAN SAAT SCROLL */
+.village-condition-table thead th,
+.village-condition-table thead th.vc-bar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 20 !important;
+  background: #f8fafc !important;
+}
+
+/* Header tetap terlihat jelas saat baris di-scroll */
+.village-condition-table thead th {
+  box-shadow: 0 1px 0 #e2e8f0;
+}
+</style>
 </head>
 <body>
   <div id="passwordGate" aria-modal="true" role="dialog">
@@ -4548,7 +4564,9 @@ function num(v){
 // Nilai/data asli tetap tidak diubah; ini hanya untuk tampilan dashboard.
 function ceil1(n){
   const x = Number(n) || 0;
-  return Math.ceil((x - 1e-10) * 10) / 10;
+  const v = Math.ceil((x - 1e-10) * 10) / 10;
+  // Hilangkan tampilan -0 akibat floating-point pada nilai sangat kecil.
+  return Math.abs(v) < 1e-12 ? 0 : v;
 }
 function fmtKm(n){ return ceil1(n).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+" km"; }
 function fmtNum(n){ return ceil1(n).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1}); }
