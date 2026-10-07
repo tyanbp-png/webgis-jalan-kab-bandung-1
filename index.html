@@ -3118,6 +3118,103 @@ button,select,input{touch-action:manipulation}
   #viewDashboard .d-item b{font-size:8px!important}
   #viewDashboard .d-item small{font-size:7px!important}
 }
+
+/* =========================================================
+   V21 MOBILE VIEW ISOLATION + PETA FULLSCREEN
+   ========================================================= */
+@media (max-width:1100px){
+  .content-wrapper > .view-panel:not(.active){
+    display:none!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+  }
+  .content-wrapper > .view-panel.active{
+    display:flex!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+  }
+}
+
+@media (max-width:480px) and (orientation:portrait){
+  .content-wrapper{
+    position:relative!important;
+    padding-bottom:72px!important;
+  }
+  .content-wrapper:has(> #viewPeta.active){
+    padding:0 0 66px!important;
+    height:100dvh!important;
+    overflow:hidden!important;
+  }
+  .content-wrapper:has(> #viewPeta.active) > .top-header{display:none!important}
+  .content-wrapper:has(> #viewPeta.active) > #viewPeta.active{
+    position:fixed!important;
+    inset:0 0 66px 0!important;
+    width:100vw!important;
+    height:calc(100dvh - 66px)!important;
+    margin:0!important;
+    padding:0!important;
+    z-index:100!important;
+    display:block!important;
+    overflow:hidden!important;
+  }
+  #viewPeta.active .peta-full-wrap{
+    position:absolute!important;
+    inset:0!important;
+    width:100vw!important;
+    height:100%!important;
+    min-height:0!important;
+    margin:0!important;
+    border-radius:0!important;
+    border:0!important;
+  }
+  #viewPeta.active #mapMax{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+  }
+  #viewPeta.active .floating-peta-controls{
+    z-index:1100!important;
+    top:8px!important;
+    left:8px!important;
+    right:8px!important;
+  }
+  #viewPeta.active .village-result-panel{
+    z-index:1200!important;
+  }
+}
+
+@media (max-width:900px) and (orientation:landscape){
+  .content-wrapper:has(> #viewPeta.active){
+    padding:0!important;
+    margin-left:62px!important;
+    width:calc(100vw - 62px)!important;
+    height:100dvh!important;
+    overflow:hidden!important;
+  }
+  .content-wrapper:has(> #viewPeta.active) > .top-header{display:none!important}
+  .content-wrapper:has(> #viewPeta.active) > #viewPeta.active{
+    position:fixed!important;
+    inset:0 0 0 62px!important;
+    width:calc(100vw - 62px)!important;
+    height:100dvh!important;
+    margin:0!important;
+    padding:0!important;
+    z-index:100!important;
+    display:block!important;
+    overflow:hidden!important;
+  }
+  #viewPeta.active .peta-full-wrap,
+  #viewPeta.active #mapMax{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    border:0!important;
+    border-radius:0!important;
+  }
+}
 </style>
 
 </head>
@@ -4040,61 +4137,85 @@ function calcKemantapan(b, s, rr, rb, totalKm) {
 /* NAVIGASI MENU SIDEBAR */
 document.querySelectorAll(".nav-btn[data-view]").forEach(btn => {
   btn.addEventListener("click", function(){
-    if(this.classList.contains("active")) return;
+    const targetView = this.getAttribute("data-view");
+    const nextPanel = $(targetView);
+    if(!nextPanel) return;
 
-    document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".nav-btn[data-view]").forEach(b => b.classList.remove("active"));
     this.classList.add("active");
 
-    const targetView = this.getAttribute("data-view");
-
-    // Search header bersifat lokal per menu. Jangan membawa teks pencarian
-    // Dashboard ke Peta, dan sebaliknya. State/filter masing-masing menu
-    // tetap disimpan terpisah di state.dashboardSelectedVillage dan
-    // state.selectedVillage.
     const headerSearch = $("searchInput");
     const headerSuggestions = $("searchSuggestions");
-    if(headerSearch){
-      headerSearch.value = "";
-    }
+    if(headerSearch) headerSearch.value = "";
     if(headerSuggestions){
       headerSuggestions.classList.remove("show");
       headerSuggestions.innerHTML = "";
     }
 
-    const currentPanel = document.querySelector(".view-panel.active");
-    const nextPanel = $(targetView);
+    /*
+      MOBILE/TABLET FIX:
+      Jangan pernah membiarkan lebih dari satu view-panel berstatus active.
+      Versi sebelumnya hanya menghapus active dari panel pertama yang ditemukan,
+      sehingga setelah perpindahan menu cepat dapat terjadi Peta + Daftar Ruas
+      tampil bersamaan.
+    */
+    const isSmallScreen = window.matchMedia("(max-width:1100px)").matches;
+    if(isSmallScreen){
+      document.querySelectorAll(".view-panel").forEach(panel => {
+        panel.classList.remove("active", "ios-enter", "ios-exit");
+        panel.style.removeProperty("display");
+      });
+      nextPanel.classList.add("active");
 
-    if(!nextPanel) return;
-
-    if(currentPanel && currentPanel !== nextPanel){
-      currentPanel.classList.remove("ios-enter");
-      currentPanel.classList.add("ios-exit");
-
-      setTimeout(() => {
-        currentPanel.classList.remove("active", "ios-exit");
-        nextPanel.classList.add("active", "ios-enter");
-
-        if(targetView === "viewPeta" && window.mapMax) {
-          window.mapMax.invalidateSize();
+      if(targetView === "viewPeta" && window.mapMax){
+        requestAnimationFrame(() => {
+          window.mapMax.invalidateSize(true);
           renderRoadMapMax();
-        }
-        if(targetView === "viewDashboard" && window.map) {
-          window.map.invalidateSize();
+        });
+      }
+      if(targetView === "viewDashboard" && window.map){
+        requestAnimationFrame(() => {
+          window.map.invalidateSize(true);
           renderRoadMap(currentRows());
-        }
-        if(targetView === "viewLaporan" && window.mapReport) {
-          window.mapReport.invalidateSize();
+        });
+      }
+      if(targetView === "viewLaporan" && window.mapReport){
+        requestAnimationFrame(() => {
+          window.mapReport.invalidateSize(true);
           renderRoadMapReport();
           updateDynamicCartography();
-        }
-
-        setTimeout(() => {
-          nextPanel.classList.remove("ios-enter");
-        }, 460);
-      }, 200);
+        });
+      }
     } else {
-      nextPanel.classList.add("active", "ios-enter");
-      setTimeout(() => nextPanel.classList.remove("ios-enter"), 460);
+      const currentPanel = document.querySelector(".view-panel.active");
+      if(currentPanel && currentPanel !== nextPanel){
+        currentPanel.classList.remove("ios-enter");
+        currentPanel.classList.add("ios-exit");
+        setTimeout(() => {
+          document.querySelectorAll(".view-panel").forEach(panel => {
+            panel.classList.remove("active", "ios-exit", "ios-enter");
+          });
+          nextPanel.classList.add("active", "ios-enter");
+          setTimeout(() => nextPanel.classList.remove("ios-enter"), 460);
+          if(targetView === "viewPeta" && window.mapMax){
+            window.mapMax.invalidateSize(true);
+            renderRoadMapMax();
+          }
+          if(targetView === "viewDashboard" && window.map){
+            window.map.invalidateSize(true);
+            renderRoadMap(currentRows());
+          }
+          if(targetView === "viewLaporan" && window.mapReport){
+            window.mapReport.invalidateSize(true);
+            renderRoadMapReport();
+            updateDynamicCartography();
+          }
+        }, 200);
+      } else {
+        document.querySelectorAll(".view-panel").forEach(panel => panel.classList.remove("active", "ios-exit", "ios-enter"));
+        nextPanel.classList.add("active", "ios-enter");
+        setTimeout(() => nextPanel.classList.remove("ios-enter"), 460);
+      }
     }
 
     if(targetView === "viewPeta") {
@@ -4773,6 +4894,23 @@ function currentRows(){
 function handleDashboardSearchInput(){
   // Pencarian desa hanya memperbarui suggestion box. Tidak menjalankan refreshAll().
   renderVillageSearchSuggestions();
+  updateVillageConditionMobileVisibility();
+}
+
+// Pada HP, saat pengguna mulai mencari desa, kartu "Kondisi Jalan per Desa"
+// disembunyikan agar hasil pencarian dan konten utama tidak terdorong terlalu jauh.
+// Setelah pencarian dikosongkan, kartu ditampilkan kembali jika belum ada desa yang dipilih.
+function updateVillageConditionMobileVisibility(){
+  const card = document.querySelector('.village-condition-card');
+  const input = $('searchInput');
+  if(!card || !input) return;
+  const hasSearch = input.value.trim().length > 0;
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if(isMobile && hasSearch){
+    card.style.display = 'none';
+  }else if(!state.dashboardSelectedVillage){
+    card.style.display = '';
+  }
 }
 
 function setStatus(text){
@@ -4958,6 +5096,11 @@ function renderVillageCondition(rows){
   const card = tbody?.closest(".village-condition-card");
   if(card){
     card.style.display = state.dashboardSelectedVillage ? "none" : "";
+    // Jika sedang mengetik pencarian desa di HP, sembunyikan juga kartu ini.
+    const input = $("searchInput");
+    if(!state.dashboardSelectedVillage && input && input.value.trim() && window.matchMedia('(max-width: 768px)').matches){
+      card.style.display = "none";
+    }
   }
   if(!tbody) return;
   if(state.dashboardSelectedVillage){
