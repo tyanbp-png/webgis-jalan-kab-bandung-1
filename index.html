@@ -373,6 +373,35 @@ path.trase-path-highlight:hover {
   border-bottom: 1px solid var(--border);
   line-height: 1.15;
 }
+.village-condition-table th.vc-sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background .15s ease, color .15s ease;
+}
+.village-condition-table th.vc-sortable:hover {
+  background: #eef4fb;
+  color: #1d4ed8;
+}
+.vc-sort-icon {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 6px;
+  vertical-align: 1px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid #94a3b8;
+  opacity: .55;
+  transition: transform .15s ease, opacity .15s ease, border-color .15s ease;
+}
+.village-condition-table th.vc-sortable.is-sorted .vc-sort-icon {
+  opacity: 1;
+  border-top-color: #2563eb;
+}
+.village-condition-table th.vc-sortable.is-sorted.sort-asc .vc-sort-icon {
+  transform: rotate(180deg);
+}
+
 .village-condition-table td {
   padding: 8px 9px;
   border-bottom: 1px solid #eef2f7;
@@ -3805,13 +3834,13 @@ button,select,input{touch-action:manipulation}
             <thead>
               <tr>
                 <th class="vc-no">No</th>
-                <th class="vc-name">Nama Desa</th>
-                <th class="vc-total">Panjang</th>
-                <th class="vc-bar">Kondisi Jalan</th>
-                <th class="vc-cond">Baik</th>
-                <th class="vc-cond">Sedang</th>
-                <th class="vc-cond">Rusak Ringan</th>
-                <th class="vc-cond">Rusak Berat</th>
+                <th class="vc-name vc-sortable" data-sort-key="name" title="Urutkan Nama Desa">Nama Desa<span class="vc-sort-icon"></span></th>
+                <th class="vc-total vc-sortable" data-sort-key="km" title="Urutkan Panjang">Panjang<span class="vc-sort-icon"></span></th>
+                <th class="vc-bar vc-sortable" data-sort-key="mantap" title="Urutkan berdasarkan panjang jalan mantap (Baik + Sedang)">Kondisi Jalan<span class="vc-sort-icon"></span></th>
+                <th class="vc-cond vc-sortable" data-sort-key="baik" title="Urutkan Baik">Baik<span class="vc-sort-icon"></span></th>
+                <th class="vc-cond vc-sortable" data-sort-key="sedang" title="Urutkan Sedang">Sedang<span class="vc-sort-icon"></span></th>
+                <th class="vc-cond vc-sortable" data-sort-key="rr" title="Urutkan Rusak Ringan">Rusak Ringan<span class="vc-sort-icon"></span></th>
+                <th class="vc-cond vc-sortable" data-sort-key="rb" title="Urutkan Rusak Berat">Rusak Berat<span class="vc-sort-icon"></span></th>
               </tr>
             </thead>
             <tbody id="villageConditionBody"></tbody>
@@ -4303,7 +4332,8 @@ const state = {
   villageRoadKeys: new Set(),
   villageRoadCache: new Map(),
   shpSource: "embedded",
-  rekapBudget: { byKec: new Map(), rr: 0, rb: 0, total: 0 }
+  rekapBudget: { byKec: new Map(), rr: 0, rb: 0, total: 0 },
+  villageConditionSort: { key: null, dir: 1 }
 };
 
 const CONDITION_COLORS = { "Baik":"#10b981", "Sedang":"#f59e0b", "Rusak Ringan":"#f97316", "Rusak Berat":"#ef4444" };
@@ -4323,12 +4353,33 @@ function calcKemantapan(b, s, rr, rb, totalKm) {
   return Math.round(pct * 10) / 10;
 }
 
+/* RESET POSISI SCROLL VIEW
+   Klik menu yang sedang aktif maupun berpindah menu selalu membuka
+   tampilan dari posisi awal. Scroll internal tabel juga dikembalikan
+   ke posisi paling atas, tanpa mengubah posisi/zoom peta. */
+function resetViewScroll(targetPanel){
+  const contentWrapper = document.querySelector(".content-wrapper");
+  if(contentWrapper){
+    contentWrapper.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  if(targetPanel){
+    targetPanel.querySelectorAll(".village-condition-scroll, .table-scroll, .village-table-scroll, .table-wrap, .report-table-scroll").forEach(el => {
+      el.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    });
+  }
+}
+
 /* NAVIGASI MENU SIDEBAR */
 document.querySelectorAll(".nav-btn[data-view]").forEach(btn => {
   btn.addEventListener("click", function(){
     const targetView = this.getAttribute("data-view");
     const nextPanel = $(targetView);
     if(!nextPanel) return;
+
+    /* Jika menu diklik ulang, anggap sebagai perintah "kembali ke atas".
+       Jika pindah menu, view tujuan juga selalu dimulai dari posisi atas. */
+    resetViewScroll(nextPanel);
 
     document.querySelectorAll(".nav-btn[data-view]").forEach(b => b.classList.remove("active"));
     this.classList.add("active");
@@ -4385,6 +4436,7 @@ document.querySelectorAll(".nav-btn[data-view]").forEach(btn => {
             panel.classList.remove("active", "ios-exit", "ios-enter");
           });
           nextPanel.classList.add("active", "ios-enter");
+          resetViewScroll(nextPanel);
           setTimeout(() => nextPanel.classList.remove("ios-enter"), 460);
           if(targetView === "viewPeta" && window.mapMax){
             window.mapMax.invalidateSize(true);
@@ -4403,6 +4455,7 @@ document.querySelectorAll(".nav-btn[data-view]").forEach(btn => {
       } else {
         document.querySelectorAll(".view-panel").forEach(panel => panel.classList.remove("active", "ios-exit", "ios-enter"));
         nextPanel.classList.add("active", "ios-enter");
+        resetViewScroll(nextPanel);
         setTimeout(() => nextPanel.classList.remove("ios-enter"), 460);
       }
     }
@@ -5289,6 +5342,56 @@ function renderCharts(rows){
 }
 
 
+function sortVillageConditionList(list){
+  const sort=state.villageConditionSort || {key:null,dir:1};
+  if(!sort.key) return list;
+  const dir=sort.dir || 1;
+  const valueOf=(x,key)=>{
+    if(key==='name') return String(x.name||'');
+    if(key==='km') return Number(x.km)||0;
+    if(key==='mantap') return (Number(x.b)||0)+(Number(x.se)||0);
+    if(key==='baik') return Number(x.b)||0;
+    if(key==='sedang') return Number(x.se)||0;
+    if(key==='rr') return Number(x.rr)||0;
+    if(key==='rb') return Number(x.rb)||0;
+    return '';
+  };
+  return list.sort((a,b)=>{
+    const av=valueOf(a,sort.key), bv=valueOf(b,sort.key);
+    let cmp;
+    if(typeof av==='string' || typeof bv==='string') cmp=String(av).localeCompare(String(bv),'id',{sensitivity:'base',numeric:true});
+    else cmp=av-bv;
+    if(cmp===0) cmp=String(a.name||'').localeCompare(String(b.name||''),'id',{sensitivity:'base',numeric:true});
+    return cmp*dir;
+  });
+}
+
+function updateVillageConditionSortUI(){
+  document.querySelectorAll('.village-condition-table thead th.vc-sortable').forEach(th=>{
+    const active=(state.villageConditionSort?.key===th.dataset.sortKey);
+    th.classList.toggle('is-sorted',active);
+    th.classList.toggle('sort-asc',active && state.villageConditionSort.dir===1);
+    const icon=th.querySelector('.vc-sort-icon');
+    if(icon) icon.setAttribute('aria-label',active ? (state.villageConditionSort.dir===1?'Urut naik':'Urut turun') : 'Belum diurutkan');
+  });
+}
+
+function initVillageConditionSort(){
+  document.querySelectorAll('.village-condition-table thead th.vc-sortable').forEach(th=>{
+    if(th.dataset.sortBound==='1') return;
+    th.dataset.sortBound='1';
+    th.addEventListener('click',()=>{
+      const key=th.dataset.sortKey;
+      if(!key) return;
+      if(state.villageConditionSort.key===key) state.villageConditionSort.dir*=-1;
+      else { state.villageConditionSort.key=key; state.villageConditionSort.dir=1; }
+      updateVillageConditionSortUI();
+      renderVillageCondition(currentRows());
+    });
+  });
+  updateVillageConditionSortUI();
+}
+
 function renderVillageCondition(rows){
   const tbody = $("villageConditionBody");
   const card = tbody?.closest(".village-condition-card");
@@ -5408,6 +5511,8 @@ function renderVillageCondition(rows){
   });
 
   const list=Object.values(groups).filter(x=>x.km>0).sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""), "id", {sensitivity:"base", numeric:true}));
+  sortVillageConditionList(list);
+  updateVillageConditionSortUI();
   const totalEl=$("villageConditionTotal");
   if(totalEl) totalEl.textContent=`Total Desa: ${list.length}`;
 
@@ -6944,6 +7049,8 @@ $("currentDateBtn").textContent = "📅 " + new Intl.DateTimeFormat("id-ID", {
       btn.disabled = false;
     }
   }
+
+  initVillageConditionSort();
 
   // Password selalu diminta ulang setiap kali halaman di-refresh/dibuka.
   // Tidak menggunakan localStorage/sessionStorage untuk menyimpan status login.
