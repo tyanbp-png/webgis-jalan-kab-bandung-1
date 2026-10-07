@@ -3455,7 +3455,7 @@ button,select,input{touch-action:manipulation}
       <div class="actions-right">
         <button class="h-btn">☀️ Light</button>
         <button class="h-btn status"><span class="dot"></span>Data terbaru</button>
-        <button class="h-btn blue" id="btnFolder">☁ Google Drive Terhubung</button>
+        <button class="h-btn blue" id="btnFolder">☁ Data Terhubung</button>
         <button class="h-btn" onclick="window.print()">📥 Ekspor</button>
         <button class="h-btn" id="currentDateBtn">📅 Memuat tanggal...</button>
       </div>
@@ -4544,14 +4544,21 @@ function num(v){
   const n=Number(s);
   return isFinite(n)?n:0;
 }
-function fmtKm(n){ return n.toLocaleString("id-ID",{minimumFractionDigits:2,maximumFractionDigits:2})+" km"; }
-function fmtNum(n){ return n.toLocaleString("id-ID",{maximumFractionDigits:2}); }
+// Format tampilan: 1 angka di belakang koma, dibulatkan ke atas.
+// Nilai/data asli tetap tidak diubah; ini hanya untuk tampilan dashboard.
+function ceil1(n){
+  const x = Number(n) || 0;
+  return Math.ceil((x - 1e-10) * 10) / 10;
+}
+function fmtKm(n){ return ceil1(n).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+" km"; }
+function fmtNum(n){ return ceil1(n).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1}); }
 
 function fmtRp(n){
-  if(Math.abs(n)>=1e9) return "Rp "+(n/1e9).toLocaleString("id-ID",{minimumFractionDigits:2,maximumFractionDigits:2})+" M";
-  if(Math.abs(n)>=1e6) return "Rp "+(n/1e6).toLocaleString("id-ID",{minimumFractionDigits:2,maximumFractionDigits:2})+" Jt";
-  return "Rp "+Math.round(n).toLocaleString("id-ID");
+  if(Math.abs(n)>=1e9) return "Rp "+ceil1(n/1e9).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+" M";
+  if(Math.abs(n)>=1e6) return "Rp "+ceil1(n/1e6).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+" Jt";
+  return "Rp "+Math.ceil(Number(n)||0).toLocaleString("id-ID");
 }
+function fmtPct1Up(n){ return ceil1(n).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+"%"; }
 function escapeHtml(s){ return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m])); }
 
 function detectColumns(rows){
@@ -5109,10 +5116,10 @@ function setKpi(rows){
 
   setText("kpiRuas", total.toLocaleString("id-ID"));
   setText("kpiPanjang", fmtKm(km));
-  setText("kpiBaik", fmtKm(b)); setText("pctBaik", km ? ((b/km)*100).toFixed(1)+"%" : "0,0%");
-  setText("kpiSedang", fmtKm(se)); setText("pctSedang", km ? ((se/km)*100).toFixed(1)+"%" : "0,0%");
-  setText("kpiRR", fmtKm(rr)); setText("pctRR", km ? ((rr/km)*100).toFixed(1)+"%" : "0,0%");
-  setText("kpiRB", fmtKm(rb)); setText("pctRB", km ? ((rb/km)*100).toFixed(1)+"%" : "0,0%");
+  setText("kpiBaik", fmtKm(b)); setText("pctBaik", km ? fmtPct1Up((b/km)*100) : "0,0%");
+  setText("kpiSedang", fmtKm(se)); setText("pctSedang", km ? fmtPct1Up((se/km)*100) : "0,0%");
+  setText("kpiRR", fmtKm(rr)); setText("pctRR", km ? fmtPct1Up((rr/km)*100) : "0,0%");
+  setText("kpiRB", fmtKm(rb)); setText("pctRB", km ? fmtPct1Up((rb/km)*100) : "0,0%");
   setText("kpiRAB", fmtRp(rab));
 
   $("progBaik").style.width = km ? (b/km*100)+"%" : "0%";
@@ -5184,17 +5191,17 @@ function animateDonutSweep(el, vals, colors){
 function formatBudgetCenter(totalVal){
   if(totalVal >= 1e9){
     return {
-      main: "Rp " + (totalVal/1e9).toLocaleString("id-ID",{minimumFractionDigits:2,maximumFractionDigits:2}),
+      main: "Rp " + ceil1(totalVal/1e9).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1}),
       sub: "Miliar"
     };
   } else if(totalVal >= 1e6){
     return {
-      main: "Rp " + (totalVal/1e6).toLocaleString("id-ID",{minimumFractionDigits:2,maximumFractionDigits:2}),
+      main: "Rp " + ceil1(totalVal/1e6).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1}),
       sub: "Juta"
     };
   } else if(totalVal > 0){
     return {
-      main: "Rp " + Math.round(totalVal).toLocaleString("id-ID"),
+      main: "Rp " + Math.ceil(Number(totalVal)||0).toLocaleString("id-ID"),
       sub: "Rupiah"
     };
   }
@@ -5210,10 +5217,10 @@ function renderCharts(rows){
 
   animateDonutSweep($("donutKondisi"), [b, se, rr, rb], Object.values(CONDITION_COLORS));
   setText("donutKmTotal", fmtNum(total));
-  setText("legKmBaik", fmtKm(b)); setText("pctLegBaik", total ? ((b/total)*100).toFixed(1)+"%" : "0,0%");
-  setText("legKmSedang", fmtKm(se)); setText("pctLegSedang", total ? ((se/total)*100).toFixed(1)+"%" : "0,0%");
-  setText("legKmRR", fmtKm(rr)); setText("pctLegRR", total ? ((rr/total)*100).toFixed(1)+"%" : "0,0%");
-  setText("legKmRB", fmtKm(rb)); setText("pctLegRB", total ? ((rb/total)*100).toFixed(1)+"%" : "0,0%");
+  setText("legKmBaik", fmtKm(b)); setText("pctLegBaik", total ? fmtPct1Up((b/total)*100) : "0,0%");
+  setText("legKmSedang", fmtKm(se)); setText("pctLegSedang", total ? fmtPct1Up((se/total)*100) : "0,0%");
+  setText("legKmRR", fmtKm(rr)); setText("pctLegRR", total ? fmtPct1Up((rr/total)*100) : "0,0%");
+  setText("legKmRB", fmtKm(rb)); setText("pctLegRB", total ? fmtPct1Up((rb/total)*100) : "0,0%");
 
   const budget = getBudgetForRows(rows);
   const rabRR = budget.rr;
@@ -5226,8 +5233,8 @@ function renderCharts(rows){
   setText("budgetTotal", bCenter.main);
   setText("budgetSubUnit", bCenter.sub);
 
-  setText("budgetPctRR", totalRAB ? ((rabRR/totalRAB)*100).toFixed(1)+"%" : "0,0%");
-  setText("budgetPctRB", totalRAB ? ((rabRB/totalRAB)*100).toFixed(1)+"%" : "0,0%");
+  setText("budgetPctRR", totalRAB ? fmtPct1Up((rabRR/totalRAB)*100) : "0,0%");
+  setText("budgetPctRB", totalRAB ? fmtPct1Up((rabRB/totalRAB)*100) : "0,0%");
   setText("budgetValueRR", fmtRp(rabRR));
   setText("budgetValueRB", fmtRp(rabRB));
 
@@ -5731,7 +5738,7 @@ function renderAnalysisTable(){
 
   const ikjVal = calcKemantapan(bTot, sTot, rrTot, rbTot, kmTot);
 
-  setText("anIKJ", ikjVal.toFixed(1) + "%");
+  setText("anIKJ", fmtPct1Up(ikjVal));
   setText("anRabRR", fmtRp(rabRRTot));
   setText("anRabRB", fmtRp(rabRBTot));
   setText("anRAB", fmtRp(rabTot));
@@ -5822,7 +5829,7 @@ function renderAnalysisTable(){
 
     tbody.innerHTML = list.map(([kec, g]) => {
       const ikjKecNum = calcKemantapan(g.b, g.s, g.rr, g.rb, g.km);
-      const ikjKecStr = ikjKecNum.toFixed(1) + "%";
+      const ikjKecStr = fmtPct1Up(ikjKecNum);
 
       // Total RAB per kecamatan mengikuti subtotal resmi sheet REKAP.
       // Fallback ke penjumlahan ruas hanya bila kecamatan tidak tersedia
@@ -5889,7 +5896,7 @@ function renderReportView(){
 
   const ikjVal = calcKemantapan(bTot, sTot, rrTot, rbTot, kmTot);
 
-  setText("repIKJ", ikjVal.toFixed(1) + "%");
+  setText("repIKJ", fmtPct1Up(ikjVal));
   setText("repRabRR", fmtRp(rabRRTot));
   setText("repRabRB", fmtRp(rabRBTot));
   setText("repRAB", fmtRp(rabTot));
