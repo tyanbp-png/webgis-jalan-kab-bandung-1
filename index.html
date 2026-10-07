@@ -135,7 +135,7 @@ body { background: var(--bg-main); color: #1e293b; display: flex; height: 100vh;
 .search-suggestions {
   position: absolute; left: 0; right: 0; top: calc(100% + 7px); z-index: 9999;
   background: #fff; border: 1px solid #dbe3ee; border-radius: 10px;
-  box-shadow: 0 12px 28px rgba(15,23,42,.14); overflow: hidden; display: none;
+  box-shadow: 0 12px 28px rgba(15,23,42,.14); overflow-y: auto; overflow-x: hidden; max-height: 360px; display: none;
 }
 .search-suggestions.show { display: block; }
 .search-suggestion {
@@ -1453,6 +1453,126 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .village-result-panel { max-height: 48%; }
 }
 
+
+/* =========================================================
+   RESPONSIVE OPTIMIZATION v3 — PHONE & TABLET
+   Fokus: touch target, safe-area, viewport dinamis, dan ruang layar.
+   Tidak mengubah struktur/data/fungsi dashboard.
+   ========================================================= */
+@media (max-width: 1100px) {
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  button, select, input, .nav-btn, .h-btn, .f-card { touch-action: manipulation; }
+  .content-wrapper { scrollbar-gutter: stable; }
+  .card-box, .k-card, .analisis-card-box, .official-report-sheet { box-shadow: 0 1px 4px rgba(15,23,42,.04); }
+}
+
+/* TABLET PORTRAIT */
+@media (min-width: 601px) and (max-width: 900px) and (orientation: portrait) {
+  .content-wrapper {
+    padding: 12px 14px calc(18px + env(safe-area-inset-bottom));
+    gap: 11px;
+  }
+  .top-header { grid-template-columns: minmax(0,1fr) minmax(280px, .9fr); align-items: center; }
+  .title-group h1 { font-size: 18px; }
+  .title-group h2 { font-size: 12px; }
+  .search-box { height: 42px; }
+  .actions-right { grid-column: 1 / -1; }
+  .h-btn { min-height: 38px; font-size: 10.5px; }
+  .filters-bar { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+  .filters-bar .reset-btn { grid-column: 1 / -1; }
+  .kpi-row { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 9px; }
+  .k-card { padding: 10px; }
+  .middle-grid { grid-template-columns: minmax(0,1fr); }
+  .map-wrap { height: 390px; min-height: 390px; }
+  .chart-content-row { justify-content: center; gap: 28px; }
+  .donut-gauge, .donut-budget { width: 135px; height: 135px; flex-basis: 135px; }
+  .donut-cut, .donut-budget-cut { width: 88px; height: 88px; }
+
+  .sidebar, .nav-list { height: 68px; min-height: 68px; }
+  .sidebar { flex-basis: 68px; padding-bottom: env(safe-area-inset-bottom); }
+  .nav-list { padding: 6px 10px; gap: 7px; }
+  .nav-btn { flex: 1 1 0; width: auto; max-width: 120px; min-width: 72px; min-height: 52px; font-size: 9.5px; }
+  .nav-btn svg { width: 21px; height: 21px; }
+  .content-wrapper { height: calc(100dvh - 68px); }
+
+  .peta-full-wrap { height: calc(100dvh - 84px); min-height: 560px; }
+  .floating-peta-controls { top: 10px; left: 10px; right: 10px; }
+  .village-result-panel { top: 132px; width: min(380px, calc(100% - 20px)); }
+
+  #dedicatedRuasTableContainer { height: calc(100dvh - 300px); }
+}
+
+/* PHONE — improve readability and one-hand use */
+@media (max-width: 600px) {
+  body { padding-bottom: env(safe-area-inset-bottom); }
+  .content-wrapper { padding-left: 8px; padding-right: 8px; padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+  .top-header { gap: 6px; }
+  .title-group h1 { letter-spacing: -.2px; }
+  .search-box { border-radius: 11px; }
+  .search-box input { font-size: 13px; }
+  .actions-right { margin-right: -1px; }
+  .h-btn { min-height: 38px; padding-left: 11px; padding-right: 11px; }
+
+  .filters-bar { gap: 6px; }
+  .f-card { height: 50px; }
+  .f-body select { font-size: 11px; }
+  .reset-btn { min-height: 44px; }
+
+  .k-card { min-height: 70px; }
+  .k-label { line-height: 1.15; }
+  .k-val { letter-spacing: -.25px; }
+  .map-wrap { height: clamp(260px, 52vw, 330px); min-height: 260px; }
+  .card-box { padding: 10px; }
+
+  /* Prevent fixed map controls from covering the map too much. */
+  .floating-peta-controls { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+  .floating-peta-controls .h-btn { min-height: 36px; }
+  .village-result-panel { left: 7px !important; right: 7px !important; width: auto !important; }
+
+  #dedicatedRuasTableContainer { height: calc(100dvh - 250px); min-height: 230px; }
+  #dedicatedRuasTableContainer .main-data-table th,
+  #dedicatedRuasTableContainer .main-data-table td { min-height: 40px; }
+
+  .report-tabs { padding-bottom: 2px; }
+  .rep-tab-btn { min-height: 38px; }
+  .official-report-sheet { padding: 7px !important; }
+}
+
+/* VERY SMALL PHONE — keep controls usable without crowding */
+@media (max-width: 380px) {
+  .nav-btn { min-width: 48px; font-size: 7.3px; }
+  .nav-btn svg { width: 17px; height: 17px; }
+  .k-card { min-height: 66px; padding: 7px; }
+  .k-icon-wrap { width: 28px; height: 28px; }
+  .k-label { font-size: 7.7px; }
+  .k-val { font-size: 11.5px; }
+  .map-wrap { height: 250px; min-height: 250px; }
+}
+
+/* LANDSCAPE PHONE — use the extra horizontal space */
+@media (max-width: 900px) and (orientation: landscape) {
+  .content-wrapper { padding-top: 6px; padding-bottom: 8px; }
+  .top-header { grid-template-columns: minmax(150px,.7fr) minmax(180px,1fr) auto; gap: 7px; }
+  .actions-right { grid-column: auto; width: auto; }
+  .filters-bar { grid-template-columns: repeat(3,minmax(0,1fr)) !important; }
+  .filters-bar .reset-btn { grid-column: auto; }
+  .kpi-row { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .middle-grid { grid-template-columns: minmax(0,1.1fr) minmax(0,.9fr); align-items: stretch; }
+  .map-wrap { height: 300px; min-height: 300px; }
+  .peta-full-wrap { height: calc(100dvh - 64px); min-height: 300px; }
+  .floating-peta-controls { grid-template-columns: repeat(4,minmax(0,1fr)); align-items:center; }
+  .floating-peta-controls > span { grid-column: auto; }
+  .village-result-panel { top: 90px !important; max-height: 55%; }
+}
+
+/* Touch devices: avoid sticky hover effects becoming visually stuck. */
+@media (hover: none) and (pointer: coarse) {
+  .main-data-table tr:hover td,
+  .village-condition-table tbody tr:hover,
+  .village-road-item:hover { background: inherit; }
+  .nav-btn, .h-btn, .reset-btn { -webkit-tap-highlight-color: transparent; }
+}
+
 @media print {
   @page {
     size: A3 landscape;
@@ -2122,6 +2242,94 @@ button, select, input { touch-action: manipulation; }
 }
 </style>
 
+<style id="mobile-leaflet-popup-final">
+/* =========================================================
+   POPUP PETA HP/TABLET — tap ruas, popup tetap dekat titik
+   dan otomatis diposisikan Leaflet agar tidak keluar layar.
+   Desktop tetap menggunakan hover.
+   ========================================================= */
+@media (max-width:900px){
+  #viewPeta .leaflet-popup{
+    max-width:calc(100vw - 18px) !important;
+  }
+
+  #viewPeta .leaflet-popup-content-wrapper{
+    max-width:calc(100vw - 18px) !important;
+    max-height:48dvh !important;
+    overflow:hidden !important;
+    border-radius:12px !important;
+    box-shadow:0 6px 22px rgba(15,23,42,.25) !important;
+  }
+
+  #viewPeta .leaflet-popup-content{
+    box-sizing:border-box !important;
+    width:auto !important;
+    min-width:0 !important;
+    max-width:calc(100vw - 46px) !important;
+    max-height:calc(48dvh - 14px) !important;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+    margin:9px 11px !important;
+    padding:0 3px 3px 0 !important;
+    font-size:11px !important;
+    line-height:1.3 !important;
+  }
+
+  #viewPeta .leaflet-popup-content > div{
+    min-width:0 !important;
+    max-width:100% !important;
+    width:100% !important;
+    overflow-wrap:anywhere !important;
+  }
+
+  #viewPeta .leaflet-popup-content a{
+    min-height:36px !important;
+    box-sizing:border-box !important;
+    justify-content:center !important;
+    width:100% !important;
+    font-size:11px !important;
+  }
+
+  #viewPeta .leaflet-popup-close-button{
+    z-index:5 !important;
+    width:32px !important;
+    height:32px !important;
+    line-height:30px !important;
+    font-size:23px !important;
+    padding:0 !important;
+    right:2px !important;
+    top:2px !important;
+    border-radius:50% !important;
+    background:rgba(255,255,255,.94) !important;
+  }
+
+  #viewPeta .leaflet-popup-tip-container{
+    display:block !important;
+  }
+}
+
+@media (max-width:600px) and (orientation:portrait){
+  #viewPeta .leaflet-popup-content{
+    font-size:10.5px !important;
+  }
+  #viewPeta .leaflet-popup-content-wrapper{
+    max-height:44dvh !important;
+  }
+  #viewPeta .leaflet-popup-content{
+    max-height:calc(44dvh - 12px) !important;
+  }
+}
+
+@media (max-width:900px) and (orientation:landscape){
+  #viewPeta .leaflet-popup-content-wrapper{
+    max-height:55dvh !important;
+  }
+  #viewPeta .leaflet-popup-content{
+    max-height:calc(55dvh - 12px) !important;
+  }
+}
+</style>
+
 <style id="responsive-v14-final-max">
 /* =========================================================
    V14 FINAL — MAXIMIZED TABLET / HP / HP LANDSCAPE
@@ -2398,7 +2606,7 @@ button,select,input{font-family:inherit}
       </div>
       <div class="search-box">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="searchInput" placeholder="Cari ruas, kecamatan, atau desa..." autocomplete="off">
+        <input type="text" id="searchInput" placeholder="Cari desa pada menu ini..." autocomplete="off">
         <div id="searchSuggestions" class="search-suggestions" role="listbox"></div>
       </div>
       <div class="actions-right">
@@ -3223,6 +3431,7 @@ const state = {
   autoSyncTimer: null,
   autoSyncBusy: false,
   lastAutoSync: 0,
+  syncVersion: null,
   shpIndex: new Map(),
   shpFeatureCount: 0,
   workbookName: "",
@@ -3231,9 +3440,11 @@ const state = {
   roadByNormName: new Map(),
   villageGeoJSON: null,
   selectedVillage: null,
+  dashboardSelectedVillage: null,
   villageRoadKeys: new Set(),
   villageRoadCache: new Map(),
-  shpSource: "embedded"
+  shpSource: "embedded",
+  rekapBudget: { byKec: new Map(), rr: 0, rb: 0, total: 0 }
 };
 
 const CONDITION_COLORS = { "Baik":"#10b981", "Sedang":"#f59e0b", "Rusak Ringan":"#f97316", "Rusak Berat":"#ef4444" };
@@ -3262,6 +3473,21 @@ document.querySelectorAll(".nav-btn[data-view]").forEach(btn => {
     this.classList.add("active");
 
     const targetView = this.getAttribute("data-view");
+
+    // Search header bersifat lokal per menu. Jangan membawa teks pencarian
+    // Dashboard ke Peta, dan sebaliknya. State/filter masing-masing menu
+    // tetap disimpan terpisah di state.dashboardSelectedVillage dan
+    // state.selectedVillage.
+    const headerSearch = $("searchInput");
+    const headerSuggestions = $("searchSuggestions");
+    if(headerSearch){
+      headerSearch.value = "";
+    }
+    if(headerSuggestions){
+      headerSuggestions.classList.remove("show");
+      headerSuggestions.innerHTML = "";
+    }
+
     const currentPanel = document.querySelector(".view-panel.active");
     const nextPanel = $(targetView);
 
@@ -3431,9 +3657,24 @@ function num(v){
   if(typeof v==="number") return isFinite(v)?v:0;
   let s=String(v).trim().replace(/\s/g,"");
   if(!s) return 0;
-  if(s.includes(",") && s.includes(".")) s=s.replace(/\./g,"").replace(",",".");
-  else if(s.includes(",")) s=s.replace(",",".");
-  const n=parseFloat(s.replace(/[^\d.-]/g,""));
+  s=s.replace(/^Rp\.?/i,"").replace(/IDR/i,"").replace(/[^0-9,.-]/g,"");
+  if(!s) return 0;
+  const lastComma=s.lastIndexOf(",");
+  const lastDot=s.lastIndexOf(".");
+  if(lastComma>=0 && lastDot>=0){
+    // Format Indonesia: 1.234.567,89
+    if(lastComma>lastDot) s=s.replace(/\./g,"").replace(",",".");
+    // Format US/Excel: 1,234,567.89
+    else s=s.replace(/,/g,"");
+  }else if(lastComma>=0){
+    const decimals=s.length-lastComma-1;
+    // 1,234,567 -> thousands; 123,45 -> decimal
+    if((s.match(/,/g)||[]).length>1 || decimals===3) s=s.replace(/,/g,"");
+    else s=s.replace(",",".");
+  }else if((s.match(/\./g)||[]).length>1){
+    s=s.replace(/\./g,"");
+  }
+  const n=Number(s);
   return isFinite(n)?n:0;
 }
 function fmtKm(n){ return n.toLocaleString("id-ID",{minimumFractionDigits:2,maximumFractionDigits:2})+" km"; }
@@ -3495,6 +3736,8 @@ function detectColumns(rows){
     if(k === "SEDANG" && colSedang === -1) colSedang = idx;
     if((k === "RUSAKRINGAN" || k === "RR") && colRR === -1) colRR = idx;
     if((k === "RUSAKBERAT" || k === "RB") && colRB === -1) colRB = idx;
+    if(colRabRR === -1 && k.includes("RUSAKRINGAN") && k.includes("ANGGARAN")) colRabRR = idx;
+    if(colRabRB === -1 && k.includes("RUSAKBERAT") && k.includes("ANGGARAN")) colRabRB = idx;
   });
 
   if(perkStart >= 0){
@@ -3633,8 +3876,68 @@ function makeRoad(raw, kecName, c, rowNumber){
   };
 }
 
+function parseRekapBudget(wb){
+  const result = { byKec: new Map(), rr: 0, rb: 0, total: 0 };
+  const sheetName = (wb.SheetNames||[]).find(n => {
+    const k=norm(n);
+    return k.includes("REKAP") || k.includes("REKAPITULASI");
+  });
+  if(!sheetName) return result;
+
+  const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { header:1, defval:"", raw:true });
+  let header=-1, cKec=-1, cRR=-1, cRB=-1, cTotal=-1;
+  const maxScan=Math.min(rows.length,80);
+  for(let i=0;i<maxScan;i++){
+    const row=rows[i]||[];
+    const keys=row.map(norm);
+    const kk=keys.findIndex(k=>k.includes("KECAMATAN"));
+    const rr=keys.findIndex(k=>k.includes("RUSAKRINGAN") && k.includes("ANGGARAN"));
+    const rb=keys.findIndex(k=>k.includes("RUSAKBERAT") && k.includes("ANGGARAN"));
+    const tt=keys.findIndex(k=>k==="TOTAL" || k.includes("TOTAL"));
+    if(kk>=0 && rr>=0 && rb>=0){ header=i; cKec=kk; cRR=rr; cRB=rb; cTotal=tt; break; }
+  }
+  if(header<0) return result;
+
+  for(let i=header+1;i<rows.length;i++){
+    const row=rows[i]||[];
+    const kec=String(row[cKec]??"").trim();
+    if(!kec) continue;
+    const nk=norm(kec);
+    const isTotal=nk==="TOTAL" || nk.includes("TOTAL");
+    const rr=num(row[cRR]), rb=num(row[cRB]);
+    const total=cTotal>=0 ? num(row[cTotal]) : rr+rb;
+    if(isTotal){
+      result.rr=rr; result.rb=rb; result.total=total || rr+rb;
+      break;
+    }
+    result.byKec.set(nk,{ rr, rb, total: total || rr+rb, name:kec });
+  }
+  if(!result.total){
+    result.rr=[...result.byKec.values()].reduce((s,x)=>s+x.rr,0);
+    result.rb=[...result.byKec.values()].reduce((s,x)=>s+x.rb,0);
+    result.total=result.rr+result.rb;
+  }
+  return result;
+}
+
+function getBudgetForRows(rows){
+  const kecSet=new Set(rows.map(r=>norm(r.kec)));
+  const isFull=!document.querySelector("#selKec")?.value && !document.querySelector("#selRuas")?.value && !String(document.querySelector("#searchInput")?.value||"").trim();
+  if(isFull && state.rekapBudget && state.rekapBudget.total>0){
+    return { rr:state.rekapBudget.rr, rb:state.rekapBudget.rb, total:state.rekapBudget.total, source:"Rekap" };
+  }
+  if(kecSet.size===1 && state.rekapBudget && state.rekapBudget.byKec.size){
+    const item=state.rekapBudget.byKec.get([...kecSet][0]);
+    if(item) return { rr:item.rr, rb:item.rb, total:item.total, source:"Rekap Kecamatan" };
+  }
+  const rr=rows.reduce((s,r)=>s+r.rabRR,0);
+  const rb=rows.reduce((s,r)=>s+r.rabRB,0);
+  return { rr, rb, total:rr+rb, source:"Ruas" };
+}
+
 function processWorkbook(wb, sourceName="Google Sheets"){
   state.workbookName = sourceName;
+  state.rekapBudget = parseRekapBudget(wb);
   const visible = [];
   const IGNORED = ["REKAP", "REKAPITULASI", "2026", "PKRMS2026", "INTERSEC", "INTERSEKSI"];
 
@@ -3656,6 +3959,7 @@ function processWorkbook(wb, sourceName="Google Sheets"){
 
   state.roads = roads;
   state.allRows = roads.slice();
+  buildDashboardSearchIndex();
   state.roadByNo = new Map();
   state.roadByNormName = new Map();
   roads.forEach(r => {
@@ -3794,19 +4098,44 @@ function populateKecamatanReport(){
   sel.innerHTML = '<option value="">Semua Kecamatan</option>' + kec.map(k=>`<option value="${escapeHtml(k)}">${escapeHtml(k)}</option>`).join("");
 }
 
-function currentRows(){
-  const kec = $("selKec").value;
-  const ruas = $("selRuas").value;
-  const q = norm($("searchInput")?.value || "");
-  return state.roads.filter(r => {
-    if(kec && r.kec !== kec) return false;
-    if(ruas && (r.no !== ruas && r.nama !== ruas)) return false;
-    if(q){
-      const match = norm(`${r.kec} ${r.nama} ${r.noDisplay} ${r.desa}`);
-      if(!match.includes(q)) return false;
-    }
-    return true;
+let dashboardSearchTimer = null;
+let dashboardSearchVersion = 0;
+
+function buildDashboardSearchIndex(){
+  if(!Array.isArray(state.roads)) return;
+  state.roads.forEach(r => {
+    if(r.__searchText !== undefined) return;
+    r.__searchText = norm([r.kec || "", r.nama || "", r.no || "", r.noDisplay || "", r.desa || ""].join(" "));
   });
+}
+
+function currentRows(){
+  // Dashboard memakai filter Kecamatan/Ruas seperti biasa.
+  // Jika Desa sudah dipilih dari kotak pencarian header, Dashboard
+  // menampilkan dan menghitung KPI berdasarkan ruas yang melalui Desa tersebut.
+  const kec = $("selKec")?.value || "";
+  const ruas = $("selRuas")?.value || "";
+  let roads = state.roads || [];
+
+  if(state.dashboardSelectedVillage){
+    roads = getVillageRoadRows(state.dashboardSelectedVillage).rows;
+  }
+
+  if(!kec && !ruas) return roads;
+
+  const result = [];
+  for(let i=0;i<roads.length;i++){
+    const r=roads[i];
+    if(kec && r.kec !== kec) continue;
+    if(ruas && r.no !== ruas && r.nama !== ruas) continue;
+    result.push(r);
+  }
+  return result;
+}
+
+function handleDashboardSearchInput(){
+  // Pencarian desa hanya memperbarui suggestion box. Tidak menjalankan refreshAll().
+  renderVillageSearchSuggestions();
 }
 
 function setStatus(text){
@@ -3827,7 +4156,8 @@ function setKpi(rows){
   const se = rows.reduce((s,r)=>s+r.sedang, 0);
   const rr = rows.reduce((s,r)=>s+r.rr, 0);
   const rb = rows.reduce((s,r)=>s+r.rb, 0);
-  const rab = rows.reduce((s,r)=>s+r.rab, 0);
+  const budget = getBudgetForRows(rows);
+  const rab = budget.total;
 
   setText("kpiRuas", total.toLocaleString("id-ID"));
   setText("kpiPanjang", fmtKm(km));
@@ -3937,9 +4267,10 @@ function renderCharts(rows){
   setText("legKmRR", fmtKm(rr)); setText("pctLegRR", total ? ((rr/total)*100).toFixed(1)+"%" : "0,0%");
   setText("legKmRB", fmtKm(rb)); setText("pctLegRB", total ? ((rb/total)*100).toFixed(1)+"%" : "0,0%");
 
-  const rabRR = rows.reduce((s,r)=>s+r.rabRR, 0);
-  const rabRB = rows.reduce((s,r)=>s+r.rabRB, 0);
-  const totalRAB = rabRR + rabRB;
+  const budget = getBudgetForRows(rows);
+  const rabRR = budget.rr;
+  const rabRB = budget.rb;
+  const totalRAB = budget.total;
 
   animateDonutSweep($("donutBudget"), [rabRR, rabRB], ["#f97316", "#ef4444"]);
   
@@ -3987,7 +4318,15 @@ function renderCharts(rows){
 
 function renderVillageCondition(rows){
   const tbody = $("villageConditionBody");
+  const card = tbody?.closest(".village-condition-card");
+  if(card){
+    card.style.display = state.dashboardSelectedVillage ? "none" : "";
+  }
   if(!tbody) return;
+  if(state.dashboardSelectedVillage){
+    tbody.innerHTML = "";
+    return;
+  }
 
   const villages = getVillageFeatures();
   const groups = {};
@@ -4352,7 +4691,7 @@ function renderTable(rows){
   const tbody = $("roadsTableBody");
   tbody.innerHTML = "";
 
-  rows.slice(0, 400).forEach((r, i) => {
+  rows.forEach((r, i) => {
     const tr = document.createElement("tr");
     const cls = r.kondisi === "Baik" ? "baik" : r.kondisi === "Sedang" ? "sedang" : r.kondisi === "Rusak Ringan" ? "rr" : "rb";
     tr.innerHTML = `
@@ -4370,7 +4709,7 @@ function renderTable(rows){
     `;
     tbody.appendChild(tr);
   });
-  setText("tableNoteCount", `Menampilkan ${rows.length.toLocaleString("id-ID")} ruas dari Excel`);
+  setText("tableNoteCount", `Menampilkan ${rows.length.toLocaleString("id-ID")} ruas dari data`);
 }
 
 function renderDedicatedTable(){
@@ -4429,9 +4768,35 @@ function renderAnalysisTable(){
   const sTot = filteredAnalysisRoads.reduce((s,r)=>s+r.sedang, 0);
   const rrTot = filteredAnalysisRoads.reduce((s,r)=>s+r.rr, 0);
   const rbTot = filteredAnalysisRoads.reduce((s,r)=>s+r.rb, 0);
-  const rabRRTot = filteredAnalysisRoads.reduce((s,r)=>s+r.rabRR, 0);
-  const rabRBTot = filteredAnalysisRoads.reduce((s,r)=>s+r.rabRB, 0);
-  const rabTot = filteredAnalysisRoads.reduce((s,r)=>s+r.rab, 0);
+  // RAB kondisi kemantapan harus mengikuti sheet Rekap sebagai sumber
+  // rekapitulasi anggaran resmi. Untuk filter ruas tertentu, gunakan
+  // penjumlahan RAB pada data ruas karena tidak ada subtotal Rekap khusus ruas.
+  let budgetAnalysis;
+  if(!kecFilter && !ruasFilter && state.rekapBudget && state.rekapBudget.total > 0){
+    budgetAnalysis = {
+      rr: state.rekapBudget.rr,
+      rb: state.rekapBudget.rb,
+      total: state.rekapBudget.total
+    };
+  } else if(kecFilter && !ruasFilter && state.rekapBudget?.byKec?.size){
+    const item = state.rekapBudget.byKec.get(norm(kecFilter));
+    budgetAnalysis = item
+      ? { rr:item.rr, rb:item.rb, total:item.total }
+      : {
+          rr: filteredAnalysisRoads.reduce((s,r)=>s+r.rabRR,0),
+          rb: filteredAnalysisRoads.reduce((s,r)=>s+r.rabRB,0),
+          total: filteredAnalysisRoads.reduce((s,r)=>s+r.rab,0)
+        };
+  } else {
+    budgetAnalysis = {
+      rr: filteredAnalysisRoads.reduce((s,r)=>s+r.rabRR,0),
+      rb: filteredAnalysisRoads.reduce((s,r)=>s+r.rabRB,0),
+      total: filteredAnalysisRoads.reduce((s,r)=>s+r.rab,0)
+    };
+  }
+  const rabRRTot = budgetAnalysis.rr;
+  const rabRBTot = budgetAnalysis.rb;
+  const rabTot = budgetAnalysis.total;
 
   const ikjVal = calcKemantapan(bTot, sTot, rrTot, rbTot, kmTot);
 
@@ -4527,6 +4892,13 @@ function renderAnalysisTable(){
     tbody.innerHTML = list.map(([kec, g]) => {
       const ikjKecNum = calcKemantapan(g.b, g.s, g.rr, g.rb, g.km);
       const ikjKecStr = ikjKecNum.toFixed(1) + "%";
+
+      // Total RAB per kecamatan mengikuti tab Rekap Google Sheet,
+      // bukan penjumlahan kolom RAB per ruas yang dapat berbeda dari
+      // subtotal resmi Rekap.
+      const rekapKec = state.rekapBudget?.byKec?.get(norm(kec));
+      const kecRab = rekapKec ? rekapKec.total : g.rab;
+
       return `
         <tr>
           <td><b>${escapeHtml(kec)}</b></td>
@@ -4537,7 +4909,7 @@ function renderAnalysisTable(){
           <td style="text-align:right;color:var(--c-rr)">${fmtKm(g.rr)}</td>
           <td style="text-align:right;color:var(--c-rb)">${fmtKm(g.rb)}</td>
           <td style="text-align:center"><b>${ikjKecStr}</b></td>
-          <td style="text-align:right"><b>${fmtRp(g.rab)}</b></td>
+          <td style="text-align:right"><b>${fmtRp(kecRab)}</b></td>
         </tr>
       `;
     }).join("");
@@ -4723,6 +5095,31 @@ function renderRoadMap(rows){
   roadLayerGroup.clearLayers();
   if(!state.shpGeoJSON || !state.shpGeoJSON.features) return;
 
+  // Saat pencarian Desa aktif di Dashboard utama, tampilkan area/batas desa
+  // sebagai overlay transparan di bawah trase jalan yang ditemukan.
+  if(state.dashboardSelectedVillage){
+    try {
+      const villageLayer = L.geoJSON(state.dashboardSelectedVillage, {
+        style: {
+          color: "#2563eb",
+          weight: 2.5,
+          opacity: 0.95,
+          fillColor: "#60a5fa",
+          fillOpacity: 0.16,
+          dashArray: "7 5",
+          className: "dashboard-village-area"
+        },
+        onEachFeature: function(feature, lyr){
+          lyr.bindTooltip(
+            `<b>Desa ${escapeHtml(villageNameOf(state.dashboardSelectedVillage))}</b><br><span style="font-size:10px">${escapeHtml(villageKecOf(state.dashboardSelectedVillage) || "-")}</span>`,
+            {sticky:true, direction:"top"}
+          );
+        }
+      }).addTo(roadLayerGroup);
+      try { villageLayer.bringToBack(); } catch(e){}
+    } catch(e){}
+  }
+
   const isDefaultView = (rows.length >= state.roads.length);
   const wanted = new Map();
   rows.forEach(r => {
@@ -4760,6 +5157,70 @@ function renderRoadMap(rows){
           const gmapsUrl = (lat !== null && lng !== null)
             ? `https://www.google.com/maps/search/?api=1&query=${lat.toFixed(6)},${lng.toFixed(6)}`
             : "#";
+
+function attachRoadPopupInteraction(lyr){
+  // Desktop/laptop: popup tampil saat mouse berada di atas ruas.
+  // HP/tablet: popup tampil saat ruas disentuh/tap.
+  const hasFinePointer = () => window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+  let closeTimer = null;
+  let popupEl = null;
+  let popupInside = false;
+
+  const keepOpen = () => {
+    if(closeTimer) clearTimeout(closeTimer);
+    closeTimer = null;
+  };
+
+  const scheduleClose = () => {
+    if(closeTimer) clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => {
+      if(!popupInside){
+        try { lyr.closePopup(); } catch(e){}
+      }
+    }, 180);
+  };
+
+  lyr.on("mouseover", () => {
+    if(!hasFinePointer()) return;
+    keepOpen();
+    try { lyr.openPopup(); } catch(e){}
+  });
+
+  lyr.on("mouseout", () => {
+    if(!hasFinePointer()) return;
+    scheduleClose();
+  });
+
+  lyr.on("popupopen", (e) => {
+    if(!hasFinePointer()) return;
+    popupEl = e.popup && e.popup.getElement ? e.popup.getElement() : null;
+    if(!popupEl) return;
+    popupInside = false;
+    popupEl.addEventListener("mouseenter", () => {
+      popupInside = true;
+      keepOpen();
+    });
+    popupEl.addEventListener("mouseleave", () => {
+      popupInside = false;
+      scheduleClose();
+    });
+  });
+
+  lyr.on("popupclose", () => {
+    popupInside = false;
+    popupEl = null;
+    if(closeTimer) clearTimeout(closeTimer);
+  });
+
+  // Leaflet bindPopup sudah menangani click/tap. Listener ini hanya
+  // memastikan perangkat touch membuka popup secara konsisten.
+  lyr.on("click", () => {
+    if(!hasFinePointer()){
+      try { lyr.openPopup(); } catch(e){}
+    }
+  });
+}
+
           lyr.bindPopup(`<div style="min-width:235px">
   <div style="font-weight:900;font-size:14px;margin-bottom:7px">${escapeHtml(details.nama)}</div>
   <div><small>No Ruas</small><br><b>${escapeHtml(details.no)}</b></div>
@@ -4769,6 +5230,7 @@ function renderRoadMap(rows){
   <div style="margin-top:8px"><small>Koordinat</small><br><b>${coordText}</b></div>
   <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 10px;background:#1d72fe;color:#fff;border-radius:8px;text-decoration:none;font-weight:800;font-size:12px">Buka di Google Maps</a>
 </div>`);
+          attachRoadPopupInteraction(lyr);
         }
       }).addTo(roadLayerGroup);
 
@@ -4776,7 +5238,14 @@ function renderRoadMap(rows){
     } catch(e){}
   });
 
-  if(visible.length && !isDefaultView){
+  if(state.dashboardSelectedVillage){
+    try {
+      const b = L.geoJSON(state.dashboardSelectedVillage).getBounds();
+      if(b.isValid()) {
+        map.flyToBounds(b, { padding:[45, 45], maxZoom: 14, duration: 1.1 });
+      }
+    } catch(e){}
+  } else if(visible.length && !isDefaultView){
     try {
       const fg = L.featureGroup(visible);
       const b = fg.getBounds();
@@ -4852,6 +5321,7 @@ function renderRoadMapMax(){
   <div style="margin-top:8px"><small>Koordinat</small><br><b>${coordText}</b></div>
   <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 10px;background:#1d72fe;color:#fff;border-radius:8px;text-decoration:none;font-weight:800;font-size:12px">Buka di Google Maps</a>
 </div>`);
+          attachRoadPopupInteraction(lyr);
           if(isVillageRoad){
             lyr.on('add', () => { try { lyr.bringToFront(); } catch(e){} });
           }
@@ -4935,6 +5405,7 @@ function renderRoadMapReport(){
   <div style="margin-top:8px"><small>Koordinat</small><br><b>${coordText}</b></div>
   <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 10px;background:#1d72fe;color:#fff;border-radius:8px;text-decoration:none;font-weight:800;font-size:12px">Buka di Google Maps</a>
 </div>`);
+          attachRoadPopupInteraction(lyr);
         }
       });
       roadClusterReport.addLayer(layer);
@@ -5070,9 +5541,9 @@ function findVillageMatches(q){
   const nq=norm(q);
   if(!nq) return [];
   return getVillageFeatures().filter(f=>{
-    const n=norm(villageNameOf(f)), k=norm(villageKecOf(f));
-    return n.includes(nq) || norm(`${n} ${k}`).includes(nq);
-  }).slice(0,8);
+    const n=norm(villageNameOf(f));
+    return n.startsWith(nq);
+  });
 }
 function roadsForVillage(village){
   const keys=new Set();
@@ -5144,9 +5615,19 @@ function getVillageRoadRows(village){
   return {keys,rows};
 }
 function clearVillageSelection(){
-  state.selectedVillage=null;
-  state.villageRoadKeys=new Set();
-  state.selectedVillageRoadKey=null;
+  state.dashboardSelectedVillage = null;
+  state.selectedVillage = null;
+  state.villageRoadKeys = new Set();
+  state.selectedVillageRoadKey = null;
+  const desaSel=$("selDesaMap"); if(desaSel) desaSel.value="";
+  if(window.villageLayerMax){ window.villageLayerMax.remove(); window.villageLayerMax=null; }
+  const panel=$("villageResultPanel"); if(panel){ panel.style.display="none"; panel.innerHTML=""; }
+}
+
+function clearMapVillageSelection(){
+  state.selectedVillage = null;
+  state.villageRoadKeys = new Set();
+  state.selectedVillageRoadKey = null;
   const desaSel=$("selDesaMap"); if(desaSel) desaSel.value="";
   if(window.villageLayerMax){ window.villageLayerMax.remove(); window.villageLayerMax=null; }
   const panel=$("villageResultPanel"); if(panel){ panel.style.display="none"; panel.innerHTML=""; }
@@ -5205,16 +5686,36 @@ function showVillageOnMap(village){
 }
 function chooseVillage(village){
   if(!village) return;
-  const petaBtn=document.querySelector('.nav-btn[data-view="viewPeta"]');
-  if(petaBtn && !petaBtn.classList.contains("active")) petaBtn.click();
-  setTimeout(()=>{
+
+  const petaActive = document.querySelector('.nav-btn[data-view="viewPeta"]')?.classList.contains("active");
+
+  // Jika pencarian dilakukan dari menu Peta, hanya ubah tampilan Peta.
+  // Jangan mengubah filter/KPI Dashboard.
+  if(petaActive){
     showVillageOnMap(village);
-    const input=$("searchInput"); if(input) input.value=`${villageNameOf(village)}`;
-    const sug=$("searchSuggestions"); if(sug){sug.classList.remove("show");sug.innerHTML="";}
-    // Pastikan kontrol Peta tetap tampil setelah pencarian desa.
-    const controls=document.querySelector(".floating-peta-controls");
-    if(controls) controls.style.display="flex";
-  },220);
+    const input=$("searchInput");
+    if(input) input.value = villageNameOf(village);
+    const sug=$("searchSuggestions");
+    if(sug){ sug.classList.remove("show"); sug.innerHTML=""; }
+    return;
+  }
+
+  // Jika pencarian dilakukan dari Dashboard, Desa menjadi filter Dashboard.
+  state.dashboardSelectedVillage = village;
+  const result = getVillageRoadRows(village);
+  state.villageRoadKeys = result.keys;
+  state.selectedVillageRoadKey = null;
+
+  const input=$("searchInput");
+  if(input) input.value = villageNameOf(village);
+
+  const sug=$("searchSuggestions");
+  if(sug){
+    sug.classList.remove("show");
+    sug.innerHTML="";
+  }
+
+  refreshAll();
 }
 function renderVillageSearchSuggestions(){
   const input=$("searchInput"), box=$("searchSuggestions");
@@ -5228,6 +5729,42 @@ function renderVillageSearchSuggestions(){
   box.classList.add("show");
   box.querySelectorAll("[data-village-index]").forEach((el,i)=>el.addEventListener("click",()=>chooseVillage(matches[i])));
 }
+async function checkGoogleDriveVersion(){
+  if(state.autoSyncBusy) return;
+  try{
+    const v = await fetchProxyJson("version");
+    if(!v || !v.ok) return;
+    const version = `${v.updated || ""}|${v.size || 0}`;
+
+    // Pertama kali: simpan versi data yang sedang dipakai.
+    if(state.syncVersion === null){
+      state.syncVersion = version;
+      return;
+    }
+
+    // Tidak ada perubahan snapshot -> jangan download/sync data.
+    if(version === state.syncVersion) return;
+
+    // Snapshot berubah -> baru ambil data terbaru.
+    state.syncVersion = version;
+    state.autoSyncBusy = true;
+    state.lastAutoSync = Date.now();
+    try{
+      await loadGoogleDriveData();
+    }finally{
+      state.autoSyncBusy = false;
+    }
+  }catch(err){
+    console.warn("Cek versi Google Sheet gagal:", err);
+  }
+}
+
+function startGoogleDriveAutoSync(){
+  if(state.autoSyncTimer) clearInterval(state.autoSyncTimer);
+  // Hanya cek versi setiap 10 detik. Download data penuh hanya jika versi berubah.
+  state.autoSyncTimer = setInterval(checkGoogleDriveVersion, 10000);
+}
+
 async function loadGoogleDriveData(){
   setStatus("Memuat data & trase peta…");
 
@@ -5373,21 +5910,35 @@ window.roadClusterMax = roadClusterMax;
 window.roadClusterReport = roadClusterReport;
 
 $("btnReset")?.addEventListener("click", () => {
-  $("selKec").value = ""; populateRuas(); $("selRuas").value = "";
-  $("searchInput").value = ""; clearVillageSelection(); refreshAll();
-  map.flyTo([-7.06, 107.56], 10, { duration: 1.25 });
+  clearTimeout(dashboardSearchTimer);
+  dashboardSearchVersion++;
+  if($("selKec")) $("selKec").value = "";
+  populateRuas();
+  if($("selRuas")) $("selRuas").value = "";
+  if($("searchInput")) $("searchInput").value = "";
+  const box=$("searchSuggestions");
+  if(box){ box.classList.remove("show"); box.innerHTML=""; }
+  clearVillageSelection();
+  refreshAll();
+  if(window.map) map.flyTo([-7.06, 107.56], 10, { duration: 1.25 });
 });
-$("selKec")?.addEventListener("change", () => { populateRuas(); refreshAll(); });
-$("selRuas")?.addEventListener("change", refreshAll);
-$("searchInput")?.addEventListener("input", () => {
-  renderVillageSearchSuggestions();
+$("selKec")?.addEventListener("change", () => {
+  populateRuas();
+  clearTimeout(dashboardSearchTimer);
   refreshAll();
 });
+$("selRuas")?.addEventListener("change", () => {
+  clearTimeout(dashboardSearchTimer);
+  refreshAll();
+});
+$("searchInput")?.addEventListener("input", handleDashboardSearchInput);
 $("searchInput")?.addEventListener("keydown", (e) => {
-  if(e.key === "Enter"){
-    const matches=findVillageMatches($("searchInput").value.trim());
-    if(matches.length) chooseVillage(matches[0]);
-  }
+  if(e.key !== "Enter") return;
+  e.preventDefault();
+  const value=$("searchInput")?.value?.trim() || "";
+  if(!value) return;
+  const matches=findVillageMatches(value);
+  if(matches.length) chooseVillage(matches[0]);
 });
 $("btnFolder")?.addEventListener("click", () => connectGoogleDrive());
 
@@ -5399,7 +5950,7 @@ $("selKecMap")?.addEventListener("change", () => {
 $("selDesaMap")?.addEventListener("change", () => {
   const key=$("selDesaMap").value;
   if(!key){
-    clearVillageSelection();
+    clearMapVillageSelection();
     renderRoadMapMax();
     return;
   }
@@ -5414,7 +5965,7 @@ $("btnResetMapZoom")?.addEventListener("click", () => {
   if($("selDesaMap")) $("selDesaMap").value = "";
   populateRuasMap();
   if($("selRuasMap")) $("selRuasMap").value = "";
-  clearVillageSelection();
+  clearMapVillageSelection();
   renderRoadMapMax();
   mapMax.flyTo([-7.06, 107.56], 10, { duration: 1.25 });
 });
@@ -5459,7 +6010,8 @@ $("currentDateBtn").textContent = "📅 " + new Intl.DateTimeFormat("id-ID", {
 (async function init(){
   try {
     await connectGoogleDrive();
-    setInterval(connectGoogleDrive, 300000);
+    await checkGoogleDriveVersion();
+    startGoogleDriveAutoSync();
   } catch(e) {
     console.error(e);
   }
