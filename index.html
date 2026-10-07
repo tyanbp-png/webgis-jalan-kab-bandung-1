@@ -3217,6 +3217,84 @@ button,select,input{touch-action:manipulation}
 }
 </style>
 
+
+<style id="responsive-v23-village-result-mobile">
+/* V23: hasil pencarian desa tidak menutupi kontrol/filter dan tetap menyisakan area peta */
+@media (max-width:480px) and (orientation:portrait){
+  #viewPeta.active .floating-peta-controls{
+    top:8px!important;
+    left:8px!important;
+    right:8px!important;
+    max-height:132px!important;
+    overflow:hidden!important;
+  }
+  #viewPeta.active .village-result-panel{
+    top:auto!important;
+    left:8px!important;
+    right:8px!important;
+    bottom:74px!important;
+    width:auto!important;
+    max-width:none!important;
+    height:auto!important;
+    max-height:31dvh!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    padding:9px!important;
+    border-radius:14px!important;
+    box-shadow:0 8px 24px rgba(15,23,42,.22)!important;
+    z-index:1200!important;
+  }
+  #viewPeta.active .village-result-title{
+    font-size:13px!important;
+    line-height:1.15!important;
+    margin-bottom:2px!important;
+  }
+  #viewPeta.active .village-result-meta{
+    font-size:10px!important;
+    margin:2px 0 6px!important;
+  }
+  #viewPeta.active .village-highlight-legend{
+    font-size:9px!important;
+    line-height:1.2!important;
+    padding:4px 0!important;
+    margin-bottom:2px!important;
+  }
+  #viewPeta.active .village-road-item{
+    min-height:38px!important;
+    padding:6px 3px!important;
+    gap:8px!important;
+  }
+  #viewPeta.active .village-road-no{
+    width:86px!important;
+    min-width:86px!important;
+    font-size:10px!important;
+  }
+  #viewPeta.active .village-road-name{
+    font-size:10px!important;
+    line-height:1.2!important;
+  }
+  /* Pastikan kontrol zoom tetap terlihat di area peta yang tersisa. */
+  #viewPeta.active #mapMax .leaflet-control-zoom{
+    margin-left:9px!important;
+    margin-bottom:82px!important;
+    z-index:1300!important;
+  }
+}
+
+@media (max-width:900px) and (orientation:landscape){
+  #viewPeta.active .village-result-panel{
+    top:auto!important;
+    left:auto!important;
+    right:8px!important;
+    bottom:8px!important;
+    width:min(38vw,340px)!important;
+    max-width:38vw!important;
+    max-height:calc(100dvh - 24px)!important;
+    overflow-y:auto!important;
+  }
+}
+</style>
+
 </head>
 <body>
   <div id="passwordGate" aria-modal="true" role="dialog">
