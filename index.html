@@ -240,6 +240,19 @@ path.trase-path-highlight:hover {
   opacity: 1 !important;
 }
 
+path.dashboard-road-selected {
+  /* Tetap gunakan warna kondisi asli; highlight hanya menebalkan garis. */
+  stroke-width: 9px !important;
+  opacity: 1 !important;
+}
+.dashboard-road-link {
+  color: #1d4ed8;
+  text-decoration: underline;
+  text-decoration-color: rgba(29,78,216,.25);
+  text-underline-offset: 2px;
+}
+#roadsTableBody tr:hover .dashboard-road-link { color:#1d72fe; }
+
 .leaflet-tooltip {
   background: rgba(15, 23, 42, 0.95) !important;
   color: #ffffff !important;
@@ -4329,6 +4342,8 @@ const state = {
   villageGeoJSON: null,
   selectedVillage: null,
   dashboardSelectedVillage: null,
+  selectedDashboardRoadKey: null,
+  selectedDashboardRoadLayer: null,
   villageRoadKeys: new Set(),
   villageRoadCache: new Map(),
   shpSource: "embedded",
@@ -5772,14 +5787,19 @@ function renderVillage(rows){
 }
 function renderTable(rows){
   const tbody = $("roadsTableBody");
+  if(!tbody) return;
   tbody.innerHTML = "";
 
   rows.forEach((r, i) => {
     const tr = document.createElement("tr");
     const cls = r.kondisi === "Baik" ? "baik" : r.kondisi === "Sedang" ? "sedang" : r.kondisi === "Rusak Ringan" ? "rr" : "rb";
+    const roadKeyValue = roadKey(r.no) || roadKey(r.nama);
+    tr.dataset.roadKey = roadKeyValue;
+    tr.title = "Klik untuk melihat ruas ini pada peta Dashboard";
+    tr.style.cursor = "pointer";
     tr.innerHTML = `
       <td>${i+1}</td>
-      <td><b>${escapeHtml(r.nama)}</b></td>
+      <td><b class="dashboard-road-link">${escapeHtml(r.nama)}</b></td>
       <td>${escapeHtml(r.kec)}</td>
       <td style="text-align:right"><b>${r.lebar > 0 ? fmtNum(r.lebar) + " m" : "-"}</b></td>
       <td style="text-align:right"><b>${fmtNum(r.km)} km</b></td>
@@ -5790,9 +5810,57 @@ function renderTable(rows){
       <td style="text-align:right;color:#dc2626">${fmtNum(r.rb)} km</td>
       <td style="text-align:right"><b>${fmtRp(r.rab)}</b></td>
     `;
+    tr.addEventListener("click", () => focusDashboardRoad(r));
     tbody.appendChild(tr);
   });
+  tbody.querySelectorAll('tr[data-road-key]').forEach(tr => {
+    if(tr.dataset.roadKey === state.selectedDashboardRoadKey){
+      tr.style.background = '#eff6ff';
+    }
+  });
   setText("tableNoteCount", `Menampilkan ${rows.length.toLocaleString("id-ID")} ruas dari data`);
+}
+
+function focusDashboardRoad(road){
+  if(!road) return;
+  const key = roadKey(road.no) || roadKey(road.nama);
+  state.selectedDashboardRoadKey = key || null;
+  state.selectedDashboardRoadLayer = null;
+
+  // Tetap di Dashboard. Jangan pindah ke menu Peta.
+  const dashboardBtn = document.querySelector('.nav-btn[data-view="viewDashboard"]');
+  if(dashboardBtn && !dashboardBtn.classList.contains('active')) dashboardBtn.click();
+
+  renderRoadMap(currentRows());
+
+  const target = [];
+  (state.shpGeoJSON?.features || []).forEach(f => {
+    const d = extractFeatureDetails(f.properties);
+    const fNo = roadKey(d.no);
+    const fNama = roadKey(d.nama);
+    if((key && fNo === key) || (key && fNama === key)) target.push(f);
+  });
+
+  if(target.length){
+    try{
+      const fg = L.featureGroup(target.map(f => L.geoJSON(f)));
+      const b = fg.getBounds();
+      if(b.isValid()) map.flyToBounds(b, {padding:[55,55], maxZoom:16, duration:1.0});
+    }catch(e){}
+  }
+
+  // Scroll otomatis ke area peta Dashboard agar hasil klik langsung terlihat.
+  const mapEl = $("map");
+  if(mapEl){
+    const card = mapEl.closest('.map-card-box');
+    if(card) card.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  setTimeout(() => {
+    document.querySelectorAll('#roadsTableBody tr[data-road-key]').forEach(tr => {
+      tr.style.background = tr.dataset.roadKey === state.selectedDashboardRoadKey ? '#eff6ff' : '';
+    });
+  }, 50);
 }
 
 function renderDedicatedTable(){
@@ -6183,6 +6251,7 @@ function renderRoadMap(rows){
   }
 
   const isDefaultView = (rows.length >= state.roads.length);
+  const selectedRoadKey = state.selectedDashboardRoadKey;
   const wanted = new Map();
   rows.forEach(r => {
     if(r.no) wanted.set(roadKey(r.no), r.kondisi);
@@ -6199,14 +6268,18 @@ function renderRoadMap(rows){
     // Membaca kondisi dari atribut segmen DBF secara langsung
     const roadCondition = details.condition;
     const conditionColor = CONDITION_COLORS[roadCondition] || "#10b981";
+    const isSelectedDashboardRoad = !!(selectedRoadKey && fKey === selectedRoadKey);
 
     try {
       const layer = L.geoJSON(f, {
         style: {
+          // Ruas terpilih tetap menggunakan warna kondisi aslinya.
+          // Highlight hanya dibuat dengan sedikit penebalan agar tidak
+          // mengubah makna warna kondisi Baik/Sedang/RR/RB.
           color: conditionColor,
-          weight: 3.5,
-          opacity: 0.95,
-          className: "trase-path-highlight"
+          weight: isSelectedDashboardRoad ? 9 : 2.2,
+          opacity: isSelectedDashboardRoad ? 1 : 0.82,
+          className: isSelectedDashboardRoad ? "trase-path-highlight dashboard-road-selected" : "trase-path-highlight"
         },
         onEachFeature: function(feature, lyr){
           const segmenKm = geometryLengthKm(feature);
@@ -6232,10 +6305,19 @@ function renderRoadMap(rows){
       }).addTo(roadLayerGroup);
 
       visible.push(layer);
+      if(isSelectedDashboardRoad) {
+        state.selectedDashboardRoadLayer = layer;
+        try { layer.bringToFront(); } catch(e) {}
+      }
     } catch(e){}
   });
 
-  if(state.dashboardSelectedVillage){
+  if(selectedRoadKey && state.selectedDashboardRoadLayer){
+    try {
+      const b = state.selectedDashboardRoadLayer.getBounds();
+      if(b.isValid()) map.flyToBounds(b, { padding:[55,55], maxZoom:16, duration:1.0 });
+    } catch(e){}
+  } else if(state.dashboardSelectedVillage){
     try {
       const b = L.geoJSON(state.dashboardSelectedVillage).getBounds();
       if(b.isValid()) {
@@ -6611,6 +6693,8 @@ function getVillageRoadRows(village){
 }
 function clearVillageSelection(){
   state.dashboardSelectedVillage = null;
+  state.selectedDashboardRoadKey = null;
+  state.selectedDashboardRoadLayer = null;
   state.selectedVillage = null;
   state.villageRoadKeys = new Set();
   state.selectedVillageRoadKey = null;
