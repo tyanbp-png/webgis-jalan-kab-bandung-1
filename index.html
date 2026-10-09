@@ -163,7 +163,7 @@ body { background: var(--bg-main); color: #1e293b; display: flex; height: 100vh;
 .h-btn .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-baik); }
 
 /* BAR FILTER */
-.filters-bar { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: center; }
+.filters-bar { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) auto; gap: 10px; align-items: center; }
 
 .f-card {
   background: #ffffff; border: 1px solid var(--border); border-radius: 11px; height: 52px;
@@ -1836,6 +1836,28 @@ body.password-locked { overflow:hidden !important; }
   #viewPeta .village-result-panel { max-width: 520px !important; margin: 0 auto !important; }
 }
 
+
+/* Ringkasan Wilayah dan Jalan: mengganti isi panel tanpa mengubah ukuran card/grid */
+.village-summary-card{min-width:0;}
+.vsummary-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;}
+.vsummary-top-metrics .vsummary-tile{padding:10px 12px;}
+.vsummary-top-metrics .vsummary-value{font-size:clamp(16px,1.25vw,21px);}
+@media(max-width:520px){.vsummary-top-metrics .vsummary-value{font-size:17px;}}
+.vsummary-tile{background:#f5f6f7;border-radius:12px;padding:12px 13px;min-width:0;}
+.vsummary-label{font-size:12px;color:#73777d;margin-bottom:5px;}
+.vsummary-value{font-size:clamp(17px,1.45vw,23px);font-weight:800;line-height:1.2;color:#20252c;overflow-wrap:anywhere;}
+.vsummary-green{color:#50a77f!important;}
+.vsummary-mantap{border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:8px;}
+.vsummary-mantap-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px;margin-bottom:10px;}
+.vsummary-mantap-head strong{font-weight:750;}.vsummary-mantap-head b{font-size:22px;white-space:nowrap;}
+.vsummary-icon{color:#50a77f;margin-right:5px;}
+.vsummary-progress{height:12px;border-radius:10px;overflow:hidden;display:flex;background:#e5e7eb;margin-bottom:10px;}
+.vsummary-progress span{display:block;background:#50a77f;width:0%;}.vsummary-progress i{display:block;background:#e5a247;width:0%;}
+.vsummary-legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.vsummary-legend-grid small{display:block;color:#73777d;font-size:11px;margin-top:4px;}
+.vsummary-dot{display:inline-block;width:9px;height:9px;background:#e5a247;border-radius:50%;margin-right:4px;vertical-align:middle;}
+.vsummary-bottom{margin-top:8px;}
+
 </style>
 
 <style id="responsive-v8-max-mobile-tablet">
@@ -3448,6 +3470,99 @@ button,select,input{touch-action:manipulation}
   box-shadow: 0 1px 0 #e2e8f0;
 }
 </style>
+<style id="hide-top-kpi-row-only">
+/* KPI bagian atas disembunyikan; elemen tetap ada agar fungsi JS lama tidak terganggu. */
+.kpi-row { display: none !important; }
+
+/* Tata letak dashboard: ringkasan dan perkerasan di baris atas; kondisi dan anggaran di bawah. */
+@media (min-width: 1101px) {
+  #viewDashboard .middle-grid.dashboard-reordered-grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 1fr) !important;
+    grid-auto-flow: row;
+    align-items: stretch;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .map-card-box {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .village-summary-card {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(3) {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(4) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(5) {
+    grid-column: 3;
+    grid-row: 2;
+  }
+}
+</style>
+
+<style id="compact-pavement-card-bottom-gap">
+/* Rapikan ruang kosong di bawah grafik Jenis Perkerasan pada dashboard desktop. */
+@media (min-width: 1101px) {
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(3) {
+    align-self: start !important;
+    height: fit-content !important;
+    min-height: 0 !important;
+    padding-bottom: 16px !important;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(3) .pavement-wrap {
+    height: 175px !important;
+    min-height: 0 !important;
+    padding-top: 12px !important;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(3) .pavement-chart {
+    height: 132px !important;
+    padding-bottom: 34px !important;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(3) .pavement-grid-y {
+    inset: 8px 0 34px 0 !important;
+  }
+}
+</style>
+
+<style id="fix-pavement-row-gap-v2">
+/* Perbaikan: kartu Jenis Perkerasan mengikuti tinggi baris grid agar tidak menyisakan celah besar sebelum baris Anggaran. */
+@media (min-width: 1101px) {
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(3) {
+    align-self: stretch !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding-bottom: 20px !important;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(3) .pavement-wrap {
+    height: 100% !important;
+    min-height: 0 !important;
+    padding-top: 12px !important;
+    box-sizing: border-box !important;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(3) .pavement-chart {
+    height: 190px !important;
+    padding-bottom: 34px !important;
+    box-sizing: border-box !important;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(3) .pavement-grid-y {
+    inset: 8px 0 34px 0 !important;
+  }
+}
+</style>
+
+<style id="pavement-label-spacing-final">
+/* Beri jarak visual antara label kategori perkerasan dan garis dasar grafik. */
+@media (min-width: 1101px) {
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(3) .bar-title {
+    bottom: -29px !important;
+    line-height: 1.2 !important;
+  }
+}
+</style>
 </head>
 <body>
   <div id="passwordGate" aria-modal="true" role="dialog">
@@ -3532,6 +3647,19 @@ button,select,input{touch-action:manipulation}
           <div class="f-body">
             <span>Kecamatan</span>
             <select id="selKec"><option value="">Semua Kecamatan</option></select>
+          </div>
+        </div>
+
+        <div class="f-card">
+          <div class="f-icon-box" style="background:#ecfdf5;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 10.5 12 4l9 6.5"></path>
+              <path d="M5.5 9.5V20h13V9.5M9 20v-6h6v6"></path>
+            </svg>
+          </div>
+          <div class="f-body">
+            <span>Desa</span>
+            <select id="selDesaDashboard"><option value="">Semua Desa</option></select>
           </div>
         </div>
 
@@ -3638,8 +3766,8 @@ button,select,input{touch-action:manipulation}
         </div>
       </section>
 
-      <!-- MIDDLE WORKSPACE -->
-      <div class="middle-grid">
+      <!-- MIDDLE WORKSPACE: map left, summary + pavement top, condition + budget below -->
+      <div class="middle-grid dashboard-reordered-grid">
         <div class="card-box map-card-box">
           <div class="c-head">
             <div class="c-head-title">
@@ -3659,6 +3787,87 @@ button,select,input{touch-action:manipulation}
               <button class="active" id="btnPeta">Peta</button>
             </div>
             <div id="map"></div>
+          </div>
+        </div>
+
+        <!-- 4. RINGKASAN WILAYAH DAN JALAN (menggantikan panel Desa yang Dilalui; ukuran card tetap) -->
+        <div class="card-box village-summary-card">
+          <div class="c-head">
+            <div class="c-head-title">
+              <div class="sec-ico" style="background:#f3f4f6;color:#374151;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+              <h3 id="villageSummaryTitle">Ringkasan</h3>
+            </div>
+            <span class="head-pill" id="villageSummaryScope">Mengikuti filter aktif</span>
+          </div>
+          <div class="vsummary-grid vsummary-top-metrics">
+            <div class="vsummary-tile"><div class="vsummary-label">Jumlah Ruas</div><div class="vsummary-value" id="vsummaryRoadCount">— ruas</div></div>
+            <div class="vsummary-tile"><div class="vsummary-label">Total Panjang</div><div class="vsummary-value" id="vsummaryLength">— km</div></div>
+            <div class="vsummary-tile"><div class="vsummary-label">Kondisi Baik</div><div class="vsummary-value vsummary-green" id="vsummaryBaik">— km</div></div>
+            <div class="vsummary-tile"><div class="vsummary-label">Estimasi Total RAB</div><div class="vsummary-value" id="vsummaryRAB">Rp —</div></div>
+          </div>
+          <div class="vsummary-mantap">
+            <div class="vsummary-mantap-head"><strong><span class="vsummary-icon">▥</span> Kemantapan Jalan</strong><b id="vsummaryMantapPct">—%</b></div>
+            <div class="vsummary-progress"><span id="vsummaryMantapBar"></span><i id="vsummaryBelumBar"></i></div>
+            <div class="vsummary-legend-grid">
+              <div><div class="vsummary-label">Jalan Mantap</div><div class="vsummary-value vsummary-green" id="vsummaryMantapKm">— km</div><small>Baik + Sedang</small></div>
+              <div><div class="vsummary-label">Belum Mantap</div><div class="vsummary-value" id="vsummaryBelumKm"><span class="vsummary-dot"></span> — km</div><small>Rusak Ringan + Berat</small></div>
+            </div>
+          </div>
+        </div>
+        <!-- 3. DISTRIBUSI PERKERASAN -->
+        <div class="card-box">
+          <div class="c-head">
+            <div class="c-head-title">
+              <div class="sec-ico" style="background:#eff6ff;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              </div>
+              <h3>Jenis Perkerasan</h3>
+            </div>
+            <span class="head-pill" id="pavementTotalPill">Total: 0,00 km</span>
+          </div>
+
+          <div class="pavement-wrap">
+            <div class="pavement-grid-y">
+              <div><span style="width:24px;text-align:right;">100%</span><hr></div>
+              <div><span style="width:24px;text-align:right;">75%</span><hr></div>
+              <div><span style="width:24px;text-align:right;">50%</span><hr></div>
+              <div><span style="width:24px;text-align:right;">25%</span><hr></div>
+              <div><span style="width:24px;text-align:right;">0%</span><hr></div>
+            </div>
+
+            <div class="pavement-chart">
+              <div class="bar-col" data-perk="HOTMIX">
+                <div class="bar-val">0,00 km</div>
+                <div class="bar-track"><div class="bar-fill" style="height:4%;background:#1d72fe;"></div></div>
+                <div class="bar-title">HOTMIX</div>
+              </div>
+              <div class="bar-col" data-perk="LAPEN">
+                <div class="bar-val">0,00 km</div>
+                <div class="bar-track"><div class="bar-fill" style="height:4%;background:#10b981;"></div></div>
+                <div class="bar-title">Lapen /<br>Makadam</div>
+              </div>
+              <div class="bar-col" data-perk="BETON">
+                <div class="bar-val">0,00 km</div>
+                <div class="bar-track"><div class="bar-fill" style="height:4%;background:#64748b;"></div></div>
+                <div class="bar-title">Perkerasan<br>Beton</div>
+              </div>
+              <div class="bar-col" data-perk="TELFORD">
+                <div class="bar-val">0,00 km</div>
+                <div class="bar-track"><div class="bar-fill" style="height:4%;background:#8b5cf6;"></div></div>
+                <div class="bar-title">Telford /<br>Kerikil</div>
+              </div>
+              <div class="bar-col" data-perk="TANAH">
+                <div class="bar-val">0,00 km</div>
+                <div class="bar-track"><div class="bar-fill" style="height:4%;background:#f59e0b;"></div></div>
+                <div class="bar-title">Tanah /<br>Belum Tembus</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -3740,81 +3949,6 @@ button,select,input{touch-action:manipulation}
           </div>
         </div>
 
-        <!-- 3. DISTRIBUSI PERKERASAN -->
-        <div class="card-box">
-          <div class="c-head">
-            <div class="c-head-title">
-              <div class="sec-ico" style="background:#eff6ff;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="18" y1="20" x2="18" y2="10"></line>
-                  <line x1="12" y1="20" x2="12" y2="4"></line>
-                  <line x1="6" y1="20" x2="6" y2="14"></line>
-                </svg>
-              </div>
-              <h3>Jenis Perkerasan</h3>
-            </div>
-            <span class="head-pill" id="pavementTotalPill">Total: 0,00 km</span>
-          </div>
-
-          <div class="pavement-wrap">
-            <div class="pavement-grid-y">
-              <div><span style="width:24px;text-align:right;">100%</span><hr></div>
-              <div><span style="width:24px;text-align:right;">75%</span><hr></div>
-              <div><span style="width:24px;text-align:right;">50%</span><hr></div>
-              <div><span style="width:24px;text-align:right;">25%</span><hr></div>
-              <div><span style="width:24px;text-align:right;">0%</span><hr></div>
-            </div>
-
-            <div class="pavement-chart">
-              <div class="bar-col" data-perk="HOTMIX">
-                <div class="bar-val">0,00 km</div>
-                <div class="bar-track"><div class="bar-fill" style="height:4%;background:#1d72fe;"></div></div>
-                <div class="bar-title">HOTMIX</div>
-              </div>
-              <div class="bar-col" data-perk="LAPEN">
-                <div class="bar-val">0,00 km</div>
-                <div class="bar-track"><div class="bar-fill" style="height:4%;background:#10b981;"></div></div>
-                <div class="bar-title">Lapen /<br>Makadam</div>
-              </div>
-              <div class="bar-col" data-perk="BETON">
-                <div class="bar-val">0,00 km</div>
-                <div class="bar-track"><div class="bar-fill" style="height:4%;background:#64748b;"></div></div>
-                <div class="bar-title">Perkerasan<br>Beton</div>
-              </div>
-              <div class="bar-col" data-perk="TELFORD">
-                <div class="bar-val">0,00 km</div>
-                <div class="bar-track"><div class="bar-fill" style="height:4%;background:#8b5cf6;"></div></div>
-                <div class="bar-title">Telford /<br>Kerikil</div>
-              </div>
-              <div class="bar-col" data-perk="TANAH">
-                <div class="bar-val">0,00 km</div>
-                <div class="bar-track"><div class="bar-fill" style="height:4%;background:#f59e0b;"></div></div>
-                <div class="bar-title">Tanah /<br>Belum Tembus</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 4. DISTRIBUSI DESA DILALUI -->
-        <div class="card-box">
-          <div class="c-head">
-            <div class="c-head-title">
-              <div class="sec-ico" style="background:#fef2f2;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"></path>
-                </svg>
-              </div>
-              <h3>Desa yang Dilalui</h3>
-            </div>
-            <span class="head-pill" data-village-total>Total Desa: 0</span>
-          </div>
-          <div class="table-scroll village-table-scroll">
-            <table class="mini-table village-mini-table">
-              <thead><tr><th style="width:30px">No</th><th>Nama Desa</th><th style="text-align:right">Panjang (km)</th></tr></thead>
-              <tbody data-village-body></tbody>
-            </table>
-          </div>
-        </div>
       </div>
 
 
@@ -4640,9 +4774,11 @@ function fmtKm(n){ return ceil1(n).toLocaleString("id-ID",{minimumFractionDigits
 function fmtNum(n){ return ceil1(n).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1}); }
 
 function fmtRp(n){
-  if(Math.abs(n)>=1e9) return "Rp "+ceil1(n/1e9).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+" M";
-  if(Math.abs(n)>=1e6) return "Rp "+ceil1(n/1e6).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+" Jt";
-  return "Rp "+Math.ceil(Number(n)||0).toLocaleString("id-ID");
+  const value = Number(n) || 0;
+  if(Math.abs(value)>=1e12) return "Rp "+ceil1(value/1e12).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+" T";
+  if(Math.abs(value)>=1e9) return "Rp "+ceil1(value/1e9).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+" M";
+  if(Math.abs(value)>=1e6) return "Rp "+ceil1(value/1e6).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+" Jt";
+  return "Rp "+Math.ceil(value).toLocaleString("id-ID");
 }
 function fmtPct1Up(n){ return ceil1(n).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+"%"; }
 function escapeHtml(s){ return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m])); }
@@ -4920,7 +5056,7 @@ function parseRekapBudget(wb){
   return empty;
 }
 
-function getBudgetForRows(rows, kecOverride=null, ruasOverride=null){
+function getBudgetForRows(rows, kecOverride=null, ruasOverride=null, useVisibleRowsOnly=false){
   const visibleRows = Array.isArray(rows) ? rows : [];
   const kecEl = $("selKec");
   const ruasEl = $("selRuas");
@@ -4930,7 +5066,7 @@ function getBudgetForRows(rows, kecOverride=null, ruasOverride=null){
 
   // SUMBER RESMI RAB: sheet REKAP Google Sheets.
   // Jika tidak ada filter kecamatan/ruas dan bukan tampilan desa, gunakan TOTAL REKAP.
-  if(!kecFilter && !ruasFilter && !villageSelected && state.rekapBudget?.total > 0){
+  if(!useVisibleRowsOnly && !kecFilter && !ruasFilter && !villageSelected && state.rekapBudget?.total > 0){
     return {
       rr: Number(state.rekapBudget.rr || 0),
       rb: Number(state.rekapBudget.rb || 0),
@@ -4940,7 +5076,7 @@ function getBudgetForRows(rows, kecOverride=null, ruasOverride=null){
   }
 
   // Jika hanya satu kecamatan dipilih, gunakan subtotal kecamatan dari REKAP.
-  if(kecFilter && !ruasFilter && !villageSelected && state.rekapBudget?.byKec?.size){
+  if(!useVisibleRowsOnly && kecFilter && !ruasFilter && !villageSelected && state.rekapBudget?.byKec?.size){
     const item = state.rekapBudget.byKec.get(norm(kecFilter));
     if(item){
       return {
@@ -4994,6 +5130,7 @@ function processWorkbook(wb, sourceName="Google Sheets"){
   });
 
   populateKecamatan();
+  populateDashboardDesa();
   populateKecamatanMap();
   populateKecamatanTable();
   populateKecamatanAnalysis();
@@ -5007,7 +5144,34 @@ function populateKecamatan(){
   const sel = $("selKec");
   const kec = [...new Set(state.roads.map(r=>r.kec))].sort((a,b)=>a.localeCompare(b,"id"));
   sel.innerHTML = '<option value="">Semua Kecamatan</option>' + kec.map(k=>`<option value="${escapeHtml(k)}">${escapeHtml(k)}</option>`).join("");
+  populateDashboardDesa();
   populateRuas();
+}
+function populateDashboardDesa(){
+  const sel = $("selDesaDashboard");
+  if(!sel) return;
+  const kec = $("selKec")?.value || "";
+  const previous = sel.value;
+  const features = getVillageFeatures();
+  const seen = new Set();
+  const villages = [];
+  features.forEach(f=>{
+    const name = String(villageNameOf(f) || "").trim();
+    const villageKec = String(villageKecOf(f) || "").trim();
+    const key = villageKey(f);
+    if(!name || !key || (kec && norm(villageKec) !== norm(kec))) return;
+    if(seen.has(key)) return;
+    seen.add(key);
+    villages.push({key, name, kec:villageKec});
+  });
+  villages.sort((a,b)=>a.name.localeCompare(b.name,"id",{sensitivity:"base",numeric:true}));
+  sel.innerHTML = '<option value="">Semua Desa</option>' + villages.map(v=>
+    `<option value="${escapeHtml(v.key)}">${escapeHtml(v.name)}${v.kec ? " — " + escapeHtml(v.kec) : ""}</option>`
+  ).join("");
+  if(previous && villages.some(v=>v.key===previous)) sel.value = previous;
+  else sel.value = "";
+  // Simpan jumlah opsi untuk memudahkan deteksi jika data belum tersedia saat awal.
+  sel.dataset.villageCount = String(villages.length);
 }
 function populateRuas(){
   const kec = $("selKec").value;
@@ -5197,7 +5361,7 @@ function setKpi(rows){
   const se = rows.reduce((s,r)=>s+r.sedang, 0);
   const rr = rows.reduce((s,r)=>s+r.rr, 0);
   const rb = rows.reduce((s,r)=>s+r.rb, 0);
-  const budget = getBudgetForRows(rows);
+  const budget = getBudgetForRows(rows, null, null, true);
   const rab = budget.total;
 
   setText("kpiRuas", total.toLocaleString("id-ID"));
@@ -5275,7 +5439,12 @@ function animateDonutSweep(el, vals, colors){
 }
 
 function formatBudgetCenter(totalVal){
-  if(totalVal >= 1e9){
+  if(totalVal >= 1e12){
+    return {
+      main: "Rp " + ceil1(totalVal/1e12).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1}),
+      sub: "Triliun"
+    };
+  } else if(totalVal >= 1e9){
     return {
       main: "Rp " + ceil1(totalVal/1e9).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1}),
       sub: "Miliar"
@@ -5308,7 +5477,7 @@ function renderCharts(rows){
   setText("legKmRR", fmtKm(rr)); setText("pctLegRR", total ? fmtPct1Up((rr/total)*100) : "0,0%");
   setText("legKmRB", fmtKm(rb)); setText("pctLegRB", total ? fmtPct1Up((rb/total)*100) : "0,0%");
 
-  const budget = getBudgetForRows(rows);
+  const budget = getBudgetForRows(rows, null, null, true);
   const rabRR = budget.rr;
   const rabRB = budget.rb;
   const totalRAB = budget.total;
@@ -5708,82 +5877,60 @@ function renderVillageCondition(rows){
 }
 
 function renderVillage(rows){
-  // DEFAULT: daftar desa dan panjang ruas dihitung dari SHP jalan terbaru
-  // yang telah diproses menjadi mapping spasial. Saat SHP baru diunggah,
-  // fungsi kembali menghitung intersection langsung.
-  const villages = getVillageFeatures();
-  const groups = {};
-
-  if(state.shpSource === "embedded" && villages.length){
-    villages.forEach(village => {
-      const name=villageNameOf(village);
-      const key=villageKey(village);
-      const km=Number(EMBEDDED_VILLAGE_ROAD_LENGTHS[key] || 0);
-      if(!name || !km) return;
-      groups[key]={key, name, kec:villageKecOf(village), km};
-    });
-  } else if(villages.length && state.shpGeoJSON?.features?.length && window.turf){
-    villages.forEach(village => {
-      const name=villageNameOf(village);
-      if(!name) return;
-      try{
-        const result=getVillageRoadRows(village);
-        if(!result.rows.length) return;
-        const seen=new Set();
-        let km=0;
-        result.rows.forEach(r=>{
-          const key=roadKey(r.no)||roadKey(r.nama);
-          if(!key || seen.has(key)) return;
-          seen.add(key);
-          km += Number(r.km)||0;
-        });
-        const key=villageKey(village);
-        groups[key]={key, name, kec:villageKecOf(village), km};
-      }catch(e){
-        console.warn("Gagal menghitung desa secara spasial:",name,e);
-      }
-    });
-  } else {
-    rows.forEach(r=>{
-      (r.desaList||[]).forEach(v=>{
-        if(!v.name) return;
-        const key=norm(v.name);
-        if(!groups[key]) groups[key]={name:v.name,km:0};
-        groups[key].km += Number(v.km)||0;
-      });
-    });
+  // Panel Ringkasan Wilayah dan Jalan mengikuti baris yang sedang tampil,
+  // sehingga tetap sinkron dengan filter kecamatan/desa/ruas dan pilihan ruas.
+  const visibleRows = Array.isArray(rows) ? rows : [];
+  const sum = key => visibleRows.reduce((acc,r)=>acc + Math.max(0, Number(r?.[key]) || 0), 0);
+  const totalKm = sum('km');
+  const baik = sum('baik');
+  const sedang = sum('sedang');
+  const rr = sum('rr');
+  const rb = sum('rb');
+  const mantap = baik + sedang;
+  const belum = rr + rb;
+  const pct = totalKm > 0 ? Math.max(0,Math.min(100,(mantap/totalKm)*100)) : 0;
+  const money = getBudgetForRows(visibleRows, null, null, true);
+  const set = (id,value) => { const el=document.getElementById(id); if(el) el.textContent=value; };
+  set('vsummaryRoadCount', `${visibleRows.length.toLocaleString('id-ID')} ruas`);
+  set('vsummaryLength', fmtKm(totalKm));
+  set('vsummaryMantapPct', `${fmtNum(pct)}%`);
+  set('vsummaryMantapKm', fmtKm(mantap));
+  set('vsummaryBelumKm', fmtKm(belum));
+  set('vsummaryBaik', fmtKm(baik));
+  set('vsummaryRAB', fmtRp(money.total));
+  const mantapBar=document.getElementById('vsummaryMantapBar');
+  const belumBar=document.getElementById('vsummaryBelumBar');
+  if(mantapBar) mantapBar.style.width=`${pct}%`;
+  if(belumBar) belumBar.style.width=`${100-pct}%`;
+  const scope=document.getElementById('villageSummaryScope');
+  if(scope){
+    // Tampilkan nama filter yang benar-benar sedang aktif, bukan label generik.
+    const selectedRoadKey = state.selectedDashboardRoadKey || '';
+    const selectedRoadRow = selectedRoadKey
+      ? visibleRows.find(r => (roadKey(r.no) || roadKey(r.nama)) === selectedRoadKey || roadKey(r.no) === selectedRoadKey || roadKey(r.nama) === selectedRoadKey)
+      : null;
+    const selectedVillage = state.dashboardSelectedVillage || state.selectedVillage || null;
+    const desaName = selectedVillage ? villageNameOf(selectedVillage) : '';
+    const kecSelect = document.getElementById('selKec');
+    const kecName = kecSelect && kecSelect.value
+      ? (kecSelect.options[kecSelect.selectedIndex]?.textContent || '').trim()
+      : '';
+    const hasKecamatan = !!(kecName && !/^semua kecamatan$/i.test(kecName));
+    const hasDesa = !!desaName;
+    const title = document.getElementById('villageSummaryTitle');
+    if(title){
+      title.textContent = selectedRoadRow ? 'Ringkasan Ruas Jalan'
+        : hasDesa ? 'Ringkasan Desa'
+        : hasKecamatan ? 'Ringkasan Kecamatan'
+        : 'Ringkasan';
+    }
+    const parts = [];
+    if(hasKecamatan) parts.push(kecName);
+    if(hasDesa) parts.push(desaName);
+    if(selectedRoadRow) parts.push(selectedRoadRow.nama || selectedRoadRow.no || 'Ruas terpilih');
+    scope.textContent = parts.length ? parts.join(' · ') : 'Seluruh Wilayah';
+    scope.title = 'Filter aktif: ' + scope.textContent;
   }
-
-  const list=Object.values(groups).sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""), "id", {sensitivity:"base", numeric:true}));
-  const maxKm=list.reduce((m,x)=>Math.max(m, Number(x.km)||0), 1);
-  const tbody=document.querySelector('[data-village-body]');
-
-  if(list.length===0){
-    tbody.innerHTML='<tr><td colspan="3" style="text-align:center;color:#94a3b8;padding:16px;">Tidak ada desa terdata</td></tr>';
-  } else {
-    tbody.innerHTML=list.map((x,i)=>`
-      <tr class="village-table-row" data-village-key="${escapeHtml(x.key || norm(`${x.name}|${x.kec||''}`))}" title="Klik untuk melihat desa di peta">
-        <td>${i+1}</td>
-        <td><b>${escapeHtml(x.name)}</b></td>
-        <td class="prog-cell">
-          <div class="p-bar" style="width:${Math.max(8,Math.min(70,(x.km/maxKm)*70))}px"></div>
-          ${fmtKm(x.km).replace(' km','')}
-        </td>
-      </tr>
-    `).join('');
-
-    // Klik nama desa pada tabel Dashboard -> buka Peta, tampilkan polygon desa,
-    // zoom ke desa, dan tampilkan ruas yang berpotongan berdasarkan SHP terbaru.
-    tbody.querySelectorAll('.village-table-row').forEach(tr=>{
-      tr.style.cursor='pointer';
-      tr.addEventListener('click',()=>{
-        const key=tr.dataset.villageKey || '';
-        const village=getVillageFeatures().find(v=>villageKey(v)===key);
-        if(village) chooseVillage(village);
-      });
-    });
-  }
-  document.querySelectorAll('[data-village-total]').forEach(e=>e.textContent=`Total Desa: ${list.length}`);
 }
 function renderTable(rows){
   const tbody = $("roadsTableBody");
@@ -5826,6 +5973,7 @@ function focusDashboardRoad(road){
   const key = roadKey(road.no) || roadKey(road.nama);
   state.selectedDashboardRoadKey = key || null;
   state.selectedDashboardRoadLayer = null;
+  refreshAll();
 
   // Tetap di Dashboard. Jangan pindah ke menu Peta.
   const dashboardBtn = document.querySelector('.nav-btn[data-view="viewDashboard"]');
@@ -6124,8 +6272,21 @@ function renderReportView(){
 function refreshAll(){
   const rows = currentRows();
   state.filtered = rows;
-  setKpi(rows);
-  renderCharts(rows);
+
+  // Klik satu ruas pada tabel hanya memfokuskan KPI dan grafik dashboard.
+  // Tabel dan peta tetap memakai seluruh ruas sesuai filter Kecamatan/Desa.
+  let summaryRows = rows;
+  if(state.selectedDashboardRoadKey){
+    const selected = rows.filter(r => {
+      const key = roadKey(r.no) || roadKey(r.nama);
+      return key === state.selectedDashboardRoadKey;
+    });
+    if(selected.length) summaryRows = selected;
+    else state.selectedDashboardRoadKey = null;
+  }
+
+  setKpi(summaryRows);
+  renderCharts(summaryRows);
   renderVillage(rows);
   renderVillageCondition(rows);
   renderTable(rows);
@@ -6612,7 +6773,13 @@ function villageKey(feature){
   return norm(`${villageNameOf(feature)}|${villageKecOf(feature)}`);
 }
 function getVillageFeatures(){
-  return state.villageGeoJSON?.features || [];
+  // Utamakan data desa yang sudah dimuat; gunakan data bawaan jika state belum terisi.
+  const features = state.villageGeoJSON?.features;
+  if(Array.isArray(features) && features.length) return features;
+  const embedded = (typeof EMBEDDED_VILLAGE_GEOJSON !== "undefined")
+    ? EMBEDDED_VILLAGE_GEOJSON?.features
+    : null;
+  return Array.isArray(embedded) ? embedded : [];
 }
 function findVillageMatches(q){
   const nq=norm(q);
@@ -6693,6 +6860,8 @@ function getVillageRoadRows(village){
 }
 function clearVillageSelection(){
   state.dashboardSelectedVillage = null;
+  const dashboardDesa = $("selDesaDashboard");
+  if(dashboardDesa) dashboardDesa.value = "";
   state.selectedDashboardRoadKey = null;
   state.selectedDashboardRoadLayer = null;
   state.selectedVillage = null;
@@ -6781,6 +6950,12 @@ function chooseVillage(village){
 
   // Jika pencarian dilakukan dari Dashboard, Desa menjadi filter Dashboard.
   state.dashboardSelectedVillage = village;
+  if($("selRuas")) $("selRuas").value = "";
+  const desaDropdown = $("selDesaDashboard");
+  if(desaDropdown){
+    populateDashboardDesa();
+    desaDropdown.value = villageKey(village);
+  }
   const result = getVillageRoadRows(village);
   state.villageRoadKeys = result.keys;
   state.selectedVillageRoadKey = null;
@@ -6850,6 +7025,7 @@ async function loadGoogleDriveData(){
   if(!state.villageGeoJSON){
     state.villageGeoJSON = EMBEDDED_VILLAGE_GEOJSON;
   }
+  populateDashboardDesa();
   populateDesaMap();
 
   // Gunakan SHP Jalan-Kab-Bandung terbaru sebagai sumber trase default.
@@ -7002,8 +7178,50 @@ $("btnReset")?.addEventListener("click", () => {
   if(window.map) map.flyTo([-7.06, 107.56], 10, { duration: 1.25 });
 });
 $("selKec")?.addEventListener("change", () => {
+  // Kecamatan berubah: perbarui pilihan desa/ruas dan lepaskan desa yang tidak lagi sesuai.
+  const selectedVillageKey = state.dashboardSelectedVillage ? villageKey(state.dashboardSelectedVillage) : "";
+  populateDashboardDesa();
   populateRuas();
+  if(selectedVillageKey && $("selDesaDashboard")?.value !== selectedVillageKey){
+    clearVillageSelection();
+    if($("searchInput")) $("searchInput").value = "";
+  }
   clearTimeout(dashboardSearchTimer);
+  refreshAll();
+});
+$("selDesaDashboard")?.addEventListener("focus", () => {
+  const sel = $("selDesaDashboard");
+  if(sel && Number(sel.dataset.villageCount || 0) === 0){
+    populateDashboardDesa();
+  }
+});
+$("selDesaDashboard")?.addEventListener("pointerdown", () => {
+  const sel = $("selDesaDashboard");
+  if(sel && Number(sel.dataset.villageCount || 0) === 0){
+    populateDashboardDesa();
+  }
+});
+$("selDesaDashboard")?.addEventListener("change", () => {
+  const key = $("selDesaDashboard")?.value || "";
+  if(!key){
+    clearVillageSelection();
+    if($("searchInput")) $("searchInput").value = "";
+    if($("selRuas")) $("selRuas").value = "";
+    refreshAll();
+    return;
+  }
+  const village = getVillageFeatures().find(f=>villageKey(f)===key);
+  if(!village) return;
+  // Saat memilih desa, tampilkan seluruh ruas terkait desa tersebut.
+  if($("selRuas")) $("selRuas").value = "";
+  state.dashboardSelectedVillage = village;
+  state.selectedVillage = village;
+  const result = getVillageRoadRows(village);
+  state.villageRoadKeys = result.keys;
+  state.selectedVillageRoadKey = null;
+  if($("searchInput")) $("searchInput").value = villageNameOf(village);
+  const suggestions = $("searchSuggestions");
+  if(suggestions){ suggestions.classList.remove("show"); suggestions.innerHTML = ""; }
   refreshAll();
 });
 $("selRuas")?.addEventListener("change", () => {
@@ -7143,5 +7361,117 @@ $("currentDateBtn").textContent = "📅 " + new Intl.DateTimeFormat("id-ID", {
   setTimeout(() => input.focus(), 50);
 })();
 </script>
+
+<style id="ringkasan-compact-v2">
+/* Ringkasan dibuat lebih ringkas tanpa mengubah panel lain */
+.village-summary-card { padding: 10px !important; min-width: 0; }
+.village-summary-card .c-head { margin-bottom: 6px !important; gap: 6px !important; }
+.village-summary-card .c-head-title { gap: 8px !important; min-width: 0; }
+.village-summary-card .c-head h3 { font-size: 13px !important; line-height: 1.2 !important; }
+.village-summary-card .sec-ico { width: 30px !important; height: 30px !important; min-width: 30px !important; }
+.village-summary-card .head-pill { font-size: 10px !important; padding: 5px 8px !important; }
+.village-summary-card .vsummary-grid { gap: 6px !important; margin-top: 3px !important; }
+.village-summary-card .vsummary-tile { padding: 8px 10px !important; border-radius: 10px !important; }
+.village-summary-card .vsummary-label { font-size: 11px !important; margin-bottom: 3px !important; }
+.village-summary-card .vsummary-value { font-size: clamp(16px, 1.2vw, 20px) !important; line-height: 1.12 !important; }
+.village-summary-card .vsummary-mantap { padding: 9px !important; margin-top: 6px !important; border-radius: 10px !important; }
+.village-summary-card .vsummary-mantap-head { font-size: 12px !important; margin-bottom: 7px !important; }
+.village-summary-card .vsummary-mantap-head b { font-size: 20px !important; }
+.village-summary-card .vsummary-progress { height: 9px !important; margin-bottom: 7px !important; }
+.village-summary-card .vsummary-legend-grid { gap: 6px !important; }
+.village-summary-card .vsummary-legend-grid .vsummary-value { font-size: clamp(16px, 1.15vw, 19px) !important; }
+.village-summary-card .vsummary-legend-grid small { font-size: 10px !important; margin-top: 2px !important; }
+@media (max-width: 520px) {
+  .village-summary-card { padding: 9px !important; }
+  .village-summary-card .vsummary-value { font-size: 16px !important; }
+  .village-summary-card .vsummary-mantap-head b { font-size: 18px !important; }
+}
+</style>
+
+<style id="responsive-phone-landscape-tablet-v1">
+/* Responsif khusus HP landscape dan tablet; desktop tidak disentuh. */
+@media (max-width: 900px) and (orientation: landscape) {
+  .sidebar { width: 58px !important; min-width: 58px !important; }
+  .content-wrapper { margin-left: 58px !important; width: calc(100% - 58px) !important; padding: 8px !important; min-width: 0 !important; }
+  #viewDashboard .middle-grid.dashboard-reordered-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) !important;
+    gap: 8px !important;
+    align-items: start !important;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .map-card-box {
+    grid-column: 1 !important; grid-row: 1 / span 2 !important;
+    min-width: 0 !important; height: auto !important;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .village-summary-card { grid-column: 2 !important; grid-row: 1 !important; min-width: 0 !important; }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(3) { grid-column: 2 !important; grid-row: 2 !important; min-width: 0 !important; }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(4) { grid-column: 1 !important; grid-row: 3 !important; min-width: 0 !important; }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(5) { grid-column: 2 !important; grid-row: 3 !important; min-width: 0 !important; }
+  #viewDashboard .map-wrap { min-height: 260px !important; height: calc(100vh - 150px) !important; }
+  #viewDashboard #map { min-height: 260px !important; height: 100% !important; }
+  #viewDashboard .card-box { padding: 10px !important; }
+  #viewDashboard .c-head { gap: 6px !important; margin-bottom: 8px !important; }
+  #viewDashboard .c-head h3 { font-size: 12px !important; }
+  #viewDashboard .chart-content-row { gap: 8px !important; }
+  #viewDashboard .donut-gauge, #viewDashboard .donut-budget { width: 92px !important; height: 92px !important; }
+  #viewDashboard .donut-cut, #viewDashboard .donut-budget-cut { width: 62px !important; height: 62px !important; }
+  #viewDashboard .pavement-wrap { height: 165px !important; }
+  #viewDashboard .pavement-chart { height: 125px !important; padding-left: 28px !important; padding-bottom: 34px !important; }
+  #viewDashboard .bar-track { width: clamp(16px, 3vw, 26px) !important; }
+  #viewDashboard .bar-title { font-size: 8px !important; white-space: normal !important; max-width: 70px !important; }
+  .village-summary-card .vsummary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .village-summary-card .vsummary-value { overflow-wrap: anywhere !important; }
+  .main-data-table { min-width: 850px; }
+  .table-scroll, .village-table-scroll { max-height: 190px !important; }
+}
+
+/* Tablet landscape: manfaatkan lebar layar dengan tiga kolom seimbang. */
+@media (min-width: 901px) and (max-width: 1100px) and (orientation: landscape) {
+  .sidebar { width: 64px !important; min-width: 64px !important; }
+  .content-wrapper { margin-left: 64px !important; width: calc(100% - 64px) !important; padding: 10px !important; min-width: 0 !important; }
+  #viewDashboard .middle-grid.dashboard-reordered-grid {
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 10px !important; align-items: start !important;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .map-card-box { grid-column: 1 !important; grid-row: 1 / span 2 !important; min-width: 0 !important; }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .village-summary-card { grid-column: 2 !important; grid-row: 1 !important; min-width: 0 !important; }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(3) { grid-column: 3 !important; grid-row: 1 !important; min-width: 0 !important; }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(4) { grid-column: 2 !important; grid-row: 2 !important; min-width: 0 !important; }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(5) { grid-column: 3 !important; grid-row: 2 !important; min-width: 0 !important; }
+  #viewDashboard .map-wrap, #viewDashboard #map { min-height: 420px !important; }
+  #viewDashboard .chart-content-row { gap: 8px !important; }
+  #viewDashboard .donut-gauge, #viewDashboard .donut-budget { width: 100px !important; height: 100px !important; }
+  #viewDashboard .donut-cut, #viewDashboard .donut-budget-cut { width: 68px !important; height: 68px !important; }
+  .village-summary-card .vsummary-value { overflow-wrap: anywhere !important; }
+}
+
+/* Tablet portrait: peta lebar penuh, panel informasi dalam dua kolom. */
+@media (min-width: 600px) and (max-width: 1100px) and (orientation: portrait) {
+  .sidebar { width: 64px !important; min-width: 64px !important; }
+  .content-wrapper { margin-left: 64px !important; width: calc(100% - 64px) !important; padding: 10px !important; min-width: 0 !important; }
+  #viewDashboard .middle-grid.dashboard-reordered-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; align-items: start !important;
+  }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .map-card-box { grid-column: 1 / -1 !important; grid-row: auto !important; min-width: 0 !important; }
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .village-summary-card,
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(3),
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(4),
+  #viewDashboard .middle-grid.dashboard-reordered-grid > .card-box:nth-of-type(5) { grid-column: auto !important; grid-row: auto !important; min-width: 0 !important; }
+  #viewDashboard .map-wrap, #viewDashboard #map { height: 42vh !important; min-height: 300px !important; }
+  #viewDashboard .donut-gauge, #viewDashboard .donut-budget { width: 105px !important; height: 105px !important; }
+  #viewDashboard .donut-cut, #viewDashboard .donut-budget-cut { width: 70px !important; height: 70px !important; }
+  .village-summary-card .vsummary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .village-summary-card .vsummary-value { overflow-wrap: anywhere !important; }
+}
+
+/* Mencegah komponen dashboard melebar keluar dari area konten di layar sentuh. */
+@media (hover: none) and (pointer: coarse) and (max-width: 1100px) {
+  .content-wrapper, #viewDashboard, #viewDashboard .middle-grid, #viewDashboard .card-box { min-width: 0 !important; }
+  #viewDashboard .map-toggle-top { z-index: 1000 !important; top: 8px !important; right: 8px !important; }
+  #viewDashboard button, #viewDashboard select, #viewDashboard input { max-width: 100%; }
+  .table-scroll, .village-table-scroll, .village-condition-scroll { -webkit-overflow-scrolling: touch; }
+}
+</style>
+
 </body>
 </html>
