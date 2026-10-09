@@ -4775,12 +4775,13 @@ function fmtNum(n){ return ceil1(n).toLocaleString("id-ID",{minimumFractionDigit
 
 function fmtRp(n){
   const value = Number(n) || 0;
-  if(Math.abs(value)>=1e12) return "Rp "+ceil1(value/1e12).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+" T";
+  if(Math.abs(value)>=1e12) return "Rp "+(Math.ceil((Math.abs(value)/1e12-1e-10)*1000)/1000*(value<0?-1:1)).toLocaleString("id-ID",{minimumFractionDigits:3,maximumFractionDigits:3})+" T";
   if(Math.abs(value)>=1e9) return "Rp "+ceil1(value/1e9).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+" M";
   if(Math.abs(value)>=1e6) return "Rp "+ceil1(value/1e6).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+" Jt";
   return "Rp "+Math.ceil(value).toLocaleString("id-ID");
 }
 function fmtPct1Up(n){ return ceil1(n).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+"%"; }
+function ceil2(n){ return Math.ceil((Number(n) || 0) * 100) / 100; }
 function escapeHtml(s){ return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m])); }
 
 function detectColumns(rows){
@@ -5440,8 +5441,9 @@ function animateDonutSweep(el, vals, colors){
 
 function formatBudgetCenter(totalVal){
   if(totalVal >= 1e12){
+    const triliun = Math.ceil(((Number(totalVal) / 1e12) - 1e-12) * 1000) / 1000;
     return {
-      main: "Rp " + ceil1(totalVal/1e12).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1}),
+      main: "Rp " + triliun.toLocaleString("id-ID",{minimumFractionDigits:3,maximumFractionDigits:3}),
       sub: "Triliun"
     };
   } else if(totalVal >= 1e9){
@@ -5893,7 +5895,7 @@ function renderVillage(rows){
   const set = (id,value) => { const el=document.getElementById(id); if(el) el.textContent=value; };
   set('vsummaryRoadCount', `${visibleRows.length.toLocaleString('id-ID')} ruas`);
   set('vsummaryLength', fmtKm(totalKm));
-  set('vsummaryMantapPct', `${fmtNum(pct)}%`);
+  set('vsummaryMantapPct', `${pct.toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2})}%`);
   set('vsummaryMantapKm', fmtKm(mantap));
   set('vsummaryBelumKm', fmtKm(belum));
   set('vsummaryBaik', fmtKm(baik));
@@ -6077,7 +6079,7 @@ function renderAnalysisTable(){
 
   const ikjVal = calcKemantapan(bTot, sTot, rrTot, rbTot, kmTot);
 
-  setText("anIKJ", fmtPct1Up(ikjVal));
+  setText("anIKJ", ceil2(ikjVal).toLocaleString("id-ID", {minimumFractionDigits:2, maximumFractionDigits:2}) + "%");
   setText("anRabRR", fmtRp(rabRRTot));
   setText("anRabRB", fmtRp(rabRBTot));
   setText("anRAB", fmtRp(rabTot));
@@ -6168,7 +6170,7 @@ function renderAnalysisTable(){
 
     tbody.innerHTML = list.map(([kec, g]) => {
       const ikjKecNum = calcKemantapan(g.b, g.s, g.rr, g.rb, g.km);
-      const ikjKecStr = fmtPct1Up(ikjKecNum);
+      const ikjKecStr = ceil2(ikjKecNum).toLocaleString("id-ID", {minimumFractionDigits:2, maximumFractionDigits:2}) + "%";
 
       // Total RAB per kecamatan mengikuti subtotal resmi sheet REKAP.
       // Fallback ke penjumlahan ruas hanya bila kecamatan tidak tersedia
