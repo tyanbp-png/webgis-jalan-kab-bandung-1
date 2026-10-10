@@ -4519,10 +4519,49 @@ function resetViewScroll(targetPanel){
   }
 }
 
+/* NAVIGASI URL — kompatibel dengan GitHub Pages melalui hash route.
+   URL yang didukung: /, #/peta, #/daftar-ruas, #/kondisi-kemantapan,
+   #/laporan, dan #/pengaturan. */
+const VIEW_ROUTE_MAP = Object.freeze({
+  viewDashboard: "",
+  viewPeta: "peta",
+  viewDaftarRuas: "daftar-ruas",
+  viewAnalisis: "kondisi-kemantapan",
+  viewLaporan: "laporan",
+  viewPengaturan: "pengaturan"
+});
+const ROUTE_VIEW_MAP = Object.freeze(Object.fromEntries(
+  Object.entries(VIEW_ROUTE_MAP).map(([view, route]) => [route, view])
+));
+let routeNavigationInProgress = false;
+
+function getViewFromCurrentRoute(){
+  const route = (window.location.hash || "").replace(/^#\/?/, "").split(/[?&]/)[0].toLowerCase();
+  return ROUTE_VIEW_MAP[route] || "viewDashboard";
+}
+
+function activateViewFromRoute(){
+  const targetView = getViewFromCurrentRoute();
+  const activeView = document.querySelector(".nav-btn[data-view].active")?.getAttribute("data-view");
+  if(activeView === targetView) return;
+  const targetButton = document.querySelector(`.nav-btn[data-view="${targetView}"]`);
+  if(targetButton) targetButton.click();
+}
+
 /* NAVIGASI MENU SIDEBAR */
 document.querySelectorAll(".nav-btn[data-view]").forEach(btn => {
   btn.addEventListener("click", function(){
     const targetView = this.getAttribute("data-view");
+    const route = VIEW_ROUTE_MAP[targetView];
+    if(route !== undefined){
+      const nextHash = route ? `#/${route}` : "";
+      if(window.location.hash !== nextHash){
+        routeNavigationInProgress = true;
+        const nextUrl = window.location.pathname + window.location.search + nextHash;
+        window.history.pushState({ webgisView: targetView }, "", nextUrl);
+        routeNavigationInProgress = false;
+      }
+    }
     const nextPanel = $(targetView);
     if(!nextPanel) return;
 
@@ -4631,6 +4670,18 @@ document.querySelectorAll(".nav-btn[data-view]").forEach(btn => {
     }
   });
 });
+
+/* Mendukung tautan langsung, URL hash yang diubah manual, dan tombol Back/Forward. */
+function syncViewWithBrowserRoute(){
+  if(routeNavigationInProgress) return;
+  activateViewFromRoute();
+}
+window.addEventListener("popstate", syncViewWithBrowserRoute);
+window.addEventListener("hashchange", syncViewWithBrowserRoute);
+/* Saat halaman dibuka dengan URL seperti asbrat.id/#/peta, tampilkan menu yang sesuai. */
+if(window.location.hash){
+  activateViewFromRoute();
+}
 
 function updateDynamicCartography() {
   if (!window.mapReport) return;
