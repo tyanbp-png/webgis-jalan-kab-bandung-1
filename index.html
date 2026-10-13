@@ -7917,30 +7917,35 @@ window.tlConnectSheet=async function(manual=false){
    throw fetchError;
   }finally{clearTimeout(timeoutId);}
   if(!txt||!txt.trim()||/<!doctype html|<html/i.test(txt.slice(0,500)))throw Error('invalid-csv');
-  // Signature of the source text: do not rebuild KPI, chart, or table unless data changed.
   const signature=txt.replace(/^\uFEFF/,'').trim();
   const changed=tlLastCsvSignature===null || signature!==tlLastCsvSignature;
   if(changed){
+   tlSetSyncNotice('pending',tlLastCsvSignature===null?'Data terhubung · Dashboard sedang diperbarui…':'Ada pembaruan data · Dashboard sedang diperbarui…');
    setRowsFromCSV(txt);
-   tlLastCsvSignature=signature;
    tlRender();
+   tlLastCsvSignature=signature;
+   if(id('tlConnectionText'))id('tlConnectionText').textContent='Data terhubung';
+   if(id('tlConnectionDot'))id('tlConnectionDot').style.background='#10b981';
+   if(id('tlStatus'))id('tlStatus').textContent='Data terhubung · Data dashboard sudah diperbarui';
+   tlSetSyncNotice('success','Data terhubung · Data dashboard sudah diperbarui');
+  }else{
+   if(id('tlConnectionText'))id('tlConnectionText').textContent='Data terhubung';
+   if(id('tlConnectionDot'))id('tlConnectionDot').style.background='#10b981';
+   if(id('tlStatus'))id('tlStatus').textContent='Data terhubung · Data dashboard sudah sesuai';
+   tlSetSyncNotice('success','Data terhubung · Data dashboard sudah sesuai');
   }
-  if(id('tlConnectionText'))id('tlConnectionText').textContent='Data terhubung';
-  if(id('tlConnectionDot'))id('tlConnectionDot').style.background='#10b981';
-  if(id('tlStatus'))id('tlStatus').textContent='Data terhubung';
-  tlSetSyncNotice('success','Data terhubung');
  }catch(e){
   if(id('tlConnectionText'))id('tlConnectionText').textContent='Data tidak terhubung';
   if(id('tlConnectionDot'))id('tlConnectionDot').style.background='#ef4444';
-  if(id('tlStatus'))id('tlStatus').textContent='Data tidak terhubung';
-  tlSetSyncNotice('error','Data tidak terhubung');
+  if(id('tlStatus'))id('tlStatus').textContent='Data tidak terhubung · Dashboard menampilkan data terakhir';
+  tlSetSyncNotice('error','Data tidak terhubung · Dashboard menampilkan data terakhir');
  }finally{
   tlFetchInProgress=false;
  }
 };
 window.tlForgetSheet=function(){id('tlStatus').textContent='Gunakan endpoint Apps Script yang dikonfigurasi di HTML untuk menyambungkan sumber data.';tlRows=[{no:1,name:'REKONSTRUKSI / REHABILITASI JALAN',km:241.56,total:1086997500000,t25:271749375000,r25:138252241008.58,t26:372687750000,r26:209848963134,t27:327779432229.19,r27:146878122114,t28:592018173743.42,km25:60.39,kmr25:37.96,km26:82.82,kmr26:69.95,km27:73.26,kmr27:29.94,km28:103.71},{no:2,name:'PEMELIHARAAN RUTIN JALAN',km:259.02,total:129507500000,t25:32376875000,r25:28200000000,t26:36553750000,r26:30999000000,t27:49270500000,r27:26000000000,t28:44308500000,km25:64.75,kmr25:56.40,km26:73.11,kmr26:61.998,km27:75.86,kmr27:52,km28:88.62}];tlRender();};
 window.tlExportCSV=function(){let csv='No,Kegiatan,Total Kebutuhan Panjang (KM),Total Kebutuhan Anggaran (Rp),Target Pagu 2025,Realisasi 2025,Target Pagu 2026,Realisasi 2026,Target Pagu 2027,RKA 2027,Pagu 2028\n'+tlRows.map(r=>[r.no,'"'+r.name.replace(/"/g,'""')+'"',r.km,r.total,r.t25,r.r25,r.t26,r.r26,r.t27,r.r27,r.t28].join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='rekap_timeline_anggaran_2025_2028.csv';a.click();URL.revokeObjectURL(a.href);};
-window.addEventListener('resize',()=>{if(id('viewTimeline')?.classList.contains('active'))drawChart('tlChartBudget','budget')});document.addEventListener('DOMContentLoaded',()=>{id('tlSheetUrl').value=PUBLIC_SHEET_CSV;tlRender();setTimeout(()=>window.tlConnectSheet(),500);setInterval(()=>{if(navigator.onLine)window.tlConnectSheet(false);},60*1000);});
+window.addEventListener('resize',()=>{if(id('viewTimeline')?.classList.contains('active'))drawChart('tlChartBudget','budget')});document.addEventListener('DOMContentLoaded',()=>{id('tlSheetUrl').value=PUBLIC_SHEET_CSV;tlRender();setTimeout(()=>window.tlConnectSheet(),500);setInterval(()=>{if(navigator.onLine)window.tlConnectSheet(false);},30*1000);});
 })();
 </script>
 
