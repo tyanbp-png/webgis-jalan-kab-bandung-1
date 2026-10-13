@@ -7828,7 +7828,7 @@ function num(x,kind='money'){
 }
 function totals(key){return tlRows.reduce((a,r)=>a+(Number(r[key])||0),0)}
 function csvParse(text){let rows=[],row=[],v='',q=false;for(let i=0;i<text.length;i++){let c=text[i];if(c==='"'&&q&&text[i+1]==='"'){v+='"';i++;}else if(c==='"')q=!q;else if((c===','||c===';')&&!q){row.push(v);v='';}else if((c==='\n'||c==='\r')&&!q){if(c==='\r'&&text[i+1]==='\n')i++;row.push(v);if(row.some(x=>x.trim()))rows.push(row);row=[];v='';}else v+=c;}row.push(v);if(row.some(x=>x.trim()))rows.push(row);return rows;}
-function setRowsFromCSV(csv){const parsed=csvParse(csv);if(parsed.length<2)throw Error('CSV kosong atau format tidak terbaca');const normRow=row=>row.map(x=>String(x||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim());let headerAt=parsed.findIndex(row=>normRow(row).some(h=>h==='kegiatan'||h.includes('nama kegiatan'))&&normRow(row).some(h=>h.includes('2025')));if(headerAt<0)headerAt=0;const a=parsed.slice(headerAt);let headers=normRow(a[0]);const find=(...terms)=>headers.findIndex(h=>terms.every(t=>h.includes(t)));const findMoney=(kind,year)=>{let i=find(kind,'pagu',year);if(i<0&&kind==='realisasi')i=headers.findIndex(h=>h.includes('realisasi')&&h.includes(year)&&!h.includes('panjang')&&!h.includes('km'));if(i<0&&kind==='rka')i=headers.findIndex(h=>h.includes('rka')&&h.includes(year)&&!h.includes('panjang')&&!h.includes('km'));return i;};const ix={name:headers.findIndex(h=>h==='kegiatan'||h.includes('nama kegiatan')),km:find('total kebutuhan panjang'),total:find('total kebutuhan anggaran'),t25:find('target pagu','2025'),r25:findMoney('realisasi','2025'),t26:find('target pagu','2026'),r26:findMoney('realisasi','2026'),t27:find('target pagu','2027'),r27:findMoney('rka','2027'),t28:find('pagu','2028'),km25:find('target panjang','2025'),kmr25:find('realisasi panjang','2025'),km26:find('target panjang','2026'),kmr26:find('realisasi panjang','2026'),km27:find('target panjang','2027'),kmr27:find('panjang','rka','2027'),km28:find('rencana panjang','2028')};if(ix.name<0)throw Error('Kolom KEGIATAN tidak ditemukan. Pastikan CSV mengarah ke tab rekap yang benar.');const required=['km','total','t25','r25','t26','r26','t27','r27','t28','km25','kmr25','km26','kmr26','km27','kmr27','km28'];const missing=required.filter(k=>ix[k]<0);if(missing.length)throw Error('Kolom sumber belum cocok: '+missing.join(', ')+'. Periksa header CSV atau pastikan tab yang dipublikasikan benar.');const out=[];a.slice(1).forEach(r=>{const name=(r[ix.name]||'').trim();if(!name||/jumlah keseluruhan|total keseluruhan/i.test(name))return;const o={no:out.length+1,name};for(const k of Object.keys(ix)){if(k==='name')continue;o[k]=ix[k]>=0?num(r[ix[k]],k.startsWith('km')?'km':'money'):0;}out.push(o)});if(!out.length)throw Error('Tidak ada baris kegiatan pada CSV');if(!out.some(r=>r.t25||r.t26||r.t27||r.t28))throw Error('Data kegiatan terbaca, tetapi kolom pagu tidak cocok dengan format yang diharapkan. Periksa judul kolom di Google Sheets.');tlRows=out;}
+function setRowsFromCSV(csv){const parsed=csvParse(csv);if(parsed.length<2)throw Error('CSV kosong atau format tidak terbaca');const normRow=row=>row.map(x=>String(x||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim());let headerAt=parsed.findIndex(row=>normRow(row).some(h=>h==='kegiatan'||h.includes('nama kegiatan'))&&normRow(row).some(h=>h.includes('2025')));if(headerAt<0)headerAt=0;const a=parsed.slice(headerAt);let headers=normRow(a[0]);const find=(...terms)=>headers.findIndex(h=>terms.every(t=>h.includes(t)));const findMoney=(kind,year)=>{let i=find(kind,'pagu',year);if(i<0&&kind==='realisasi')i=headers.findIndex(h=>h.includes('realisasi')&&h.includes(year)&&!h.includes('panjang')&&!h.includes('km'));if(i<0&&kind==='rka')i=headers.findIndex(h=>h.includes('rka')&&h.includes(year)&&!h.includes('panjang')&&!h.includes('km'));return i;};const ix={name:headers.findIndex(h=>h==='kegiatan'||h.includes('nama kegiatan')),km:find('total kebutuhan panjang'),total:find('total kebutuhan anggaran'),t25:find('target pagu','2025'),r25:findMoney('realisasi','2025'),t26:find('target pagu','2026'),r26:findMoney('realisasi','2026'),t27:find('target pagu','2027'),r27:findMoney('rka','2027'),t28:find('pagu','2028'),km25:find('target panjang','2025'),kmr25:find('realisasi panjang','2025'),km26:find('target panjang','2026'),kmr26:find('realisasi panjang','2026'),km27:find('target panjang','2027'),kmr27:find('panjang','rka','2027'),km28:find('rencana panjang','2028')};if(ix.name<0)throw Error('Kolom KEGIATAN tidak ditemukan. Pastikan CSV mengarah ke tab rekap yang benar.');const required=['km','total','t25','r25','t26','r26','t27','r27','t28','km25','kmr25','km26','kmr26','km27','kmr27','km28'];const missing=required.filter(k=>ix[k]<0);if(missing.length)throw Error('Kolom sumber belum cocok: '+missing.join(', ')+'. Periksa header CSV atau pastikan tab yang dipublikasikan benar.');const out=[];const allowedNames=new Set(['rekonstruksi rehabilitasi jalan','pemeliharaan rutin jalan']);a.slice(1).forEach(r=>{const name=(r[ix.name]||'').trim();const cleanName=normRow([name])[0];if(!allowedNames.has(cleanName))return;const o={no:out.length+1,name:cleanName==='rekonstruksi rehabilitasi jalan'?'REKONSTRUKSI / REHABILITASI JALAN':'PEMELIHARAAN RUTIN JALAN'};for(const k of Object.keys(ix)){if(k==='name')continue;o[k]=ix[k]>=0?num(r[ix[k]],k.startsWith('km')?'km':'money'):0;}out.push(o)});if(!out.length)throw Error('Dua baris kegiatan resmi tidak ditemukan. Periksa nama kegiatan pada tab Google Sheets yang dipublikasikan.');if(!out.some(r=>r.t25||r.t26||r.t27||r.t28))throw Error('Data kegiatan terbaca, tetapi kolom pagu tidak cocok dengan format yang diharapkan. Periksa judul kolom di Google Sheets.');tlRows=out;}
 function drawChart(hostId,metric){
  const host=id(hostId);if(!host)return;
  const pairs=years.map(y=>{const bkey=y===2025?'t25':y===2026?'t26':y===2027?'t27':'t28';const akey=y===2025?'r25':y===2026?'r26':y===2027?'r27':null;const kk='km'+String(y).slice(-2),ka='kmr'+String(y).slice(-2);return {year:y,budgetTarget:totals(bkey),budgetActual:akey?totals(akey):null,lengthTarget:totals(kk),lengthActual:akey?totals(ka):null};});
@@ -7847,6 +7847,7 @@ window.tlRender=function(){
 };
 const PUBLIC_SHEET_CSV='https://docs.google.com/spreadsheets/d/e/2PACX-1vQQf07uLPJnr1idQvOvpdmdIWF3PVu21po1JRIwNXTyIO5wQpLvFn6ORyl2C4j3Og/pub?output=csv';
 let tlFetchInProgress=false;
+let tlLastCsvSignature=null;
 function tlSetSyncNotice(kind,message){
  const box=id('tlSyncNotice'),txt=id('tlSyncNoticeText');
  if(box){box.classList.remove('pending','success','error');box.classList.add(kind);}
@@ -7855,18 +7856,6 @@ function tlSetSyncNotice(kind,message){
 window.tlConnectSheet=async function(manual=false){
  if(tlFetchInProgress)return;
  tlFetchInProgress=true;
- let settled=false;
- const watchdog=setTimeout(()=>{
-  if(!settled){
-   tlFetchInProgress=false;
-   if(id('tlConnectionText'))id('tlConnectionText').textContent='Koneksi belum berhasil';
-   if(id('tlConnectionDot'))id('tlConnectionDot').style.background='#f59e0b';
-   id('tlStatus').textContent='Pemeriksaan Google Sheets tidak selesai dalam 15 detik. Coba buka URL CSV langsung di tab baru untuk memastikan sumbernya bisa diakses.';
-   tlSetSyncNotice('error','Pemeriksaan macet lebih dari 15 detik. Kemungkinan URL CSV tidak merespons atau akses diblokir browser. Data terakhir tetap ditampilkan.');
-  }
- },15000);
- id('tlStatus').textContent=manual?'Memuat ulang data Google Sheets…':'Memeriksa pembaruan Google Sheets…';
- tlSetSyncNotice('pending',manual?'Memuat ulang data dari Google Sheets…':'Sedang memeriksa koneksi Google Sheets…');
  try{
   const url=PUBLIC_SHEET_CSV+(PUBLIC_SHEET_CSV.includes('?')?'&':'?')+'_refresh='+Date.now();
   const controller=new AbortController();
@@ -7874,25 +7863,32 @@ window.tlConnectSheet=async function(manual=false){
   let response,txt;
   try{
    response=await fetch(url,{method:'GET',cache:'no-store',mode:'cors',signal:controller.signal});
-   if(!response.ok)throw Error('Google Sheets merespons HTTP '+response.status);
+   if(!response.ok)throw Error('HTTP '+response.status);
    txt=await response.text();
   }catch(fetchError){
-   if(fetchError && fetchError.name==='AbortError')throw Error('Permintaan Google Sheets melewati batas 12 detik.');
-   throw Error(fetchError?.message||'Failed to fetch');
+   if(fetchError && fetchError.name==='AbortError')throw Error('timeout');
+   throw fetchError;
   }finally{clearTimeout(timeoutId);}
-  if(!txt||!txt.trim()||/<!doctype html|<html/i.test(txt.slice(0,500)))throw Error('Respons bukan CSV. Pastikan tautan sudah dipublikasikan sebagai CSV dan dapat dibuka tanpa login.');
-  setRowsFromCSV(txt);
-  if(id('tlConnectionText'))id('tlConnectionText').textContent='Google Sheets terhubung';if(id('tlConnectionDot'))id('tlConnectionDot').style.background='#10b981';
-  const syncedAt=new Date().toLocaleTimeString('id-ID');
-  id('tlStatus').textContent='Sinkronisasi berhasil · '+tlRows.length+' kegiatan · diperbarui '+syncedAt+'. Pemeriksaan otomatis setiap 60 detik.';
-  tlSetSyncNotice('success','Google Sheets terhubung · '+tlRows.length+' kegiatan terbaca · pembaruan terakhir '+syncedAt+'. Pemeriksaan otomatis setiap 60 detik.');
-  tlRender();
+  if(!txt||!txt.trim()||/<!doctype html|<html/i.test(txt.slice(0,500)))throw Error('invalid-csv');
+  // Signature of the source text: do not rebuild KPI, chart, or table unless data changed.
+  const signature=txt.replace(/^\uFEFF/,'').trim();
+  const changed=tlLastCsvSignature===null || signature!==tlLastCsvSignature;
+  if(changed){
+   setRowsFromCSV(txt);
+   tlLastCsvSignature=signature;
+   tlRender();
+  }
+  if(id('tlConnectionText'))id('tlConnectionText').textContent='Data terhubung';
+  if(id('tlConnectionDot'))id('tlConnectionDot').style.background='#10b981';
+  if(id('tlStatus'))id('tlStatus').textContent='Data terhubung';
+  tlSetSyncNotice('success','Data terhubung');
  }catch(e){
-  if(id('tlConnectionText'))id('tlConnectionText').textContent='Data belum tersinkron';if(id('tlConnectionDot'))id('tlConnectionDot').style.background='#f59e0b';
-  id('tlStatus').textContent='Belum dapat membaca Google Sheets: '+e.message+'. Data terakhir tetap ditampilkan.';
-  tlSetSyncNotice('error','Sinkronisasi gagal · '+e.message+'. Jika muncul Failed to fetch, akses CSV mungkin diblokir browser atau tautan tidak tersedia publik.');
+  if(id('tlConnectionText'))id('tlConnectionText').textContent='Data tidak terhubung';
+  if(id('tlConnectionDot'))id('tlConnectionDot').style.background='#ef4444';
+  if(id('tlStatus'))id('tlStatus').textContent='Data tidak terhubung';
+  tlSetSyncNotice('error','Data tidak terhubung');
  }finally{
-  settled=true;clearTimeout(watchdog);tlFetchInProgress=false;
+  tlFetchInProgress=false;
  }
 };
 window.tlForgetSheet=function(){id('tlStatus').textContent='Gunakan endpoint Apps Script yang dikonfigurasi di HTML untuk menyambungkan sumber data.';tlRows=[{no:1,name:'REKONSTRUKSI / REHABILITASI JALAN',km:241.56,total:1086997500000,t25:271749375000,r25:138252241008.58,t26:372687750000,r26:209848963134,t27:327779432229.19,r27:146878122114,t28:592018173743.42,km25:60.39,kmr25:37.96,km26:82.82,kmr26:69.95,km27:73.26,kmr27:29.94,km28:103.71},{no:2,name:'PEMELIHARAAN RUTIN JALAN',km:259.02,total:129507500000,t25:32376875000,r25:28200000000,t26:36553750000,r26:30999000000,t27:49270500000,r27:26000000000,t28:44308500000,km25:64.75,kmr25:56.40,km26:73.11,kmr26:61.998,km27:75.86,kmr27:52,km28:88.62}];tlRender();};
