@@ -3674,6 +3674,53 @@ button,select,input{touch-action:manipulation}
   #viewPeta .lv-fields input{min-height:44px!important;font-size:16px!important}
 }
 </style>
+
+<style id="responsive-timeline-mobile-landscape-tablet">
+/* Timeline: responsive untuk HP portrait/landscape dan tablet */
+#viewTimeline, #viewTimeline * { box-sizing:border-box; }
+#viewTimeline { min-width:0; width:100%; }
+#viewTimeline .tl-panel { min-width:0; max-width:100%; }
+#viewTimeline .tl-panel h2,
+#viewTimeline .tl-panel h3 { overflow-wrap:anywhere; }
+#viewTimeline .tl-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
+#viewTimeline .tl-kpi { min-width:0; }
+#viewTimeline .tl-chart-wrap { width:100%; min-width:0; height:clamp(300px,42vw,460px); }
+#viewTimeline .tl-chart-wrap #tlChart { width:100%; height:100%; }
+#viewTimeline .tl-chart-wrap #tlChart svg { width:100%; height:100%; display:block; }
+#viewTimeline .tl-legend { display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; }
+#viewTimeline .tl-table-wrap { width:100%; max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+#viewTimeline .tl-table { min-width:900px; }
+@media (max-width: 600px) and (orientation: portrait) {
+  #viewTimeline { gap:10px!important; }
+  #viewTimeline .tl-panel { padding:12px; border-radius:16px; }
+  #viewTimeline .tl-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  #viewTimeline .tl-kpi { padding:10px; gap:8px; align-items:center; }
+  #viewTimeline .tl-kpi-icon { width:34px; height:34px; font-size:18px; border-radius:9px; }
+  #viewTimeline .tl-kpi small { font-size:10px; line-height:1.3; margin-bottom:4px; }
+  #viewTimeline .tl-kpi strong { font-size:clamp(14px,4vw,19px); line-height:1.2; }
+  #viewTimeline .tl-chart-wrap { height:300px!important; min-height:300px; max-height:300px; }
+  #viewTimeline .tl-legend { display:grid; grid-template-columns:minmax(0,1fr); gap:8px; font-size:12px; }
+  #viewTimeline .tl-panel h3 { font-size:17px!important; line-height:1.3; }
+  #viewTimeline .tl-sync-notice { font-size:11px; padding:8px 10px; }
+  #viewTimeline .tl-table { min-width:900px; font-size:11px; }
+  #viewTimeline .tl-table th, #viewTimeline .tl-table td { padding:8px; }
+}
+@media (max-width: 900px) and (orientation: landscape) {
+  #viewTimeline .tl-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+  #viewTimeline .tl-kpi { padding:9px; gap:8px; }
+  #viewTimeline .tl-kpi-icon { width:34px; height:34px; font-size:18px; }
+  #viewTimeline .tl-kpi small { font-size:10px; }
+  #viewTimeline .tl-kpi strong { font-size:clamp(13px,2.1vw,18px); }
+  #viewTimeline .tl-chart-wrap { height:280px!important; min-height:280px; max-height:280px; }
+  #viewTimeline .tl-legend { gap:6px 10px; font-size:11px; }
+  #viewTimeline .tl-panel { padding:10px; }
+}
+@media (min-width: 601px) and (max-width: 1024px) and (orientation: portrait) {
+  #viewTimeline .tl-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  #viewTimeline .tl-chart-wrap { height:360px!important; min-height:360px; max-height:360px; }
+  #viewTimeline .tl-panel { padding:14px; }
+}
+</style>
 </head>
 <body>
   <div id="passwordGate" aria-modal="true" role="dialog">
