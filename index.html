@@ -1873,6 +1873,33 @@ body.password-locked {overflow:hidden !important;}
 .vsummary-dot{display:inline-block;width:9px;height:9px;background:#e5a247;border-radius:50%;margin-right:4px;vertical-align:middle;}
 .vsummary-bottom{margin-top:8px;}
 
+
+/* === TIMELINE ANGGARAN TAHUNAN === */
+#viewTimeline{gap:14px!important;color:#102a56}
+.tl-panel{background:#fff;border:1px solid #d9e6f5;border-radius:14px;padding:16px;box-shadow:0 3px 14px rgba(24,66,120,.045)}
+.tl-topline{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.tl-connect{display:none!important;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;color:#4b607e}
+.tl-dot{width:8px;height:8px;border-radius:50%;background:#f59e0b;display:inline-block}
+.tl-sync-notice{display:flex;align-items:center;gap:9px;border:1px solid #dbe5f2;border-radius:10px;background:#f8fafc;color:#475569;padding:9px 12px;margin:0 0 12px;font-size:12px;line-height:1.4}
+.tl-sync-indicator{width:9px;height:9px;border-radius:50%;background:#f59e0b;flex:0 0 9px}
+.tl-sync-notice.success{background:#ecfdf5;border-color:#a7f3d0;color:#065f46}
+.tl-sync-notice.success .tl-sync-indicator{background:#10b981}
+.tl-sync-notice.error{background:#fff7ed;border-color:#fed7aa;color:#9a3412}
+.tl-sync-notice.error .tl-sync-indicator{background:#ef4444}
+.tl-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tl-kpi{background:#fff;border:1px solid #dce8f7;border-radius:13px;padding:15px;display:flex;gap:12px;align-items:center;min-width:0}
+.tl-kpi-icon{width:48px;height:48px;border-radius:12px;background:#e5efff;color:#1673e8;display:grid;place-items:center;font-size:24px;flex-shrink:0}
+.tl-kpi small{display:block;color:#5b6f8d;font-size:12px;margin-bottom:6px}.tl-kpi strong{font-size:clamp(16px,1.6vw,24px);line-height:1.2;overflow-wrap:anywhere}
+.tl-main-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}.tl-chart-wrap{height:390px;position:relative;min-width:0;overflow:hidden}.tl-chart-wrap>div{width:100%;height:100%}.tl-chart-caption{font-size:12px;color:#7183a0;margin-top:4px}@media(max-width:600px){.tl-chart-wrap{height:290px}}
+.tl-chart-wrap{height:340px;position:relative;min-width:0;overflow:hidden}.tl-chart-wrap #tlChart{width:100%;height:100%;display:block}.tl-chart-wrap #tlChart svg{width:100%;height:100%;display:block;overflow:visible}@media(max-width:600px){.tl-chart-wrap{height:290px}}
+.tl-side-stat{display:none;flex-direction:column;gap:10px}.tl-year-row{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;padding:8px 0;border-bottom:1px solid #edf2f8}.tl-year-row:last-child{border-bottom:0}
+.tl-dot-color{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:7px}
+.tl-table-wrap{overflow:auto;max-width:100%}.tl-table{width:100%;border-collapse:collapse;min-width:900px;font-size:12px}.tl-table th{background:#eaf2fc;color:#183c72;font-weight:800;position:sticky;top:0}.tl-table th,.tl-table td{padding:10px 11px;border:1px solid #d8e5f5;text-align:right;white-space:nowrap}.tl-table th:nth-child(1),.tl-table td:nth-child(1),.tl-table th:nth-child(2),.tl-table td:nth-child(2){text-align:left}.tl-table td:nth-child(2){white-space:normal;min-width:220px}.tl-table tfoot{font-weight:800;background:#e1efff}.tl-config{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tl-config input{flex:1;min-width:260px;padding:10px 12px;border:1px solid #cbd9eb;border-radius:8px;font:inherit}.tl-btn{border:0;border-radius:8px;background:#1673e8;color:#fff;padding:10px 14px;font-weight:700;cursor:pointer}.tl-btn.secondary{background:#edf4ff;color:#16427a;border:1px solid #cbdcf3}.tl-note{font-size:12px;line-height:1.5;color:#60728d}.tl-status{font-size:12px;color:#5b6f8d;margin-top:8px}
+@media(max-width:1100px){.tl-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tl-main-grid{grid-template-columns:1fr}.tl-side-stat{display:none}}
+@media(max-width:700px){.tl-dual-chart{grid-template-columns:1fr}.tl-dual-chart .tl-chart-wrap{height:290px}}@media(max-width:600px){.tl-grid{grid-template-columns:1fr}.tl-side-stat{display:none}.tl-panel{padding:12px}.tl-chart-wrap{height:250px}}
+
+
+.tl-legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:12px 0 4px;font-size:12px;color:#405675}.tl-legend span{display:inline-flex;align-items:center;gap:6px}.tl-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;flex:none}.tl-chart-wrap{height:460px;overflow:hidden}.tl-chart-wrap>div{width:100%;height:100%}.tl-chart-wrap svg{display:block;width:100%;height:100%;overflow:visible}.tl-table thead tr:first-child th{background:#174d8b;color:#fff;text-align:center}.tl-table thead tr:first-child th:nth-child(2){background:#1266c5}.tl-table thead tr:first-child th:nth-child(3){background:#16885b}.tl-table thead tr:nth-child(2) th:nth-child(-n+3){background:#2d80df;color:#fff;text-align:center}.tl-table thead tr:nth-child(2) th:nth-child(n+4){background:#36ae7a;color:#fff;text-align:center}.tl-table tfoot td{text-align:center!important}@media(max-width:700px){.tl-chart-wrap{height:360px}.tl-legend{font-size:11px;gap:8px}}
 </style>
 
 <style id="responsive-v8-max-mobile-tablet">
@@ -3686,6 +3713,9 @@ button,select,input{touch-action:manipulation}
       <button class="nav-btn" data-view="viewAnalisis">
         <svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Kondisi Kemantapan
       </button>
+      <button class="nav-btn" data-view="viewTimeline">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M7 14h3M7 17h7"/></svg>Timeline
+      </button>
       <button class="nav-btn" data-view="viewLaporan">
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Laporan
       </button>
@@ -4328,6 +4358,23 @@ button,select,input{touch-action:manipulation}
       </div>
     </div>
 
+    <!-- VIEW TIMELINE ANGGARAN TAHUNAN -->
+    <div id="viewTimeline" class="view-panel">
+      <div id="tlSyncNotice" role="status" aria-live="polite" class="tl-sync-notice pending"><span class="tl-sync-indicator"></span><span id="tlSyncNoticeText">Memeriksa koneksi Google Sheets…</span></div>
+      <div class="tl-grid">
+        <div class="tl-kpi"><div class="tl-kpi-icon">▤</div><div><small>Total Kebutuhan Anggaran</small><strong id="tlTotalBudget">Rp 1,727 T</strong></div></div>
+        <div class="tl-kpi"><div class="tl-kpi-icon" style="background:#ffedd5;color:#c2410c">▤</div><div><small>Total Realisasi Anggaran</small><strong id="tlActualBudget">Rp 580,18 M</strong><small id="tlBudgetPercent">34% dari target</small></div></div>
+        <div class="tl-kpi"><div class="tl-kpi-icon" style="background:#dcfce7;color:#059669">↗</div><div><small>Total Kebutuhan Panjang</small><strong id="tlTargetKm">622,40 km</strong></div></div>
+        <div class="tl-kpi"><div class="tl-kpi-icon" style="background:#f3e8ff;color:#9333ea">↗</div><div><small>Total Realisasi Panjang</small><strong id="tlActualKm">308,20 km</strong><small id="tlKmPercent">50% dari target</small></div></div>
+      </div>
+      <div class="tl-main-grid">
+        <section class="tl-panel"><div class="tl-topline"><h3 style="margin:0;font-size:16px">Anggaran dan Panjang Penanganan per Tahun 2025–2028</h3><span class="tl-note">Sumbu kiri: Rp miliar · Sumbu kanan: km</span></div><div class="tl-legend" aria-label="Legenda grafik"><span><i style="background:#347fe8"></i>Anggaran Target/Pagu (Rp miliar)</span><span><i style="background:#f58a35"></i>Anggaran Realisasi/RKA (Rp miliar)</span><span><i style="background:#22a06b"></i>Panjang Target (km)</span><span><i style="background:#9857ed"></i>Panjang Realisasi/RKA (km)</span></div><div class="tl-chart-wrap"><div id="tlChartBudget" role="img" aria-label="Grafik batang berkelompok: anggaran dan panjang target serta realisasi per tahun"></div></div></section>
+      </div>
+      <section class="tl-panel"><div class="tl-topline" style="margin-bottom:12px"><h3 style="margin:0;font-size:16px">Rekapitulasi Anggaran per Tahun</h3><span class="tl-note">Data sumber: workbook Kinerja Jalan 2025–2028</span></div><div class="tl-table-wrap"><table class="tl-table"><thead><tr><th>No</th><th>Kegiatan</th><th>Target Pagu 2025</th><th>Realisasi 2025</th><th>Target Pagu 2026</th><th>Realisasi 2026</th><th>Target Pagu 2027</th><th>RKA 2027</th><th>Pagu 2028</th></tr></thead><tbody id="tlTableBody"></tbody><tfoot id="tlTableFoot"></tfoot></table></div></section>
+      <!-- Koneksi Google Sheets berjalan otomatis di latar belakang; panel pengaturan disembunyikan. -->
+      <div hidden aria-hidden="true"><input id="tlSheetUrl" type="url" value=""><div id="tlStatus"></div></div>
+    </div>
+
     <!-- VIEW 5: LAPORAN (FORMAT DOKUMEN RESMI) -->
     <div id="viewLaporan" class="view-panel">
       <!-- BAR PILIHAN KATEGORI LAPORAN & KONTROL FILTER -->
@@ -4643,6 +4690,7 @@ const VIEW_ROUTE_MAP = Object.freeze({
   viewPeta: "peta",
   viewDaftarRuas: "daftar-ruas",
   viewAnalisis: "kondisi-kemantapan",
+  viewTimeline: "timeline",
   viewLaporan: "laporan",
   viewPengaturan: "pengaturan"
 });
@@ -4764,6 +4812,8 @@ document.querySelectorAll(".nav-btn[data-view]").forEach(btn => {
       }
     }
 
+    document.querySelector(".top-header")?.classList.toggle("timeline-mode", targetView === "viewTimeline");
+    $("topViewSubHeading").style.display = "";
     if(targetView === "viewPeta") {
       $("topViewHeading").textContent = "PETA TRASE JALAN";
       $("topViewSubHeading").textContent = "KABUPATEN BANDUNG";
@@ -4773,6 +4823,11 @@ document.querySelectorAll(".nav-btn[data-view]").forEach(btn => {
     } else if(targetView === "viewAnalisis") {
       $("topViewHeading").textContent = "KONDISI KEMANTAPAN JALAN";
       $("topViewSubHeading").textContent = "KABUPATEN BANDUNG";
+    } else if(targetView === "viewTimeline") {
+      $("topViewHeading").textContent = "TIMELINE ANGGARAN PER TAHUN";
+      $("topViewSubHeading").textContent = "";
+      $("topViewSubHeading").style.display = "none";
+      setTimeout(() => tlRender(), 80);
     } else if(targetView === "viewLaporan") {
       $("topViewHeading").textContent = "LAPORAN RESMI PKRMS";
       $("topViewSubHeading").textContent = "KABUPATEN BANDUNG";
@@ -7737,6 +7792,112 @@ $("currentDateBtn").textContent = "📅 " + new Intl.DateTimeFormat("id-ID", {
   $v('lvCheckPhoto').addEventListener('click',()=>checkLocation(parseNumber($v('lvPhotoLat').value),parseNumber($v('lvPhotoLon').value),'timestamp-photo'));
   // Bantu mengisi koordinat dari teks yang dikoreksi petugas.
   $v('lvOcrText').addEventListener('input',()=>{const c=parseCoordText($v('lvOcrText').value);if(c.lat!==null&&c.lon!==null){$v('lvPhotoLat').value=c.lat;$v('lvPhotoLon').value=c.lon;}});
+})();
+</script>
+
+
+<script>
+(()=>{
+const years=[2025,2026,2027,2028];
+let tlRows=[
+{no:1,name:'REKONSTRUKSI / REHABILITASI JALAN',km:241.56,total:1086997500000,t25:271749375000,r25:138252241008.58,t26:372687750000,r26:209848963134,t27:327779432229.19,r27:146878122114,t28:592018173743.42,km25:60.39,kmr25:37.96,km26:82.82,kmr26:69.95,km27:73.26,kmr27:29.94,km28:103.71},
+{no:2,name:'PEMELIHARAAN RUTIN JALAN',km:259.02,total:129507500000,t25:32376875000,r25:28200000000,t26:36553750000,r26:30999000000,t27:49270500000,r27:26000000000,t28:44308500000,km25:64.75,kmr25:56.40,km26:73.11,kmr26:61.998,km27:75.86,kmr27:52,km28:88.62}
+];
+const id=x=>document.getElementById(x);
+const rup=x=>'Rp '+(Number(x)||0).toLocaleString('id-ID',{maximumFractionDigits:0});
+const miliar=x=>((Number(x)||0)/1e9).toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2})+' M';
+function num(x,kind='money'){
+ let s=String(x??'').trim().replace(/\u00a0/g,' ').replace(/rp\.?/ig,'').replace(/\s/g,'');
+ if(!s||s==='-'||s==='—')return 0;
+ s=s.replace(/[^0-9,.-]/g,'');
+ const commas=(s.match(/,/g)||[]).length,dots=(s.match(/\./g)||[]).length;
+ if(kind==='km'){
+   // Panjang selalu memperlakukan koma atau satu titik sebagai desimal,
+   // termasuk 61,998 km; jangan dibaca sebagai 61.998 km ribuan.
+   if(commas&&dots){if(s.lastIndexOf(',')>s.lastIndexOf('.'))s=s.replace(/\./g,'').replace(/,/g,'.');else s=s.replace(/,/g,'');}
+   else if(commas){const last=s.lastIndexOf(',');s=s.slice(0,last).replace(/,/g,'')+'.'+s.slice(last+1);}
+   else if(dots>1){const last=s.lastIndexOf('.');s=s.slice(0,last).replace(/\./g,'')+'.'+s.slice(last+1);}
+ }else{
+   // Anggaran menggunakan titik pemisah ribuan dan koma desimal lokal.
+   if(commas&&dots){if(s.lastIndexOf(',')>s.lastIndexOf('.'))s=s.replace(/\./g,'').replace(/,/g,'.');else s=s.replace(/,/g,'');}
+   else if(commas){const parts=s.split(',');s=parts.length===2&&parts[1].length<=2?parts[0].replace(/\./g,'')+'.'+parts[1]:s.replace(/,/g,'');}
+   else if(dots>1)s=s.replace(/\./g,'');
+   else if(/\.\d{3}$/.test(s))s=s.replace(/\./g,'');
+ }
+ return Number(s)||0;
+}
+function totals(key){return tlRows.reduce((a,r)=>a+(Number(r[key])||0),0)}
+function csvParse(text){let rows=[],row=[],v='',q=false;for(let i=0;i<text.length;i++){let c=text[i];if(c==='"'&&q&&text[i+1]==='"'){v+='"';i++;}else if(c==='"')q=!q;else if((c===','||c===';')&&!q){row.push(v);v='';}else if((c==='\n'||c==='\r')&&!q){if(c==='\r'&&text[i+1]==='\n')i++;row.push(v);if(row.some(x=>x.trim()))rows.push(row);row=[];v='';}else v+=c;}row.push(v);if(row.some(x=>x.trim()))rows.push(row);return rows;}
+function setRowsFromCSV(csv){const parsed=csvParse(csv);if(parsed.length<2)throw Error('CSV kosong atau format tidak terbaca');const normRow=row=>row.map(x=>String(x||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim());let headerAt=parsed.findIndex(row=>normRow(row).some(h=>h==='kegiatan'||h.includes('nama kegiatan'))&&normRow(row).some(h=>h.includes('2025')));if(headerAt<0)headerAt=0;const a=parsed.slice(headerAt);let headers=normRow(a[0]);const find=(...terms)=>headers.findIndex(h=>terms.every(t=>h.includes(t)));const findMoney=(kind,year)=>{let i=find(kind,'pagu',year);if(i<0&&kind==='realisasi')i=headers.findIndex(h=>h.includes('realisasi')&&h.includes(year)&&!h.includes('panjang')&&!h.includes('km'));if(i<0&&kind==='rka')i=headers.findIndex(h=>h.includes('rka')&&h.includes(year)&&!h.includes('panjang')&&!h.includes('km'));return i;};const ix={name:headers.findIndex(h=>h==='kegiatan'||h.includes('nama kegiatan')),km:find('total kebutuhan panjang'),total:find('total kebutuhan anggaran'),t25:find('target pagu','2025'),r25:findMoney('realisasi','2025'),t26:find('target pagu','2026'),r26:findMoney('realisasi','2026'),t27:find('target pagu','2027'),r27:findMoney('rka','2027'),t28:find('pagu','2028'),km25:find('target panjang','2025'),kmr25:find('realisasi panjang','2025'),km26:find('target panjang','2026'),kmr26:find('realisasi panjang','2026'),km27:find('target panjang','2027'),kmr27:find('panjang','rka','2027'),km28:find('rencana panjang','2028')};if(ix.name<0)throw Error('Kolom KEGIATAN tidak ditemukan. Pastikan CSV mengarah ke tab rekap yang benar.');const required=['km','total','t25','r25','t26','r26','t27','r27','t28','km25','kmr25','km26','kmr26','km27','kmr27','km28'];const missing=required.filter(k=>ix[k]<0);if(missing.length)throw Error('Kolom sumber belum cocok: '+missing.join(', ')+'. Periksa header CSV atau pastikan tab yang dipublikasikan benar.');const out=[];a.slice(1).forEach(r=>{const name=(r[ix.name]||'').trim();if(!name||/jumlah keseluruhan|total keseluruhan/i.test(name))return;const o={no:out.length+1,name};for(const k of Object.keys(ix)){if(k==='name')continue;o[k]=ix[k]>=0?num(r[ix[k]],k.startsWith('km')?'km':'money'):0;}out.push(o)});if(!out.length)throw Error('Tidak ada baris kegiatan pada CSV');if(!out.some(r=>r.t25||r.t26||r.t27||r.t28))throw Error('Data kegiatan terbaca, tetapi kolom pagu tidak cocok dengan format yang diharapkan. Periksa judul kolom di Google Sheets.');tlRows=out;}
+function drawChart(hostId,metric){
+ const host=id(hostId);if(!host)return;
+ const pairs=years.map(y=>{const bkey=y===2025?'t25':y===2026?'t26':y===2027?'t27':'t28';const akey=y===2025?'r25':y===2026?'r26':y===2027?'r27':null;const kk='km'+String(y).slice(-2),ka='kmr'+String(y).slice(-2);return {year:y,budgetTarget:totals(bkey),budgetActual:akey?totals(akey):null,lengthTarget:totals(kk),lengthActual:akey?totals(ka):null};});
+ const W=1500,H=460,L=92,R=92,T=48,B=72,plotW=W-L-R,plotH=H-T-B;const maxB=Math.ceil(Math.max(...pairs.map(p=>p.budgetTarget/1e9))*1.15/100)*100;const maxK=Math.ceil(Math.max(...pairs.map(p=>p.lengthTarget))*1.15/50)*50;const moneyTick=v=>v.toLocaleString('id-ID',{maximumFractionDigits:0});const kmTick=v=>v.toLocaleString('id-ID',{maximumFractionDigits:0});const money=v=>(v/1e9).toLocaleString('id-ID',{minimumFractionDigits:1,maximumFractionDigits:1})+' M';const km=v=>v.toLocaleString('id-ID',{minimumFractionDigits:1,maximumFractionDigits:1})+' km';
+ const colors=['#347fe8','#f58a35','#22a06b','#9857ed'];let svg=[`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Grafik batang anggaran dalam Rp miliar dan panjang jalan dalam kilometer, tahun 2025 sampai 2028" xmlns="http://www.w3.org/2000/svg">`];
+ for(let i=0;i<=4;i++){let y=T+plotH-plotH*i/4;svg.push(`<line x1="${L}" y1="${y}" x2="${W-R}" y2="${y}" stroke="#dfe8f4" stroke-dasharray="4 4"/><text x="${L-12}" y="${y+4}" text-anchor="end" font-family="Arial,sans-serif" font-size="13" fill="#64748b">${moneyTick(maxB*i/4)}</text><text x="${W-R+12}" y="${y+4}" text-anchor="start" font-family="Arial,sans-serif" font-size="13" fill="#64748b">${kmTick(maxK*i/4)}</text>`)}
+ svg.push(`<text x="14" y="17" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#34506f">Anggaran (Rp miliar)</text><text x="${W-14}" y="17" text-anchor="end" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#34506f">Panjang (km)</text>`);
+ const group=plotW/4,bw=Math.min(58,group*.17);pairs.forEach((p,i)=>{const center=L+group*(i+.5);const values=[{v:p.budgetTarget/1e9,kind:'money',color:colors[0],label:money(p.budgetTarget),available:true},{v:p.budgetActual===null?0:p.budgetActual/1e9,kind:'money',color:colors[1],label:p.budgetActual===null?'Belum tersedia':money(p.budgetActual),available:p.budgetActual!==null},{v:p.lengthTarget,kind:'km',color:colors[2],label:km(p.lengthTarget),available:true},{v:p.lengthActual===null?0:p.lengthActual,kind:'km',color:colors[3],label:p.lengthActual===null?'Belum tersedia':km(p.lengthActual),available:p.lengthActual!==null}];const offsets=[-1.65,-.55,.55,1.65];values.forEach((d,j)=>{const x=center+offsets[j]*bw-bw/2;const scaled=d.kind==='money'?d.v/maxB:d.v/maxK;const bh=d.available?Math.max(2,scaled*plotH):0;const y=T+plotH-bh;if(d.available){svg.push(`<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="4" fill="${d.color}"/>`);let labelY=Math.max(T+13,y-6);svg.push(`<text x="${x+bw/2}" y="${labelY}" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.5" font-weight="700" fill="${d.color}">${d.label}</text>`)}else{svg.push(`<rect x="${x}" y="${T+plotH-28}" width="${bw}" height="28" rx="3" fill="${d.color}" fill-opacity=".04" stroke="${d.color}" stroke-width="1.5" stroke-dasharray="4 3"/><text x="${x+bw/2}" y="${T+plotH-48}" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" font-weight="700" fill="${d.color}">Belum</text><text x="${x+bw/2}" y="${T+plotH-36}" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" font-weight="700" fill="${d.color}">tersedia</text>`)} });svg.push(`<rect x="${center-34}" y="${T+plotH+12}" width="68" height="25" rx="7" fill="#e5effb"/><text x="${center}" y="${T+plotH+29}" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#17365f">${p.year}</text>`)});
+ svg.push('</svg>');host.innerHTML=svg.join('');
+}
+window.tlRender=function(){
+ const annual=years.map(y=>{const bk=y===2025?'t25':y===2026?'t26':y===2027?'t27':'t28';const ak=y===2025?'r25':y===2026?'r26':y===2027?'r27':null;const kk='km'+String(y).slice(-2),ka='kmr'+String(y).slice(-2);return {year:y,budgetTarget:totals(bk),budgetActual:ak?totals(ak):null,lengthTarget:totals(kk),lengthActual:ak?totals(ka):null};});
+ const sum=(key)=>annual.reduce((a,r)=>a+(Number(r[key])||0),0);const annualBudgetTarget=sum('budgetTarget'),ab=sum('budgetActual'),annualLengthTarget=sum('lengthTarget'),akm=sum('lengthActual');const needBudget=totals('total'),needLength=totals('km');
+ id('tlTotalBudget').textContent='Rp '+(needBudget/1e12).toLocaleString('id-ID',{minimumFractionDigits:3,maximumFractionDigits:3})+' T';id('tlActualBudget').textContent='Rp '+(ab/1e9).toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2})+' M';id('tlBudgetPercent').textContent=(needBudget?Math.round(ab/needBudget*100):0)+'% dari kebutuhan';id('tlTargetKm').textContent=needLength.toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2})+' km';id('tlActualKm').textContent=akm.toLocaleString('id-ID',{minimumFractionDigits:1,maximumFractionDigits:1})+' km';id('tlKmPercent').textContent=(needLength?Math.round(akm/needLength*100):0)+'% dari kebutuhan';
+ const pct=(a,b)=>b?Math.round(a/b*100)+'%':'-';const sumField=k=>tlRows.reduce((a,r)=>a+(Number(r[k])||0),0);id('tlTableBody').innerHTML=tlRows.map((r,i)=>`<tr><td>${i+1}</td><td>${r.name}</td><td>${rup(r.t25)}</td><td>${rup(r.r25)}</td><td>${rup(r.t26)}</td><td>${rup(r.r26)}</td><td>${rup(r.t27)}</td><td>${rup(r.r27)}</td><td>${rup(r.t28)}</td></tr>`).join('');id('tlTableFoot').innerHTML=`<tr><td colspan=2>JUMLAH KESELURUHAN</td><td>${rup(sumField('t25'))}</td><td>${rup(sumField('r25'))}</td><td>${rup(sumField('t26'))}</td><td>${rup(sumField('r26'))}</td><td>${rup(sumField('t27'))}</td><td>${rup(sumField('r27'))}</td><td>${rup(sumField('t28'))}</td></tr>`;drawChart('tlChartBudget','combined');
+};
+const PUBLIC_SHEET_CSV='https://docs.google.com/spreadsheets/d/e/2PACX-1vQQf07uLPJnr1idQvOvpdmdIWF3PVu21po1JRIwNXTyIO5wQpLvFn6ORyl2C4j3Og/pub?output=csv';
+let tlFetchInProgress=false;
+function tlSetSyncNotice(kind,message){
+ const box=id('tlSyncNotice'),txt=id('tlSyncNoticeText');
+ if(box){box.classList.remove('pending','success','error');box.classList.add(kind);}
+ if(txt)txt.textContent=message;
+}
+window.tlConnectSheet=async function(manual=false){
+ if(tlFetchInProgress)return;
+ tlFetchInProgress=true;
+ let settled=false;
+ const watchdog=setTimeout(()=>{
+  if(!settled){
+   tlFetchInProgress=false;
+   if(id('tlConnectionText'))id('tlConnectionText').textContent='Koneksi belum berhasil';
+   if(id('tlConnectionDot'))id('tlConnectionDot').style.background='#f59e0b';
+   id('tlStatus').textContent='Pemeriksaan Google Sheets tidak selesai dalam 15 detik. Coba buka URL CSV langsung di tab baru untuk memastikan sumbernya bisa diakses.';
+   tlSetSyncNotice('error','Pemeriksaan macet lebih dari 15 detik. Kemungkinan URL CSV tidak merespons atau akses diblokir browser. Data terakhir tetap ditampilkan.');
+  }
+ },15000);
+ id('tlStatus').textContent=manual?'Memuat ulang data Google Sheets…':'Memeriksa pembaruan Google Sheets…';
+ tlSetSyncNotice('pending',manual?'Memuat ulang data dari Google Sheets…':'Sedang memeriksa koneksi Google Sheets…');
+ try{
+  const url=PUBLIC_SHEET_CSV+(PUBLIC_SHEET_CSV.includes('?')?'&':'?')+'_refresh='+Date.now();
+  const controller=new AbortController();
+  const timeoutId=setTimeout(()=>controller.abort(),12000);
+  let response,txt;
+  try{
+   response=await fetch(url,{method:'GET',cache:'no-store',mode:'cors',signal:controller.signal});
+   if(!response.ok)throw Error('Google Sheets merespons HTTP '+response.status);
+   txt=await response.text();
+  }catch(fetchError){
+   if(fetchError && fetchError.name==='AbortError')throw Error('Permintaan Google Sheets melewati batas 12 detik.');
+   throw Error(fetchError?.message||'Failed to fetch');
+  }finally{clearTimeout(timeoutId);}
+  if(!txt||!txt.trim()||/<!doctype html|<html/i.test(txt.slice(0,500)))throw Error('Respons bukan CSV. Pastikan tautan sudah dipublikasikan sebagai CSV dan dapat dibuka tanpa login.');
+  setRowsFromCSV(txt);
+  if(id('tlConnectionText'))id('tlConnectionText').textContent='Google Sheets terhubung';if(id('tlConnectionDot'))id('tlConnectionDot').style.background='#10b981';
+  const syncedAt=new Date().toLocaleTimeString('id-ID');
+  id('tlStatus').textContent='Sinkronisasi berhasil · '+tlRows.length+' kegiatan · diperbarui '+syncedAt+'. Pemeriksaan otomatis setiap 60 detik.';
+  tlSetSyncNotice('success','Google Sheets terhubung · '+tlRows.length+' kegiatan terbaca · pembaruan terakhir '+syncedAt+'. Pemeriksaan otomatis setiap 60 detik.');
+  tlRender();
+ }catch(e){
+  if(id('tlConnectionText'))id('tlConnectionText').textContent='Data belum tersinkron';if(id('tlConnectionDot'))id('tlConnectionDot').style.background='#f59e0b';
+  id('tlStatus').textContent='Belum dapat membaca Google Sheets: '+e.message+'. Data terakhir tetap ditampilkan.';
+  tlSetSyncNotice('error','Sinkronisasi gagal · '+e.message+'. Jika muncul Failed to fetch, akses CSV mungkin diblokir browser atau tautan tidak tersedia publik.');
+ }finally{
+  settled=true;clearTimeout(watchdog);tlFetchInProgress=false;
+ }
+};
+window.tlForgetSheet=function(){id('tlStatus').textContent='Gunakan endpoint Apps Script yang dikonfigurasi di HTML untuk menyambungkan sumber data.';tlRows=[{no:1,name:'REKONSTRUKSI / REHABILITASI JALAN',km:241.56,total:1086997500000,t25:271749375000,r25:138252241008.58,t26:372687750000,r26:209848963134,t27:327779432229.19,r27:146878122114,t28:592018173743.42,km25:60.39,kmr25:37.96,km26:82.82,kmr26:69.95,km27:73.26,kmr27:29.94,km28:103.71},{no:2,name:'PEMELIHARAAN RUTIN JALAN',km:259.02,total:129507500000,t25:32376875000,r25:28200000000,t26:36553750000,r26:30999000000,t27:49270500000,r27:26000000000,t28:44308500000,km25:64.75,kmr25:56.40,km26:73.11,kmr26:61.998,km27:75.86,kmr27:52,km28:88.62}];tlRender();};
+window.tlExportCSV=function(){let csv='No,Kegiatan,Total Kebutuhan Panjang (KM),Total Kebutuhan Anggaran (Rp),Target Pagu 2025,Realisasi 2025,Target Pagu 2026,Realisasi 2026,Target Pagu 2027,RKA 2027,Pagu 2028\n'+tlRows.map(r=>[r.no,'"'+r.name.replace(/"/g,'""')+'"',r.km,r.total,r.t25,r.r25,r.t26,r.r26,r.t27,r.r27,r.t28].join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='rekap_timeline_anggaran_2025_2028.csv';a.click();URL.revokeObjectURL(a.href);};
+window.addEventListener('resize',()=>{if(id('viewTimeline')?.classList.contains('active'))drawChart('tlChartBudget','budget')});document.addEventListener('DOMContentLoaded',()=>{id('tlSheetUrl').value=PUBLIC_SHEET_CSV;tlRender();setTimeout(()=>window.tlConnectSheet(),500);setInterval(()=>{if(navigator.onLine)window.tlConnectSheet(false);},60*1000);});
 })();
 </script>
 
