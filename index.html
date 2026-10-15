@@ -3720,6 +3720,15 @@ button,select,input{touch-action:manipulation}
   #viewTimeline .tl-chart-wrap { height:360px!important; min-height:360px; max-height:360px; }
   #viewTimeline .tl-panel { padding:14px; }
 }
+
+/* Timeline chart: horizontal scroll on narrow screens prevents label collisions. */
+#viewTimeline .tl-chart-wrap{height:500px!important;min-height:500px;max-height:none;overflow-x:auto!important;overflow-y:hidden!important;position:relative;-webkit-overflow-scrolling:touch}
+#viewTimeline #tlChartBudget{width:100%;min-width:1180px;height:100%}
+#viewTimeline #tlChartBudget svg{display:block;width:100%;min-width:1180px;height:100%;overflow:visible}
+#viewTimeline .tl-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px;margin:14px 0 10px;padding:12px 14px;background:#f5f9ff;border:1px solid #d9e8fb;border-radius:12px}
+#viewTimeline .tl-legend span{min-width:0;line-height:1.4;align-items:flex-start;overflow-wrap:anywhere}
+#viewTimeline .tl-legend i{width:14px;height:14px;margin-top:2px;box-shadow:0 0 0 3px rgba(148,163,184,.10)}
+@media(max-width:600px){#viewTimeline .tl-chart-wrap{height:430px!important;min-height:430px}#viewTimeline #tlChartBudget,#viewTimeline #tlChartBudget svg{min-width:1180px}#viewTimeline .tl-legend{grid-template-columns:minmax(0,1fr);font-size:12px;gap:8px;padding:10px}}
 </style>
 </head>
 <body>
@@ -7879,11 +7888,46 @@ function setRowsFromCSV(csv){const parsed=csvParse(csv);if(parsed.length<2)throw
 function drawChart(hostId,metric){
  const host=id(hostId);if(!host)return;
  const pairs=years.map(y=>{const bkey=y===2025?'t25':y===2026?'t26':y===2027?'t27':'t28';const akey=y===2025?'r25':y===2026?'r26':y===2027?'r27':null;const kk='km'+String(y).slice(-2),ka='kmr'+String(y).slice(-2);return {year:y,budgetTarget:totals(bkey),budgetActual:akey?totals(akey):null,lengthTarget:totals(kk),lengthActual:akey?totals(ka):null};});
- const W=1500,H=460,L=92,R=92,T=48,B=72,plotW=W-L-R,plotH=H-T-B;const maxB=Math.ceil(Math.max(...pairs.map(p=>p.budgetTarget/1e9))*1.15/100)*100;const maxK=Math.ceil(Math.max(...pairs.map(p=>p.lengthTarget))*1.15/50)*50;const moneyTick=v=>v.toLocaleString('id-ID',{maximumFractionDigits:0});const kmTick=v=>v.toLocaleString('id-ID',{maximumFractionDigits:0});const money=v=>(v/1e9).toLocaleString('id-ID',{minimumFractionDigits:1,maximumFractionDigits:1})+' M';const km=v=>v.toLocaleString('id-ID',{minimumFractionDigits:1,maximumFractionDigits:1})+' km';
- const colors=['#347fe8','#f58a35','#22a06b','#9857ed'];let svg=[`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Grafik batang anggaran dalam Rp miliar dan panjang jalan dalam kilometer, tahun 2025 sampai 2028" xmlns="http://www.w3.org/2000/svg">`];
+ const W=1500,H=500,L=82,R=82,T=82,B=66,plotW=W-L-R,plotH=H-T-B;
+ const maxB=Math.ceil(Math.max(...pairs.map(p=>p.budgetTarget/1e9))*1.15/100)*100;
+ const maxK=Math.ceil(Math.max(...pairs.map(p=>p.lengthTarget))*1.15/50)*50;
+ const moneyTick=v=>v.toLocaleString('id-ID',{maximumFractionDigits:0});
+ const kmTick=v=>v.toLocaleString('id-ID',{maximumFractionDigits:0});
+ const money=v=>(v/1e9).toLocaleString('id-ID',{minimumFractionDigits:1,maximumFractionDigits:1})+' M';
+ const km=v=>v.toLocaleString('id-ID',{minimumFractionDigits:1,maximumFractionDigits:1})+' km';
+ const colors=['#347fe8','#f58a35','#22a06b','#9857ed'];
+ const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+ let svg=[`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Grafik batang anggaran dan panjang penanganan 2025 sampai 2028. Label pada setiap batang menunjukkan jenis dan nilai." xmlns="http://www.w3.org/2000/svg">`];
+ // Sumbu dan grid
  for(let i=0;i<=4;i++){let y=T+plotH-plotH*i/4;svg.push(`<line x1="${L}" y1="${y}" x2="${W-R}" y2="${y}" stroke="#dfe8f4" stroke-dasharray="4 4"/><text x="${L-12}" y="${y+4}" text-anchor="end" font-family="Arial,sans-serif" font-size="13" fill="#64748b">${moneyTick(maxB*i/4)}</text><text x="${W-R+12}" y="${y+4}" text-anchor="start" font-family="Arial,sans-serif" font-size="13" fill="#64748b">${kmTick(maxK*i/4)}</text>`)}
- svg.push(`<text x="14" y="17" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#34506f">Anggaran (Rp miliar)</text><text x="${W-14}" y="17" text-anchor="end" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#34506f">Panjang (km)</text>`);
- const group=plotW/4,bw=Math.min(58,group*.17);pairs.forEach((p,i)=>{const center=L+group*(i+.5);const values=[{v:p.budgetTarget/1e9,kind:'money',color:colors[0],label:money(p.budgetTarget),available:true},{v:p.budgetActual===null?0:p.budgetActual/1e9,kind:'money',color:colors[1],label:p.budgetActual===null?'Belum tersedia':money(p.budgetActual),available:p.budgetActual!==null},{v:p.lengthTarget,kind:'km',color:colors[2],label:km(p.lengthTarget),available:true},{v:p.lengthActual===null?0:p.lengthActual,kind:'km',color:colors[3],label:p.lengthActual===null?'Belum tersedia':km(p.lengthActual),available:p.lengthActual!==null}];const offsets=[-1.65,-.55,.55,1.65];values.forEach((d,j)=>{const x=center+offsets[j]*bw-bw/2;const scaled=d.kind==='money'?d.v/maxB:d.v/maxK;const bh=d.available?Math.max(2,scaled*plotH):0;const y=T+plotH-bh;if(d.available){svg.push(`<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="4" fill="${d.color}"/>`);let labelY=Math.max(T+13,y-6);svg.push(`<text x="${x+bw/2}" y="${labelY}" text-anchor="middle" font-family="Arial,sans-serif" font-size="12.5" font-weight="700" fill="${d.color}">${d.label}</text>`)}else{svg.push(`<rect x="${x}" y="${T+plotH-28}" width="${bw}" height="28" rx="3" fill="${d.color}" fill-opacity=".04" stroke="${d.color}" stroke-width="1.5" stroke-dasharray="4 3"/><text x="${x+bw/2}" y="${T+plotH-48}" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" font-weight="700" fill="${d.color}">Belum</text><text x="${x+bw/2}" y="${T+plotH-36}" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" font-weight="700" fill="${d.color}">tersedia</text>`)} });svg.push(`<rect x="${center-34}" y="${T+plotH+12}" width="68" height="25" rx="7" fill="#e5effb"/><text x="${center}" y="${T+plotH+29}" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#17365f">${p.year}</text>`)});
+ svg.push(`<text x="14" y="20" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#34506f">Anggaran (Rp miliar)</text><text x="${W-14}" y="20" text-anchor="end" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#34506f">Panjang (km)</text>`);
+ const group=plotW/4,bw=48,offsets=[-1.72,-.57,.57,1.72];
+ pairs.forEach((p,i)=>{
+   const center=L+group*(i+.5);
+   const values=[
+    {v:p.budgetTarget/1e9,kind:'money',color:colors[0],value:money(p.budgetTarget),short:'Pagu',available:true},
+    {v:p.budgetActual===null?0:p.budgetActual/1e9,kind:'money',color:colors[1],value:p.budgetActual===null?'Belum tersedia':money(p.budgetActual),short:'Realisasi',available:p.budgetActual!==null},
+    {v:p.lengthTarget,kind:'km',color:colors[2],value:km(p.lengthTarget),short:'Target km',available:true},
+    {v:p.lengthActual===null?0:p.lengthActual,kind:'km',color:colors[3],value:p.lengthActual===null?'Belum tersedia':km(p.lengthActual),short:'Realisasi km',available:p.lengthActual!==null}
+   ];
+   values.forEach((d,j)=>{
+     const x=center+offsets[j]*bw-bw/2;
+     if(d.available){
+       const scaled=d.kind==='money'?d.v/maxB:d.v/maxK;
+       const bh=Math.max(2,scaled*plotH),y=T+plotH-bh;
+       svg.push(`<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="4" fill="${d.color}"/>`);
+       // Dua baris label terpisah: jenis seri lalu nilai. Tidak dimasukkan ke dalam batang agar tetap terbaca.
+       const labelY=Math.max(42,y-27),valueY=Math.max(57,y-11);
+       svg.push(`<text x="${x+bw/2}" y="${labelY}" text-anchor="middle" font-family="Arial,sans-serif" font-size="10.5" font-weight="700" fill="${d.color}">${esc(d.short)}</text>`);
+       svg.push(`<text x="${x+bw/2}" y="${valueY}" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" font-weight="700" fill="${d.color}">${esc(d.value)}</text>`);
+     }else{
+       const py=T+plotH-34;
+       svg.push(`<rect x="${x}" y="${py}" width="${bw}" height="34" rx="4" fill="${d.color}" fill-opacity=".04" stroke="${d.color}" stroke-width="1.5" stroke-dasharray="4 3"/>`);
+       svg.push(`<text x="${x+bw/2}" y="${py-28}" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="${d.color}">${esc(d.short)}</text><text x="${x+bw/2}" y="${py-14}" text-anchor="middle" font-family="Arial,sans-serif" font-size="10.5" font-weight="700" fill="${d.color}">Belum</text><text x="${x+bw/2}" y="${py-3}" text-anchor="middle" font-family="Arial,sans-serif" font-size="10.5" font-weight="700" fill="${d.color}">tersedia</text>`);
+     }
+   });
+   svg.push(`<rect x="${center-34}" y="${T+plotH+12}" width="68" height="25" rx="7" fill="#e5effb"/><text x="${center}" y="${T+plotH+29}" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#17365f">${p.year}</text>`);
+ });
  svg.push('</svg>');host.innerHTML=svg.join('');
 }
 window.tlRender=function(){
