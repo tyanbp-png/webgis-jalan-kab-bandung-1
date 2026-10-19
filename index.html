@@ -4686,6 +4686,9 @@ const state = {
   autoSyncBusy: false,
   lastAutoSync: 0,
   syncVersion: null,
+  shpSyncTimer: null,
+  shpSyncBusy: false,
+  shpRemoteSignature: null,
   shpIndex: new Map(),
   shpFeatureCount: 0,
   workbookName: "",
@@ -4699,6 +4702,8 @@ const state = {
   selectedDashboardRoadLayer: null,
   villageRoadKeys: new Set(),
   villageRoadCache: new Map(),
+  villageSpatialCache: new Map(),
+  dashboardVillageClippedFeatures: null,
   shpSource: "embedded",
   rekapBudget: { byKec: new Map(), rr: 0, rb: 0, total: 0 },
   villageConditionSort: { key: null, dir: 1 }
@@ -5398,6 +5403,10 @@ function processWorkbook(wb, sourceName="Google Sheets"){
 
   state.roads = roads;
   state.allRows = roads.slice();
+  // Workbook/Excel dapat berubah walau geometri SHP tetap; cache hasil
+  // agregasi desa harus dibangun ulang agar atribut dan RAB tidak kedaluwarsa.
+  if(state.villageSpatialCache) state.villageSpatialCache.clear();
+  state.dashboardVillageClippedFeatures = null;
   buildDashboardSearchIndex();
   state.roadByNo = new Map();
   state.roadByNormName = new Map();
@@ -5585,7 +5594,21 @@ function currentRows(){
   let roads = state.roads || [];
 
   if(state.dashboardSelectedVillage){
-    roads = getVillageRoadRows(state.dashboardSelectedVillage).rows;
+    const spatial = getVillageSpatialRoadRows(state.dashboardSelectedVillage);
+    if(spatial.supported){
+      roads = spatial.rows;
+    } else {
+      // Fallback kompatibel: pertahankan perilaku lama bila batas/geometri
+      // tidak dapat dipotong secara spasial dengan andal.
+      state.dashboardVillageClippedFeatures = null;
+      roads = getVillageRoadRows(state.dashboardSelectedVillage).rows;
+      if(!state.__villageSpatialWarningShown){
+        console.warn("Analisis panjang per desa memakai fallback daftar ruas; geometri clipping belum tersedia/valid.");
+        state.__villageSpatialWarningShown = true;
+      }
+    }
+  } else {
+    state.dashboardVillageClippedFeatures = null;
   }
 
   if(!kec && !ruas) return roads;
@@ -6701,7 +6724,10 @@ function renderRoadMap(rows){
 
   const visible = [];
 
-  state.shpGeoJSON.features.forEach(f => {
+  const dashboardMapFeatures = state.dashboardSelectedVillage && Array.isArray(state.dashboardVillageClippedFeatures)
+    ? state.dashboardVillageClippedFeatures
+    : state.shpGeoJSON.features;
+  dashboardMapFeatures.forEach(f => {
     const details = extractFeatureDetails(f.properties);
     const fKey = roadKey(details.no) || roadKey(details.nama);
     if(!isDefaultView && fKey && !wanted.has(fKey)) return;
@@ -7021,6 +7047,8 @@ async function loadSHPParts(parts){
   state.shpSource = "uploaded";
   state.shpFeatureCount = geo.features.length;
   if(state.villageRoadCache) state.villageRoadCache.clear();
+  if(state.villageSpatialCache) state.villageSpatialCache.clear();
+  state.dashboardVillageClippedFeatures = null;
   // Penting: daftar "Desa yang Dilalui" harus dihitung ulang setelah SHP trase
   // tersedia, karena sebelumnya refresh awal masih memakai daftar desa spreadsheet.
   try { renderVillage(currentRows()); renderVillageCondition(currentRows()); } catch(e) { console.warn("Gagal refresh daftar desa setelah SHP:", e); }
@@ -7126,6 +7154,147 @@ function roadsForVillage(village){
   if(state.villageRoadCache) state.villageRoadCache.set(vKey, Array.from(keys));
   return keys;
 }
+/*
+ * Analisis spasial Dashboard per desa.
+ * Memotong garis jalan pada batas poligon desa, lalu menghitung hanya bagian
+ * geometri yang berada di dalam desa. Data hasil dicache per desa sampai SHP
+ * diperbarui. Jika geometri/turf tidak mendukung clipping, gunakan fallback
+ * lama tanpa mengklaim panjang potongan yang presisi.
+ */
+function getVillageSpatialRoadRows(village){
+  if(!village || !window.turf || typeof turf.lineSplit !== "function" || typeof turf.polygonToLine !== "function"){
+    return {supported:false, rows:[], features:[]};
+  }
+  const cacheKey = villageKey(village);
+  const cached = state.villageSpatialCache?.get(cacheKey);
+  if(cached){
+    state.dashboardVillageClippedFeatures = cached.features;
+    return cached;
+  }
+  const sourceFeatures = state.shpGeoJSON?.features || [];
+  if(!sourceFeatures.length) return {supported:false, rows:[], features:[]};
+
+  let boundary;
+  try { boundary = turf.polygonToLine(village); }
+  catch(e){ return {supported:false, rows:[], features:[]}; }
+
+  const aggregates = new Map();
+  const clippedFeatures = [];
+  let considered = 0;
+  let clippedKmTotal = 0;
+  const conditionOf = props => {
+    const raw = String(extractFeatureDetails(props).condition || "").toLowerCase();
+    if(raw.includes("baik")) return "baik";
+    if(raw.includes("sedang")) return "sedang";
+    if(raw.includes("ringan")) return "rr";
+    if(raw.includes("berat")) return "rb";
+    return "";
+  };
+  const rowForFeature = props => {
+    const d = extractFeatureDetails(props);
+    let row = d.roadObj || null;
+    if(!row && d.no) row = state.roadByNo?.get(roadKey(d.no)) || null;
+    if(!row && d.nama) row = state.roadByNormName?.get(roadKey(d.nama)) || null;
+    return row;
+  };
+  const lineParts = geometry => {
+    if(geometry?.type === "LineString") return [geometry.coordinates];
+    if(geometry?.type === "MultiLineString") return geometry.coordinates || [];
+    return [];
+  };
+  const lengthKm = feature => {
+    try { return Math.max(0, Number(turf.length(feature, {units:"kilometers"})) || 0); }
+    catch(e){ return Math.max(0, geometryLengthKm(feature)); }
+  };
+
+  for(const source of sourceFeatures){
+    if(!source?.geometry || !["LineString","MultiLineString"].includes(source.geometry.type)) continue;
+    const sourceRow = rowForFeature(source.properties || {});
+    if(!sourceRow) continue;
+    const rowKey = roadKey(sourceRow.no) || roadKey(sourceRow.nama);
+    if(!rowKey) continue;
+    const cond = conditionOf(source.properties || {});
+    if(!cond) continue;
+    let featurePieces = [];
+    try {
+      for(const coords of lineParts(source.geometry)){
+        if(!Array.isArray(coords) || coords.length < 2) continue;
+        const line = turf.lineString(coords, source.properties || {});
+        let split;
+        try { split = turf.lineSplit(line, boundary); }
+        catch(e){ split = turf.featureCollection([line]); }
+        const pieces = split?.features?.length ? split.features : [line];
+        for(const piece of pieces){
+          if(!piece?.geometry?.coordinates) continue;
+          const km = lengthKm(piece);
+          if(!(km > 0)) continue;
+          let mid;
+          try { mid = turf.along(piece, km/2, {units:"kilometers"}); }
+          catch(e){ continue; }
+          let inside = false;
+          try { inside = turf.booleanPointInPolygon(mid, village, {ignoreBoundary:true}); }
+          catch(e){ try { inside = turf.booleanPointInPolygon(mid, village); } catch(e2){} }
+          if(!inside) continue;
+          const clipped = {
+            type:"Feature",
+            properties:{...(source.properties||{}), __villageClipKm:km, __villageClipCondition:cond},
+            geometry:piece.geometry
+          };
+          featurePieces.push(clipped);
+          clippedKmTotal += km;
+          considered++;
+        }
+      }
+    } catch(e){ /* satu feature yang rusak tidak boleh menggagalkan seluruh desa */ }
+    if(!featurePieces.length) continue;
+
+    let agg = aggregates.get(rowKey);
+    if(!agg){
+      agg = {source:sourceRow, km:0, baik:0, sedang:0, rr:0, rb:0, pieces:0};
+      aggregates.set(rowKey, agg);
+    }
+    featurePieces.forEach(piece=>{
+      const km = Number(piece.properties.__villageClipKm)||0;
+      agg.km += km;
+      agg[cond] += km;
+      agg.pieces++;
+      clippedFeatures.push(piece);
+    });
+  }
+
+  // Jika tidak ada geometri yang berhasil dipotong/match, tandai tidak didukung
+  // agar dashboard tidak menampilkan nol seolah-olah itu hasil spasial valid.
+  if(!aggregates.size || !clippedFeatures.length){
+    return {supported:false, rows:[], features:[], considered:0};
+  }
+
+  const rows = [];
+  aggregates.forEach(agg=>{
+    const src = agg.source;
+    const originalKm = Math.max(0, Number(src.km)||0);
+    const ratio = originalKm > 0 ? Math.min(1, agg.km/originalKm) : 0;
+    const perkData = {};
+    Object.keys(src.perkData || {}).forEach(k=>perkData[k]=(Number(src.perkData[k])||0)*ratio);
+    const row = {
+      ...src,
+      km:agg.km, baik:agg.baik, sedang:agg.sedang, rr:agg.rr, rb:agg.rb,
+      kondisi:dominantCondition(agg.baik,agg.sedang,agg.rr,agg.rb),
+      perkData,
+      rabRR:(Number(src.rabRR)||0)*ratio,
+      rabRB:(Number(src.rabRB)||0)*ratio,
+      rab:((Number(src.rabRR)||0)+(Number(src.rabRB)||0))*ratio,
+      __villageSpatial:true,
+      __villageClipPieces:agg.pieces
+    };
+    rows.push(row);
+  });
+  rows.sort((a,b)=>String(a.nama||a.no).localeCompare(String(b.nama||b.no),"id",{numeric:true,sensitivity:"base"}));
+  const result = {supported:true, rows, features:clippedFeatures, considered, totalKm:clippedKmTotal};
+  if(state.villageSpatialCache) state.villageSpatialCache.set(cacheKey,result);
+  state.dashboardVillageClippedFeatures = clippedFeatures;
+  return result;
+}
+
 function getVillageRoadRows(village){
   const keys=roadsForVillage(village);
   const seen=new Set(), rows=[];
@@ -7140,6 +7309,7 @@ function getVillageRoadRows(village){
 }
 function clearVillageSelection(){
   state.dashboardSelectedVillage = null;
+  state.dashboardVillageClippedFeatures = null;
   const dashboardDesa = $("selDesaDashboard");
   if(dashboardDesa) dashboardDesa.value = "";
   state.selectedDashboardRoadKey = null;
@@ -7270,59 +7440,100 @@ async function checkGoogleDriveVersion(){
     if(!v || !v.ok) return;
     const version = `${v.updated || ""}|${v.size || 0}`;
 
-    // Pertama kali: simpan versi data yang sedang dipakai.
+    // Catat versi awal, tetapi tetap izinkan pemeriksaan SHP terpisah.
     if(state.syncVersion === null){
       state.syncVersion = version;
       return;
     }
-
-    // Tidak ada perubahan snapshot -> jangan download/sync data.
     if(version === state.syncVersion) return;
 
-    // Snapshot berubah -> baru ambil data terbaru.
-    state.syncVersion = version;
     state.autoSyncBusy = true;
-    state.lastAutoSync = Date.now();
     try{
-      await loadGoogleDriveData();
+      await loadGoogleDriveData({refreshSHP:true});
+      state.syncVersion = version;
+      state.lastAutoSync = Date.now();
     }finally{
       state.autoSyncBusy = false;
     }
   }catch(err){
-    console.warn("Cek versi Google Sheet gagal:", err);
+    console.warn("Cek versi Google Drive gagal:", err);
   }
 }
 
 function startGoogleDriveAutoSync(){
   if(state.autoSyncTimer) clearInterval(state.autoSyncTimer);
-  // Hanya cek versi setiap 10 detik. Download data penuh hanya jika versi berubah.
+  if(state.shpSyncTimer) clearInterval(state.shpSyncTimer);
+  // Cek metadata sheet sesuai interval lama.
   state.autoSyncTimer = setInterval(checkGoogleDriveVersion, 10000);
+  // Endpoint versi lama mungkin hanya melacak spreadsheet. Periksa SHP terpisah
+  // secara berkala agar perubahan geometri saja tetap terdeteksi.
+  state.shpSyncTimer = setInterval(async()=>{
+    if(!navigator.onLine || state.autoSyncBusy || state.shpSyncBusy) return;
+    state.shpSyncBusy = true;
+    try { await syncLatestRoadSHP(false); }
+    catch(err) { console.warn("Pemeriksaan SHP otomatis gagal:", err); }
+    finally { state.shpSyncBusy = false; }
+  }, 120000);
 }
 
-async function loadGoogleDriveData(){
+function remoteDataSignature(value){
+  const str = String(value || "");
+  let hash = 2166136261;
+  for(let i=0;i<str.length;i++){
+    hash ^= str.charCodeAt(i);
+    hash = Math.imul(hash,16777619);
+  }
+  return `${str.length}:${hash >>> 0}`;
+}
+
+async function syncLatestRoadSHP(force=true){
+  // Ambil seluruh komponen yang dibutuhkan dari proxy Apps Script.
+  // Nama file di Drive tetap: Jalan-Kab-Bandung.*
+  const [shpJson, dbfJson, prjJson] = await Promise.all([
+    fetchProxyJson("shp"), fetchProxyJson("dbf"), fetchProxyJson("prj")
+  ]);
+  if(!shpJson?.data || !dbfJson?.data) throw new Error("Komponen SHP/DBF terbaru tidak tersedia dari proxy.");
+  const signature = [shpJson.data,dbfJson.data,prjJson?.data || ""].map(remoteDataSignature).join("|");
+  if(!force && state.shpRemoteSignature === signature) return false;
+
+  const shpBytes = base64ToBytes(shpJson.data);
+  const dbfBytes = base64ToBytes(dbfJson.data);
+  const prjText = prjJson?.data ? new TextDecoder().decode(base64ToBytes(prjJson.data)) : "";
+  const parts = [
+    new File([shpBytes],"Jalan-Kab-Bandung.shp",{type:"application/octet-stream",lastModified:Date.now()}),
+    new File([dbfBytes],"Jalan-Kab-Bandung.dbf",{type:"application/octet-stream",lastModified:Date.now()})
+  ];
+  if(prjText) parts.push(new File([prjText],"Jalan-Kab-Bandung.prj",{type:"text/plain",lastModified:Date.now()}));
+  const loaded = await loadSHPParts(parts);
+  if(!loaded) throw new Error("SHP terbaru gagal diproses; periksa pasangan file SHP dan DBF.");
+  state.shpSource = "drive";
+  state.shpRemoteSignature = signature;
+  return true;
+}
+
+async function loadGoogleDriveData(options={}){
+  const refreshSHP = options.refreshSHP !== false;
   setStatus("Memuat data & trase peta…");
 
-  if(!state.villageGeoJSON){
-    state.villageGeoJSON = EMBEDDED_VILLAGE_GEOJSON;
-  }
+  if(!state.villageGeoJSON) state.villageGeoJSON = EMBEDDED_VILLAGE_GEOJSON;
   populateDashboardDesa();
   populateDesaMap();
 
-  // Gunakan SHP Jalan-Kab-Bandung terbaru sebagai sumber trase default.
-  // Cache SHP lama browser sengaja tidak dipakai agar hasil Desa yang Dilalui
-  // tidak kembali ke angka/data lama.
+  // Embedded GeoJSON hanya fallback awal. Setiap sinkronisasi mencoba mengambil
+  // SHP Drive terbaru, meskipun state.shpGeoJSON sudah berisi data embedded/cache.
   if(!state.shpGeoJSON){
     state.shpGeoJSON = EMBEDDED_ROAD_GEOJSON;
     state.shpSource = "embedded";
     state.shpFeatureCount = state.shpGeoJSON.features.length;
     if(state.villageRoadCache) state.villageRoadCache.clear();
-    try { renderVillage(currentRows()); renderVillageCondition(currentRows()); } catch(e) { console.warn("Gagal refresh daftar desa dari SHP embedded:", e); }
+    try { renderVillage(currentRows()); renderVillageCondition(currentRows()); } catch(e) { console.warn("Gagal refresh desa dari SHP cadangan:",e); }
     renderRoadMap(currentRows());
     renderRoadMapMax();
     renderRoadMapReport();
     updateDynamicCartography();
   }
-  
+
+  let sheetLoaded = false;
   try {
     const jsonSheet = await fetchProxyJson("sheet");
     if(jsonSheet.sheets && Array.isArray(jsonSheet.sheets)){
@@ -7332,29 +7543,31 @@ async function loadGoogleDriveData(){
         XLSX.utils.book_append_sheet(wb, ws, s.name);
       });
       processWorkbook(wb, "Google Sheets PKRMS");
+      sheetLoaded = true;
     }
   } catch(err) {
     console.warn("Gagal memuat ulang data sheet:", err);
   }
 
-  if(!state.shpGeoJSON){
+  let shpLoaded = false;
+  if(refreshSHP){
     try {
-      const shp = await downloadProxyFile("shp", "Jalan-Kab-Bandung.shp");
-      const dbf = await downloadProxyFile("dbf", "Jalan-Kab-Bandung.dbf");
-      const prj = await downloadProxyFile("prj", "Jalan-Kab-Bandung.prj", "text/plain");
-      await loadSHPParts([shp, dbf, prj]);
+      shpLoaded = await syncLatestRoadSHP(true);
     } catch(e) {
-      console.warn("Pemuatan SHP dari server gagal atau dilewati:", e);
-      setStatus("Data tabel termuat, peta menggunakan cache lokal");
+      console.warn("Gagal memuat SHP terbaru dari Google Drive:", e);
     }
-  } else {
-    setStatus("Data & Trase Peta berhasil disinkronkan");
   }
+
+  if(shpLoaded && sheetLoaded) setStatus("Data Excel dan SHP terbaru berhasil disinkronkan");
+  else if(shpLoaded) setStatus("SHP terbaru berhasil diperbarui; data tabel menggunakan data terakhir");
+  else if(state.shpSource === "embedded") setStatus("SHP Drive gagal dimuat; peta menggunakan data cadangan");
+  else if(sheetLoaded) setStatus("Data tabel diperbarui; SHP terbaru belum berhasil dimuat");
+  else setStatus("Sinkronisasi gagal; data terakhir tetap ditampilkan");
 }
 
 async function connectGoogleDrive(){
   try{
-    await loadGoogleDriveData();
+    await loadGoogleDriveData({refreshSHP:true});
   }catch(err){
     console.error(err);
     setStatus("Gagal membaca Google Drive");
