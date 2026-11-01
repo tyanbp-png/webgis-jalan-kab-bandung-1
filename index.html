@@ -1900,6 +1900,72 @@ body.password-locked {overflow:hidden !important;}
 
 
 .tl-legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:12px 0 4px;font-size:12px;color:#405675}.tl-legend span{display:inline-flex;align-items:center;gap:6px}.tl-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;flex:none}.tl-chart-wrap{height:460px;overflow:hidden}.tl-chart-wrap>div{width:100%;height:100%}.tl-chart-wrap svg{display:block;width:100%;height:100%;overflow:visible}.tl-table thead tr:first-child th{background:#174d8b;color:#fff;text-align:center}.tl-table thead tr:first-child th:nth-child(2){background:#1266c5}.tl-table thead tr:first-child th:nth-child(3){background:#16885b}.tl-table thead tr:nth-child(2) th:nth-child(-n+3){background:#2d80df;color:#fff;text-align:center}.tl-table thead tr:nth-child(2) th:nth-child(n+4){background:#36ae7a;color:#fff;text-align:center}.tl-table tfoot td{text-align:center!important}@media(max-width:700px){.tl-chart-wrap{height:360px}.tl-legend{font-size:11px;gap:8px}}
+
+/* === REDESAIN VERIFIKASI: PETA MENJADI AREA UTAMA === */
+#viewVerifikasi{padding:18px 20px 24px;gap:14px;background:linear-gradient(145deg,#f7faff 0%,#eaf2ff 100%);min-height:100%;overflow-y:auto}
+#viewVerifikasi .vf-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:0}
+#viewVerifikasi .vf-head h2{font-size:23px;font-weight:900;color:#10234b;letter-spacing:-.35px}
+#viewVerifikasi .vf-head p{font-size:12px;color:#5b6d8c;margin-top:4px}
+#viewVerifikasi #vfProgressPanel{display:none!important}
+#viewVerifikasi .vf-filter-card{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr)) auto auto;align-items:end;gap:12px;padding:14px 16px;background:#fff;border:1px solid #d9e5f7;border-radius:15px;box-shadow:0 4px 14px #244a8010}
+#viewVerifikasi .vf-filter-title{grid-column:1/-1;font-size:15px;font-weight:900;color:#12264f;margin-bottom:0}
+#viewVerifikasi .vf-filter-card label{font-size:11px;font-weight:800;color:#263b60;display:flex;flex-direction:column;gap:6px}
+#viewVerifikasi .vf-filter-card select{height:38px;border:1px solid #cbd8eb;border-radius:9px;background:#fff;padding:0 10px;color:#172b50;font-weight:650;min-width:0}
+#viewVerifikasi .vf-filter-card .h-btn{height:38px;white-space:nowrap;border-radius:9px}
+#viewVerifikasi .vf-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+#viewVerifikasi .vf-kpi{min-height:88px;border-radius:15px;padding:14px 16px;box-shadow:0 4px 12px #23487912}
+#viewVerifikasi .vf-kpi small{font-size:12px;font-weight:850}
+#viewVerifikasi .vf-kpi strong{font-size:30px;line-height:1.15}
+#viewVerifikasi .vf-kpi span{font-size:11px;font-weight:750}
+#viewVerifikasi .vf-main-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(390px,.95fr);gap:14px;min-height:620px;align-items:stretch}
+#viewVerifikasi .vf-map-card{min-height:620px;padding:0;overflow:hidden;border-radius:16px;box-shadow:0 5px 18px #1b47701a}
+#viewVerifikasi .vf-map-card h3{background:linear-gradient(100deg,#0758c9,#0869e8);color:#fff;padding:13px 16px;margin:0;font-size:16px}
+#viewVerifikasi #vfMap{height:560px;min-height:560px;border-radius:0;background:#e8f0fa}
+#viewVerifikasi .vf-legend{padding:12px 15px 14px;gap:15px;font-size:11px;background:#fff}
+#viewVerifikasi .vf-right-col{display:flex;flex-direction:column;gap:12px;min-width:0;min-height:620px}
+#viewVerifikasi .vf-chart-card,#viewVerifikasi .vf-list-card{display:none!important}
+#viewVerifikasi .vf-location-tables{display:flex;flex-direction:column;gap:12px;min-width:0}
+#viewVerifikasi .vf-location-card{padding:0;overflow:hidden;border-radius:15px;box-shadow:0 4px 14px #244a8010;min-height:250px}
+#viewVerifikasi .vf-location-card h3{margin:0;padding:13px 15px;font-size:14px;display:flex;align-items:center;justify-content:space-between}
+#viewVerifikasi .vf-location-card.masuk h3{background:#e9f8ee;color:#14532d;border-bottom:1px solid #ccebd5}
+#viewVerifikasi .vf-location-card.tidak h3{background:#fff0ef;color:#991b1b;border-bottom:1px solid #f8d4d1}
+#viewVerifikasi .vf-location-card h3 span{font-size:11px;opacity:.8}
+#viewVerifikasi .vf-location-card .vf-mini-table-wrap{max-height:275px;overflow:auto;padding:8px 10px 10px}
+#viewVerifikasi .vf-table{width:100%;border-collapse:separate;border-spacing:0;font-size:10.5px}
+#viewVerifikasi .vf-table thead th{position:sticky;top:0;z-index:2;background:#eef3fb;color:#253958;padding:9px 8px;text-align:left;white-space:nowrap}
+#viewVerifikasi .vf-table tbody td{padding:9px 8px;border-bottom:1px solid #e8eef7;color:#304361;vertical-align:top}
+#viewVerifikasi .vf-table tbody tr:hover{background:#f6f9ff}
+#viewVerifikasi .vf-table th:first-child,#viewVerifikasi .vf-table td:first-child{width:32px}
+#viewVerifikasi .vf-table td:nth-child(2){min-width:130px;max-width:210px}
+#viewVerifikasi .vf-table td:last-child{white-space:nowrap;font-weight:750}
+#viewVerifikasi .vf-explain{margin-top:2px}
+#viewVerifikasi .vf-disclaimer{font-size:10px;color:#687995;padding:2px 4px}
+#viewVerifikasi .vf-connection{font-size:11px;font-weight:800;padding:8px 11px;border-radius:30px;background:#e7f8ed;color:#16733b}
+#viewVerifikasi .vf-location-tables{order:1}
+@media(max-width:1150px){
+ #viewVerifikasi .vf-main-grid{grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr)}
+ #viewVerifikasi #vfMap{height:520px;min-height:520px}
+}
+@media(max-width:900px){
+ #viewVerifikasi .vf-filter-card{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #viewVerifikasi .vf-filter-title{grid-column:1/-1}
+ #viewVerifikasi .vf-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #viewVerifikasi .vf-main-grid{grid-template-columns:1fr;min-height:0}
+ #viewVerifikasi .vf-map-card{min-height:460px}
+ #viewVerifikasi #vfMap{height:460px;min-height:460px}
+ #viewVerifikasi .vf-right-col{min-height:0}
+}
+@media(max-width:560px){
+ #viewVerifikasi{padding:12px}
+ #viewVerifikasi .vf-head{align-items:flex-start;flex-direction:column}
+ #viewVerifikasi .vf-filter-card{grid-template-columns:1fr 1fr}
+ #viewVerifikasi .vf-kpis{gap:8px}
+ #viewVerifikasi .vf-kpi{padding:10px;min-height:78px}
+ #viewVerifikasi .vf-kpi strong{font-size:24px}
+ #viewVerifikasi #vfMap{height:390px;min-height:390px}
+ #viewVerifikasi .vf-location-card .vf-mini-table-wrap{max-height:230px}
+}
+
 </style>
 
 <style id="responsive-v8-max-mobile-tablet">
@@ -3730,6 +3796,244 @@ button,select,input{touch-action:manipulation}
 #viewTimeline .tl-legend i{width:14px;height:14px;margin-top:2px;box-shadow:0 0 0 3px rgba(148,163,184,.10)}
 @media(max-width:600px){#viewTimeline .tl-chart-wrap{height:430px!important;min-height:430px}#viewTimeline #tlChartBudget,#viewTimeline #tlChartBudget svg{min-width:1180px}#viewTimeline .tl-legend{grid-template-columns:minmax(0,1fr);font-size:12px;gap:8px;padding:10px}}
 </style>
+
+<style id="verifikasi-polish-css">
+#viewVerifikasi{display:none;flex-direction:column;gap:16px;padding:18px 20px 28px;background:#f5f8ff;min-height:100%;overflow:auto;color:#101e48}
+#viewVerifikasi.active{display:flex!important}
+#viewVerifikasi .vf-head{display:flex;justify-content:space-between;align-items:center;gap:12px}#viewVerifikasi .vf-head h2{margin:0 0 4px;font-size:20px;font-weight:850;color:#142653}#viewVerifikasi .vf-head p{margin:0;color:#60708f;font-size:12px}#viewVerifikasi .vf-connection{background:#e8f9ef;color:#168348;border:1px solid #b9ebcb;border-radius:9px;padding:9px 13px;font-size:11px;font-weight:700;white-space:nowrap}
+#viewVerifikasi .vf-filter-card{display:grid;grid-template-columns:145px 1fr 1fr 1fr auto auto;gap:12px;align-items:end;background:#fff;border:1px solid #dce6f6;border-radius:14px;padding:14px;box-shadow:0 3px 10px #193b7010}#viewVerifikasi .vf-filter-title{align-self:center;font-weight:800;color:#152956;font-size:14px}#viewVerifikasi label{display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:750;color:#26385f}#viewVerifikasi select{height:38px;border:1px solid #c8d5eb;border-radius:8px;background:#fff;padding:0 10px;color:#24365e;min-width:0}
+#viewVerifikasi .vf-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}#viewVerifikasi .vf-kpi{display:flex;align-items:center;gap:14px;border-radius:14px;padding:15px 18px;background:#fff;border:1px solid #dce6f6;box-shadow:0 3px 10px #193b700b;min-height:104px}#viewVerifikasi .vf-kpi-icon{width:54px;height:54px;border-radius:12px;display:grid;place-items:center;font-size:34px;font-weight:900;flex:none}#viewVerifikasi .vf-kpi small{display:block;color:#526482;font-weight:750;font-size:12px;margin-bottom:4px}#viewVerifikasi .vf-kpi strong{display:block;font-size:30px;line-height:1.05;color:#101e48}#viewVerifikasi .vf-kpi span{display:block;font-size:11px;margin-top:3px;color:#566987}#viewVerifikasi .vf-kpi.total{background:linear-gradient(110deg,#0758e9,#1764e8);color:white;border-color:#0758e9}#viewVerifikasi .vf-kpi.total small,#viewVerifikasi .vf-kpi.total strong,#viewVerifikasi .vf-kpi.total span{color:white}#viewVerifikasi .vf-kpi.total .vf-kpi-icon{background:#ffffff25}#viewVerifikasi .vf-kpi.masuk{background:#effcf5;border-color:#bcebd0}#viewVerifikasi .vf-kpi.masuk .vf-kpi-icon{background:#16a34a;color:white}#viewVerifikasi .vf-kpi.tidak{background:#fff3f3;border-color:#ffd0d0}#viewVerifikasi .vf-kpi.tidak .vf-kpi-icon{background:#ef4444;color:white}#viewVerifikasi .vf-kpi.belum{background:#fffaf0;border-color:#f7e2b4}#viewVerifikasi .vf-kpi.belum .vf-kpi-icon{background:#f59e0b;color:white}
+#viewVerifikasi .vf-main-grid{display:grid;grid-template-columns:1.04fr 1.16fr;gap:14px;min-height:420px}#viewVerifikasi .vf-right-col{display:grid;grid-template-rows:200px 1fr;gap:14px;min-width:0}#viewVerifikasi .vf-card{background:#fff;border:1px solid #dce6f6;border-radius:14px;padding:14px;box-shadow:0 3px 10px #193b700b;min-width:0}#viewVerifikasi .vf-card h3{font-size:16px;font-weight:850;color:#142653;margin:0 0 12px}#viewVerifikasi .vf-map-card{display:flex;flex-direction:column}#vfMap{height:340px;min-height:300px;border-radius:10px;overflow:hidden;background:#e7eef8}#viewVerifikasi .vf-legend{display:flex;gap:14px;flex-wrap:wrap;padding:11px 4px 0;font-size:10px;font-weight:700;color:#35496d}#viewVerifikasi .vf-legend i,#viewVerifikasi .vf-chart-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}#viewVerifikasi .vf-legend .g{background:#0758e9;height:3px;width:18px;vertical-align:middle}#viewVerifikasi .vf-legend .p,#viewVerifikasi .vf-chart-legend .p{background:#16a34a}#viewVerifikasi .vf-legend .r,#viewVerifikasi .vf-chart-legend .r{background:#ef4444}#viewVerifikasi .vf-legend .y,#viewVerifikasi .vf-chart-legend .y{background:#f59e0b}
+#viewVerifikasi .vf-chart-content{display:flex;align-items:center;justify-content:space-around;gap:15px;height:145px}#viewVerifikasi .vf-donut{width:142px;height:142px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#16a34a 0deg,#16a34a 0deg,#ef4444 0deg,#ef4444 360deg);position:relative;flex:none}#viewVerifikasi .vf-donut:before{content:"";position:absolute;inset:15px;border-radius:50%;background:#fff}#viewVerifikasi .vf-donut>div{position:relative;text-align:center;display:flex;flex-direction:column}#viewVerifikasi .vf-donut b{font-size:25px;color:#142653}#viewVerifikasi .vf-donut small{font-size:10px;font-weight:800}#viewVerifikasi .vf-chart-legend{flex:1;min-width:0}#viewVerifikasi .vf-chart-legend>div{display:grid;grid-template-columns:12px 1fr auto;gap:7px;align-items:center;padding:8px 0;border-bottom:1px solid #edf1f7;font-size:11px}#viewVerifikasi .vf-chart-legend strong{white-space:nowrap;color:#142653}#viewVerifikasi .vf-list-card{overflow:hidden}#viewVerifikasi .vf-list-card h3{display:flex;justify-content:space-between;align-items:center}#viewVerifikasi .vf-list-card h3 span{font-size:11px;color:#60708f}#viewVerifikasi .vf-mini-table-wrap{overflow:auto;max-height:225px}#viewVerifikasi .vf-table{border-collapse:collapse;width:100%;font-size:10px;white-space:nowrap}#viewVerifikasi .vf-table th{background:#edf2fa;color:#405274;text-align:left;padding:9px 7px;position:sticky;top:0}#viewVerifikasi .vf-table td{padding:9px 7px;border-bottom:1px solid #edf1f7;color:#27395d}#viewVerifikasi .vf-pill{display:inline-block;padding:5px 8px;border-radius:20px;font-weight:800;font-size:9px}#viewVerifikasi .vf-pill.masuk{background:#dcfce7;color:#166534}#viewVerifikasi .vf-pill.tidak{background:#fee2e2;color:#991b1b}#viewVerifikasi .vf-pill.belum{background:#fef3c7;color:#92400e}
+#viewVerifikasi .vf-explain{display:grid;grid-template-columns:1fr 1fr;gap:14px}#viewVerifikasi .vf-explain article{display:flex;align-items:center;gap:15px;border-radius:14px;padding:15px 18px;background:#edfff4;border:1px solid #a7e9c1}#viewVerifikasi .vf-explain article+article{background:#fff1f1;border-color:#ffc4c4}#viewVerifikasi .vf-ex-icon{font-size:35px;font-weight:900;color:#16a34a}#viewVerifikasi .vf-explain article+article .vf-ex-icon{color:#ef4444}#viewVerifikasi .vf-explain b{font-size:14px}#viewVerifikasi .vf-explain p{font-size:11px;line-height:1.5;margin:4px 0 0;color:#435574}#viewVerifikasi .vf-disclaimer{font-size:10px;color:#71809b;margin:0}
+@media(max-width:1100px){#viewVerifikasi .vf-filter-card{grid-template-columns:1fr 1fr}#viewVerifikasi .vf-filter-title{grid-column:1/-1}#viewVerifikasi .vf-kpis{grid-template-columns:repeat(2,1fr)}#viewVerifikasi .vf-main-grid{grid-template-columns:1fr}#viewVerifikasi .vf-right-col{grid-template-rows:auto auto}}@media(max-width:650px){#viewVerifikasi{padding:12px}#viewVerifikasi .vf-kpis,#viewVerifikasi .vf-explain{grid-template-columns:1fr}#viewVerifikasi .vf-filter-card{grid-template-columns:1fr}#viewVerifikasi .vf-head{align-items:flex-start;flex-direction:column}#viewVerifikasi .vf-chart-content{justify-content:flex-start}#vfMap{height:300px}}
+</style>
+
+
+<style id="vf-map-visibility-fix">
+#vfMap{height:430px!important;min-height:430px!important;width:100%;background:#e8eef7!important;position:relative;z-index:1}
+#vfMap .leaflet-container{background:#e8eef7}
+#vfMap .leaflet-tile{max-width:none!important}
+</style>
+
+<style id="vf-location-tables-css">
+.vf-location-tables{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.vf-location-card{min-width:0}
+.vf-location-card h3{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.vf-location-card h3 span{font-size:11px;color:#64748b;font-weight:600;white-space:nowrap}
+.vf-location-card.masuk{border-top:3px solid #159447}
+.vf-location-card.tidak{border-top:3px solid #e5484d}
+.vf-location-card .vf-mini-table-wrap{max-height:330px;overflow:auto}
+.vf-location-card .vf-table{min-width:760px}
+#vfMapStatus{font-size:11px;color:#64748b;padding:5px 2px 0}
+@media(max-width:900px){.vf-location-tables{grid-template-columns:1fr}}
+</style>
+
+<style id="vf-exact-reference-layout">
+/* Match the supplied reference: compact dashboard header, KPI row, large map left, filters/tables right. */
+#viewVerifikasi{
+  display:none; padding:14px 16px 20px!important; gap:12px!important;
+  height:calc(100vh - 76px); min-height:0; overflow-y:auto!important;
+  background:linear-gradient(135deg,#f5f8ff 0%,#eaf2ff 100%)!important;
+}
+#viewVerifikasi.active{display:flex!important;flex-direction:column!important}
+#viewVerifikasi .vf-head{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;margin:0!important;min-height:52px}
+#viewVerifikasi .vf-head h2{font-size:22px!important;font-weight:900!important;color:#101f45!important}
+#viewVerifikasi .vf-head p{font-size:12px!important;color:#536687!important;margin-top:4px!important}
+#viewVerifikasi .vf-connection{display:inline-flex!important;align-items:center;white-space:nowrap;background:#e2f8e9!important;color:#087a38!important;border:1px solid #b8ebc8;padding:8px 12px;border-radius:10px;font-weight:800;font-size:11px}
+#viewVerifikasi #vfProgressPanel{display:none!important}
+#viewVerifikasi .vf-kpis{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;margin:0!important}
+#viewVerifikasi .vf-kpi{min-height:92px!important;padding:14px 16px!important;border-radius:15px!important;display:flex!important;align-items:center!important;gap:14px!important;box-shadow:0 4px 12px #23487912!important}
+#viewVerifikasi .vf-kpi small{font-size:12px!important;font-weight:850!important}
+#viewVerifikasi .vf-kpi strong{font-size:30px!important;line-height:1.12!important}
+#viewVerifikasi .vf-kpi span{font-size:11px!important;font-weight:750!important}
+#viewVerifikasi .vf-main-grid{display:grid!important;grid-template-columns:minmax(0,1.18fr) minmax(440px,.82fr)!important;gap:14px!important;min-height:610px!important;align-items:stretch!important;margin:0!important}
+#viewVerifikasi .vf-map-card{display:flex!important;flex-direction:column!important;min-width:0!important;min-height:610px!important;padding:0!important;overflow:hidden!important;border:1px solid #d4e1f5!important;border-radius:16px!important;box-shadow:0 5px 18px #1b47701a!important}
+#viewVerifikasi .vf-map-card h3{display:flex!important;align-items:center!important;justify-content:space-between!important;background:linear-gradient(100deg,#0758c9,#0869e8)!important;color:#fff!important;padding:13px 16px!important;margin:0!important;font-size:16px!important}
+#viewVerifikasi #vfMap{height:540px!important;min-height:540px!important;width:100%!important;flex:1 1 auto!important;border-radius:0!important;background:#e8f0fa!important}
+#viewVerifikasi .vf-legend{display:flex!important;flex-wrap:wrap!important;gap:14px!important;padding:11px 15px!important;background:#fff!important;font-size:10px!important}
+#viewVerifikasi .vf-right-col{display:flex!important;flex-direction:column!important;gap:10px!important;min-width:0!important;min-height:610px!important}
+#viewVerifikasi .vf-chart-card,#viewVerifikasi .vf-list-card{display:none!important}
+#viewVerifikasi .vf-filter-card{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px 12px!important;align-items:end!important;padding:13px 15px!important;margin:0!important;background:#fff!important;border:1px solid #d7e3f5!important;border-radius:15px!important;box-shadow:0 4px 14px #244a8010!important}
+#viewVerifikasi .vf-filter-title{grid-column:1/-1!important;font-size:15px!important;font-weight:900!important;color:#13264d!important;margin:0!important}
+#viewVerifikasi .vf-filter-card label{display:flex!important;flex-direction:column!important;gap:5px!important;min-width:0!important;font-size:11px!important;font-weight:800!important;color:#263b60!important}
+#viewVerifikasi .vf-filter-card select{width:100%!important;height:38px!important;border:1px solid #cbd8eb!important;border-radius:9px!important;background:#fff!important;padding:0 9px!important;font-size:11px!important;color:#172b50!important}
+#viewVerifikasi .vf-filter-card .h-btn{height:35px!important;border-radius:8px!important;padding:0 10px!important;font-size:10px!important;white-space:nowrap!important}
+#viewVerifikasi .vf-location-tables{display:flex!important;flex-direction:column!important;gap:10px!important;margin:0!important;min-width:0!important;flex:1 1 auto!important}
+#viewVerifikasi .vf-location-card{display:flex!important;flex-direction:column!important;min-width:0!important;min-height:0!important;flex:1 1 0!important;padding:0!important;overflow:hidden!important;border:1px solid #d9e4f4!important;border-radius:15px!important;box-shadow:0 4px 14px #244a8010!important}
+#viewVerifikasi .vf-location-card h3{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;margin:0!important;padding:12px 14px!important;font-size:13px!important}
+#viewVerifikasi .vf-location-card.masuk h3{background:#eaf8ef!important;color:#14532d!important;border-bottom:1px solid #ccebd5!important}
+#viewVerifikasi .vf-location-card.tidak h3{background:#fff0ef!important;color:#991b1b!important;border-bottom:1px solid #f8d4d1!important}
+#viewVerifikasi .vf-location-card h3 span{font-size:10px!important;white-space:nowrap!important}
+#viewVerifikasi .vf-location-card .vf-mini-table-wrap{max-height:245px!important;min-height:130px!important;overflow:auto!important;padding:7px 9px 9px!important;flex:1 1 auto!important}
+#viewVerifikasi .vf-location-card .vf-table{width:100%!important;min-width:0!important;border-collapse:separate!important;border-spacing:0!important;font-size:10px!important}
+#viewVerifikasi .vf-location-card .vf-table thead th{position:sticky!important;top:0!important;z-index:2!important;background:#edf3fc!important;color:#253958!important;padding:8px 6px!important;text-align:left!important;white-space:nowrap!important}
+#viewVerifikasi .vf-location-card .vf-table tbody td{padding:8px 6px!important;border-bottom:1px solid #e8eef7!important;color:#304361!important;vertical-align:top!important}
+#viewVerifikasi .vf-location-card .vf-table tbody td:nth-child(2){max-width:155px!important;min-width:90px!important}
+#viewVerifikasi .vf-location-card .vf-table tbody td:nth-child(5){white-space:nowrap!important;font-weight:750!important}
+#viewVerifikasi .vf-explain{display:none!important}
+#viewVerifikasi .vf-disclaimer{font-size:10px!important;color:#687995!important;margin:0!important;padding:0 3px!important}
+#viewVerifikasi #vfMapStatus{font-size:10px!important;color:#64748b!important;padding:3px 12px 7px!important;background:#fff!important}
+@media(max-width:1200px){
+ #viewVerifikasi .vf-main-grid{grid-template-columns:minmax(0,1.05fr) minmax(390px,.95fr)!important}
+ #viewVerifikasi .vf-location-card .vf-table{font-size:9px!important}
+}
+@media(max-width:950px){
+ #viewVerifikasi{height:auto!important;min-height:calc(100vh - 76px)!important}
+ #viewVerifikasi .vf-main-grid{grid-template-columns:1fr!important;min-height:0!important}
+ #viewVerifikasi .vf-map-card{min-height:460px!important}
+ #viewVerifikasi #vfMap{height:430px!important;min-height:430px!important}
+ #viewVerifikasi .vf-right-col{min-height:0!important}
+ #viewVerifikasi .vf-location-tables{display:grid!important;grid-template-columns:1fr 1fr!important}
+ #viewVerifikasi .vf-location-card{min-height:240px!important}
+}
+@media(max-width:650px){
+ #viewVerifikasi{padding:10px!important}
+ #viewVerifikasi .vf-head{align-items:flex-start!important;flex-direction:column!important}
+ #viewVerifikasi .vf-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #viewVerifikasi .vf-filter-card{grid-template-columns:1fr 1fr!important}
+ #viewVerifikasi .vf-filter-title{grid-column:1/-1!important}
+ #viewVerifikasi .vf-location-tables{grid-template-columns:1fr!important}
+ #viewVerifikasi .vf-map-card{min-height:400px!important}
+ #viewVerifikasi #vfMap{height:360px!important;min-height:360px!important}
+}
+</style>
+
+
+<style id="mjp-corrected-style">
+#viewPeta .map-job-locations-panel{position:absolute!important;left:14px!important;top:76px!important;width:min(980px,calc(100% - 28px))!important;max-width:calc(100% - 28px)!important;max-height:calc(100% - 92px)!important;overflow:hidden!important;z-index:1120!important;background:#fff!important;border:1px solid #d6e1ef!important;border-radius:14px!important;box-shadow:0 8px 24px rgba(15,35,65,.17)!important}
+#viewPeta .mjp-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 14px;min-height:62px;background:#f8fbff;border-bottom:1px solid #e5edf7}
+#viewPeta .mjp-head strong{display:block;font-size:14px;font-weight:900;color:#17243c}
+#viewPeta .mjp-head small{display:block;font-size:11px;color:#64748b;margin-top:3px}
+#viewPeta #mjpBody{padding:11px;max-height:calc(100vh - 210px);overflow:auto}
+#viewPeta #mjpBody[hidden]{display:none!important}
+#viewPeta .mjp-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:9px}
+#viewPeta .mjp-filters label{display:flex;flex-direction:column;gap:4px;font-size:10px;font-weight:800;color:#334155}
+#viewPeta .mjp-filters select{height:34px;min-width:0;width:100%;border:1px solid #d3deec;border-radius:7px;padding:0 8px;background:#fff;font-size:11px;color:#1e293b}
+#viewPeta .mjp-legend{display:flex;flex-wrap:wrap;gap:8px 14px;padding:8px;background:#f8fafc;border-radius:8px;font-size:10px;color:#475569}
+#viewPeta .mjp-legend span{display:flex;align-items:center;gap:5px}
+#viewPeta .mjp-legend i{display:inline-block;width:9px;height:9px;border-radius:50%}
+#viewPeta .mjp-legend i.masuk{background:#16a34a}#viewPeta .mjp-legend i.tidak{background:#ef4444}#viewPeta .mjp-legend i.belum{background:#f59e0b}
+#viewPeta .mjp-summary{margin:8px 0;padding:8px 9px;border:1px solid #dbeafe;background:#eff6ff;color:#1e40af;border-radius:8px;font-size:11px;font-weight:850}
+#viewPeta .mjp-status-bars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:9px 0 12px}
+#viewPeta .mjp-status-card{border:1px solid #e2e8f0;border-radius:9px;padding:9px 10px;background:#fff;min-width:0}
+#viewPeta .mjp-status-card>div:first-child{display:flex;justify-content:space-between;align-items:center;gap:7px}
+#viewPeta .mjp-status-card strong{font-size:10px;line-height:1.25;color:#334155}
+#viewPeta .mjp-status-card b{font-size:18px}
+#viewPeta .mjp-status-card.masuk b{color:#15803d}#viewPeta .mjp-status-card.tidak b{color:#dc2626}#viewPeta .mjp-status-card.belum b{color:#b45309}
+#viewPeta .mjp-track{height:6px;background:#edf1f6;border-radius:20px;overflow:hidden;margin-top:8px}
+#viewPeta .mjp-track i{display:block;height:100%;width:0;border-radius:20px;transition:width .25s}
+#viewPeta .mjp-status-card.masuk .mjp-track i{background:#16a34a}#viewPeta .mjp-status-card.tidak .mjp-track i{background:#ef4444}#viewPeta .mjp-status-card.belum .mjp-track i{background:#f59e0b}
+#viewPeta .mjp-tables-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#viewPeta .mjp-table-section{border:1px solid #dfe7f1;border-radius:10px;overflow:hidden;min-width:0}
+#viewPeta .mjp-table-section h4{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0;padding:9px 10px;font-size:10px}
+#viewPeta .mjp-table-section.masuk h4{background:#eaf8ef;color:#14532d}#viewPeta .mjp-table-section.tidak h4{background:#fff0ef;color:#991b1b}
+#viewPeta .mjp-table-section h4 span{font-size:9px;white-space:nowrap}
+#viewPeta .mjp-table-wrap{max-height:230px;overflow:auto}
+#viewPeta .mjp-table{width:100%;min-width:560px;border-collapse:separate;border-spacing:0;font-size:9px}
+#viewPeta .mjp-table th{position:sticky;top:0;background:#edf3fc;color:#334155;text-align:left;padding:7px 6px;z-index:2;white-space:nowrap}
+#viewPeta .mjp-table td{padding:7px 6px;border-bottom:1px solid #edf1f6;color:#334155;vertical-align:top}
+#viewPeta .mjp-footnote{font-size:9px;line-height:1.4;color:#64748b;margin-top:8px}
+@media(max-width:850px){#viewPeta .map-job-locations-panel{width:min(700px,calc(100% - 20px))!important;left:10px!important;top:82px!important}#viewPeta .mjp-tables-grid{grid-template-columns:1fr!important}#viewPeta .mjp-table-wrap{max-height:180px!important}}
+@media(max-width:600px){#viewPeta .map-job-locations-panel{left:8px!important;top:80px!important;width:calc(100% - 16px)!important;max-width:none!important;max-height:calc(100% - 90px)!important}#viewPeta #mjpBody{max-height:calc(100dvh - 220px)!important}#viewPeta .mjp-status-bars{grid-template-columns:1fr!important}#viewPeta .mjp-filters{grid-template-columns:1fr 1fr!important}}
+</style>
+
+
+<style id="hide-verifikasi-sidebar-item">
+.sidebar .nav-btn[data-view="viewVerifikasi"],
+.nav-sidebar .nav-btn[data-view="viewVerifikasi"],
+button.nav-btn[data-view="viewVerifikasi"]{
+  display:none!important;
+}
+</style>
+
+
+<style id="mjp-sequential-status-layout">
+#viewPeta .mjp-total-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:9px 0 12px}
+#viewPeta .mjp-total-box{padding:10px 12px;border:1px solid #dce5f1;border-radius:10px;background:#f8fbff;min-width:0}
+#viewPeta .mjp-total-box small{display:block;color:#64748b;font-size:10px;font-weight:750}
+#viewPeta .mjp-total-box strong{display:block;color:#172b4d;font-size:16px;font-weight:900;margin-top:4px;overflow-wrap:anywhere}
+#viewPeta .mjp-category-list{display:flex;flex-direction:column;gap:12px}
+#viewPeta .mjp-category{border:1px solid #dce5ef;border-radius:11px;overflow:hidden;background:#fff}
+#viewPeta .mjp-category>header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 13px}
+#viewPeta .mjp-category.masuk>header{background:#eaf8ef;color:#14532d}
+#viewPeta .mjp-category.tidak>header{background:#fff0ef;color:#991b1b}
+#viewPeta .mjp-category.belum>header{background:#fff7e8;color:#92400e}
+#viewPeta .mjp-category-title{display:flex;align-items:center;gap:8px;font-size:12px}
+#viewPeta .mjp-dot{width:10px;height:10px;border-radius:50%;background:#16a34a}
+#viewPeta .mjp-category.tidak .mjp-dot{background:#ef4444}
+#viewPeta .mjp-category.belum .mjp-dot{background:#f59e0b}
+#viewPeta .mjp-category-metrics{display:flex;align-items:baseline;gap:9px}
+#viewPeta .mjp-category-metrics b{font-size:21px;font-weight:900}
+#viewPeta .mjp-category-metrics span{font-size:12px;font-weight:850}
+#viewPeta .mjp-category-money{display:flex;flex-wrap:wrap;gap:8px 22px;padding:8px 13px 2px;color:#475569;font-size:10px}
+#viewPeta .mjp-category-money b{color:#172b4d;font-size:11px}
+#viewPeta .mjp-category-track{height:7px;margin:7px 13px 10px;background:#edf1f6;border-radius:20px;overflow:hidden}
+#viewPeta .mjp-category-track i{display:block;width:0;height:100%;border-radius:20px;transition:width .25s;background:#16a34a}
+#viewPeta .mjp-category.tidak .mjp-category-track i{background:#ef4444}
+#viewPeta .mjp-category.belum .mjp-category-track i{background:#f59e0b}
+#viewPeta .mjp-category .mjp-table-wrap{max-height:250px;overflow:auto;border-top:1px solid #edf1f6}
+#viewPeta .mjp-category .mjp-table{width:100%;min-width:850px;border-collapse:separate;border-spacing:0;font-size:10px}
+#viewPeta .mjp-category .mjp-table th{position:sticky;top:0;z-index:2;background:#edf3fc;padding:8px 7px;text-align:left;white-space:nowrap;color:#334155}
+#viewPeta .mjp-category .mjp-table td{padding:8px 7px;border-bottom:1px solid #edf1f6;color:#334155;vertical-align:top}
+#viewPeta .mjp-category .mjp-table td:nth-child(6),#viewPeta .mjp-category .mjp-table td:nth-child(7){white-space:nowrap;text-align:right}
+#viewPeta .mjp-footnote{margin-top:10px}
+@media(max-width:700px){
+ #viewPeta .mjp-total-overview{grid-template-columns:1fr}
+ #viewPeta .mjp-category-money{gap:5px 12px}
+ #viewPeta .mjp-category>header{align-items:flex-start}
+}
+</style>
+
+
+<style id="mjp-recap-and-map-row-click">
+#viewPeta .mjp-category-recap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0 13px}
+#viewPeta .mjp-recap-card{display:grid;grid-template-columns:1fr auto;gap:3px 8px;align-items:center;padding:10px 12px;border:1px solid #dce5ef;border-radius:10px;background:#fff;min-width:0}
+#viewPeta .mjp-recap-card span{font-size:10px;font-weight:800;color:#475569;line-height:1.3}
+#viewPeta .mjp-recap-card strong{grid-column:1;font-size:22px;font-weight:900;line-height:1.1}
+#viewPeta .mjp-recap-card b{grid-column:2;grid-row:1/3;font-size:13px;font-weight:900}
+#viewPeta .mjp-recap-card.masuk strong,#viewPeta .mjp-recap-card.masuk b{color:#15803d}
+#viewPeta .mjp-recap-card.tidak strong,#viewPeta .mjp-recap-card.tidak b{color:#dc2626}
+#viewPeta .mjp-recap-card.belum strong,#viewPeta .mjp-recap-card.belum b{color:#b45309}
+#viewPeta .mjp-category .mjp-table tbody tr{cursor:pointer}
+#viewPeta .mjp-category .mjp-table tbody tr:hover td{background:#eff6ff;color:#123b75}
+#viewPeta .mjp-category .mjp-table tbody tr:active td{background:#dbeafe}
+@media(max-width:700px){#viewPeta .mjp-category-recap{grid-template-columns:1fr}}
+</style>
+
+
+<style id="mjp-money-and-location-symbol-style">
+#viewPeta .mjp-recap-card{grid-template-columns:1fr auto;grid-template-rows:auto auto auto auto;align-items:start;row-gap:4px}
+#viewPeta .mjp-recap-card span{grid-column:1;grid-row:1}
+#viewPeta .mjp-recap-card strong{grid-column:1;grid-row:2}
+#viewPeta .mjp-recap-card b{grid-column:2;grid-row:1/3;align-self:center}
+#viewPeta .mjp-recap-card small{grid-column:1/-1;display:flex;gap:5px;align-items:baseline;font-size:10px;color:#64748b;line-height:1.3}
+#viewPeta .mjp-recap-card small i{font-style:normal;font-weight:800;color:#243b5a;overflow-wrap:anywhere}
+#viewPeta .mjp-category .mjp-table tbody tr{cursor:pointer}
+@media(max-width:700px){#viewPeta .mjp-recap-card{min-height:105px}}
+</style>
+
+
+<style id="mjp-sheet-sync-subtitle">
+#viewPeta .mjp-head small{color:#15803d!important;font-weight:750!important}
+#viewPeta .mjp-head small::before{content:"●";font-size:9px;margin-right:6px;color:#16a34a}
+</style>
+
+
+<style id="mjp-loading-freeze-style">
+#viewPeta #mjpBody{position:relative}
+#viewPeta .mjp-loading-overlay{display:none;position:absolute;inset:0;z-index:30;background:rgba(248,251,255,.88);backdrop-filter:blur(2px);align-items:center;justify-content:center;padding:20px}
+#viewPeta .mjp-loading-overlay.active{display:flex}
+#viewPeta .mjp-loading-card{display:flex;flex-direction:column;align-items:center;gap:10px;max-width:360px;text-align:center;padding:22px 24px;background:#fff;border:1px solid #d8e4f2;border-radius:14px;box-shadow:0 8px 30px rgba(30,60,100,.14)}
+#viewPeta .mjp-loading-card strong{font-size:14px;color:#1e3a5f}
+#viewPeta .mjp-loading-card small{font-size:11px;line-height:1.5;color:#64748b}
+#viewPeta .mjp-spinner{width:28px;height:28px;border:3px solid #dbeafe;border-top-color:#2563eb;border-radius:50%;animation:mjpSpin .8s linear infinite}
+@keyframes mjpSpin{to{transform:rotate(360deg)}}
+#viewPeta #mjpRetrySync{border:0;border-radius:8px;background:#2563eb;color:white;font-size:11px;font-weight:800;padding:9px 14px;cursor:pointer}
+#viewPeta .mjp-loading-overlay.failed{background:rgba(255,250,250,.94)}
+#viewPeta .mjp-loading-overlay.failed .mjp-spinner{display:none}
+</style>
+
 </head>
 <body>
   <div id="passwordGate" aria-modal="true" role="dialog">
@@ -3774,6 +4078,9 @@ button,select,input{touch-action:manipulation}
       </button>
       <button class="nav-btn" data-view="viewLaporan">
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Laporan
+      </button>
+      <button class="nav-btn" data-view="viewVerifikasi" title="Verifikasi Pekerjaan Jalan">
+        <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Verifikasi Pekerjaan Jalan
       </button>
       <button class="nav-btn" data-view="viewPengaturan">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Pengaturan
@@ -4272,7 +4579,63 @@ button,select,input{touch-action:manipulation}
             <div class="lv-muted">Toleransi awal: 50 meter dari trase. Periksa kembali koordinat yang terbaca sebelum digunakan sebagai bukti.</div>
           </div>
         </section>
-        <div id="mapMax"></div>
+        
+<section id="mapJobLocationsPanel" class="map-job-locations-panel" aria-label="Lokasi Pekerjaan">
+ <div class="mjp-head">
+  <div><strong>Lokasi Pekerjaan</strong><small>Menghubungkan ke Google Sheets…</small></div>
+  <button type="button" id="mjpToggle" class="lv-icon-btn" aria-label="Buka detail lokasi pekerjaan">+</button>
+ </div>
+ <div id="mjpBody" hidden>
+  <div id="mjpLoadingOverlay" class="mjp-loading-overlay" role="status" aria-live="polite">
+   <div class="mjp-loading-card">
+    <span class="mjp-spinner"></span>
+    <strong id="mjpLoadingTitle">Menghubungkan ke Google Sheets…</strong>
+    <small id="mjpLoadingDetail">Mohon tunggu. Panel dikunci sementara agar data tidak berubah sebelum sinkronisasi selesai.</small>
+    <button type="button" id="mjpRetrySync" hidden>Coba Hubungkan Kembali</button>
+   </div>
+  </div>
+
+  <div class="mjp-filters">
+   <label>Tahun Anggaran<select id="mjpYear"><option value="">Semua Tahun</option></select></label>
+   <label>Kecamatan<select id="mjpDistrict"><option value="">Semua Kecamatan</option></select></label>
+   <label>Wilayah<select id="mjpVillage"><option value="">Semua Wilayah</option></select></label>
+  </div>
+  <div class="mjp-legend"><span><i class="masuk"></i>Masuk Jalan Kabupaten</span><span><i class="tidak"></i>Tidak Masuk</span><span><i class="belum"></i>Belum Terverifikasi</span></div>
+  <div class="mjp-summary" id="mjpSummary">Menunggu koneksi Google Sheets…</div>
+  <div class="mjp-total-overview">
+   <div class="mjp-total-box"><small>Total Pekerjaan</small><strong id="mjpTotalJobs">0</strong></div>
+   <div class="mjp-total-box"><small>Total Pagu Paket</small><strong id="mjpTotalPagu">Rp 0</strong></div>
+   <div class="mjp-total-box"><small>Total Nilai Kontrak</small><strong id="mjpTotalKontrak">Rp 0</strong></div>
+  </div>
+  <div class="mjp-category-recap" aria-label="Rekap status pekerjaan">
+   <div class="mjp-recap-card masuk"><span>Masuk Jalan Kabupaten</span><strong id="mjpRecapMasuk">0</strong><b id="mjpRecapMasukPct">0%</b><small>Pagu: <i id="mjpRecapMasukPagu">Rp 0</i></small><small>Kontrak: <i id="mjpRecapMasukKontrak">Rp 0</i></small></div>
+   <div class="mjp-recap-card tidak"><span>Tidak Masuk Jalan Kabupaten</span><strong id="mjpRecapTidak">0</strong><b id="mjpRecapTidakPct">0%</b><small>Pagu: <i id="mjpRecapTidakPagu">Rp 0</i></small><small>Kontrak: <i id="mjpRecapTidakKontrak">Rp 0</i></small></div>
+   <div class="mjp-recap-card belum"><span>Perlu Verifikasi</span><strong id="mjpRecapBelum">0</strong><b id="mjpRecapBelumPct">0%</b><small>Pagu: <i id="mjpRecapBelumPagu">Rp 0</i></small><small>Kontrak: <i id="mjpRecapBelumKontrak">Rp 0</i></small></div>
+  </div>
+  <div class="mjp-category-list">
+   <section class="mjp-category masuk">
+    <header><div class="mjp-category-title"><span class="mjp-dot"></span><strong>Masuk Jalan Kabupaten</strong></div><div class="mjp-category-metrics"><b id="mjpMasukCount">0</b><span id="mjpMasukPct">0%</span></div></header>
+    <div class="mjp-category-money"><span>Total Pagu: <b id="mjpMasukPagu">Rp 0</b></span><span>Nilai Kontrak: <b id="mjpMasukKontrak">Rp 0</b></span></div>
+    <div class="mjp-category-track"><i id="mjpMasukBar"></i></div>
+    <div class="mjp-table-wrap"><table class="mjp-table"><thead><tr><th>No.</th><th>Kode Paket</th><th>Nama Pekerjaan</th><th>Kecamatan</th><th>Wilayah</th><th>Pagu Paket</th><th>Nilai Kontrak</th></tr></thead><tbody id="mjpRowsMasuk"><tr><td colspan="7">Menunggu data…</td></tr></tbody></table></div>
+   </section>
+   <section class="mjp-category tidak">
+    <header><div class="mjp-category-title"><span class="mjp-dot"></span><strong>Tidak Masuk Jalan Kabupaten</strong></div><div class="mjp-category-metrics"><b id="mjpTidakCount">0</b><span id="mjpTidakPct">0%</span></div></header>
+    <div class="mjp-category-money"><span>Total Pagu: <b id="mjpTidakPagu">Rp 0</b></span><span>Nilai Kontrak: <b id="mjpTidakKontrak">Rp 0</b></span></div>
+    <div class="mjp-category-track"><i id="mjpTidakBar"></i></div>
+    <div class="mjp-table-wrap"><table class="mjp-table"><thead><tr><th>No.</th><th>Kode Paket</th><th>Nama Pekerjaan</th><th>Kecamatan</th><th>Wilayah</th><th>Pagu Paket</th><th>Nilai Kontrak</th></tr></thead><tbody id="mjpRowsTidak"><tr><td colspan="7">Menunggu data…</td></tr></tbody></table></div>
+   </section>
+   <section class="mjp-category belum">
+    <header><div class="mjp-category-title"><span class="mjp-dot"></span><strong>Perlu Verifikasi</strong></div><div class="mjp-category-metrics"><b id="mjpBelumCount">0</b><span id="mjpBelumPct">0%</span></div></header>
+    <div class="mjp-category-money"><span>Total Pagu: <b id="mjpBelumPagu">Rp 0</b></span><span>Nilai Kontrak: <b id="mjpBelumKontrak">Rp 0</b></span></div>
+    <div class="mjp-category-track"><i id="mjpBelumBar"></i></div>
+    <div class="mjp-table-wrap"><table class="mjp-table"><thead><tr><th>No.</th><th>Kode Paket</th><th>Nama Pekerjaan</th><th>Kecamatan</th><th>Wilayah</th><th>Pagu Paket</th><th>Nilai Kontrak</th></tr></thead><tbody id="mjpRowsBelum"><tr><td colspan="7">Menunggu data…</td></tr></tbody></table></div>
+   </section>
+  </div>
+  <div class="mjp-footnote">Pilih garis atau titik pada peta untuk melihat detail pekerjaan. Panel ini terpisah dari Verifikasi Lokasi Pelaksanaan.</div>
+ </div>
+</section>
+<div id="mapMax"></div>
       </div>
     </div>
 
@@ -4674,6 +5037,37 @@ button,select,input{touch-action:manipulation}
       </div>
     </div>
 
+    <!-- VIEW TAMBAHAN: VERIFIKASI PEKERJAAN JALAN -->
+    <section id="viewVerifikasi" class="view-panel">
+      <div class="vf-head"><div><h2>Verifikasi Pekerjaan Jalan</h2><p>Klasifikasi pekerjaan berdasarkan kesesuaian dengan jaringan Jalan Kabupaten Bandung.</p></div><span id="vfConnection" class="vf-connection">● Menyiapkan data</span></div>
+<div id="vfProgressPanel" style="padding:11px 14px;background:#fff;border:1px solid #dce5f2;border-radius:12px;">
+<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px"><strong style="font-size:13px;color:#20365f">Progres Koneksi Google Sheets</strong><span id="vfProgressStatus" style="font-size:12px;font-weight:700;color:#b7791f">Menunggu proses koneksi</span></div>
+<div style="height:8px;background:#edf1f7;border-radius:20px;overflow:hidden"><div id="vfProgressBar" style="height:100%;width:0%;background:#e6a23c;border-radius:20px;transition:width .25s"></div></div>
+<div id="vfProgressDetail" style="font-size:11px;color:#687995;margin-top:7px">Belum ada permintaan data ke Google Sheets.</div></div>
+      <div class="vf-filter-card"><div class="vf-filter-title">☷ &nbsp;Filter Data</div><label>Tahun Anggaran<select id="vfYear"><option value="">Semua Tahun</option></select></label><label>Kecamatan<select id="vfDistrict"><option value="">Semua Kecamatan</option></select></label><label>Wilayah<select id="vfVillage"><option value="">Semua Wilayah</option></select></label><button class="h-btn" id="vfReset">↻ Reset</button><button class="h-btn blue" id="vfReload">⟳ Muat Ulang Data</button></div>
+      <div class="vf-kpis"><article class="vf-kpi total"><div class="vf-kpi-icon">▤</div><div><small>Total Pekerjaan</small><strong id="vfTotal">0</strong><span>pekerjaan</span></div></article><article class="vf-kpi masuk"><div class="vf-kpi-icon">✓</div><div><small>Masuk Jalan Kabupaten</small><strong id="vfMasuk">0</strong><span id="vfMasukPct">0%</span></div></article><article class="vf-kpi tidak"><div class="vf-kpi-icon">×</div><div><small>Tidak Masuk Jalan Kabupaten</small><strong id="vfTidak">0</strong><span id="vfTidakPct">0%</span></div></article><article class="vf-kpi belum"><div class="vf-kpi-icon">?</div><div><small>Belum Terverifikasi</small><strong id="vfBelum">0</strong><span>perlu pemeriksaan</span></div></article></div>
+      <div class="vf-main-grid"><article class="vf-card vf-map-card"><h3>⌖ &nbsp;Sebaran Pekerjaan</h3><div id="vfMap"></div><div class="vf-legend"><span><i class="g"></i>Jalan Kabupaten</span><span><i class="p"></i>Masuk Jalan Kabupaten</span><span><i class="r"></i>Tidak Masuk</span><span><i class="y"></i>Belum terverifikasi</span></div></article><div class="vf-right-col"><article class="vf-card vf-chart-card"><h3>▣ &nbsp;Perbandingan Pekerjaan</h3><div class="vf-chart-content"><div class="vf-donut" id="vfDonut"><div><b id="vfDonutTotal">0</b><small>Pekerjaan</small></div></div><div class="vf-chart-legend"><div><i class="p"></i><b>Masuk Jalan Kabupaten</b><strong id="vfLegendMasuk">0 pekerjaan</strong></div><div><i class="r"></i><b>Tidak Masuk Jalan Kabupaten</b><strong id="vfLegendTidak">0 pekerjaan</strong></div><div><i class="y"></i><b>Belum Terverifikasi</b><strong id="vfLegendBelum">0 pekerjaan</strong></div></div></div></article><article class="vf-card vf-list-card"><h3>▤ &nbsp;Daftar Pekerjaan <span id="vfCount">0 data</span></h3><div class="vf-mini-table-wrap"><table class="vf-table"><thead><tr><th>No.</th><th>Nama Pekerjaan</th><th>Kecamatan</th><th>Wilayah</th><th>Klasifikasi</th></tr></thead><tbody id="vfRows"><tr><td colspan="5">Menunggu data Google Spreadsheet…</td></tr></tbody></table></div></article></div></div>
+
+      <div class="vf-location-tables">
+        <article class="vf-card vf-location-card masuk">
+          <h3>✓ &nbsp;Lokasi Masuk Jalan Kabupaten <span id="vfLocationMasukCount">0 lokasi</span></h3>
+          <div class="vf-mini-table-wrap"><table class="vf-table">
+            <thead><tr><th>No.</th><th>Nama Pekerjaan</th><th>Kecamatan</th><th>Wilayah</th><th>Kode Paket</th></tr></thead>
+            <tbody id="vfLocationMasuk"><tr><td colspan="5">Menunggu data…</td></tr></tbody>
+          </table></div>
+        </article>
+        <article class="vf-card vf-location-card tidak">
+          <h3>× &nbsp;Lokasi Tidak Masuk Jalan Kabupaten <span id="vfLocationTidakCount">0 lokasi</span></h3>
+          <div class="vf-mini-table-wrap"><table class="vf-table">
+            <thead><tr><th>No.</th><th>Nama Pekerjaan</th><th>Kecamatan</th><th>Wilayah</th><th>Kode Paket</th></tr></thead>
+            <tbody id="vfLocationTidak"><tr><td colspan="5">Menunggu data…</td></tr></tbody>
+          </table></div>
+        </article>
+      </div>
+      <div class="vf-explain"><article><div class="vf-ex-icon">▰</div><div><b>Masuk Jalan Kabupaten</b><p>Pekerjaan berada pada ruas yang tercatat dalam jaringan Jalan Kabupaten Bandung (sesuai SK/daftar ruas).</p></div></article><article><div class="vf-ex-icon">▱</div><div><b>Tidak Masuk Jalan Kabupaten</b><p>Pekerjaan terindikasi berada di luar jaringan Jalan Kabupaten, misalnya Jalan Provinsi, Jalan Nasional, atau jalan lingkungan/desa.</p></div></article></div>
+      <p class="vf-disclaimer">Catatan: hasil klasifikasi otomatis merupakan indikasi awal berdasarkan kedekatan koordinat terhadap jaringan jalan. Data yang tidak lengkap atau meragukan perlu diverifikasi secara manual.</p>
+    </section>
+
   </div>
 
   <script>
@@ -4753,7 +5147,8 @@ const VIEW_ROUTE_MAP = Object.freeze({
   viewAnalisis: "kondisi-kemantapan",
   viewTimeline: "timeline",
   viewLaporan: "laporan",
-  viewPengaturan: "pengaturan"
+  viewPengaturan: "pengaturan",
+  viewVerifikasi: "verifikasi-pekerjaan"
 });
 const ROUTE_VIEW_MAP = Object.freeze(Object.fromEntries(
   Object.entries(VIEW_ROUTE_MAP).map(([view, route]) => [route, view])
@@ -8203,6 +8598,443 @@ window.tlConnectSheet=async function(manual=false){
 window.tlForgetSheet=function(){id('tlStatus').textContent='Gunakan endpoint Apps Script yang dikonfigurasi di HTML untuk menyambungkan sumber data.';tlRows=[{no:1,name:'REKONSTRUKSI / REHABILITASI JALAN',km:241.56,total:1086997500000,t25:271749375000,r25:138252241008.58,t26:372687750000,r26:209848963134,t27:327779432229.19,r27:146878122114,t28:592018173743.42,km25:60.39,kmr25:37.96,km26:82.82,kmr26:69.95,km27:73.26,kmr27:29.94,km28:103.71},{no:2,name:'PEMELIHARAAN RUTIN JALAN',km:259.02,total:129507500000,t25:32376875000,r25:28200000000,t26:36553750000,r26:30999000000,t27:49270500000,r27:26000000000,t28:44308500000,km25:64.75,kmr25:56.40,km26:73.11,kmr26:61.998,km27:75.86,kmr27:52,km28:88.62}];tlRender();};
 window.tlExportCSV=function(){let csv='No,Kegiatan,Total Kebutuhan Panjang (KM),Total Kebutuhan Anggaran (Rp),Target Pagu 2025,Realisasi 2025,Target Pagu 2026,Realisasi 2026,Target Pagu 2027,RKA 2027,Pagu 2028\n'+tlRows.map(r=>[r.no,'"'+r.name.replace(/"/g,'""')+'"',r.km,r.total,r.t25,r.r25,r.t26,r.r26,r.t27,r.r27,r.t28].join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='rekap_timeline_anggaran_2025_2028.csv';a.click();URL.revokeObjectURL(a.href);};
 window.addEventListener('resize',()=>{if(id('viewTimeline')?.classList.contains('active'))drawChart('tlChartBudget','budget')});document.addEventListener('DOMContentLoaded',()=>{id('tlSheetUrl').value=PUBLIC_SHEET_CSV;tlRender();setTimeout(()=>window.tlConnectSheet(),500);setInterval(()=>{if(navigator.onLine)window.tlConnectSheet(false);},30*1000);});
+})();
+</script>
+
+<script id="verifikasi-polish-js">
+(function(){
+ const SHEET_ID='1U_fwdM69Ng9j33U7K0X41Qxo9Y4lRXko_5c6cml54GE', SHEET='2026';
+ let rows=[], map=null, workLayer=null, roadLayer=null, initialized=false;
+ const el=id=>document.getElementById(id), txt=v=>String(v??'').trim(), num=v=>Number(String(v??'').replace(',','.'));
+
+ function progress(pct,status,detail,color){
+   const bar=el('vfProgressBar'),st=el('vfProgressStatus'),dt=el('vfProgressDetail');
+   if(bar){bar.style.width=pct+'%';bar.style.background=color||'#2f75ed';}
+   if(st){st.textContent=status;st.style.color=color||'#2f75ed';}
+   if(dt)dt.textContent=detail||'';
+ }
+ const valid=(a,b)=>Number.isFinite(a)&&Number.isFinite(b)&&a>=-90&&a<=90&&b>=-180&&b<=180&&(a!==0||b!==0);
+ function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+ function roadData(){return (window.state?.shpGeoJSON?.features?.length?window.state.shpGeoJSON:EMBEDDED_ROAD_GEOJSON);}
+ function getSheetJSONP(){
+   const request=(useGid)=>new Promise((resolve,reject)=>{
+     const cb='__vfSheetCb_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+     const script=document.createElement('script');
+     let done=false,loaded=false;
+     const cleanup=()=>{
+       if(done)return;
+       done=true;
+       clearTimeout(timer);
+       script.remove();
+       try{delete window[cb];}catch(e){window[cb]=undefined;}
+     };
+     const timer=setTimeout(()=>{
+       cleanup();
+       reject(Error(loaded
+         ? 'Google Sheets merespons, tetapi callback data tidak diterima. Coba pastikan tab 2026 dapat diakses publik sebagai Pelihat.'
+         : 'Permintaan ke Google Sheets tidak mendapat respons. Periksa koneksi internet, izin berbagi, atau pemblokiran Google Sheets oleh browser/jaringan.'));
+     },9000);
+     window[cb]=data=>{
+       cleanup();
+       if(!data||String(data.status).toLowerCase()!=='ok'||!data.table){
+         const msg=data?.errors?.map(x=>x.detailed_message||x.message).filter(Boolean).join('; ');
+         reject(Error(msg||'Google Sheets mengembalikan respons tanpa tabel data. Periksa izin Pelihat dan tab 2026.'));
+         return;
+       }
+       resolve(data);
+     };
+     script.onload=()=>{loaded=true;};
+     script.onerror=()=>{
+       cleanup();
+       reject(Error('Browser gagal memuat alamat Google Sheets. Pastikan akses internet dan izin berbagi spreadsheet.'));
+     };
+     const base='https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?';
+     const tabParam=useGid?'gid=220165122':'sheet='+encodeURIComponent(SHEET);
+     // Keep tqx in its documented key:value;key:value form.
+     script.src=base+tabParam+'&headers=1&tqx=out:json;responseHandler:'+cb;
+     document.head.appendChild(script);
+   });
+   return request(true).catch(firstError=>{
+     console.warn('GViz berdasarkan gid gagal, mencoba nama tab:',firstError);
+     return request(false);
+   });
+ }
+ function normalizeRow(o){
+   const pick=(...keys)=>{for(const k of keys){if(o[k]!==undefined&&o[k]!==null&&String(o[k]).trim()!=='')return o[k];}return '';};
+   o.TAHUN_ANGGARAN=pick('TAHUN_ANGGARAN','TAHUN');
+   o.NAMA_PAKET=pick('NAMA_PAKET','NAMA_PEKERJAAN','NAMA_KEGIATAN');
+   o.KECAMATAN=pick('KECAMATAN','KEC');
+   o.WILAYAH=pick('WILAYAH','DESA_KELURAHAN','DESA','KELURAHAN');
+   o.DESA_KELURAHAN=pick('DESA_KELURAHAN','WILAYAH','DESA','KELURAHAN');
+   o.PAGU_PAKET_RP=pick('PAGU_PAKET_RP','PAGU_PAKET','PAGU','NILAI_PAGU','PAGU_RP');
+   o.NILAI_KONTRAK_PAKET_RP=pick('NILAI_KONTRAK_PAKET_RP','NILAI_KONTRAK_PAKET','NILAI_KONTRAK','KONTRAK_RP','NILAI_KONTRAK_RP');
+   o.LAT_AWAL=pick('LAT_AWAL','LATITUDE_AWAL','KOORDINAT_AWAL_LAT','LINTANG_AWAL','LAT_MULAI');
+   o.LONG_AWAL=pick('LONG_AWAL','LON_AWAL','LONGITUDE_AWAL','KOORDINAT_AWAL_LONG','BUJUR_AWAL','LONG_MULAI');
+   o.LAT_AKHIR=pick('LAT_AKHIR','LATITUDE_AKHIR','KOORDINAT_AKHIR_LAT','LINTANG_AKHIR','LAT_SELESAI');
+   o.LONG_AKHIR=pick('LONG_AKHIR','LON_AKHIR','LONGITUDE_AKHIR','KOORDINAT_AKHIR_LONG','BUJUR_AKHIR','LONG_SELESAI');
+   return o;
+ }
+ async function getSheet(){
+   const j=await getSheetJSONP();
+   const heads=j.table.cols.map((c,i)=>txt(c.label||c.id||('COL_'+i)).toUpperCase().replace(/[^A-Z0-9]+/g,'_'));
+   return j.table.rows.map(row=>{
+     let o={};
+     (row.c||[]).forEach((c,i)=>o[heads[i]]=c?(c.f??c.v??''):'');
+     return normalizeRow(o);
+   });
+ }
+ function nearest(point,fc){let best=Infinity;for(const f of fc.features){if(!f.geometry)continue;try{let d=turf.pointToLineDistance(point,f,{units:'meters'});if(d<best)best=d;}catch(e){}}return best;}
+ function classify(r,fc){let a=num(r.LAT_AWAL),b=num(r.LONG_AWAL),c=num(r.LAT_AKHIR),d=num(r.LONG_AKHIR);if(!valid(a,b)||!valid(c,d))return {s:'belum',reason:'Koordinat awal/akhir belum lengkap'};let d1=nearest(turf.point([b,a]),fc),d2=nearest(turf.point([d,c]),fc),mx=Math.max(d1,d2);if(mx<=30)return {s:'masuk',d1,d2};if(mx>60)return {s:'tidak',d1,d2};return {s:'belum',d1,d2,reason:'Perlu pemeriksaan manual'};}
+ function initMap(){
+   const container=el('vfMap');
+   if(!container||!window.L)return;
+   if(map){setTimeout(()=>map.invalidateSize(true),250);return;}
+   map=L.map(container,{scrollWheelZoom:true,preferCanvas:true, zoomControl:true});
+   // Esri World Street Map digunakan langsung karena server tile OSM menolak
+   // pemakaian dari dashboard ini (HTTP 403 / tile usage policy).
+   const esri=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{
+     maxZoom:19,
+     attribution:'Tiles © Esri',
+     crossOrigin:true
+   });
+   esri.addTo(map);
+   esri.on('tileerror',e=>console.warn('Tile Esri gagal dimuat:',e));
+   const fc=roadData();
+   roadLayer=L.geoJSON(fc,{
+     style:()=>({color:'#0758e9',weight:2.2,opacity:.95}),
+     onEachFeature:(feature,layer)=>{
+       const nm=feature?.properties?.Nama_Ruas||feature?.properties?.NAME||'Ruas Jalan Kabupaten';
+       layer.bindTooltip(String(nm),{sticky:true});
+     }
+   }).addTo(map);
+   workLayer=L.layerGroup().addTo(map);
+   const bounds=roadLayer.getBounds();
+   if(bounds&&bounds.isValid()){
+     map.fitBounds(bounds.pad(.035),{animate:false});
+   }else{
+     map.setView([-7.05,107.56],10);
+   }
+   setTimeout(()=>map.invalidateSize(true),300);
+   setTimeout(()=>{if(roadLayer&&roadLayer.getBounds().isValid())map.fitBounds(roadLayer.getBounds().pad(.035),{animate:false});},800);
+   initialized=true;
+ }
+ function options(id,values,all){let e=el(id),old=e.value;e.innerHTML=`<option value="">${all}</option>`+[...new Set(values.map(txt).filter(Boolean))].sort().map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if([...e.options].some(o=>o.value===old))e.value=old;}
+ function filtered(){return rows.filter(r=>(!el('vfYear').value||txt(r.TAHUN_ANGGARAN)===el('vfYear').value)&&(!el('vfDistrict').value||txt(r.KECAMATAN)===el('vfDistrict').value)&&(!el('vfVillage').value||txt(r.DESA_KELURAHAN)===el('vfVillage').value));}
+ function coord(v){
+   if(typeof v==='number')return v;
+   let s=String(v??'').trim();
+   if(!s)return NaN;
+   s=s.replace(/\s/g,'').replace(/,/g,'.');
+   const m=s.match(/[-+]?\d+(?:\.\d+)?/);
+   return m?Number(m[0]):NaN;
+ }
+ function workCoords(r){
+   let a=coord(r.LAT_AWAL),b=coord(r.LONG_AWAL),c=coord(r.LAT_AKHIR),d=coord(r.LONG_AKHIR);
+   if(!valid(a,b)&&valid(b,a))[a,b]=[b,a];
+   if(!valid(c,d)&&valid(d,c))[c,d]=[d,c];
+   return valid(a,b)&&valid(c,d)?{a,b,c,d}:null;
+ }
+ function drawWorkMap(data){
+   if(!map||!workLayer)return;
+   workLayer.clearLayers();
+   const bounds=[];
+   let plotted=0,missing=0;
+   data.forEach(r=>{
+     const co=workCoords(r);
+     if(!co){missing++;return;}
+     const st=r._v.s,color=st==='masuk'?'#159447':st==='tidak'?'#e5484d':'#f0a12b';
+     const popup=`<b>${esc(r.NAMA_PAKET)}</b><br>${esc(r.KECAMATAN)} / ${esc(r.WILAYAH||r.DESA_KELURAHAN)}<br>${esc(st==='masuk'?'Masuk Jalan Kabupaten':st==='tidak'?'Tidak Masuk Jalan Kabupaten':'Belum terverifikasi')}`;
+     L.polyline([[co.a,co.b],[co.c,co.d]],{color,weight:7,opacity:1,lineCap:'round',lineJoin:'round'}).bindPopup(popup).addTo(workLayer);
+     L.circleMarker([co.a,co.b],{radius:6,color:'#fff',weight:2,fillColor:color,fillOpacity:1}).bindPopup('<b>Awal pekerjaan</b><br>'+popup).addTo(workLayer);
+     L.circleMarker([co.c,co.d],{radius:6,color:'#fff',weight:2,fillColor:color,fillOpacity:1}).bindPopup('<b>Akhir pekerjaan</b><br>'+popup).addTo(workLayer);
+     bounds.push([co.a,co.b],[co.c,co.d]);plotted++;
+   });
+   const info=el('vfMapStatus');
+   if(info)info.textContent=plotted+' pekerjaan diplot pada peta'+(missing?' · '+missing+' pekerjaan tidak memiliki koordinat awal/akhir valid':'');
+   if(plotted){
+     const b=L.latLngBounds(bounds);
+     if(b.isValid())map.fitBounds(b.pad(.18),{maxZoom:14,animate:false});
+   }else{
+     // Leave the Kabupaten Bandung context visible and explain missing coordinate fields.
+     if(info)info.textContent='Belum ada koordinat awal/akhir valid yang dapat dipetakan. Periksa kolom LAT_AWAL, LONG_AWAL, LAT_AKHIR, LONG_AKHIR pada Google Sheets.';
+   }
+   setTimeout(()=>map.invalidateSize(true),150);
+ }
+ function renderLocationTables(data){
+   const masuk=data.filter(r=>r._v.s==='masuk'),tidak=data.filter(r=>r._v.s==='tidak');
+   const cell=(r,i)=>`<tr><td>${i+1}</td><td title="${esc(r.NAMA_PAKET)}">${esc(r.NAMA_PAKET||'-')}</td><td>${esc(r.KECAMATAN||'-')}</td><td>${esc(r.WILAYAH||r.DESA_KELURAHAN||'-')}</td><td>${esc(r.KODE_PAKET||'-')}</td></tr>`;
+   el('vfLocationMasuk').innerHTML=masuk.length?masuk.map(cell).join(''):'<tr><td colspan="5">Tidak ada pekerjaan masuk Jalan Kabupaten.</td></tr>';
+   el('vfLocationTidak').innerHTML=tidak.length?tidak.map(cell).join(''):'<tr><td colspan="5">Tidak ada pekerjaan di luar Jalan Kabupaten.</td></tr>';
+   el('vfLocationMasukCount').textContent=masuk.length+' lokasi';
+   el('vfLocationTidakCount').textContent=tidak.length+' lokasi';
+ }
+ function render(){
+   const data=filtered(),n=data.length,m=data.filter(x=>x._v.s==='masuk').length,t=data.filter(x=>x._v.s==='tidak').length,b=data.filter(x=>x._v.s==='belum').length;
+   el('vfTotal').textContent=n;el('vfMasuk').textContent=m;el('vfTidak').textContent=t;el('vfBelum').textContent=b;
+   el('vfDonutTotal').textContent=n;el('vfMasukPct').textContent=(n?(m/n*100).toFixed(1):0)+'%';el('vfTidakPct').textContent=(n?(t/n*100).toFixed(1):0)+'%';
+   el('vfLegendMasuk').textContent=m+' pekerjaan';el('vfLegendTidak').textContent=t+' pekerjaan';el('vfLegendBelum').textContent=b+' pekerjaan';el('vfCount').textContent=n+' data';
+   let p=n?m/n*360:0,q=n?t/n*360:0;el('vfDonut').style.background=`conic-gradient(#16a34a 0deg ${p}deg,#ef4444 ${p}deg ${p+q}deg,#f59e0b ${p+q}deg 360deg)`;
+   el('vfRows').innerHTML=data.length?data.slice(0,30).map((r,i)=>{let s=r._v.s,label=s==='masuk'?'Masuk Jl. Kabupaten':s==='tidak'?'Tidak Masuk':'Belum diverifikasi';return `<tr><td>${i+1}</td><td title="${esc(r.NAMA_PAKET)}">${esc(r.NAMA_PAKET)}</td><td>${esc(r.KECAMATAN)}</td><td>${esc(r.WILAYAH||r.DESA_KELURAHAN)}</td><td><span class="vf-pill ${s}">${label}</span></td></tr>`;}).join(''):'<tr><td colspan="5">Tidak ada data sesuai filter.</td></tr>';
+   renderLocationTables(data);
+   drawWorkMap(data);
+ }
+ async function load(){
+   if(window.__vfLoading)return;
+   window.__vfLoading=true;
+   window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:'loading'}}));
+   el('vfConnection').textContent='● Menghubungkan ke Google Sheets…';
+   progress(12,'Memulai koneksi','Menghubungi Google Sheets menggunakan ID spreadsheet yang terpasang.','#e6a23c');
+   try{
+     progress(35,'Meminta data','Meminta data dari tab 2026 (gid 220165122). Jika jalur tab gagal, dashboard mencoba nama tab sebagai cadangan.','#2f75ed');
+     const raw=await getSheet();
+     progress(72,'Data diterima','Data diterima. Menyiapkan klasifikasi terhadap jaringan Jalan Kabupaten.','#2f75ed');
+     const fc=roadData();
+     rows=[];
+     const batchSize=8;
+     for(let i=0;i<raw.length;i+=batchSize){
+       const batch=raw.slice(i,i+batchSize).map(r=>({...r,_v:classify(r,fc)}));
+       rows.push(...batch);
+       progress(72+Math.round(Math.min(1,(i+batchSize)/raw.length)*20),'Mengolah data pekerjaan',`Mengklasifikasikan ${Math.min(i+batchSize,raw.length)} dari ${raw.length} pekerjaan…`,'#2f75ed');
+       // Give the browser time to paint and respond between batches.
+       await new Promise(resolve=>setTimeout(resolve,0));
+     }
+     options('vfYear',rows.map(r=>r.TAHUN_ANGGARAN),'Semua Tahun');
+     options('vfDistrict',rows.map(r=>r.KECAMATAN),'Semua Kecamatan');
+     options('vfVillage',rows.map(r=>r.DESA_KELURAHAN),'Semua Wilayah');
+     render();
+     window.dispatchEvent(new Event('vf-sheet-loaded'));
+     progress(100,'TERHUBUNG','Google Sheets terhubung · '+rows.length+' pekerjaan berhasil dimuat.','#269653');
+     el('vfConnection').textContent='● Data terhubung · '+rows.length+' pekerjaan';
+     window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:'connected',count:rows.length}}));
+   }catch(e){
+     console.error('Verifikasi Sheet:',e);
+     progress(100,'TIDAK TERHUBUNG',e.message||'Gagal mengambil data dari Google Sheets.','#d94f45');
+     el('vfConnection').textContent='● Koneksi Spreadsheet gagal';
+     el('vfRows').innerHTML=`<tr><td colspan="5">${esc(e.message)}</td></tr>`;
+     window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:'failed',message:e.message||'Gagal terhubung'}}));
+   }finally{window.__vfLoading=false;}
+ }
+ window.retryGoogleSheetSync=()=>{if(window.__vfLoading)return;rows=[];load();};
+ window.getMapJobRows=()=>rows;
+ window.loadMapJobRows=()=>{if(!rows.length&&!window.__vfLoading)load();};
+ window.addEventListener('vf-sheet-loaded',()=>window.renderMapJobLocations?.());
+  function activateVerifikasi(){
+   const page=el('viewVerifikasi');
+   if(!page)return;
+   initMap();
+   if(!rows.length)load();
+   else setTimeout(()=>{if(map)map.invalidateSize();},250);
+ }
+ document.querySelector('.nav-btn[data-view="viewVerifikasi"]')?.addEventListener('click',()=>setTimeout(activateVerifikasi,80));
+ function checkVerifikasiRoute(){
+   const hash=(location.hash||'').toLowerCase();
+   const active=el('viewVerifikasi')?.classList.contains('active');
+   if(active || hash.includes('verifikasi-pekerjaan') || hash.includes('viewverifikasi')){
+     setTimeout(activateVerifikasi,120);
+   }
+ }
+ window.addEventListener('hashchange',checkVerifikasiRoute);
+ window.addEventListener('load',checkVerifikasiRoute);
+ document.addEventListener('DOMContentLoaded',checkVerifikasiRoute);
+ setTimeout(checkVerifikasiRoute,350);
+ 
+ ['vfYear','vfDistrict','vfVillage'].forEach(id=>el(id)?.addEventListener('change',render));el('vfReload')?.addEventListener('click',load);el('vfReset')?.addEventListener('click',()=>{['vfYear','vfDistrict','vfVillage'].forEach(id=>el(id).value='');render();});setInterval(()=>{if(el('viewVerifikasi')?.classList.contains('active')&&!window.__vfLoading)load();},300000);
+})();
+
+/* Layout map-first: let both location tables occupy the right column beside the map. */
+(function arrangeVerificationMapLayout(){
+  function arrange(){
+    const page=document.getElementById('viewVerifikasi');
+    const right=page?.querySelector('.vf-right-col');
+    const tables=page?.querySelector('.vf-location-tables');
+    if(right&&tables&&tables.parentElement!==right) right.appendChild(tables);
+    if(page){
+      const map=document.getElementById('vfMap');
+      if(map&&window.L&&map._leaflet_id&&window.__verificationMapInstance){
+        setTimeout(()=>window.__verificationMapInstance.invalidateSize(),180);
+      }
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',arrange);
+  else arrange();
+  document.querySelector('.nav-btn[data-view="viewVerifikasi"]')?.addEventListener('click',()=>setTimeout(arrange,100));
+  window.addEventListener('resize',()=>setTimeout(arrange,100));
+})();
+
+
+(function applyReferenceLayout(){
+ function place(){
+  const page=document.getElementById('viewVerifikasi');
+  if(!page)return;
+  const grid=page.querySelector('.vf-main-grid');
+  const right=page.querySelector('.vf-right-col');
+  const filter=page.querySelector('.vf-filter-card');
+  const tables=page.querySelector('.vf-location-tables');
+  if(right&&filter&&filter.parentElement!==right) right.insertBefore(filter,right.firstChild);
+  if(right&&tables&&tables.parentElement!==right) right.appendChild(tables);
+  const mapEl=document.getElementById('vfMap');
+  if(mapEl&&window.L){
+    // Leaflet's map variable is local to the verification module; resize via its container event.
+    setTimeout(()=>window.dispatchEvent(new Event('resize')),220);
+  }
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',place);
+ else place();
+ document.querySelector('.nav-btn[data-view="viewVerifikasi"]')?.addEventListener('click',()=>setTimeout(place,120));
+ window.addEventListener('resize',()=>setTimeout(place,120));
+})();
+
+</script>
+
+
+<script id="map-job-locations-controller">
+(function(){
+ const $=id=>document.getElementById(id);
+ let layer=null, filtersReady=false, featureByKey=new Map(), lastGroups={masuk:[],tidak:[],belum:[]};
+ const esc=v=>String(v??'-').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const status=r=>r?._v?.s==='masuk'?'masuk':r?._v?.s==='tidak'?'tidak':'belum';
+ function rows(){return window.getMapJobRows?.()||[];}
+ function num(v){const n=Number(String(v??'').trim().replace(',','.'));return Number.isFinite(n)?n:NaN;}
+ function coords(r){let a=num(r.LAT_AWAL),b=num(r.LONG_AWAL),c=num(r.LAT_AKHIR),d=num(r.LONG_AKHIR);if(Math.abs(a)>90&&Math.abs(b)<=90)[a,b]=[b,a];if(Math.abs(c)>90&&Math.abs(d)<=90)[c,d]=[d,c];const ok=(x,y)=>Number.isFinite(x)&&Number.isFinite(y)&&Math.abs(x)<=90&&Math.abs(y)<=180;return {a:ok(a,b)?[a,b]:null,b:ok(c,d)?[c,d]:null};}
+ function setOptions(id,values,label){const el=$(id),old=el.value,vals=[...new Set(values.map(v=>String(v??'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'id'));el.innerHTML=`<option value="">${label}</option>`+vals.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if(vals.includes(old))el.value=old;}
+ function filtered(){return rows().filter(r=>(!$('mjpYear').value||String(r.TAHUN_ANGGARAN)===$('mjpYear').value)&&(!$('mjpDistrict').value||String(r.KECAMATAN)===$('mjpDistrict').value)&&(!$('mjpVillage').value||String(r.WILAYAH||r.DESA_KELURAHAN)===$('mjpVillage').value));}
+ function jobKey(r){return String(r.KODE_PAKET||r.NAMA_PAKET||'');}
+ function draw(data){
+  if(!window.mapMax||!window.L)return;
+  if(!layer)layer=L.layerGroup().addTo(window.mapMax);
+  layer.clearLayers();featureByKey.clear();
+  data.forEach(r=>{
+   const p=coords(r),st=status(r),color=st==='masuk'?'#16a34a':st==='tidak'?'#ef4444':'#f59e0b';
+   const popup=`<div style="min-width:190px"><b>${esc(r.NAMA_PAKET)}</b><br>Kode Paket: ${esc(r.KODE_PAKET)}<br>${st==='masuk'?'Masuk Jalan Kabupaten':st==='tidak'?'Tidak Masuk Jalan Kabupaten':'Perlu Verifikasi'}<br>Kecamatan: ${esc(r.KECAMATAN)}<br>Wilayah: ${esc(r.WILAYAH||r.DESA_KELURAHAN)}</div>`;
+   const features=[];
+   if(p.a&&p.b){
+    const line=L.polyline([p.a,p.b],{color,weight:5,opacity:.92,lineCap:'round'}).bindPopup(popup).addTo(layer);
+    features.push(line);
+   }
+   [p.a,p.b].filter(Boolean).forEach(pt=>{
+    const marker=L.circleMarker(pt,{radius:5,color:'#fff',weight:1.4,fillColor:color,fillOpacity:1}).bindPopup(popup).addTo(layer);
+    features.push(marker);
+   });
+   featureByKey.set(jobKey(r),{features,points:[p.a,p.b].filter(Boolean),row:r});
+  });
+ }
+ function showJobOnMap(r){
+  const entry=featureByKey.get(jobKey(r));
+  if(!entry||!entry.points.length){
+   $('mjpSummary').textContent='Koordinat pekerjaan ini belum tersedia, sehingga lokasinya belum dapat ditampilkan pada peta.';
+   return;
+  }
+  const pt=entry.points[0],map=window.mapMax;
+  if(!map)return;
+  map.setView(pt,Math.max(map.getZoom(),15),{animate:true});
+  const target=entry.features.find(f=>typeof f.openPopup==='function')||entry.features[0];
+  if(target?.openPopup)target.openPopup();
+  // Briefly emphasize the selected work segment.
+  const line=entry.features.find(f=>f instanceof L.Polyline && !(f instanceof L.CircleMarker));
+  if(line){line.setStyle({weight:8,opacity:1});setTimeout(()=>line.setStyle({weight:5,opacity:.92}),1800);}
+ }
+ function money(v){
+  if(v===null||v===undefined||v==='')return 0;
+  if(typeof v==='number')return Number.isFinite(v)?v:0;
+  let x=String(v).trim().replace(/rp/ig,'').replace(/\s/g,'');
+  if(!x)return 0;
+  // Indonesian spreadsheet currency: dots are thousands separators; comma is decimal separator.
+  if(x.includes(','))x=x.replace(/\./g,'').replace(',','.');
+  else if((x.match(/\./g)||[]).length>1)x=x.replace(/\./g,'');
+  const n=Number(x.replace(/[^0-9.-]/g,''));return Number.isFinite(n)?n:0;
+ }
+ function rupiah(v){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(v||0);}
+ function render(){
+  const all=rows();
+  if(!all.length){$('mjpSummary').textContent=window.__vfLoading?'Sedang menghubungkan ke Google Sheets…':'Menunggu data Google Sheets…';return;}
+  if(!filtersReady){setOptions('mjpYear',all.map(r=>r.TAHUN_ANGGARAN),'Semua Tahun');setOptions('mjpDistrict',all.map(r=>r.KECAMATAN),'Semua Kecamatan');setOptions('mjpVillage',all.map(r=>r.WILAYAH||r.DESA_KELURAHAN),'Semua Wilayah');filtersReady=true;}
+  const data=filtered(),groups={
+   masuk:data.filter(r=>status(r)==='masuk'),
+   tidak:data.filter(r=>status(r)==='tidak'),
+   belum:data.filter(r=>status(r)==='belum')
+  };
+  lastGroups=groups;
+  const total=data.length,allPagu=data.reduce((a,r)=>a+money(r.PAGU_PAKET_RP),0),allKontrak=data.reduce((a,r)=>a+money(r.NILAI_KONTRAK_PAKET_RP),0);
+  $('mjpSummary').textContent=`Data terhubung · ${total} pekerjaan ditampilkan sesuai filter`;
+  $('mjpTotalJobs').textContent=total.toLocaleString('id-ID');
+  $('mjpTotalPagu').textContent=rupiah(allPagu);
+  $('mjpTotalKontrak').textContent=rupiah(allKontrak);
+  const keys=[['masuk','Masuk'],['tidak','Tidak'],['belum','Belum']];
+  keys.forEach(([key,label])=>{
+   const list=groups[key],count=list.length,pct=total?count/total*100:0;
+   const pagu=list.reduce((a,r)=>a+money(r.PAGU_PAKET_RP),0);
+   const kontrak=list.reduce((a,r)=>a+money(r.NILAI_KONTRAK_PAKET_RP),0);
+   const cap=key==='belum'?'Belum':label;
+   $('mjp'+cap+'Count').textContent=count.toLocaleString('id-ID');
+   $('mjp'+cap+'Pct').textContent=pct.toLocaleString('id-ID',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
+   $('mjp'+cap+'Bar').style.width=pct+'%';
+   $('mjp'+cap+'Pagu').textContent=rupiah(pagu);
+   $('mjp'+cap+'Kontrak').textContent=rupiah(kontrak);
+   $('mjpRecap'+cap).textContent=count.toLocaleString('id-ID');
+   $('mjpRecap'+cap+'Pct').textContent=pct.toLocaleString('id-ID',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
+   $('mjpRecap'+cap+'Pagu').textContent=rupiah(pagu);
+   $('mjpRecap'+cap+'Kontrak').textContent=rupiah(kontrak);
+   const bodyId=key==='masuk'?'mjpRowsMasuk':key==='tidak'?'mjpRowsTidak':'mjpRowsBelum';
+   const row=(r,i)=>`<tr data-job-key="${esc(jobKey(r))}" title="Klik untuk menampilkan lokasi pekerjaan pada peta"><td>${i+1}</td><td>${esc(r.KODE_PAKET)}</td><td>${esc(r.NAMA_PAKET)}</td><td>${esc(r.KECAMATAN)}</td><td>${esc(r.WILAYAH||r.DESA_KELURAHAN)}</td><td>${rupiah(money(r.PAGU_PAKET_RP))}</td><td>${rupiah(money(r.NILAI_KONTRAK_PAKET_RP))}</td></tr>`;
+   $(bodyId).innerHTML=list.map(row).join('')||'<tr><td colspan="7">Tidak ada pekerjaan pada kategori ini.</td></tr>';
+  });
+  draw(data);
+ }
+
+ // Klik satu baris tabel detail untuk langsung memusatkan peta ke lokasi pekerjaan.
+ ['mjpRowsMasuk','mjpRowsTidak','mjpRowsBelum'].forEach(id=>{
+  $(id).addEventListener('click',ev=>{
+   const tr=ev.target.closest('tr[data-job-key]');
+   if(!tr)return;
+   const r=[...lastGroups.masuk,...lastGroups.tidak,...lastGroups.belum].find(x=>jobKey(x)===tr.dataset.jobKey);
+   if(r)showJobOnMap(r);
+  });
+ });
+
+ window.renderMapJobLocations=render;
+ ['mjpYear','mjpDistrict','mjpVillage'].forEach(id=>$(id).addEventListener('change',render));
+ $('mjpToggle').addEventListener('click',()=>{const body=$('mjpBody'),open=body.hidden;body.hidden=!open;$('mjpToggle').textContent=open?'−':'+';$('mjpToggle').setAttribute('aria-label',open?'Tutup detail lokasi pekerjaan':'Buka detail lokasi pekerjaan');if(open){window.loadMapJobRows?.();render();}});
+ document.querySelector('.nav-btn[data-view="viewPeta"]')?.addEventListener('click',()=>{setTimeout(()=>{window.loadMapJobRows?.();render();},350);});
+ window.addEventListener('vf-sheet-loaded',render);
+ // Do not auto-open; start one shared Google Sheets request when user opens the detail panel.
+})();
+</script>
+
+
+<script id="mjp-sync-state-controller">
+(function(){
+ const overlay=document.getElementById('mjpLoadingOverlay');
+ const title=document.getElementById('mjpLoadingTitle');
+ const detail=document.getElementById('mjpLoadingDetail');
+ const retry=document.getElementById('mjpRetrySync');
+ const subtitle=document.querySelector('#mapJobLocationsPanel .mjp-head small');
+ const body=document.getElementById('mjpBody');
+ function state(e){
+  const d=e.detail||{};
+  if(d.state==='loading'){
+   if(subtitle)subtitle.textContent='Menghubungkan ke Google Sheets…';
+   if(overlay){overlay.classList.remove('failed');overlay.classList.add('active');}
+   if(title)title.textContent='Menghubungkan ke Google Sheets…';
+   if(detail)detail.textContent='Panel dikunci sementara. Data pekerjaan sedang diambil dan diproses agar tampilan tidak macet.';
+   if(retry)retry.hidden=true;
+   body?.setAttribute('aria-busy','true');
+  }else if(d.state==='connected'){
+   if(subtitle)subtitle.textContent='Terhubung ke Google Sheets · Data telah disinkronkan';
+   if(overlay)overlay.classList.remove('active','failed');
+   body?.removeAttribute('aria-busy');
+  }else if(d.state==='failed'){
+   if(subtitle)subtitle.textContent='Google Sheets belum terhubung · Sinkronisasi gagal';
+   if(overlay){overlay.classList.add('active','failed');}
+   if(title)title.textContent='Belum terhubung ke Google Sheets';
+   if(detail)detail.textContent=(d.message||'Periksa koneksi internet dan izin spreadsheet.')+' Panel dibuka kembali setelah koneksi berhasil.';
+   if(retry)retry.hidden=false;
+   body?.removeAttribute('aria-busy');
+  }
+ }
+ window.addEventListener('vf-sheet-sync-state',state);
+ retry?.addEventListener('click',()=>window.retryGoogleSheetSync?.());
+ // If the data is already present when this controller initializes, reflect the actual state.
+ if(window.getMapJobRows?.().length)state({detail:{state:'connected',count:window.getMapJobRows().length}});
 })();
 </script>
 
