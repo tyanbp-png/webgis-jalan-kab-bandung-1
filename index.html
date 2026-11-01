@@ -8616,75 +8616,142 @@ window.addEventListener('resize',()=>{if(id('viewTimeline')?.classList.contains(
  const valid=(a,b)=>Number.isFinite(a)&&Number.isFinite(b)&&a>=-90&&a<=90&&b>=-180&&b<=180&&(a!==0||b!==0);
  function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
  function roadData(){return (window.state?.shpGeoJSON?.features?.length?window.state.shpGeoJSON:EMBEDDED_ROAD_GEOJSON);}
- function getSheetJSONP(){
-   const request=(useGid)=>new Promise((resolve,reject)=>{
-     const cb='__vfSheetCb_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
-     const script=document.createElement('script');
-     let done=false,loaded=false;
-     const cleanup=()=>{
-       if(done)return;
-       done=true;
-       clearTimeout(timer);
-       script.remove();
-       try{delete window[cb];}catch(e){window[cb]=undefined;}
-     };
-     const timer=setTimeout(()=>{
-       cleanup();
-       reject(Error(loaded
-         ? 'Google Sheets merespons, tetapi callback data tidak diterima. Coba pastikan tab 2026 dapat diakses publik sebagai Pelihat.'
-         : 'Permintaan ke Google Sheets tidak mendapat respons. Periksa koneksi internet, izin berbagi, atau pemblokiran Google Sheets oleh browser/jaringan.'));
-     },9000);
-     window[cb]=data=>{
-       cleanup();
-       if(!data||String(data.status).toLowerCase()!=='ok'||!data.table){
-         const msg=data?.errors?.map(x=>x.detailed_message||x.message).filter(Boolean).join('; ');
-         reject(Error(msg||'Google Sheets mengembalikan respons tanpa tabel data. Periksa izin Pelihat dan tab 2026.'));
-         return;
-       }
-       resolve(data);
-     };
-     script.onload=()=>{loaded=true;};
-     script.onerror=()=>{
-       cleanup();
-       reject(Error('Browser gagal memuat alamat Google Sheets. Pastikan akses internet dan izin berbagi spreadsheet.'));
-     };
-     const base='https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?';
-     const tabParam=useGid?'gid=220165122':'sheet='+encodeURIComponent(SHEET);
-     // Keep tqx in its documented key:value;key:value form.
-     script.src=base+tabParam+'&headers=1&tqx=out:json;responseHandler:'+cb;
-     document.head.appendChild(script);
-   });
-   return request(true).catch(firstError=>{
-     console.warn('GViz berdasarkan gid gagal, mencoba nama tab:',firstError);
-     return request(false);
-   });
+ const PUBLIC_WORK_SHEET_CSV='https://docs.google.com/spreadsheets/d/e/2PACX-1vT8HIDK8pScKhBjCKVpSA8TCckhPHUIDaXeW8FaCA8pM9Lw4nJ-rQuVhn4LRr0hxVb6Frz-IMel3mQH/pub?gid=220165122&single=true&output=csv';
+ let lastWorkCsvSignature=null;
+ function parseWorkCSV(text){
+   const out=[];let row=[],value='',quoted=false;
+   for(let i=0;i<text.length;i++){
+     const ch=text[i];
+     if(ch==='"'&&quoted&&text[i+1]==='"'){value+='"';i++;}
+     else if(ch==='"')quoted=!quoted;
+     else if(ch===','&&!quoted){row.push(value);value='';}
+     else if((ch==='\n'||ch==='\r')&&!quoted){
+       if(ch==='\r'&&text[i+1]==='\n')i++;
+       row.push(value);if(row.some(x=>String(x).trim()))out.push(row);
+       row=[];value='';
+     }else value+=ch;
+   }
+   row.push(value);if(row.some(x=>String(x).trim()))out.push(row);
+   return out;
  }
- function normalizeRow(o){
-   const pick=(...keys)=>{for(const k of keys){if(o[k]!==undefined&&o[k]!==null&&String(o[k]).trim()!=='')return o[k];}return '';};
+ function csvHeader(value){
+   return String(value??'').replace(/^\uFEFF/,'').trim().toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Z0-9]+/g,'_').replace(/^_|_$/g,'');
+ }
+ function normalizeRow(source){
+   const src=source||{};
+   const pick=(...names)=>{
+     for(const name of names){
+       const key=csvHeader(name);
+       if(src[key]!==undefined && String(src[key]).trim()!=='')return String(src[key]).trim();
+     }
+     return '';
+   };
+   const o={...src};
+   o.NO_URUT=pick('NO_URUT','NO','NOMOR');
    o.TAHUN_ANGGARAN=pick('TAHUN_ANGGARAN','TAHUN');
+   o.KODE_PAKET=pick('KODE_PAKET','KODE');
    o.NAMA_PAKET=pick('NAMA_PAKET','NAMA_PEKERJAAN','NAMA_KEGIATAN');
-   o.KECAMATAN=pick('KECAMATAN','KEC');
+   o.KECAMATAN=pick('KECAMATAN');
    o.WILAYAH=pick('WILAYAH','DESA_KELURAHAN','DESA','KELURAHAN');
    o.DESA_KELURAHAN=pick('DESA_KELURAHAN','WILAYAH','DESA','KELURAHAN');
+   o.JENIS_PEKERJAAN=pick('JENIS_PEKERJAAN','JENIS_PEKERJAAN');
    o.PAGU_PAKET_RP=pick('PAGU_PAKET_RP','PAGU_PAKET','PAGU','NILAI_PAGU','PAGU_RP');
    o.NILAI_KONTRAK_PAKET_RP=pick('NILAI_KONTRAK_PAKET_RP','NILAI_KONTRAK_PAKET','NILAI_KONTRAK','KONTRAK_RP','NILAI_KONTRAK_RP');
+   o.PANJANG_PENANGANAN_M=pick('PANJANG_PENANGANAN_M','PANJANG_PENANGANAN');
    o.LAT_AWAL=pick('LAT_AWAL','LATITUDE_AWAL','KOORDINAT_AWAL_LAT','LINTANG_AWAL','LAT_MULAI');
-   o.LONG_AWAL=pick('LONG_AWAL','LON_AWAL','LONGITUDE_AWAL','KOORDINAT_AWAL_LONG','BUJUR_AWAL','LONG_MULAI');
+   o.LONG_AWAL=pick('LONG_AWAL','LON_AWAL','LONGITUDE_AWAL','KOORDINAT_AWAL_LONG','BUJUR_AWAL','LON_MULAI');
    o.LAT_AKHIR=pick('LAT_AKHIR','LATITUDE_AKHIR','KOORDINAT_AKHIR_LAT','LINTANG_AKHIR','LAT_SELESAI');
-   o.LONG_AKHIR=pick('LONG_AKHIR','LON_AKHIR','LONGITUDE_AKHIR','KOORDINAT_AKHIR_LONG','BUJUR_AKHIR','LONG_SELESAI');
+   o.LONG_AKHIR=pick('LONG_AKHIR','LON_AKHIR','LONGITUDE_AKHIR','KOORDINAT_AKHIR_LONG','BUJUR_AKHIR','LON_SELESAI');
+   o.KETERANGAN=pick('KETERANGAN','KETERANGAN_PEKERJAAN');
    return o;
  }
- async function getSheet(){
-   const j=await getSheetJSONP();
-   const heads=j.table.cols.map((c,i)=>txt(c.label||c.id||('COL_'+i)).toUpperCase().replace(/[^A-Z0-9]+/g,'_'));
-   return j.table.rows.map(row=>{
-     let o={};
-     (row.c||[]).forEach((c,i)=>o[heads[i]]=c?(c.f??c.v??''):'');
+ const EMBEDDED_WORK_CSV="NO_URUT,TAHUN_ANGGARAN,KODE_PAKET,NAMA_PAKET,KECAMATAN,DESA_KELURAHAN,WILAYAH,JENIS_PEKERJAAN,PAGU_PAKET_RP,NILAI_KONTRAK_PAKET_RP,PANJANG_PENANGANAN_M,LAT_AWAL,LONG_AWAL,LAT_AKHIR,LONG_AKHIR,KETERANGAN\n1,2026,PJLN.PL.0053.33.07,Pembangunan Bangunan Pelengkap Jalan Saluran Tepi Jalan Ciparay - Cikoneng Kec. Ciparay,Ciparay,,WILAYAH 7,Saluran U-Ditch Uk. 800 x 800 dengan tutup,  200.000.000 ,199.672.196,\"Panjang = 42,6 m, Uk = 800 x 800\",\"-7,047502\",\"107,710127\",\"-7,047034\",\"107,710271\",\n2,2026,PJLN.PL.0053.44.07,\"Pembangunan Bangunan Pelengkap Jalan Trotoar Jl. Raya Laswi RT 03 RW 15 Desa Manggungharja Kecamatan Ciparaya , Kab. Bandung\",Ciparay,,WILAYAH 7,Trotoar,  196.000.000 ,195.332.998,Panjang = 165 m dan Lebar = 1 m,\"-7,042069\",\"107,718671\",\"-7,042706\",\"107,719935\",\n3,2026,PJLN.PL.0053.47.07,Saluran Tepi Jalan jl ciparay - sutam - sumbersari Desa Sumbersari Kecamatan Ciparay,Ciparay,,WILAYAH 7,Saluran U-Ditch,  187.200.000 ,186.848.522,\"Panjang = 55 m, Uk = 600 x 600\",\"-6,990699\",\"107,704614\",\"-6,990375\",\"107,704802\",\n4,2026,PJLN.PL.0053.58.07,Pembangunan Bangunan Pelengkap Jalan Saluran Tepi Jalan Pasewakan Kec. Ciparay,Ciparay,,WILAYAH 7,Saluran U-Ditch Uk. 800 x 800 dengan tutup,  160.000.000 ,159.661.060,\"Panjang = 33,6 m, Uk = 800 x 800\",\"-7,047034\",\"107,710271\",\"-7,046654\",\"107,710361\",\n5,2026,PJLN.PL.0053.72.07,Pembangunan Bangunan Pelengkap Jalan TPT Jl dangdang- Cihawuk - Ciakar bts bandung/garut Ds. Sukapura Kec. Kertasari,Kertasari,,WILAYAH 7,TPT Pasangan Batu dengan Frame Beton,  142.960.000 ,142.736.876,\"Panjang = 29 m, Tinggi = 3 m\",\"-7,178290\",\"107,692247\",\"-7,178290\",\"107,692247\",\n6,2026,PJLN.PL.0053.79.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Kp Sadang RW 005 , Desa SagaraCipta , Kec Ciparay , Kab. Bandung\",Ciparay,,WILAYAH 7,TPT dengan Saluran Tepi Jalan,  130.720.000 ,130.353.020,\"Panjang = 57 m dan Tinggi = 1,5 m\",\"-7,075348\",\"107,721087\",\"-7,074748\",\"107,721273\",\n7,2026,PJLN.PL.0053.84.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Kp. Bojong Panggang RW 08, Desa Cikawao, Kecamatan Pacet, Kab. Bandung\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  120.916.000 ,120.663.908,\"Panjang = 45 m, Tinggi = 1,6 m dan Panjang = 18 m, Tinggi = 1,6 - 2,0 m\",\"-7,110612\",\"107,731393\",\"-7,110572\",\"107,730837\",\n8,2026,PJLN.PL.0053.89.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Kp leuwi Cariu RW 06 Desa Babakan Kecamtan Ciparay, Kab. Bandung\",Ciparay,,WILAYAH 7,TPT Pasangan Batu dengan Frame Beton,  106.210.000 ,105.978.721,Panjang = 14 m dan Tinggi = 4 m,\"-7,084375\",\"107,681348\",\"-7,084375\",\"107,681348\",\n9,2026,PJLN.PL.0053.95.07,\"Bangunan Pelengkap Jalan Desa Sukapura, Kab. Bandung\",Kertasari,,WILAYAH 7,Pasangan Batu,  100.000.000 ,99.776.940,\"Panjang = 28 m, Tinggi = 3 m\",\"-7,167097\",\"107,686337\",\"-7,167097\",\"107,686337\",\n10,2026,PJLN.PL.0053.100.07,Saluran Tepi Jalan jl jbt cihejo - sp pacet Desa Resmitinggal Kecamatan Kertasari,Kertasari,,WILAYAH 7,TPT dengan Saluran Tepi Jalan,  99.840.000 ,99.454.291,\"Panjang = 54 m dan Tinggi = 1,2 m\",\"-7,142578\",\"107,695138\",\"-7,142714\",\"107,695439\",\n11,2026,PJLN.PL.0053.108.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Kp. Sutam Rw.04 Desa Sumbersari, Kecamatan Ciparay., Kab. Bandung\",Ciparay,,WILAYAH 7,TPT Pasangan Batu,  90.000.000 ,89.826.099,\"Panjang = 54 m dan Tinggi = 1,2 m\",\"-7,011259\",\"107,707966\",\"-7,010924\",\"107,708050\",\n12,2026,PJLN.PL.0053.116.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Dusun 3 Kp Sadang RT 001 / RW 005 , Desa Sagaracipta , Kecamatan Ciparay , Kab. Bandung\",Ciparay,,WILAYAH 7,TPT Pasangan Batu,  81.700.000 ,81.417.801,Panjang = 27 m dan Tinggi = 2 m,\"-7,069895\",\"107,711136\",\"-7,069635\",\"107,711095\",\n13,2026,PJLN.PL.0053.117.07,\"Pembangunan Bangunan Pelengkap Jalan TPT jalan cikaso wadat, Kab. Bandung Ds Nagrak Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu dengan Frame Beton,  80.000.000 ,79.688.200,\"Panjang = 19 m dan Tinggi = 2,5 m\",\"-7,108021\",\"107,731720\",\"-7,108021\",\"107,731720\",\n14,2026,PJLN.PL.0053.119.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Jln Protokol Desa Tarumajaya Ciseke - Desa Cibeureum, Kab. Bandung Ds Tarumajaya Kec Kertasari\",Kertasari,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.730.207,Panjang = 24 m dan Tinggi = 2 m,,,,,\n15,2026,PJLN.PL.0053.122.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Jl. Tugu 5 Helm - Lembangsari Desa Tarumajaya, Kab. Bandung Ds Tarumajaya Kec Kertasari\",Kertasari,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.797,\"Panjang = 38 m dan Tinggi = 1,5 m\",\"-7,210089\",\"107,664071\",\"-7,210243\",\"107,664658\",\n16,2026,PJLN.PL.0053.123.07,\"Pembangunan Bangunan Pelengkap Jalan TPT KP BABAKAN NYAMPAI, Kab. Bandung Ds Cananggela Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.622,\"Panjang = 24 m dan Tinggi = 1,2 dan 1,5 m\",\"-7,123969\",\"107,684817\",\"-7,124070\",\"107,684464\",\n17,2026,PJLN.PL.0053.124.07,\"Pembangunan Bangunan Pelengkap Jalan TPT kp Babakan RT 02 RW 010, Kab. Bandung Ds Pangauban Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.774.972,\"Panjang = 29 m dan Tinggi = 1,5 - 1,7 m\",\"-7,138683\",\"107,686650\",\"-7,138773\",\"107,686780\",\n18,2026,PJLN.PL.0053.125.07,\"Pembangunan Bangunan Pelengkap Jalan TPT kp betah rw 14, Kab. Bandung Ds Nagrak Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.951,\"Panjang = 23 m dan Tinggi = 2,0 m\",\"-7,111153\",\"107,726323\",\"-7,111094\",\"107,726123\",\n19,2026,PJLN.PL.0053.127.07,\"Pembangunan Bangunan Pelengkap Jalan TPT kp buluh 07, Kab. Bandung Ds Nagrak Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.975,\"Panjang = 22 m dan Tinggi = 1,5 - 3,0 m\",\"-7,085923\",\"107,735856\",\"-7,085857\",\"107,735878\",\n20,2026,PJLN.PL.0053.130.07,\"Pembangunan Bangunan Pelengkap Jalan TPT KP NENGGRE, Kab. Bandung Ds Cananggela Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.771,\"Panjang = 43 m dan Tinggi = 1,5 m\",\"-7,119114\",\"107,686813\",\"-7,119114\",\"107,686813\",\n21,2026,PJLN.PL.0053.131.07,\"Pembangunan Bangunan Pelengkap Jalan TPT KP. NYALINDUNG RW 012, Kab. Bandung Ds Sukapura Kec Kertasari\",Kertasari,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.461,\"Panjang = 22 m dan Tinggi = 2,0 m\",\"-7,163731\",\"107,694752\",\"-7,163731\",\"107,694752\",\n22,2026,PJLN.PL.0053.132.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Kp. Sedep RW. 07, Kab. Bandung Ds Neglawangi Kec Kertasari\",Kertasari,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.902,\"Panjang = 23 m dan Tinggi = 2,0 m\",\"-7,261055\",\"107,650623\",\"-7,261055\",\"107,650623\",\n23,2026,PJLN.PL.0053.133.07,\"Pembangunan Bangunan Pelengkap Jalan TPT KP SUKA TINGGAL BANCA, Kab. Bandung Ds Cananggela Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.692,\"Panjang = 35 m dan Tinggi = 0,5 dan 1,5 m\",\"-7,118323\",\"107,688696\",\"-7,118323\",\"107,688696\",\n24,2026,PJLN.PL.0053.135.07,\"Pembangunan Bangunan Pelengkap Jalan TPT lewi raja rw 17, Kab. Bandung Ds Nagrak Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.971,\"Panjang = 18 m dan Tinggi = 2,5 m\",\"-7,085301\",\"107,736072\",\"-7,085301\",\"107,736072\",\n25,2026,PJLN.PL.0053.147.07,\"Bangunan Pelengkap Jalan Jl. Cangkuang Desa Tarumajaya - Desa Cikembang, Kab. Bandung\",Kertasari,,WILAYAH 7,Pasangan Batu dengan Saluran Pasangan Batu,  75.000.000 ,74.770.725,\"Panjang = 48 m, Tinggi = 1,2 m\",\"-7,202744\",\"107,669004\",\"-7,202744\",\"107,669004\",\n26,2026,PJLN.PL.0053.161.07,\"Pembangunan Bangunan Pelengkap Jalan Saluran Melintang Dusun Jongor, Kab. Bandung Ds Serangmekar Kec Ciparay\",Ciparay,,WILAYAH 7,,  65.000.000 ,64.727.529,Box Culvert 80 x 80 Panjang 6 m dan U-Ditch 40 x 40 Panjang 26 m,\"-7,027755\",\"107,698841\",\"-7,027755\",\"107,698841\",\n27,2026,PJLN.PL.0053.163.07,\"Pembangunan Bangunan Pelengkap Jalan Saluran Melintang Kp. Cikawao RT 04 RW 12, Desa Cikawao, Kecamatan Pacet, Kab. Bandung\",Pacet,,WILAYAH 7,Pasangan Batu dengan Mortar,  60.240.000 ,60.015.857,\"Panjang = 91 m, Tinggi = 0,5 m\",\"-7,084185\",\"107,740057\",\"-7,084185\",\"107,740057\",\n28,2026,REJLN.T.0059.186.07,\"Peningkatan Jalan KP CIKASO RW 03 DESA NAGRAK KECAMATAN PACET KAB BANDUNG, Kab. Bandung\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) tb. 20 cm dengan Lapis Pondasi Bawah Beton Kurus tb. 5 cm\",  794.388.299 ,,Panjang = 307 M Lebar = 4.50 M,,,,,\n29,2026,REJLN.PL.0059.214.07,\"Peningkatan Jalan KP. PAPANDAYAN RW 05 DESA NEGLAWANGI KECAMATAN KERTASARI, Kab. Bandung\",Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  364.820.000 ,364.256.130,\"Panjang = 190 m, Lebar = 3,0 m, dan Tebal = 0,2 m\",\"-7,288161\",\"107,684265\",\"-7,287069\",\"107,684661\",\n30,2026,REJLN.PL.0059.215.07,\"Peningkatan Jalan KP PERENG RT 02 RW 11 DESA CIKAWAO KECAMATAN PACET , Kab. Bandung\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dan TPT\",  364.820.000 ,364.120.836,\"Panjang = 165 m, Lebar = 3,5- 4 m, dan Tebal = 0,2 m\",\"-7,122106\",\"107,736505\",\"-7,124544\",\"107,736882\",\n31,2026,REJLN.PL.0059.218.07,\"Peningkatan Jalan Kp. Bubuay RT 04 RW 09, Desa Nagrak, Kecamatan Pacet, Kab. Bandung\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  176.120.000 ,175.383.070,\"Panjang = 62 m, Lebar = 4,5 - 6,0 m, Tb. 20 cm dan Hotmix Panjang = 10 m, Lebar = 4,0 m\",\"-7,096434\",\"107,721827\",\"-7,096224\",\"107,722150\",\n32,2026,REJLN.PL.0059.788.07,\"Peningkatan Jalan Kp. Bubuay RT 04 RW 09, Desa Nagrak, Kecamatan Pacet, Kab. Bandung\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  157.250.000 ,157.015.900,\"Panjang = 69 m, Lebar = 4,5 m, Tb. 20 cm\",\"-7,090619\",\"107,732826\",\"-7,090404\",\"107,732894\",\n33,2026,REJLN.PL.0059.264.07,\"Peningkatan Jalan Kp. Sukamelang RT 01 RW 14 Desa Manggungharja Kecamatan Ciparay ( Belakang Graha Wirakarya ), Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  188.700.000 ,188.080.913,\"Panjang = 124 m, Lebar = 3 m, Tb. 20 cm\",\"-7,029827\",\"107,697459\",\"-7,030048\",\"107,697312\",\n34,2026,REJLN.PL.0059.269.07,\"Peningkatan Jalan jalan depan komplek sukasari mukti RW 20, Kab. Bandung Ds Bumiwangi Kec Ciparay\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  183.000.000 ,182.769.008,\"Panjang = 72 m, Lebar = 5,0 m, Tb. 20 cm\",\"-7,035746\",\"107,695244\",\"-7,036321\",\"107,694985\",\n35,2026,REJLN.PL.0059.272.07,\"Peningkatan Jalan Jalan Usaha Tani Kp. Goha Tengah Babakan Cigede RW 25, Kab. Bandung Ds Tarumajaya Kec Kertasari\",Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  181.200.000 ,180.780.921,\"Panjang = 98 m, Lebar = 3 m, Tb. 20 cm\",\"-7,204156\",\"107,662415\",\"-7,204392\",\"107,663109\",\n36,2026,REJLN.PL.0059.275.07,\"Peningkatan Jalan Jl. Tugu 5 Helm Lembangsari - Desa Cikembang, Kab. Bandung Ds Tarumajaya Kec Kertasari\",Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  181.200.000 ,180.841.746,\"Pjg Seg 1 = 33 m, Lebar = 4 m, Tb. 20 cm dan Pjg Seg 2 = 50 m, Lebar = 4 m, Tb. 20 cm\",\"-7,208619\",\"107,669462\", -7.208717,\"107,669771\",\n37,2026,REJLN.PL.0059.286.07,\"Peningkatan Jalan Jl. Babakanbuah Rw.003 Desa Ciheulang, Kecamatan Ciparay., Kab. Bandung\",Ciparay,,WILAYAH 7,Hotmix Aw - Wc,  175.000.380 ,174.773.131,\"Panjang = 250 m, Lebar = 3,0 -4,0 m, Tebal = 4 cm\",\"-7,023815\",\"107,685044\",\"-7,026063\",\"107,684943\",\n38,2026,REJLN.PL.0059.299.07,\"Peningkatan Jalan Dususun Puncakmulya - Dusun Pinggirsari Desa Cihawuk, Kab. Bandung Ds Cihawuk Kec Kertasari\",Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  166.100.000 ,165.803.025,\"Panjang = 81 m, Lebar = 3,5 m, Tb. 20 cm\",\"-7,191740\",\"107,703217\",\"-7,192645\",\"107,703822\",\n39,2026,REJLN.PL.0059.303.07,\"Peningkatan Jalan Jln. Kertasari - Lodaya Desa Tarumajaya, Kab. Bandung Ds Tarumajaya Kec Kertasari\",Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  166.100.000 ,165.796.581,\"Panjang = 66 m, Lebar = 4 m, Tb. 20 cm\",\"-7,232081\",\"107,666435\",\"-7,231387\",\"107,666623\",\n40,2026,REJLN.PL.0059.307.07,\"Peningkatan Jalan Kp. Mekarsari RW 020 - RW 018, Kab. Bandung Ds Sukapura Kec Kertasari\",Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  166.100.000 ,165.784.771,\"Panjang = 87 m, Lebar = 3,5 m, Tb. 20 cm\",\"-7,163997\",\"107,692805\",\"-7,163516\",\"107,692799\",\n41,2026,REJLN.PL.0059.317.07,\"Peningkatan Jalan Kp. Nagrak RT 03 RW 07, Desa Cikawao, Kecamatan Pacet, Kab. Bandung\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  157.250.000 ,156.524.170,\"Panjang = 73 m, Lebar = 4 m, Tb. 20 cm\",\"-7,097333\",\"107,723704\",\"-7,096850\",\"107,723407\",\n42,2026,REJLN.PL.0059.318.07,\"Peningkatan Jalan Kp. Patrol Rw.005 Desa Sumbersari, Kecamatan Ciparay., Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  157.250.000 ,157.026.381,\"Panjang = 92 m, Lebar = 3,0 - 3,5 m, Tb. 20 cm\",\"-6,998337\",\"107,709308\",\"-6,997571\",\"107,709202\",\n43,2026,REJLN.PL.0059.319.07,\"Peningkatan Jalan Kp. Pelag RT 01 RW 05, Desa Nagrak, Kecamatan Pacet, Kab. Bandung\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  157.250.000 ,157.015.900,\"Panjang = 69 m, Lebar = 4,5 m, Tb. 20 cm\",\"-7,090404\",\"107,732894\",\"-7,089961\",\"107,733009\",\n44,2026,REJLN.PL.0059.323.07,\"Peningkatan Jalan Rw. 15 Desa Ciheulang Kecamatan Ciparay, Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  157.250.000 ,157.079.798,\"Panjang = 103 m, Lebar = 3,0 m, Tb. 20 cm\",\"-7,027281\",\"107,682126\",\"-7,027158\",\"107,681278\",\n45,2026,REJLN.PL.0059.324.07,\"Peningkatan Jalan Kp. Babakan Tarikolot Rt.003 Rw.011 Desa Sagaracipta, Kecamatan Ciparay., Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  156.457.460 ,156.225.737,\"Panjang = 75 m, Lebar = 4,0 m, Tb. 20 cm\",\"-7,073758\",\"107,721705\",\"-7,073263\",\"107,722137\",\n46,2026,REJLN.PL.0059.327.07,\"Peningkatan Jalan kp cibatur rw 18, Kab. Bandung Ds Mandalahaji Kec Pacet\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  151.000.000 ,150.631.351,\"Panjang = 63 m, Lebar = 4,5 m, Tb. 20 cm\",\"-7,099410\",\"107,720950\",\"-7,099638\",\"107,720770\",\n47,2026,REJLN.PL.0059.328.07,\"Peningkatan Jalan kp cibogo rw 6, Kab. Bandung Ds Mandalahaji Kec Pacet\",Pacet,,WILAYAH 7,Hotmix Ac - Wc,  151.000.000 ,150.602.526,\"Panjang = 169 m, Lebar = 3,5 m, Tb. 4 cm\",\"-7,112790\",\"107,707880\",\"-7,114189\",\"107,707328\",\n48,2026,REJLN.PL.0059.329.07,\"Peningkatan Jalan kp salakaso rw 2, Kab. Bandung Ds Mandalahaji Kec Pacet\",Pacet,,WILAYAH 7,Hotmix Ac - Wc,  151.000.000 ,150.678.031,\"Panjang = 145 m, Lebar = 4,0 m, Tb. 4 cm\",\"-7,116020\",\"107,707640\",\"-7,116928\",\"107,707100\",\n49,2026,REJLN.PL.0059.336.07,\"Peningkatan Jalan Kp. Sutam Rw.004 Desa Sumbersari, Kecamatan Ciparay., Kab. Bandung\",Ciparay,,WILAYAH 7,Hotmix Ac - Wc,  150.960.000 ,150.689.718,\"Panjang = 179 m, Lebar = 4 m, dan Tebal = 4 cm\",\"-7,001220\",\"107,714970\",\"-7,002591\",\"107,715699\",\n50,2026,REJLN.PL.0059.352.07,\"Peningkatan Jalan Jalan Buluh RT 03 RW 07, Desa Nagrak. Kecamatan Pacet, Kab. Bandung\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  141.525.000 ,141.286.900,\"Panjang = 61 m, Lebar = 4,5 m, Tb. 20 cm\",\"-7,089961\",\"107,733009\",\"-7,089468\",\"107,733202\",\n51,2026,REJLN.PL.0059.391.07,\"Peningkatan Jalan Kp. Haurcucuk Rw.012, Desa Sumbersari, Kecamatan Ciparay., Kab. Bandung\",CIparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dan TPT\",  125.800.000 ,125.624.169,\"Panjang = 41 m, Lebar = 4,4 m, dan Tebal = 20 cm\",\"-6,994981\",\"107,692705\",\"-6,994553\",\"107,692769\",\n52,2026,REJLN.PL.0059.393.07,\"Peningkatan Jalan Kp. Sanepa Rt.001 Rw.006 Desa Sagaracipta, Kecamatan Ciparay., Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  125.800.000 ,125.630.799,\"Panjang = 58 m, Lebar = 4,0 m, Tb. 20 cm\",\"-7,073263\",\"107,722137\",\"-7,072852\",\"107,722701\",\n53,2026,RHJLN.T.0055.428.07,Rehabilitasi Jalan Cihawuk - Puncak Cae (Bts. Kab. Garut),Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan Beton Kurus dan Bangunan Pelengkap Jalan\",  5.511.466.667 ,5.213.886.886,\"Pjg. Seg. 1 = 90 m, Lebar 4 dan Pjg. Seg. 2 = 515 m, Lebar 5 m dengan TPT tinggi 2,5 m dan Box Culvert uk. 60 x 60\",\"-7,194381\",\"107,710689\",\"-7,197923\",\"107,714167\",\n54,2026,RHJLN.T.0055.450.07,Rehabilitasi Jalan BABAKAN-MEKARSARI,Ciparay / Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan Beton Kurus\",  880.000.000 ,862.242.293,Panjang = 386 M Lebar = 4.00 M,\"-7,087002\",\"107,692313\",\"-7,089677\",\"107,692117\",\n55,2026,RHJLN.T.0055.479.07,Rehabilitasi Jalan TPSA BABAKAN - BABAKAN,Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan Beton Kurus\",  438.400.000 ,429.554.621,Panjang = 155.18 M Lebar = 5.00 M dan Bukaan Jln. 45 m2,\"-7,077674\",\"107,686152\",\"-7,078889\",\"107,685354\",\n56,2026,RHJLN.PL.0055.493.07,\"Rehab Jalan Tarumajaya,Kec. Kertasari\",Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  400.000.000 ,399.775.113,\"Panjang = 108 m, Lebar = 5,0 m, Tb. 20 cm\",\"-7,198788\",\"107,649387\",\"-7,198430\",\"107,648716\",\n57,2026,RHJLN.PL.0055.496.07,\"Rehab Jalan Mekarjaya - Paninggaran, Kec. Pacet\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  400.000.000 ,399.776.997,\"Panjang = 190 m, Lebar = 4,0 m, dan Tebal = 0,2 m\",\"-7,105418\",\"107,698715\",\"-7,103809\",\"107,699489\",\n58,2026,RHJLN.PL.0055.497.07,Rehab Jalan Santosa Kec. Kertasari,Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  400.000.000 ,399.776.667,\"Panjang = 143 m, Lebar = 4,0 m, dan Tebal = 0,2 m\",\"-7,279760\",\"107,643261\",\"-7,279352\",\"107,642240\",\n59,2026,RHJLN.PL.0055.506.07,Rehab Jalan Santosa - Tarumajaya Kec. Kertasari,Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  400.000.000 ,399.776.013,\"Panjang = 139 m, Lebar = 4,0 m, dan Tebal = 0,2 m\",\"-7,274545\",\"107,642518\",\"-7,274572\",\"107,641733\",\n60,2026,RHJLN.PL.0055.535.07,\"Rehab Jalan Kampung Banyusari RW 20 Desa Manggungharja Kecamatan Ciparay Kabupaten Bandung, Kab. Bandung\",Ciparay,,WILAYAH 7,Hotmix Ac - Wc,  393.600.000 ,393.147.172,\"Panjang = 501 m, Lebar = 4,0 m, Tb. 4 cm\",\"-7,047983\",\"107,718457\",\"-7,050774\",\"107,719476\",\n61,2026,RHJLN.PL.0055.536.07,\"Rehab Jalan Kampung Paminggir RW 11 Desa Manggungharja Kecamatan Ciparay kabupaten Bandung, Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  393.600.000 ,393.162.698,\"Panjang = 156 m, Lebar = 5,0 m, Tb. 20 cm\",\"-7,039175\",\"107,717582\",\"-7,040478\",\"107,717630\",\n62,2026,RHJLN.PL.0055.547.07,\"Rehab Jalan KP. RANCAHELANG RW 15 DAN RW 09 DESA MEKARLAKSANA KECAMATAN CIPARAY, Kab. Bandung\",Ciparay,,WILAYAH 7,Hotmix Ac - Wc,  311.272.000 ,310.792.891,\"Panjang = 330 m, Lebar = 4,0 m, Tb. 4 cm\",,,,,\n63,2026,RHJLN.PL.0055.571.07,Rehabilitasi Jalan Jl. Ciparay Desa Ciheulang,Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan tb. 20 cm dan Pasangan Batu\",  200.000.000 ,199.774.965,\"Panjang Jalan = 14,4 m, Lebar = Variatif dan Panjang Pasangan Batu = 81 m, Tinggi = 1,2 m\n\",\"-7,024773\",\"107,680745\",\"-7,024773\",\"107,680745\",\n64,2026,RHJLN.PL.0055.572.07,Rehabilitasi jalan Jl. KH. Husen ciparay,Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan tb. 20 cm\",  200.000.000 ,199.774.898,\"Panjang Jalan = 57 m, Lebar = Variatif\n\",\"-7,024773\",\"107,680745\",\"-7,024743\",\"107,681256\",\n65,2026,RHJLN.PL.0055.573.07,Rehabilitasi Jalan Jl. Selaawi Pacet,Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan tb. 20 cm\",  200.000.000 ,199.541.537,\"Panjang Jalan = 82,5 m, Lebar = 4,5 m\n\",\"-7,097872\",\"107,724810\",\"-7,097866\",\"107,724156\",\n66,2026,RHJLN.PL.0055.577.07,Rehab Jalan Cibadak - Ciheulang Desa Mekarjaya,Pacet,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  200.000.000 ,199.612.190,\"Pjg Seg. 1 = 28 m, Lebar = 4,0 m, Tb. 20 cm, Pjg Seg. 2 = 58 m, Lebar = 4,5 m, Tb. 20 cm\",\"-7,096970\",\"107,702217\",\"-7,097653\",\"107,702175\",\n67,2026,RHJLN.PL.0055.579.07,Rehab Jalan Ciburuy - Taman Sari Desa Mekarjaya,Pacet,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  200.000.000 ,199.776.999,\"Panjang = 96 m, Lebar = 4,0 m, dan Tebal = 0,2 m\",\"-7,103809\",\"107,699489\",\"-7,103017\",\"107,699742\",\n68,2026,RHJLN.PL.0055.621.07,\"Rehab Jalan Kp. Sukaharja RT 02 RW 15 Desa Manggungharja Kecamatan Ciparay , Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  196.800.000 ,196.567.010,\"Panjang = 125 m, Lebar = 3,0 m, Tb. 20 cm\",\"-7,040506\",\"107,722640\",\"-7,041002\",\"107,722481\",\n69,2026,RHJLN.PL.0055.651.07,\"Rehab Jalan Kp. Cipaku RW 18 Desa Pakutandang Kecamatan Ciparay, Kab. Bandung\",Ciparay,,WILAYAH 7,Hotmix Ac - Wc,  164.000.000 ,163.657.860,\"Panjang = 171 m, Lebar = 4,0 m, Tb. 4 cm\",\"-7,053794\",\"107,712275\",\"-7,054226\",\"107,713777\",\n70,2026,RHJLN.PL.0055.656.07,\"Rehab Jalan Desa Babakan, Kab. Bandung Ds Babakan Kec Ciparay\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  158.600.000 ,158.376.990,\"Panjang = 70 m, Lebar = 4,5 m, dan Tebal = 0,2 m\",\"-7,080231\",\"107,692470\",\"-7,080933\",\"107,692698\",\n71,2026,RHJLN.PL.0055.694.07,Rehabilitasi Jalan Jl. Cilandak Dp. SDN Cipeujeh kec. pacet,Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan tb. 20 cm\",  125.000.000 ,124.776.704,\"Panjang Jalan = 50 m, Lebar = 4,25 m\",\"-7,088297\",\"107,707418\",\"-7,088363\",\"107,707743\",\n72,2026,RHJLN.PL.0055.695.07,Rehabilitasi Jalan Jl Cipeujeh - Butul,Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan tb. 20 cm\",  125.000.000 ,124.663.642,\"Panjang Jalan = 50 m, Lebar = 4,25 m\",\"-7,088232\",\"107,707095\",\"-7,088297\",\"107,707418\",\n73,2026,RHJLN.PL.0055.705.07,\"Rehab Jalan Kp Nagrog Rt 060 Rw 019, Kab. Bandung Ds Mandalahaji Kec Pacet\",Pacet,,WILAYAH 7,Hotmix Ac - Wc,  104.700.000 ,104.316.608,\"Panjang = 138 m, Lebar = 3,0 m, dan Tebal = 0,04 m\",\"-7,099890\",\"107,719540\",\"-7,098906\",\"107,719587\",\n74,2026,RHJLN.PL.0055.706.07,\"Rehab Jalan kp pasir kondang rt 68 ew 20, Kab. Bandung Ds Mandalahaji Kec Pacet\",Pacet,,WILAYAH 7,Beton Sitemix,  104.700.000 ,104.476.999,\"Panjang = 20 m, Lebar = 4,0 m, dan Tebal = 0,2 m dan Panjang = 35 m, Lebar = 3,0 m, dan Tebal = 0,2 m\",\"-7,104541\",\"107,724047\",\"-7,104598\",\"107,724375\",\n75,2026,PJMS.PL.0068.758.07,Pelebaran Jalan Wilayah UPTD Sapras Ciparay,\"Ciparay, Pacet, Kertasari\",,WILAYAH 7,Pekerasan Beton Semen dan TPT,  400.000.000 ,398.178.128,\"Panjang = 80 m, Lebar = 1,4 m, Panjang = 175 m, Lebar = 1 m, dan Tebal = 0,2 m serta Pasangan Batu Panjang = 175 m dan Tinggi = 1,2 m\",-7.010924,\"107,708050\",-7.009970,\"107,708239\",\n76,2026,RJBT.PL.0058.762.07,\"Rehabilitasi Jembatan Desa Babakan, Kab. Bandung Ds Babakan Kec Ciparay\",Ciparay,,WILAYAH 7,Perbaikan Bangunan atas dan Selimut Abutment dan Hotmix AC - WC,  120.000.000 ,119.776.999,\"Panjang Jalan = 73 m, Lebar = 4 - 5 m dan Perbaikan Lonengan dan Sandaran (Railing)\",\"-7,083653\",\"107,694372\",\"-7,083653\",\"107,694372\",\n77,2026,RJBT.PL.0058.779.07,\"Rehabilitasi Jembatan kp.Cimariuk RT 02 RW 16 Desa Manggungharja Kecamatan Ciparaya , Kab. Bandung\",Ciparay,,WILAYAH 7,TPT Proteksi Abutment Jembatan,  145.320.000 ,145.042.578,Panjang = 36 m dan Tinggi = 3 m,\"-7,052297\",\"107,715766\",\"-7,052297\",\"107,715766\",\n78,2026,PJLN.PL.0053.140.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Kp cisero RT 03 RW 09 Desa Sindangsari Kec Paseh, Kab. Bandung\",Paseh,,WILAYAH 7,TPT Pasangan Batu,  78.791.480 ,78.501.059,\"Panjang = 45 m dan Tinggi = 1,5 m\",,,,,\n79,2026,PJLN.PL.0053.146.07,\"Pembangunan Bangunan Pelengkap Jalan TPT KP.BUAH NUNGGAL RT.02 RW.14, Kab. Bandung Ds Padaulun Kec Majalaya\",Majalaya,,WILAYAH 7,TPT Pasangan Batu,  75.000.000 ,74.666.000,\"Panjang = 20 m dan Tinggi = 3,0 m\",\"-7,066650\",\"107,728148\",\"-7,066719\",\"107,727996\",\n80,2026,REJLN.T.0059.184.07,Peningkatan Jalan Padasuka - Neglasari Kec. Majalaya,Majalaya,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Dowel + Tie Bar) dengan Beton Kurus\",  1.000.000.000 ,966.138.599,Panjang = 297 M Lebar = 5.00 M,\"-7,077225\",\"107,730071\",\"-7,077797\",\"107,732469\",\n81,2026,REJLN.PL.0059.339.07,\"Peningkatan Jalan jalan Cibodas pangkalan rw 015, Kab. Bandung Ds Cibodas Kec Solokanjeruk\",Solokanjeruk,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  150.000.000 ,149.773.670,\"Panjang = 53 m, Lebar = 5,0 m, Tb. 20 cm\",\"-7,011693\",\"107,762841\",\"-7,011311\",\"107,763548\",\n82,2026,REJLN.PL.0059.363.07,\"Peningkatan Jalan Kp Radug RT 03-RW 02 Desa Wangisagara Kecamatan Majalaya , Kab. Bandung\",Majalaya,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  139.763.800 ,138.826.490,\"Panjang = 53 m, Lebar = 4,5 - 5,0 m, Tb. 20 cm\",\"-7,070376\",\"107,742555\",\"-7,070526\",\"107,741925\",\n83,2026,REJLN.PL.0059.390.07,\"Peningkatan Jalan kp cipedes Rw 13 Desa Cipedes kecamatan paseh., Kab. Bandung\",Paseh,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  125.800.000 ,125.424.838,\"Panjang = 50 m, Lebar = 4,5 m, Tb. 20 cm\",\"-7,036215\",\"107,794508\",\"-7,036275\",\"107,794773\",\n84,2026,RHJLN.T.0055.460.07,Rehab Jalan Karangtunggal Desa karangtunggal kec paseh,Paseh,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan Beton Kurus\",  800.000.000 ,796.027.138,\"Panjang Seg. 1 = 251 M dan Seg. 2 = 49 M Lebar = 4,50 M\",\"-7,044016\",\"107,803132\",\"-7,042110\",\"107,802577\",\n85,2026,RHJLN.T.0055.461.07,Rehab Jalan Mekarpawitan Desa mekarpawitan kec paseh,Paseh,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan Beton Kurus\",  800.000.000 ,795.201.297,\"Panjang Seg. 1 = 307 M Lebar = 3,50 M dan Seg. 2 = 65 M Lebar = 4,50 M\",\"-7,053943\",\"107,790121\",\"-7,051326\",\"107,789956\",\n86,2026,RHJLN.T.0055.462.07,Rehab Jalan Sukamantri Desa sukamatri kec paseh,Paseh,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan Beton Kurus\",  800.000.000 ,784.216.022,Panjang = 336 M Lebar = 4/ 4.5 M,\"-7,058045\",\"107,769957\",\"-7,062523\",\"107,774736\",\n87,2026,RHJLN.T.0055.463.07,Rehab Jalan Cipedes Desa cipedes kec paseh,Paseh,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan Beton Kurus\",  800.000.000 ,796.371.550,Panjang = 263 M Lebar = 5 M,\"-7,045533\",\"107,799301\",\"-7,048906\",\"107,801138\",\n88,2026,RHJLN.PL.0055.638.07,\"Rehab Jalan Jalan Panyadap - Padamukti sepanjang 570 m dengan lebar jalan 4 m, Kab. Bandung Ds Panyadap Kec Solokanjeruk\",Solokanjeruk,,WILAYAH 7,Hotmix Ac - Wc,  185.000.000 ,184.530.154,\"Panjang = 181 m, Lebar = 4,0 m, Tb. 4 cm\",\"-7,029292\",\"107,768638\",\"-7,030898\",\"107,768528\",\n89,2026,RHJLN.PL.0055.671.07,\"Rehab Jalan KP MEKAR RAHAYU RT 02 RW 10, Kab. Bandung Ds Majalaya Kec Majalaya\",Majalaya,,WILAYAH 7,Hotmix Ac - Wc,  142.000.000 ,141.776.818,\"Panjang = 195 m, Lebar = 3,0 m, dan Tebal = 0,04 m\",\"-7,049129\",\"107,758315\",\"-7,048289\",\"107,757457\",\n90,2026,RHJLN.PL.0055.679.07,\"Rehab Jalan JALAN TANGSIMEKAR Kp. Rancakendal RW 11, Kab. Bandung Ds Tangsimekar Kec Paseh\",Paseh,,WILAYAH 7,Hotmix Ac - Wc,  139.600.000 ,139.376.786,\"Panjang = 149 m, Lebar = 4,0 m, dan Tebal = 0,04 m\",\"-7,036045\",\"107,792854\",\"-7,034414\",\"107,792470\",\n91,2026,RHJLN.PL.0055.684.07,\"Rehab Jalan Kp. Baru RW.05, Kab. Bandung Ds Mekarpawitan Kec Paseh\",Paseh,,WILAYAH 7,Hotmix Ac - Wc,  139.600.000 ,139.376.785,\"Panjang = 117 m, Lebar = 5,0 m, dan Tebal = 0,04 m\",\"-7,049329\",\"107,778181\",\"-7,048166\",\"107,777801\",\n92,2026,.07,Rehab Jl. lampegan - Ciekek,Ibun,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  211.133.333 ,210.851.154,\"Panjang = 93 m, Lebar = 4,5 m, dan Tebal = 0,20 m\",\"-7,070791\",\"107,766574\",\"-7,070838\",\"107,765449\",\n93,2026,.07,\"Rehab Jalan Ciwalengke, Kec. Majalaya\",Majalaya,,WILAYAH 7,Hotmix Ac - Wc,  300.000.000 ,299.577.200,\"Panjang = 247 m, Lebar = 6,0 m, dan Tebal = 0,04 m\",,,,,\n94,2026,REJLN.PL.0059.817.07,\"Rehab Jalan Kp. Karanganyar Rw.01, Kab. Bandung\",Ciparay,,WILAYAH 7,Hotmix Ac - Wc,  157.250.000 ,156.936.099,\"Pjg Seg 1 = 112 m, Lebar = 4 m, Tb. 20 cm, Pjg Seg 2 = 21 m, Lebar = 4,5 m, Tb. 20 cm, dan Pjg Seg 2 = 20 m, Lebar = 5 m, Tb. 20 cm\",\"-7,038940\",\"107,723200\",\"-7,039578\",\"107,722548\",\n95,2026,REJLN.PL.0059.818.07,\"Rehab Jl. Mbah Kanom Rw.010 Desa Ciheulang, Kecamatan Ciparay., Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  157.250.000 ,156.964.505,\"Panjang Beton = 83 m Lebar = 3 m Tb. 20 cm dan Panjang Hotmix = 35 m Lebar 3 m Tb. 0,04 m\",\"-7,027158\",\"107,681278\",\"-7,027215\",\"107,680478\",\n96,2026,RHJLN.PL.0055.821.07,Rehab Jalan Cipeujeuh Pacet,Pacet,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  171.000.000 ,170.688.200,\"Panjang = 86 m, Lebar = 4,0 m, dan Tebal = 0,20 m\",\"-7,089617\",\"107,714148\",\"-7,089540\",\"107,713588\",\n97,2026,PJLN.PL.0053.843.07,Kegiatan Mendukung Program Pemkab Bandung Paket 6,Kertasari,,WILAYAH 7,TPT Pasangan Batu dengan Frame Beton,  100.000.000 ,99.721.448,Panjang = 9 m dan Tinggi = 4 m,\"-7,191032\",\"107,704266\",\"-7,191032\",\"107,704266\",";
+ let liveWorkCsvText=null;
+ let liveRefreshStarted=false;
+ function parseWorkCsvToRows(csv){
+   if(!csv||!csv.trim()||/<!doctype html|<html/i.test(csv.slice(0,500)))throw Error('Respons bukan CSV yang valid.');
+   const parsed=parseWorkCSV(csv);
+   if(parsed.length<2)throw Error('CSV kosong atau belum memiliki baris data.');
+   const headers=parsed[0].map(csvHeader);
+   const required=['KODE_PAKET','NAMA_PAKET','KECAMATAN','LAT_AWAL','LONG_AWAL'];
+   const missing=required.filter(h=>!headers.includes(h));
+   if(missing.length)throw Error('Kolom CSV tidak ditemukan: '+missing.join(', ')+'. Pastikan publikasi mengarah ke tab 2026.');
+   const data=parsed.slice(1).map(cells=>{
+     const o={};headers.forEach((h,i)=>{if(h)o[h]=cells[i]??'';});
      return normalizeRow(o);
-   });
+   }).filter(r=>Object.values(r).some(v=>String(v??'').trim()!==''));
+   if(!data.length)throw Error('CSV berhasil dibuka, tetapi tidak ada baris pekerjaan.');
+   return data;
  }
- function nearest(point,fc){let best=Infinity;for(const f of fc.features){if(!f.geometry)continue;try{let d=turf.pointToLineDistance(point,f,{units:'meters'});if(d<best)best=d;}catch(e){}}return best;}
- function classify(r,fc){let a=num(r.LAT_AWAL),b=num(r.LONG_AWAL),c=num(r.LAT_AKHIR),d=num(r.LONG_AKHIR);if(!valid(a,b)||!valid(c,d))return {s:'belum',reason:'Koordinat awal/akhir belum lengkap'};let d1=nearest(turf.point([b,a]),fc),d2=nearest(turf.point([d,c]),fc),mx=Math.max(d1,d2);if(mx<=30)return {s:'masuk',d1,d2};if(mx>60)return {s:'tidak',d1,d2};return {s:'belum',d1,d2,reason:'Perlu pemeriksaan manual'};}
+ async function fetchPublishedCsv(){
+   const controller=new AbortController();
+   const timeout=setTimeout(()=>controller.abort(),8000);
+   try{
+     const response=await fetch(PUBLIC_WORK_SHEET_CSV+'&_refresh='+Date.now(),{method:'GET',mode:'cors',cache:'no-store',signal:controller.signal});
+     if(!response.ok)throw Error('Google Sheets CSV HTTP '+response.status);
+     const csv=await response.text();
+     parseWorkCsvToRows(csv);
+     return csv;
+   }finally{clearTimeout(timeout);}
+ }
+ function startBackgroundSheetSync(){
+   if(liveRefreshStarted)return;liveRefreshStarted=true;
+   const refresh=async()=>{
+     if(!navigator.onLine||window.__vfLiveFetchInProgress)return;
+     window.__vfLiveFetchInProgress=true;
+     try{
+       const csv=await fetchPublishedCsv();
+       const changed=csv!==EMBEDDED_WORK_CSV&&csv!==liveWorkCsvText;
+       liveWorkCsvText=csv;
+       if(changed){
+         window.__vfLiveCsvText=csv;
+         window.__vfLiveRefreshPending=true;
+         if(!window.__vfLoading)load();else window.__vfRefreshPending=true;
+       }else{
+         liveWorkCsvText=csv;
+         window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:'connected',count:rows.length}}));
+         const statusEl=el('vfConnection');
+         if(statusEl)statusEl.textContent='● Google Sheets terhubung · '+rows.length+' pekerjaan';
+       }
+     }catch(err){
+       console.warn('Sinkronisasi live Google Sheets belum berhasil; memakai snapshot CSV:',err);
+     }finally{
+       window.__vfLiveFetchInProgress=false;
+     }
+   };
+   setTimeout(refresh,1200);
+   setInterval(refresh,60000);
+ }
+ async function getSheet(){
+   // Prioritaskan data live yang sudah berhasil diambil; jika belum, gunakan snapshot CSV yang tervalidasi.
+   const selected=window.__vfLiveCsvText||liveWorkCsvText||EMBEDDED_WORK_CSV;
+   const data=parseWorkCsvToRows(selected);
+   window.__vfUsingSnapshot=!window.__vfLiveCsvText&&!liveWorkCsvText;
+   startBackgroundSheetSync();
+   return data;
+ }
+ let roadSpatialIndex=[];
+ function buildRoadSpatialIndex(fc){
+   roadSpatialIndex=(fc?.features||[]).filter(f=>f?.geometry).map(f=>{try{return {f,b:turf.bbox(f)}}catch(e){return null}}).filter(Boolean);
+ }
+ function nearest(point){
+   const x=point.geometry.coordinates[0],y=point.geometry.coordinates[1],pad=.0012;
+   let best=Infinity;
+   for(const item of roadSpatialIndex){
+     const b=item.b;
+     if(x<b[0]-pad||x>b[2]+pad||y<b[1]-pad||y>b[3]+pad)continue;
+     try{const d=turf.pointToLineDistance(point,item.f,{units:'meters'});if(d<best)best=d;}catch(e){}
+   }
+   return best;
+ }
+ function classify(r,fc){
+   let a=num(r.LAT_AWAL),b=num(r.LONG_AWAL),c=num(r.LAT_AKHIR),d=num(r.LONG_AKHIR);
+   if(!valid(a,b)||!valid(c,d))return {s:'belum',reason:'Koordinat awal/akhir belum lengkap'};
+   const d1=nearest(turf.point([b,a])),d2=nearest(turf.point([d,c])),mx=Math.max(d1,d2);
+   if(mx<=30)return {s:'masuk',d1,d2};
+   if(mx>60)return {s:'tidak',d1,d2};
+   return {s:'belum',d1,d2,reason:'Perlu pemeriksaan manual'};
+ }
  function initMap(){
    const container=el('vfMap');
    if(!container||!window.L)return;
@@ -8742,7 +8809,7 @@ window.addEventListener('resize',()=>{if(id('viewTimeline')?.classList.contains(
    data.forEach(r=>{
      const co=workCoords(r);
      if(!co){missing++;return;}
-     const st=r._v.s,color=st==='masuk'?'#159447':st==='tidak'?'#e5484d':'#f0a12b';
+     const st=r._v.s,color=window.__vfClassifying?'#94a3b8':st==='masuk'?'#159447':st==='tidak'?'#e5484d':'#f0a12b';
      const popup=`<b>${esc(r.NAMA_PAKET)}</b><br>${esc(r.KECAMATAN)} / ${esc(r.WILAYAH||r.DESA_KELURAHAN)}<br>${esc(st==='masuk'?'Masuk Jalan Kabupaten':st==='tidak'?'Tidak Masuk Jalan Kabupaten':'Belum terverifikasi')}`;
      L.polyline([[co.a,co.b],[co.c,co.d]],{color,weight:7,opacity:1,lineCap:'round',lineJoin:'round'}).bindPopup(popup).addTo(workLayer);
      L.circleMarker([co.a,co.b],{radius:6,color:'#fff',weight:2,fillColor:color,fillOpacity:1}).bindPopup('<b>Awal pekerjaan</b><br>'+popup).addTo(workLayer);
@@ -8763,58 +8830,69 @@ window.addEventListener('resize',()=>{if(id('viewTimeline')?.classList.contains(
  function renderLocationTables(data){
    const masuk=data.filter(r=>r._v.s==='masuk'),tidak=data.filter(r=>r._v.s==='tidak');
    const cell=(r,i)=>`<tr><td>${i+1}</td><td title="${esc(r.NAMA_PAKET)}">${esc(r.NAMA_PAKET||'-')}</td><td>${esc(r.KECAMATAN||'-')}</td><td>${esc(r.WILAYAH||r.DESA_KELURAHAN||'-')}</td><td>${esc(r.KODE_PAKET||'-')}</td></tr>`;
+   if(window.__vfClassifying){
+     const pending='<tr><td colspan="5">Verifikasi sedang diproses. Daftar akan tampil setelah hasil stabil.</td></tr>';
+     el('vfLocationMasuk').innerHTML=pending;el('vfLocationTidak').innerHTML=pending;
+     el('vfLocationMasukCount').textContent='Memproses';el('vfLocationTidakCount').textContent='Memproses';
+     return;
+   }
    el('vfLocationMasuk').innerHTML=masuk.length?masuk.map(cell).join(''):'<tr><td colspan="5">Tidak ada pekerjaan masuk Jalan Kabupaten.</td></tr>';
    el('vfLocationTidak').innerHTML=tidak.length?tidak.map(cell).join(''):'<tr><td colspan="5">Tidak ada pekerjaan di luar Jalan Kabupaten.</td></tr>';
    el('vfLocationMasukCount').textContent=masuk.length+' lokasi';
    el('vfLocationTidakCount').textContent=tidak.length+' lokasi';
  }
  function render(){
-   const data=filtered(),n=data.length,m=data.filter(x=>x._v.s==='masuk').length,t=data.filter(x=>x._v.s==='tidak').length,b=data.filter(x=>x._v.s==='belum').length;
-   el('vfTotal').textContent=n;el('vfMasuk').textContent=m;el('vfTidak').textContent=t;el('vfBelum').textContent=b;
-   el('vfDonutTotal').textContent=n;el('vfMasukPct').textContent=(n?(m/n*100).toFixed(1):0)+'%';el('vfTidakPct').textContent=(n?(t/n*100).toFixed(1):0)+'%';
-   el('vfLegendMasuk').textContent=m+' pekerjaan';el('vfLegendTidak').textContent=t+' pekerjaan';el('vfLegendBelum').textContent=b+' pekerjaan';el('vfCount').textContent=n+' data';
-   let p=n?m/n*360:0,q=n?t/n*360:0;el('vfDonut').style.background=`conic-gradient(#16a34a 0deg ${p}deg,#ef4444 ${p}deg ${p+q}deg,#f59e0b ${p+q}deg 360deg)`;
-   el('vfRows').innerHTML=data.length?data.slice(0,30).map((r,i)=>{let s=r._v.s,label=s==='masuk'?'Masuk Jl. Kabupaten':s==='tidak'?'Tidak Masuk':'Belum diverifikasi';return `<tr><td>${i+1}</td><td title="${esc(r.NAMA_PAKET)}">${esc(r.NAMA_PAKET)}</td><td>${esc(r.KECAMATAN)}</td><td>${esc(r.WILAYAH||r.DESA_KELURAHAN)}</td><td><span class="vf-pill ${s}">${label}</span></td></tr>`;}).join(''):'<tr><td colspan="5">Tidak ada data sesuai filter.</td></tr>';
+   const data=filtered(),n=data.length,pending=!!window.__vfClassifying;
+   const m=pending?0:data.filter(x=>x._v.s==='masuk').length,t=pending?0:data.filter(x=>x._v.s==='tidak').length,b=pending?0:data.filter(x=>x._v.s==='belum').length;
+   el('vfTotal').textContent=n;el('vfMasuk').textContent=pending?'—':m;el('vfTidak').textContent=pending?'—':t;el('vfBelum').textContent=pending?'—':b;
+   el('vfDonutTotal').textContent=n;el('vfMasukPct').textContent=pending?'—':(n?(m/n*100).toFixed(1):0)+'%';el('vfTidakPct').textContent=pending?'—':(n?(t/n*100).toFixed(1):0)+'%';
+   el('vfLegendMasuk').textContent=pending?'Menunggu verifikasi':m+' pekerjaan';el('vfLegendTidak').textContent=pending?'Menunggu verifikasi':t+' pekerjaan';el('vfLegendBelum').textContent=pending?'Menunggu verifikasi':b+' pekerjaan';el('vfCount').textContent=n+' data';
+   let p=n?m/n*360:0,q=n?t/n*360:0;
+   el('vfDonut').style.background=pending?'conic-gradient(#d1d5db 0deg 360deg)':`conic-gradient(#16a34a 0deg ${p}deg,#ef4444 ${p}deg ${p+q}deg,#f59e0b ${p+q}deg 360deg)`;
+   el('vfRows').innerHTML=data.length?data.slice(0,30).map((r,i)=>{let s=r._v.s,label=pending?'Sedang diverifikasi':s==='masuk'?'Masuk Jl. Kabupaten':s==='tidak'?'Tidak Masuk':'Belum diverifikasi';return `<tr><td>${i+1}</td><td title="${esc(r.NAMA_PAKET)}">${esc(r.NAMA_PAKET)}</td><td>${esc(r.KECAMATAN)}</td><td>${esc(r.WILAYAH||r.DESA_KELURAHAN)}</td><td><span class="vf-pill ${pending?'belum':s}">${label}</span></td></tr>`;}).join(''):'<tr><td colspan="5">Tidak ada data sesuai filter.</td></tr>';
    renderLocationTables(data);
    drawWorkMap(data);
  }
  async function load(){
    if(window.__vfLoading)return;
    window.__vfLoading=true;
+   window.__vfClassifying=false;
    window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:'loading'}}));
-   el('vfConnection').textContent='● Menghubungkan ke Google Sheets…';
-   progress(12,'Memulai koneksi','Menghubungi Google Sheets menggunakan ID spreadsheet yang terpasang.','#e6a23c');
+   el('vfConnection').textContent='● Menyiapkan data pekerjaan…';
    try{
-     progress(35,'Meminta data','Meminta data dari tab 2026 (gid 220165122). Jika jalur tab gagal, dashboard mencoba nama tab sebagai cadangan.','#2f75ed');
      const raw=await getSheet();
-     progress(72,'Data diterima','Data diterima. Menyiapkan klasifikasi terhadap jaringan Jalan Kabupaten.','#2f75ed');
-     const fc=roadData();
-     rows=[];
-     const batchSize=8;
-     for(let i=0;i<raw.length;i+=batchSize){
-       const batch=raw.slice(i,i+batchSize).map(r=>({...r,_v:classify(r,fc)}));
-       rows.push(...batch);
-       progress(72+Math.round(Math.min(1,(i+batchSize)/raw.length)*20),'Mengolah data pekerjaan',`Mengklasifikasikan ${Math.min(i+batchSize,raw.length)} dari ${raw.length} pekerjaan…`,'#2f75ed');
-       // Give the browser time to paint and respond between batches.
-       await new Promise(resolve=>setTimeout(resolve,0));
-     }
+     rows=raw.map(r=>({...r,_v:{s:'proses',reason:'Menunggu verifikasi'}}));
      options('vfYear',rows.map(r=>r.TAHUN_ANGGARAN),'Semua Tahun');
      options('vfDistrict',rows.map(r=>r.KECAMATAN),'Semua Kecamatan');
      options('vfVillage',rows.map(r=>r.DESA_KELURAHAN),'Semua Wilayah');
+     window.__vfClassifying=true;
      render();
      window.dispatchEvent(new Event('vf-sheet-loaded'));
-     progress(100,'TERHUBUNG','Google Sheets terhubung · '+rows.length+' pekerjaan berhasil dimuat.','#269653');
-     el('vfConnection').textContent='● Data terhubung · '+rows.length+' pekerjaan';
-     window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:'connected',count:rows.length}}));
+     el('vfConnection').textContent='● '+rows.length+' data tersedia · verifikasi sedang berjalan';
+     window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:'cached',count:rows.length}}));
+     const fc=roadData();
+     buildRoadSpatialIndex(fc);
+     const batchSize=2;
+     for(let i=0;i<rows.length;i+=batchSize){
+       for(let j=i;j<Math.min(i+batchSize,rows.length);j++) rows[j]._v=classify(rows[j],fc);
+       progress(15+Math.round(Math.min(1,(i+batchSize)/rows.length)*80),'Verifikasi jaringan',`Memeriksa ${Math.min(i+batchSize,rows.length)} dari ${rows.length} pekerjaan…`,'#2f75ed');
+       await new Promise(resolve=>setTimeout(resolve,0));
+     }
+     window.__vfClassifying=false;
+     render();
+     progress(100,'DATA SIAP',rows.length+' pekerjaan selesai diklasifikasikan.','#269653');
+     el('vfConnection').textContent='● '+rows.length+' pekerjaan siap · '+(window.__vfUsingSnapshot?'data CSV tersimpan':'Google Sheets tersinkron');
+     window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:window.__vfUsingSnapshot?'cached':'connected',count:rows.length}}));
    }catch(e){
+     window.__vfClassifying=false;
      console.error('Verifikasi Sheet:',e);
-     progress(100,'TIDAK TERHUBUNG',e.message||'Gagal mengambil data dari Google Sheets.','#d94f45');
-     el('vfConnection').textContent='● Koneksi Spreadsheet gagal';
+     progress(100,'DATA TIDAK SIAP',e.message||'Gagal memproses data pekerjaan.','#d94f45');
+     el('vfConnection').textContent='● Gagal memproses data pekerjaan';
      el('vfRows').innerHTML=`<tr><td colspan="5">${esc(e.message)}</td></tr>`;
-     window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:'failed',message:e.message||'Gagal terhubung'}}));
-   }finally{window.__vfLoading=false;}
+     window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:'failed',message:e.message||'Gagal memproses data'}}));
+   }finally{window.__vfLoading=false;if(window.__vfRefreshPending){window.__vfRefreshPending=false;setTimeout(()=>load(),180);}}
  }
- window.retryGoogleSheetSync=()=>{if(window.__vfLoading)return;rows=[];load();};
+ window.retryGoogleSheetSync=()=>{if(window.__vfLoading)return;window.__vfLiveCsvText=null;liveWorkCsvText=null;liveRefreshStarted=false;load();};
  window.getMapJobRows=()=>rows;
  window.loadMapJobRows=()=>{if(!rows.length&&!window.__vfLoading)load();};
  window.addEventListener('vf-sheet-loaded',()=>window.renderMapJobLocations?.());
@@ -8838,7 +8916,7 @@ window.addEventListener('resize',()=>{if(id('viewTimeline')?.classList.contains(
  document.addEventListener('DOMContentLoaded',checkVerifikasiRoute);
  setTimeout(checkVerifikasiRoute,350);
  
- ['vfYear','vfDistrict','vfVillage'].forEach(id=>el(id)?.addEventListener('change',render));el('vfReload')?.addEventListener('click',load);el('vfReset')?.addEventListener('click',()=>{['vfYear','vfDistrict','vfVillage'].forEach(id=>el(id).value='');render();});setInterval(()=>{if(el('viewVerifikasi')?.classList.contains('active')&&!window.__vfLoading)load();},300000);
+ ['vfYear','vfDistrict','vfVillage'].forEach(id=>el(id)?.addEventListener('change',render));el('vfReload')?.addEventListener('click',load);el('vfReset')?.addEventListener('click',()=>{['vfYear','vfDistrict','vfVillage'].forEach(id=>el(id).value='');render();});setInterval(()=>{const detail=el('mjpBody');const mapActive=el('viewPeta')?.classList.contains('active');if(navigator.onLine&&mapActive&&detail&&!detail.hidden&&!window.__vfLoading)load();},60000);
 })();
 
 /* Layout map-first: let both location tables occupy the right column beside the map. */
@@ -9015,11 +9093,15 @@ window.addEventListener('resize',()=>{if(id('viewTimeline')?.classList.contains(
    if(subtitle)subtitle.textContent='Menghubungkan ke Google Sheets…';
    if(overlay){overlay.classList.remove('failed');overlay.classList.add('active');}
    if(title)title.textContent='Menghubungkan ke Google Sheets…';
-   if(detail)detail.textContent='Panel dikunci sementara. Data pekerjaan sedang diambil dan diproses agar tampilan tidak macet.';
+   if(detail)detail.textContent='Data awal sedang disiapkan. Tampilan akan dibuka segera setelah data lokal tersedia.';
    if(retry)retry.hidden=true;
    body?.setAttribute('aria-busy','true');
   }else if(d.state==='connected'){
    if(subtitle)subtitle.textContent='Terhubung ke Google Sheets · Data telah disinkronkan';
+   if(overlay)overlay.classList.remove('active','failed');
+   body?.removeAttribute('aria-busy');
+  }else if(d.state==='cached'){
+   if(subtitle)subtitle.textContent='Data CSV tersedia · Sinkronisasi Google Sheets berjalan di latar belakang';
    if(overlay)overlay.classList.remove('active','failed');
    body?.removeAttribute('aria-busy');
   }else if(d.state==='failed'){
