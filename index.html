@@ -520,6 +520,7 @@ path.dashboard-road-selected {
 .badge-status.sedang { background: #fef3c7; color: #92400e; }
 .badge-status.rr { background: #ffedd5; color: #9a3412; }
 .badge-status.rb { background: #fee2e2; color: #991b1b; }
+.badge-status.unknown { background: #e2e8f0; color: #475569; }
 
 /* PETA FULLSCREEN */
 .peta-full-wrap { 
@@ -1900,72 +1901,6 @@ body.password-locked {overflow:hidden !important;}
 
 
 .tl-legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:12px 0 4px;font-size:12px;color:#405675}.tl-legend span{display:inline-flex;align-items:center;gap:6px}.tl-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;flex:none}.tl-chart-wrap{height:460px;overflow:hidden}.tl-chart-wrap>div{width:100%;height:100%}.tl-chart-wrap svg{display:block;width:100%;height:100%;overflow:visible}.tl-table thead tr:first-child th{background:#174d8b;color:#fff;text-align:center}.tl-table thead tr:first-child th:nth-child(2){background:#1266c5}.tl-table thead tr:first-child th:nth-child(3){background:#16885b}.tl-table thead tr:nth-child(2) th:nth-child(-n+3){background:#2d80df;color:#fff;text-align:center}.tl-table thead tr:nth-child(2) th:nth-child(n+4){background:#36ae7a;color:#fff;text-align:center}.tl-table tfoot td{text-align:center!important}@media(max-width:700px){.tl-chart-wrap{height:360px}.tl-legend{font-size:11px;gap:8px}}
-
-/* === REDESAIN VERIFIKASI: PETA MENJADI AREA UTAMA === */
-#viewVerifikasi{padding:18px 20px 24px;gap:14px;background:linear-gradient(145deg,#f7faff 0%,#eaf2ff 100%);min-height:100%;overflow-y:auto}
-#viewVerifikasi .vf-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:0}
-#viewVerifikasi .vf-head h2{font-size:23px;font-weight:900;color:#10234b;letter-spacing:-.35px}
-#viewVerifikasi .vf-head p{font-size:12px;color:#5b6d8c;margin-top:4px}
-#viewVerifikasi #vfProgressPanel{display:none!important}
-#viewVerifikasi .vf-filter-card{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr)) auto auto;align-items:end;gap:12px;padding:14px 16px;background:#fff;border:1px solid #d9e5f7;border-radius:15px;box-shadow:0 4px 14px #244a8010}
-#viewVerifikasi .vf-filter-title{grid-column:1/-1;font-size:15px;font-weight:900;color:#12264f;margin-bottom:0}
-#viewVerifikasi .vf-filter-card label{font-size:11px;font-weight:800;color:#263b60;display:flex;flex-direction:column;gap:6px}
-#viewVerifikasi .vf-filter-card select{height:38px;border:1px solid #cbd8eb;border-radius:9px;background:#fff;padding:0 10px;color:#172b50;font-weight:650;min-width:0}
-#viewVerifikasi .vf-filter-card .h-btn{height:38px;white-space:nowrap;border-radius:9px}
-#viewVerifikasi .vf-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-#viewVerifikasi .vf-kpi{min-height:88px;border-radius:15px;padding:14px 16px;box-shadow:0 4px 12px #23487912}
-#viewVerifikasi .vf-kpi small{font-size:12px;font-weight:850}
-#viewVerifikasi .vf-kpi strong{font-size:30px;line-height:1.15}
-#viewVerifikasi .vf-kpi span{font-size:11px;font-weight:750}
-#viewVerifikasi .vf-main-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(390px,.95fr);gap:14px;min-height:620px;align-items:stretch}
-#viewVerifikasi .vf-map-card{min-height:620px;padding:0;overflow:hidden;border-radius:16px;box-shadow:0 5px 18px #1b47701a}
-#viewVerifikasi .vf-map-card h3{background:linear-gradient(100deg,#0758c9,#0869e8);color:#fff;padding:13px 16px;margin:0;font-size:16px}
-#viewVerifikasi #vfMap{height:560px;min-height:560px;border-radius:0;background:#e8f0fa}
-#viewVerifikasi .vf-legend{padding:12px 15px 14px;gap:15px;font-size:11px;background:#fff}
-#viewVerifikasi .vf-right-col{display:flex;flex-direction:column;gap:12px;min-width:0;min-height:620px}
-#viewVerifikasi .vf-chart-card,#viewVerifikasi .vf-list-card{display:none!important}
-#viewVerifikasi .vf-location-tables{display:flex;flex-direction:column;gap:12px;min-width:0}
-#viewVerifikasi .vf-location-card{padding:0;overflow:hidden;border-radius:15px;box-shadow:0 4px 14px #244a8010;min-height:250px}
-#viewVerifikasi .vf-location-card h3{margin:0;padding:13px 15px;font-size:14px;display:flex;align-items:center;justify-content:space-between}
-#viewVerifikasi .vf-location-card.masuk h3{background:#e9f8ee;color:#14532d;border-bottom:1px solid #ccebd5}
-#viewVerifikasi .vf-location-card.tidak h3{background:#fff0ef;color:#991b1b;border-bottom:1px solid #f8d4d1}
-#viewVerifikasi .vf-location-card h3 span{font-size:11px;opacity:.8}
-#viewVerifikasi .vf-location-card .vf-mini-table-wrap{max-height:275px;overflow:auto;padding:8px 10px 10px}
-#viewVerifikasi .vf-table{width:100%;border-collapse:separate;border-spacing:0;font-size:10.5px}
-#viewVerifikasi .vf-table thead th{position:sticky;top:0;z-index:2;background:#eef3fb;color:#253958;padding:9px 8px;text-align:left;white-space:nowrap}
-#viewVerifikasi .vf-table tbody td{padding:9px 8px;border-bottom:1px solid #e8eef7;color:#304361;vertical-align:top}
-#viewVerifikasi .vf-table tbody tr:hover{background:#f6f9ff}
-#viewVerifikasi .vf-table th:first-child,#viewVerifikasi .vf-table td:first-child{width:32px}
-#viewVerifikasi .vf-table td:nth-child(2){min-width:130px;max-width:210px}
-#viewVerifikasi .vf-table td:last-child{white-space:nowrap;font-weight:750}
-#viewVerifikasi .vf-explain{margin-top:2px}
-#viewVerifikasi .vf-disclaimer{font-size:10px;color:#687995;padding:2px 4px}
-#viewVerifikasi .vf-connection{font-size:11px;font-weight:800;padding:8px 11px;border-radius:30px;background:#e7f8ed;color:#16733b}
-#viewVerifikasi .vf-location-tables{order:1}
-@media(max-width:1150px){
- #viewVerifikasi .vf-main-grid{grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr)}
- #viewVerifikasi #vfMap{height:520px;min-height:520px}
-}
-@media(max-width:900px){
- #viewVerifikasi .vf-filter-card{grid-template-columns:repeat(2,minmax(0,1fr))}
- #viewVerifikasi .vf-filter-title{grid-column:1/-1}
- #viewVerifikasi .vf-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
- #viewVerifikasi .vf-main-grid{grid-template-columns:1fr;min-height:0}
- #viewVerifikasi .vf-map-card{min-height:460px}
- #viewVerifikasi #vfMap{height:460px;min-height:460px}
- #viewVerifikasi .vf-right-col{min-height:0}
-}
-@media(max-width:560px){
- #viewVerifikasi{padding:12px}
- #viewVerifikasi .vf-head{align-items:flex-start;flex-direction:column}
- #viewVerifikasi .vf-filter-card{grid-template-columns:1fr 1fr}
- #viewVerifikasi .vf-kpis{gap:8px}
- #viewVerifikasi .vf-kpi{padding:10px;min-height:78px}
- #viewVerifikasi .vf-kpi strong{font-size:24px}
- #viewVerifikasi #vfMap{height:390px;min-height:390px}
- #viewVerifikasi .vf-location-card .vf-mini-table-wrap{max-height:230px}
-}
-
 </style>
 
 <style id="responsive-v8-max-mobile-tablet">
@@ -3796,244 +3731,6 @@ button,select,input{touch-action:manipulation}
 #viewTimeline .tl-legend i{width:14px;height:14px;margin-top:2px;box-shadow:0 0 0 3px rgba(148,163,184,.10)}
 @media(max-width:600px){#viewTimeline .tl-chart-wrap{height:430px!important;min-height:430px}#viewTimeline #tlChartBudget,#viewTimeline #tlChartBudget svg{min-width:1180px}#viewTimeline .tl-legend{grid-template-columns:minmax(0,1fr);font-size:12px;gap:8px;padding:10px}}
 </style>
-
-<style id="verifikasi-polish-css">
-#viewVerifikasi{display:none;flex-direction:column;gap:16px;padding:18px 20px 28px;background:#f5f8ff;min-height:100%;overflow:auto;color:#101e48}
-#viewVerifikasi.active{display:flex!important}
-#viewVerifikasi .vf-head{display:flex;justify-content:space-between;align-items:center;gap:12px}#viewVerifikasi .vf-head h2{margin:0 0 4px;font-size:20px;font-weight:850;color:#142653}#viewVerifikasi .vf-head p{margin:0;color:#60708f;font-size:12px}#viewVerifikasi .vf-connection{background:#e8f9ef;color:#168348;border:1px solid #b9ebcb;border-radius:9px;padding:9px 13px;font-size:11px;font-weight:700;white-space:nowrap}
-#viewVerifikasi .vf-filter-card{display:grid;grid-template-columns:145px 1fr 1fr 1fr auto auto;gap:12px;align-items:end;background:#fff;border:1px solid #dce6f6;border-radius:14px;padding:14px;box-shadow:0 3px 10px #193b7010}#viewVerifikasi .vf-filter-title{align-self:center;font-weight:800;color:#152956;font-size:14px}#viewVerifikasi label{display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:750;color:#26385f}#viewVerifikasi select{height:38px;border:1px solid #c8d5eb;border-radius:8px;background:#fff;padding:0 10px;color:#24365e;min-width:0}
-#viewVerifikasi .vf-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}#viewVerifikasi .vf-kpi{display:flex;align-items:center;gap:14px;border-radius:14px;padding:15px 18px;background:#fff;border:1px solid #dce6f6;box-shadow:0 3px 10px #193b700b;min-height:104px}#viewVerifikasi .vf-kpi-icon{width:54px;height:54px;border-radius:12px;display:grid;place-items:center;font-size:34px;font-weight:900;flex:none}#viewVerifikasi .vf-kpi small{display:block;color:#526482;font-weight:750;font-size:12px;margin-bottom:4px}#viewVerifikasi .vf-kpi strong{display:block;font-size:30px;line-height:1.05;color:#101e48}#viewVerifikasi .vf-kpi span{display:block;font-size:11px;margin-top:3px;color:#566987}#viewVerifikasi .vf-kpi.total{background:linear-gradient(110deg,#0758e9,#1764e8);color:white;border-color:#0758e9}#viewVerifikasi .vf-kpi.total small,#viewVerifikasi .vf-kpi.total strong,#viewVerifikasi .vf-kpi.total span{color:white}#viewVerifikasi .vf-kpi.total .vf-kpi-icon{background:#ffffff25}#viewVerifikasi .vf-kpi.masuk{background:#effcf5;border-color:#bcebd0}#viewVerifikasi .vf-kpi.masuk .vf-kpi-icon{background:#16a34a;color:white}#viewVerifikasi .vf-kpi.tidak{background:#fff3f3;border-color:#ffd0d0}#viewVerifikasi .vf-kpi.tidak .vf-kpi-icon{background:#ef4444;color:white}#viewVerifikasi .vf-kpi.belum{background:#fffaf0;border-color:#f7e2b4}#viewVerifikasi .vf-kpi.belum .vf-kpi-icon{background:#f59e0b;color:white}
-#viewVerifikasi .vf-main-grid{display:grid;grid-template-columns:1.04fr 1.16fr;gap:14px;min-height:420px}#viewVerifikasi .vf-right-col{display:grid;grid-template-rows:200px 1fr;gap:14px;min-width:0}#viewVerifikasi .vf-card{background:#fff;border:1px solid #dce6f6;border-radius:14px;padding:14px;box-shadow:0 3px 10px #193b700b;min-width:0}#viewVerifikasi .vf-card h3{font-size:16px;font-weight:850;color:#142653;margin:0 0 12px}#viewVerifikasi .vf-map-card{display:flex;flex-direction:column}#vfMap{height:340px;min-height:300px;border-radius:10px;overflow:hidden;background:#e7eef8}#viewVerifikasi .vf-legend{display:flex;gap:14px;flex-wrap:wrap;padding:11px 4px 0;font-size:10px;font-weight:700;color:#35496d}#viewVerifikasi .vf-legend i,#viewVerifikasi .vf-chart-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}#viewVerifikasi .vf-legend .g{background:#0758e9;height:3px;width:18px;vertical-align:middle}#viewVerifikasi .vf-legend .p,#viewVerifikasi .vf-chart-legend .p{background:#16a34a}#viewVerifikasi .vf-legend .r,#viewVerifikasi .vf-chart-legend .r{background:#ef4444}#viewVerifikasi .vf-legend .y,#viewVerifikasi .vf-chart-legend .y{background:#f59e0b}
-#viewVerifikasi .vf-chart-content{display:flex;align-items:center;justify-content:space-around;gap:15px;height:145px}#viewVerifikasi .vf-donut{width:142px;height:142px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#16a34a 0deg,#16a34a 0deg,#ef4444 0deg,#ef4444 360deg);position:relative;flex:none}#viewVerifikasi .vf-donut:before{content:"";position:absolute;inset:15px;border-radius:50%;background:#fff}#viewVerifikasi .vf-donut>div{position:relative;text-align:center;display:flex;flex-direction:column}#viewVerifikasi .vf-donut b{font-size:25px;color:#142653}#viewVerifikasi .vf-donut small{font-size:10px;font-weight:800}#viewVerifikasi .vf-chart-legend{flex:1;min-width:0}#viewVerifikasi .vf-chart-legend>div{display:grid;grid-template-columns:12px 1fr auto;gap:7px;align-items:center;padding:8px 0;border-bottom:1px solid #edf1f7;font-size:11px}#viewVerifikasi .vf-chart-legend strong{white-space:nowrap;color:#142653}#viewVerifikasi .vf-list-card{overflow:hidden}#viewVerifikasi .vf-list-card h3{display:flex;justify-content:space-between;align-items:center}#viewVerifikasi .vf-list-card h3 span{font-size:11px;color:#60708f}#viewVerifikasi .vf-mini-table-wrap{overflow:auto;max-height:225px}#viewVerifikasi .vf-table{border-collapse:collapse;width:100%;font-size:10px;white-space:nowrap}#viewVerifikasi .vf-table th{background:#edf2fa;color:#405274;text-align:left;padding:9px 7px;position:sticky;top:0}#viewVerifikasi .vf-table td{padding:9px 7px;border-bottom:1px solid #edf1f7;color:#27395d}#viewVerifikasi .vf-pill{display:inline-block;padding:5px 8px;border-radius:20px;font-weight:800;font-size:9px}#viewVerifikasi .vf-pill.masuk{background:#dcfce7;color:#166534}#viewVerifikasi .vf-pill.tidak{background:#fee2e2;color:#991b1b}#viewVerifikasi .vf-pill.belum{background:#fef3c7;color:#92400e}
-#viewVerifikasi .vf-explain{display:grid;grid-template-columns:1fr 1fr;gap:14px}#viewVerifikasi .vf-explain article{display:flex;align-items:center;gap:15px;border-radius:14px;padding:15px 18px;background:#edfff4;border:1px solid #a7e9c1}#viewVerifikasi .vf-explain article+article{background:#fff1f1;border-color:#ffc4c4}#viewVerifikasi .vf-ex-icon{font-size:35px;font-weight:900;color:#16a34a}#viewVerifikasi .vf-explain article+article .vf-ex-icon{color:#ef4444}#viewVerifikasi .vf-explain b{font-size:14px}#viewVerifikasi .vf-explain p{font-size:11px;line-height:1.5;margin:4px 0 0;color:#435574}#viewVerifikasi .vf-disclaimer{font-size:10px;color:#71809b;margin:0}
-@media(max-width:1100px){#viewVerifikasi .vf-filter-card{grid-template-columns:1fr 1fr}#viewVerifikasi .vf-filter-title{grid-column:1/-1}#viewVerifikasi .vf-kpis{grid-template-columns:repeat(2,1fr)}#viewVerifikasi .vf-main-grid{grid-template-columns:1fr}#viewVerifikasi .vf-right-col{grid-template-rows:auto auto}}@media(max-width:650px){#viewVerifikasi{padding:12px}#viewVerifikasi .vf-kpis,#viewVerifikasi .vf-explain{grid-template-columns:1fr}#viewVerifikasi .vf-filter-card{grid-template-columns:1fr}#viewVerifikasi .vf-head{align-items:flex-start;flex-direction:column}#viewVerifikasi .vf-chart-content{justify-content:flex-start}#vfMap{height:300px}}
-</style>
-
-
-<style id="vf-map-visibility-fix">
-#vfMap{height:430px!important;min-height:430px!important;width:100%;background:#e8eef7!important;position:relative;z-index:1}
-#vfMap .leaflet-container{background:#e8eef7}
-#vfMap .leaflet-tile{max-width:none!important}
-</style>
-
-<style id="vf-location-tables-css">
-.vf-location-tables{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
-.vf-location-card{min-width:0}
-.vf-location-card h3{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.vf-location-card h3 span{font-size:11px;color:#64748b;font-weight:600;white-space:nowrap}
-.vf-location-card.masuk{border-top:3px solid #159447}
-.vf-location-card.tidak{border-top:3px solid #e5484d}
-.vf-location-card .vf-mini-table-wrap{max-height:330px;overflow:auto}
-.vf-location-card .vf-table{min-width:760px}
-#vfMapStatus{font-size:11px;color:#64748b;padding:5px 2px 0}
-@media(max-width:900px){.vf-location-tables{grid-template-columns:1fr}}
-</style>
-
-<style id="vf-exact-reference-layout">
-/* Match the supplied reference: compact dashboard header, KPI row, large map left, filters/tables right. */
-#viewVerifikasi{
-  display:none; padding:14px 16px 20px!important; gap:12px!important;
-  height:calc(100vh - 76px); min-height:0; overflow-y:auto!important;
-  background:linear-gradient(135deg,#f5f8ff 0%,#eaf2ff 100%)!important;
-}
-#viewVerifikasi.active{display:flex!important;flex-direction:column!important}
-#viewVerifikasi .vf-head{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;margin:0!important;min-height:52px}
-#viewVerifikasi .vf-head h2{font-size:22px!important;font-weight:900!important;color:#101f45!important}
-#viewVerifikasi .vf-head p{font-size:12px!important;color:#536687!important;margin-top:4px!important}
-#viewVerifikasi .vf-connection{display:inline-flex!important;align-items:center;white-space:nowrap;background:#e2f8e9!important;color:#087a38!important;border:1px solid #b8ebc8;padding:8px 12px;border-radius:10px;font-weight:800;font-size:11px}
-#viewVerifikasi #vfProgressPanel{display:none!important}
-#viewVerifikasi .vf-kpis{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;margin:0!important}
-#viewVerifikasi .vf-kpi{min-height:92px!important;padding:14px 16px!important;border-radius:15px!important;display:flex!important;align-items:center!important;gap:14px!important;box-shadow:0 4px 12px #23487912!important}
-#viewVerifikasi .vf-kpi small{font-size:12px!important;font-weight:850!important}
-#viewVerifikasi .vf-kpi strong{font-size:30px!important;line-height:1.12!important}
-#viewVerifikasi .vf-kpi span{font-size:11px!important;font-weight:750!important}
-#viewVerifikasi .vf-main-grid{display:grid!important;grid-template-columns:minmax(0,1.18fr) minmax(440px,.82fr)!important;gap:14px!important;min-height:610px!important;align-items:stretch!important;margin:0!important}
-#viewVerifikasi .vf-map-card{display:flex!important;flex-direction:column!important;min-width:0!important;min-height:610px!important;padding:0!important;overflow:hidden!important;border:1px solid #d4e1f5!important;border-radius:16px!important;box-shadow:0 5px 18px #1b47701a!important}
-#viewVerifikasi .vf-map-card h3{display:flex!important;align-items:center!important;justify-content:space-between!important;background:linear-gradient(100deg,#0758c9,#0869e8)!important;color:#fff!important;padding:13px 16px!important;margin:0!important;font-size:16px!important}
-#viewVerifikasi #vfMap{height:540px!important;min-height:540px!important;width:100%!important;flex:1 1 auto!important;border-radius:0!important;background:#e8f0fa!important}
-#viewVerifikasi .vf-legend{display:flex!important;flex-wrap:wrap!important;gap:14px!important;padding:11px 15px!important;background:#fff!important;font-size:10px!important}
-#viewVerifikasi .vf-right-col{display:flex!important;flex-direction:column!important;gap:10px!important;min-width:0!important;min-height:610px!important}
-#viewVerifikasi .vf-chart-card,#viewVerifikasi .vf-list-card{display:none!important}
-#viewVerifikasi .vf-filter-card{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px 12px!important;align-items:end!important;padding:13px 15px!important;margin:0!important;background:#fff!important;border:1px solid #d7e3f5!important;border-radius:15px!important;box-shadow:0 4px 14px #244a8010!important}
-#viewVerifikasi .vf-filter-title{grid-column:1/-1!important;font-size:15px!important;font-weight:900!important;color:#13264d!important;margin:0!important}
-#viewVerifikasi .vf-filter-card label{display:flex!important;flex-direction:column!important;gap:5px!important;min-width:0!important;font-size:11px!important;font-weight:800!important;color:#263b60!important}
-#viewVerifikasi .vf-filter-card select{width:100%!important;height:38px!important;border:1px solid #cbd8eb!important;border-radius:9px!important;background:#fff!important;padding:0 9px!important;font-size:11px!important;color:#172b50!important}
-#viewVerifikasi .vf-filter-card .h-btn{height:35px!important;border-radius:8px!important;padding:0 10px!important;font-size:10px!important;white-space:nowrap!important}
-#viewVerifikasi .vf-location-tables{display:flex!important;flex-direction:column!important;gap:10px!important;margin:0!important;min-width:0!important;flex:1 1 auto!important}
-#viewVerifikasi .vf-location-card{display:flex!important;flex-direction:column!important;min-width:0!important;min-height:0!important;flex:1 1 0!important;padding:0!important;overflow:hidden!important;border:1px solid #d9e4f4!important;border-radius:15px!important;box-shadow:0 4px 14px #244a8010!important}
-#viewVerifikasi .vf-location-card h3{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;margin:0!important;padding:12px 14px!important;font-size:13px!important}
-#viewVerifikasi .vf-location-card.masuk h3{background:#eaf8ef!important;color:#14532d!important;border-bottom:1px solid #ccebd5!important}
-#viewVerifikasi .vf-location-card.tidak h3{background:#fff0ef!important;color:#991b1b!important;border-bottom:1px solid #f8d4d1!important}
-#viewVerifikasi .vf-location-card h3 span{font-size:10px!important;white-space:nowrap!important}
-#viewVerifikasi .vf-location-card .vf-mini-table-wrap{max-height:245px!important;min-height:130px!important;overflow:auto!important;padding:7px 9px 9px!important;flex:1 1 auto!important}
-#viewVerifikasi .vf-location-card .vf-table{width:100%!important;min-width:0!important;border-collapse:separate!important;border-spacing:0!important;font-size:10px!important}
-#viewVerifikasi .vf-location-card .vf-table thead th{position:sticky!important;top:0!important;z-index:2!important;background:#edf3fc!important;color:#253958!important;padding:8px 6px!important;text-align:left!important;white-space:nowrap!important}
-#viewVerifikasi .vf-location-card .vf-table tbody td{padding:8px 6px!important;border-bottom:1px solid #e8eef7!important;color:#304361!important;vertical-align:top!important}
-#viewVerifikasi .vf-location-card .vf-table tbody td:nth-child(2){max-width:155px!important;min-width:90px!important}
-#viewVerifikasi .vf-location-card .vf-table tbody td:nth-child(5){white-space:nowrap!important;font-weight:750!important}
-#viewVerifikasi .vf-explain{display:none!important}
-#viewVerifikasi .vf-disclaimer{font-size:10px!important;color:#687995!important;margin:0!important;padding:0 3px!important}
-#viewVerifikasi #vfMapStatus{font-size:10px!important;color:#64748b!important;padding:3px 12px 7px!important;background:#fff!important}
-@media(max-width:1200px){
- #viewVerifikasi .vf-main-grid{grid-template-columns:minmax(0,1.05fr) minmax(390px,.95fr)!important}
- #viewVerifikasi .vf-location-card .vf-table{font-size:9px!important}
-}
-@media(max-width:950px){
- #viewVerifikasi{height:auto!important;min-height:calc(100vh - 76px)!important}
- #viewVerifikasi .vf-main-grid{grid-template-columns:1fr!important;min-height:0!important}
- #viewVerifikasi .vf-map-card{min-height:460px!important}
- #viewVerifikasi #vfMap{height:430px!important;min-height:430px!important}
- #viewVerifikasi .vf-right-col{min-height:0!important}
- #viewVerifikasi .vf-location-tables{display:grid!important;grid-template-columns:1fr 1fr!important}
- #viewVerifikasi .vf-location-card{min-height:240px!important}
-}
-@media(max-width:650px){
- #viewVerifikasi{padding:10px!important}
- #viewVerifikasi .vf-head{align-items:flex-start!important;flex-direction:column!important}
- #viewVerifikasi .vf-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}
- #viewVerifikasi .vf-filter-card{grid-template-columns:1fr 1fr!important}
- #viewVerifikasi .vf-filter-title{grid-column:1/-1!important}
- #viewVerifikasi .vf-location-tables{grid-template-columns:1fr!important}
- #viewVerifikasi .vf-map-card{min-height:400px!important}
- #viewVerifikasi #vfMap{height:360px!important;min-height:360px!important}
-}
-</style>
-
-
-<style id="mjp-corrected-style">
-#viewPeta .map-job-locations-panel{position:absolute!important;left:14px!important;top:76px!important;width:min(980px,calc(100% - 28px))!important;max-width:calc(100% - 28px)!important;max-height:calc(100% - 92px)!important;overflow:hidden!important;z-index:1120!important;background:#fff!important;border:1px solid #d6e1ef!important;border-radius:14px!important;box-shadow:0 8px 24px rgba(15,35,65,.17)!important}
-#viewPeta .mjp-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 14px;min-height:62px;background:#f8fbff;border-bottom:1px solid #e5edf7}
-#viewPeta .mjp-head strong{display:block;font-size:14px;font-weight:900;color:#17243c}
-#viewPeta .mjp-head small{display:block;font-size:11px;color:#64748b;margin-top:3px}
-#viewPeta #mjpBody{padding:11px;max-height:calc(100vh - 210px);overflow:auto}
-#viewPeta #mjpBody[hidden]{display:none!important}
-#viewPeta .mjp-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:9px}
-#viewPeta .mjp-filters label{display:flex;flex-direction:column;gap:4px;font-size:10px;font-weight:800;color:#334155}
-#viewPeta .mjp-filters select{height:34px;min-width:0;width:100%;border:1px solid #d3deec;border-radius:7px;padding:0 8px;background:#fff;font-size:11px;color:#1e293b}
-#viewPeta .mjp-legend{display:flex;flex-wrap:wrap;gap:8px 14px;padding:8px;background:#f8fafc;border-radius:8px;font-size:10px;color:#475569}
-#viewPeta .mjp-legend span{display:flex;align-items:center;gap:5px}
-#viewPeta .mjp-legend i{display:inline-block;width:9px;height:9px;border-radius:50%}
-#viewPeta .mjp-legend i.masuk{background:#16a34a}#viewPeta .mjp-legend i.tidak{background:#ef4444}#viewPeta .mjp-legend i.belum{background:#f59e0b}
-#viewPeta .mjp-summary{margin:8px 0;padding:8px 9px;border:1px solid #dbeafe;background:#eff6ff;color:#1e40af;border-radius:8px;font-size:11px;font-weight:850}
-#viewPeta .mjp-status-bars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:9px 0 12px}
-#viewPeta .mjp-status-card{border:1px solid #e2e8f0;border-radius:9px;padding:9px 10px;background:#fff;min-width:0}
-#viewPeta .mjp-status-card>div:first-child{display:flex;justify-content:space-between;align-items:center;gap:7px}
-#viewPeta .mjp-status-card strong{font-size:10px;line-height:1.25;color:#334155}
-#viewPeta .mjp-status-card b{font-size:18px}
-#viewPeta .mjp-status-card.masuk b{color:#15803d}#viewPeta .mjp-status-card.tidak b{color:#dc2626}#viewPeta .mjp-status-card.belum b{color:#b45309}
-#viewPeta .mjp-track{height:6px;background:#edf1f6;border-radius:20px;overflow:hidden;margin-top:8px}
-#viewPeta .mjp-track i{display:block;height:100%;width:0;border-radius:20px;transition:width .25s}
-#viewPeta .mjp-status-card.masuk .mjp-track i{background:#16a34a}#viewPeta .mjp-status-card.tidak .mjp-track i{background:#ef4444}#viewPeta .mjp-status-card.belum .mjp-track i{background:#f59e0b}
-#viewPeta .mjp-tables-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-#viewPeta .mjp-table-section{border:1px solid #dfe7f1;border-radius:10px;overflow:hidden;min-width:0}
-#viewPeta .mjp-table-section h4{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0;padding:9px 10px;font-size:10px}
-#viewPeta .mjp-table-section.masuk h4{background:#eaf8ef;color:#14532d}#viewPeta .mjp-table-section.tidak h4{background:#fff0ef;color:#991b1b}
-#viewPeta .mjp-table-section h4 span{font-size:9px;white-space:nowrap}
-#viewPeta .mjp-table-wrap{max-height:230px;overflow:auto}
-#viewPeta .mjp-table{width:100%;min-width:560px;border-collapse:separate;border-spacing:0;font-size:9px}
-#viewPeta .mjp-table th{position:sticky;top:0;background:#edf3fc;color:#334155;text-align:left;padding:7px 6px;z-index:2;white-space:nowrap}
-#viewPeta .mjp-table td{padding:7px 6px;border-bottom:1px solid #edf1f6;color:#334155;vertical-align:top}
-#viewPeta .mjp-footnote{font-size:9px;line-height:1.4;color:#64748b;margin-top:8px}
-@media(max-width:850px){#viewPeta .map-job-locations-panel{width:min(700px,calc(100% - 20px))!important;left:10px!important;top:82px!important}#viewPeta .mjp-tables-grid{grid-template-columns:1fr!important}#viewPeta .mjp-table-wrap{max-height:180px!important}}
-@media(max-width:600px){#viewPeta .map-job-locations-panel{left:8px!important;top:80px!important;width:calc(100% - 16px)!important;max-width:none!important;max-height:calc(100% - 90px)!important}#viewPeta #mjpBody{max-height:calc(100dvh - 220px)!important}#viewPeta .mjp-status-bars{grid-template-columns:1fr!important}#viewPeta .mjp-filters{grid-template-columns:1fr 1fr!important}}
-</style>
-
-
-<style id="hide-verifikasi-sidebar-item">
-.sidebar .nav-btn[data-view="viewVerifikasi"],
-.nav-sidebar .nav-btn[data-view="viewVerifikasi"],
-button.nav-btn[data-view="viewVerifikasi"]{
-  display:none!important;
-}
-</style>
-
-
-<style id="mjp-sequential-status-layout">
-#viewPeta .mjp-total-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:9px 0 12px}
-#viewPeta .mjp-total-box{padding:10px 12px;border:1px solid #dce5f1;border-radius:10px;background:#f8fbff;min-width:0}
-#viewPeta .mjp-total-box small{display:block;color:#64748b;font-size:10px;font-weight:750}
-#viewPeta .mjp-total-box strong{display:block;color:#172b4d;font-size:16px;font-weight:900;margin-top:4px;overflow-wrap:anywhere}
-#viewPeta .mjp-category-list{display:flex;flex-direction:column;gap:12px}
-#viewPeta .mjp-category{border:1px solid #dce5ef;border-radius:11px;overflow:hidden;background:#fff}
-#viewPeta .mjp-category>header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 13px}
-#viewPeta .mjp-category.masuk>header{background:#eaf8ef;color:#14532d}
-#viewPeta .mjp-category.tidak>header{background:#fff0ef;color:#991b1b}
-#viewPeta .mjp-category.belum>header{background:#fff7e8;color:#92400e}
-#viewPeta .mjp-category-title{display:flex;align-items:center;gap:8px;font-size:12px}
-#viewPeta .mjp-dot{width:10px;height:10px;border-radius:50%;background:#16a34a}
-#viewPeta .mjp-category.tidak .mjp-dot{background:#ef4444}
-#viewPeta .mjp-category.belum .mjp-dot{background:#f59e0b}
-#viewPeta .mjp-category-metrics{display:flex;align-items:baseline;gap:9px}
-#viewPeta .mjp-category-metrics b{font-size:21px;font-weight:900}
-#viewPeta .mjp-category-metrics span{font-size:12px;font-weight:850}
-#viewPeta .mjp-category-money{display:flex;flex-wrap:wrap;gap:8px 22px;padding:8px 13px 2px;color:#475569;font-size:10px}
-#viewPeta .mjp-category-money b{color:#172b4d;font-size:11px}
-#viewPeta .mjp-category-track{height:7px;margin:7px 13px 10px;background:#edf1f6;border-radius:20px;overflow:hidden}
-#viewPeta .mjp-category-track i{display:block;width:0;height:100%;border-radius:20px;transition:width .25s;background:#16a34a}
-#viewPeta .mjp-category.tidak .mjp-category-track i{background:#ef4444}
-#viewPeta .mjp-category.belum .mjp-category-track i{background:#f59e0b}
-#viewPeta .mjp-category .mjp-table-wrap{max-height:250px;overflow:auto;border-top:1px solid #edf1f6}
-#viewPeta .mjp-category .mjp-table{width:100%;min-width:850px;border-collapse:separate;border-spacing:0;font-size:10px}
-#viewPeta .mjp-category .mjp-table th{position:sticky;top:0;z-index:2;background:#edf3fc;padding:8px 7px;text-align:left;white-space:nowrap;color:#334155}
-#viewPeta .mjp-category .mjp-table td{padding:8px 7px;border-bottom:1px solid #edf1f6;color:#334155;vertical-align:top}
-#viewPeta .mjp-category .mjp-table td:nth-child(6),#viewPeta .mjp-category .mjp-table td:nth-child(7){white-space:nowrap;text-align:right}
-#viewPeta .mjp-footnote{margin-top:10px}
-@media(max-width:700px){
- #viewPeta .mjp-total-overview{grid-template-columns:1fr}
- #viewPeta .mjp-category-money{gap:5px 12px}
- #viewPeta .mjp-category>header{align-items:flex-start}
-}
-</style>
-
-
-<style id="mjp-recap-and-map-row-click">
-#viewPeta .mjp-category-recap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0 13px}
-#viewPeta .mjp-recap-card{display:grid;grid-template-columns:1fr auto;gap:3px 8px;align-items:center;padding:10px 12px;border:1px solid #dce5ef;border-radius:10px;background:#fff;min-width:0}
-#viewPeta .mjp-recap-card span{font-size:10px;font-weight:800;color:#475569;line-height:1.3}
-#viewPeta .mjp-recap-card strong{grid-column:1;font-size:22px;font-weight:900;line-height:1.1}
-#viewPeta .mjp-recap-card b{grid-column:2;grid-row:1/3;font-size:13px;font-weight:900}
-#viewPeta .mjp-recap-card.masuk strong,#viewPeta .mjp-recap-card.masuk b{color:#15803d}
-#viewPeta .mjp-recap-card.tidak strong,#viewPeta .mjp-recap-card.tidak b{color:#dc2626}
-#viewPeta .mjp-recap-card.belum strong,#viewPeta .mjp-recap-card.belum b{color:#b45309}
-#viewPeta .mjp-category .mjp-table tbody tr{cursor:pointer}
-#viewPeta .mjp-category .mjp-table tbody tr:hover td{background:#eff6ff;color:#123b75}
-#viewPeta .mjp-category .mjp-table tbody tr:active td{background:#dbeafe}
-@media(max-width:700px){#viewPeta .mjp-category-recap{grid-template-columns:1fr}}
-</style>
-
-
-<style id="mjp-money-and-location-symbol-style">
-#viewPeta .mjp-recap-card{grid-template-columns:1fr auto;grid-template-rows:auto auto auto auto;align-items:start;row-gap:4px}
-#viewPeta .mjp-recap-card span{grid-column:1;grid-row:1}
-#viewPeta .mjp-recap-card strong{grid-column:1;grid-row:2}
-#viewPeta .mjp-recap-card b{grid-column:2;grid-row:1/3;align-self:center}
-#viewPeta .mjp-recap-card small{grid-column:1/-1;display:flex;gap:5px;align-items:baseline;font-size:10px;color:#64748b;line-height:1.3}
-#viewPeta .mjp-recap-card small i{font-style:normal;font-weight:800;color:#243b5a;overflow-wrap:anywhere}
-#viewPeta .mjp-category .mjp-table tbody tr{cursor:pointer}
-@media(max-width:700px){#viewPeta .mjp-recap-card{min-height:105px}}
-</style>
-
-
-<style id="mjp-sheet-sync-subtitle">
-#viewPeta .mjp-head small{color:#15803d!important;font-weight:750!important}
-#viewPeta .mjp-head small::before{content:"●";font-size:9px;margin-right:6px;color:#16a34a}
-</style>
-
-
-<style id="mjp-loading-freeze-style">
-#viewPeta #mjpBody{position:relative}
-#viewPeta .mjp-loading-overlay{display:none;position:absolute;inset:0;z-index:30;background:rgba(248,251,255,.88);backdrop-filter:blur(2px);align-items:center;justify-content:center;padding:20px}
-#viewPeta .mjp-loading-overlay.active{display:flex}
-#viewPeta .mjp-loading-card{display:flex;flex-direction:column;align-items:center;gap:10px;max-width:360px;text-align:center;padding:22px 24px;background:#fff;border:1px solid #d8e4f2;border-radius:14px;box-shadow:0 8px 30px rgba(30,60,100,.14)}
-#viewPeta .mjp-loading-card strong{font-size:14px;color:#1e3a5f}
-#viewPeta .mjp-loading-card small{font-size:11px;line-height:1.5;color:#64748b}
-#viewPeta .mjp-spinner{width:28px;height:28px;border:3px solid #dbeafe;border-top-color:#2563eb;border-radius:50%;animation:mjpSpin .8s linear infinite}
-@keyframes mjpSpin{to{transform:rotate(360deg)}}
-#viewPeta #mjpRetrySync{border:0;border-radius:8px;background:#2563eb;color:white;font-size:11px;font-weight:800;padding:9px 14px;cursor:pointer}
-#viewPeta .mjp-loading-overlay.failed{background:rgba(255,250,250,.94)}
-#viewPeta .mjp-loading-overlay.failed .mjp-spinner{display:none}
-</style>
-
 </head>
 <body>
   <div id="passwordGate" aria-modal="true" role="dialog">
@@ -4079,9 +3776,6 @@ button.nav-btn[data-view="viewVerifikasi"]{
       <button class="nav-btn" data-view="viewLaporan">
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Laporan
       </button>
-      <button class="nav-btn" data-view="viewVerifikasi" title="Verifikasi Pekerjaan Jalan">
-        <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Verifikasi Pekerjaan Jalan
-      </button>
       <button class="nav-btn" data-view="viewPengaturan">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Pengaturan
       </button>
@@ -4110,7 +3804,7 @@ button.nav-btn[data-view="viewVerifikasi"]{
       <div class="actions-right">
         <button class="h-btn">☀️ Light</button>
         <button class="h-btn status"><span class="dot"></span>Data terbaru</button>
-        <button class="h-btn blue" id="btnFolder">☁ Data Terhubung</button>
+        <button class="h-btn blue" id="btnFolder">☁ Sinkronkan Drive</button>
         <button class="h-btn" onclick="window.print()">📥 Ekspor</button>
         <button class="h-btn" id="currentDateBtn">📅 Memuat tanggal...</button>
       </div>
@@ -4579,63 +4273,7 @@ button.nav-btn[data-view="viewVerifikasi"]{
             <div class="lv-muted">Toleransi awal: 50 meter dari trase. Periksa kembali koordinat yang terbaca sebelum digunakan sebagai bukti.</div>
           </div>
         </section>
-        
-<section id="mapJobLocationsPanel" class="map-job-locations-panel" aria-label="Lokasi Pekerjaan">
- <div class="mjp-head">
-  <div><strong>Lokasi Pekerjaan</strong><small>Menghubungkan ke Google Sheets…</small></div>
-  <button type="button" id="mjpToggle" class="lv-icon-btn" aria-label="Buka detail lokasi pekerjaan">+</button>
- </div>
- <div id="mjpBody" hidden>
-  <div id="mjpLoadingOverlay" class="mjp-loading-overlay" role="status" aria-live="polite">
-   <div class="mjp-loading-card">
-    <span class="mjp-spinner"></span>
-    <strong id="mjpLoadingTitle">Menghubungkan ke Google Sheets…</strong>
-    <small id="mjpLoadingDetail">Mohon tunggu. Panel dikunci sementara agar data tidak berubah sebelum sinkronisasi selesai.</small>
-    <button type="button" id="mjpRetrySync" hidden>Coba Hubungkan Kembali</button>
-   </div>
-  </div>
-
-  <div class="mjp-filters">
-   <label>Tahun Anggaran<select id="mjpYear"><option value="">Semua Tahun</option></select></label>
-   <label>Kecamatan<select id="mjpDistrict"><option value="">Semua Kecamatan</option></select></label>
-   <label>Wilayah<select id="mjpVillage"><option value="">Semua Wilayah</option></select></label>
-  </div>
-  <div class="mjp-legend"><span><i class="masuk"></i>Masuk Jalan Kabupaten</span><span><i class="tidak"></i>Tidak Masuk</span><span><i class="belum"></i>Belum Terverifikasi</span></div>
-  <div class="mjp-summary" id="mjpSummary">Menunggu koneksi Google Sheets…</div>
-  <div class="mjp-total-overview">
-   <div class="mjp-total-box"><small>Total Pekerjaan</small><strong id="mjpTotalJobs">0</strong></div>
-   <div class="mjp-total-box"><small>Total Pagu Paket</small><strong id="mjpTotalPagu">Rp 0</strong></div>
-   <div class="mjp-total-box"><small>Total Nilai Kontrak</small><strong id="mjpTotalKontrak">Rp 0</strong></div>
-  </div>
-  <div class="mjp-category-recap" aria-label="Rekap status pekerjaan">
-   <div class="mjp-recap-card masuk"><span>Masuk Jalan Kabupaten</span><strong id="mjpRecapMasuk">0</strong><b id="mjpRecapMasukPct">0%</b><small>Pagu: <i id="mjpRecapMasukPagu">Rp 0</i></small><small>Kontrak: <i id="mjpRecapMasukKontrak">Rp 0</i></small></div>
-   <div class="mjp-recap-card tidak"><span>Tidak Masuk Jalan Kabupaten</span><strong id="mjpRecapTidak">0</strong><b id="mjpRecapTidakPct">0%</b><small>Pagu: <i id="mjpRecapTidakPagu">Rp 0</i></small><small>Kontrak: <i id="mjpRecapTidakKontrak">Rp 0</i></small></div>
-   <div class="mjp-recap-card belum"><span>Perlu Verifikasi</span><strong id="mjpRecapBelum">0</strong><b id="mjpRecapBelumPct">0%</b><small>Pagu: <i id="mjpRecapBelumPagu">Rp 0</i></small><small>Kontrak: <i id="mjpRecapBelumKontrak">Rp 0</i></small></div>
-  </div>
-  <div class="mjp-category-list">
-   <section class="mjp-category masuk">
-    <header><div class="mjp-category-title"><span class="mjp-dot"></span><strong>Masuk Jalan Kabupaten</strong></div><div class="mjp-category-metrics"><b id="mjpMasukCount">0</b><span id="mjpMasukPct">0%</span></div></header>
-    <div class="mjp-category-money"><span>Total Pagu: <b id="mjpMasukPagu">Rp 0</b></span><span>Nilai Kontrak: <b id="mjpMasukKontrak">Rp 0</b></span></div>
-    <div class="mjp-category-track"><i id="mjpMasukBar"></i></div>
-    <div class="mjp-table-wrap"><table class="mjp-table"><thead><tr><th>No.</th><th>Kode Paket</th><th>Nama Pekerjaan</th><th>Kecamatan</th><th>Wilayah</th><th>Pagu Paket</th><th>Nilai Kontrak</th></tr></thead><tbody id="mjpRowsMasuk"><tr><td colspan="7">Menunggu data…</td></tr></tbody></table></div>
-   </section>
-   <section class="mjp-category tidak">
-    <header><div class="mjp-category-title"><span class="mjp-dot"></span><strong>Tidak Masuk Jalan Kabupaten</strong></div><div class="mjp-category-metrics"><b id="mjpTidakCount">0</b><span id="mjpTidakPct">0%</span></div></header>
-    <div class="mjp-category-money"><span>Total Pagu: <b id="mjpTidakPagu">Rp 0</b></span><span>Nilai Kontrak: <b id="mjpTidakKontrak">Rp 0</b></span></div>
-    <div class="mjp-category-track"><i id="mjpTidakBar"></i></div>
-    <div class="mjp-table-wrap"><table class="mjp-table"><thead><tr><th>No.</th><th>Kode Paket</th><th>Nama Pekerjaan</th><th>Kecamatan</th><th>Wilayah</th><th>Pagu Paket</th><th>Nilai Kontrak</th></tr></thead><tbody id="mjpRowsTidak"><tr><td colspan="7">Menunggu data…</td></tr></tbody></table></div>
-   </section>
-   <section class="mjp-category belum">
-    <header><div class="mjp-category-title"><span class="mjp-dot"></span><strong>Perlu Verifikasi</strong></div><div class="mjp-category-metrics"><b id="mjpBelumCount">0</b><span id="mjpBelumPct">0%</span></div></header>
-    <div class="mjp-category-money"><span>Total Pagu: <b id="mjpBelumPagu">Rp 0</b></span><span>Nilai Kontrak: <b id="mjpBelumKontrak">Rp 0</b></span></div>
-    <div class="mjp-category-track"><i id="mjpBelumBar"></i></div>
-    <div class="mjp-table-wrap"><table class="mjp-table"><thead><tr><th>No.</th><th>Kode Paket</th><th>Nama Pekerjaan</th><th>Kecamatan</th><th>Wilayah</th><th>Pagu Paket</th><th>Nilai Kontrak</th></tr></thead><tbody id="mjpRowsBelum"><tr><td colspan="7">Menunggu data…</td></tr></tbody></table></div>
-   </section>
-  </div>
-  <div class="mjp-footnote">Pilih garis atau titik pada peta untuk melihat detail pekerjaan. Panel ini terpisah dari Verifikasi Lokasi Pelaksanaan.</div>
- </div>
-</section>
-<div id="mapMax"></div>
+        <div id="mapMax"></div>
       </div>
     </div>
 
@@ -4779,7 +4417,7 @@ button.nav-btn[data-view="viewVerifikasi"]{
 
     <!-- VIEW TIMELINE ANGGARAN TAHUNAN -->
     <div id="viewTimeline" class="view-panel">
-      <div id="tlSyncNotice" role="status" aria-live="polite" class="tl-sync-notice pending"><span class="tl-sync-indicator"></span><span id="tlSyncNoticeText">Memeriksa koneksi Google Sheets…</span></div>
+      <div id="tlSyncNotice" role="status" aria-live="polite" class="tl-sync-notice pending"><span class="tl-sync-indicator"></span><span id="tlSyncNoticeText">Memeriksa sambungan data…</span></div>
       <div class="tl-grid">
         <div class="tl-kpi"><div class="tl-kpi-icon">▤</div><div><small>Total Kebutuhan Anggaran</small><strong id="tlTotalBudget">Rp 1,727 T</strong></div></div>
         <div class="tl-kpi"><div class="tl-kpi-icon" style="background:#ffedd5;color:#c2410c">▤</div><div><small>Total Realisasi Anggaran</small><strong id="tlActualBudget">Rp 580,18 M</strong><small id="tlBudgetPercent">34% dari target</small></div></div>
@@ -4790,7 +4428,7 @@ button.nav-btn[data-view="viewVerifikasi"]{
         <section class="tl-panel"><div class="tl-topline"><h3 style="margin:0;font-size:16px">Anggaran dan Panjang Penanganan per Tahun 2025–2028</h3><span class="tl-note">Sumbu kiri: Rp miliar · Sumbu kanan: km</span></div><div class="tl-legend" aria-label="Legenda grafik"><span><i style="background:#347fe8"></i>Anggaran Target/Pagu (Rp miliar)</span><span><i style="background:#f58a35"></i>Anggaran Realisasi/RKA (Rp miliar)</span><span><i style="background:#22a06b"></i>Panjang Target (km)</span><span><i style="background:#9857ed"></i>Panjang Realisasi/RKA (km)</span></div><div class="tl-chart-wrap"><div id="tlChartBudget" role="img" aria-label="Grafik batang berkelompok: anggaran dan panjang target serta realisasi per tahun"></div></div></section>
       </div>
       <section class="tl-panel"><div class="tl-topline" style="margin-bottom:12px"><h3 style="margin:0;font-size:16px">Rekapitulasi Anggaran per Tahun</h3><span class="tl-note">Data sumber: workbook Kinerja Jalan 2025–2028</span></div><div class="tl-table-wrap"><table class="tl-table"><thead><tr><th>No</th><th>Kegiatan</th><th>Target Pagu 2025</th><th>Realisasi 2025</th><th>Target Pagu 2026</th><th>Realisasi 2026</th><th>Target Pagu 2027</th><th>RKA 2027</th><th>Pagu 2028</th></tr></thead><tbody id="tlTableBody"></tbody><tfoot id="tlTableFoot"></tfoot></table></div></section>
-      <!-- Koneksi Google Sheets berjalan otomatis di latar belakang; panel pengaturan disembunyikan. -->
+      <!-- Sinkronisasi data berjalan otomatis di latar belakang; panel pengaturan disembunyikan. -->
       <div hidden aria-hidden="true"><input id="tlSheetUrl" type="url" value=""><div id="tlStatus"></div></div>
     </div>
 
@@ -5031,42 +4669,13 @@ button.nav-btn[data-view="viewVerifikasi"]{
     <div id="viewPengaturan" class="view-panel">
       <div class="card-box" style="padding:24px;">
         <h3 style="font-size:16px;margin-bottom:12px;">Pengaturan & Sambungan Cloud</h3>
-        <p style="font-size:12px;color:#64748b;margin-bottom:6px;">Proxy Web App Apps Script:</p>
-        <input type="text" readonly style="width:100%;max-width:680px;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;background:#f8fafc;font-size:11.5px;color:#334155;margin-bottom:14px;" value="https://script.google.com/macros/s/AKfycbztCtd-eaF3vrqWx8ISVWQpB1LWIjNPuMa1vJUMWmQVGoysU1uxGvyT28NHKOwzUrQ8/exec">
-        <button class="h-btn blue" onclick="connectGoogleDrive()">🔄 Sinkronkan Ulang Sekarang</button>
+        <p style="font-size:12px;color:#64748b;margin-bottom:6px;">Alamat sumber data (alamat saat spreadsheet dibuka):</p>
+        <input id="publishedSheetsUrl" type="url" autocomplete="url" style="width:100%;max-width:680px;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;font-size:11.5px;color:#334155;margin-bottom:8px;" placeholder="https://…/spreadsheets/d/ID/edit">
+        <p style="font-size:11px;color:#64748b;margin:0 0 12px;">Tempel alamat yang berakhir /edit. Tautan CSV publik dapat diblokir browser saat dashboard dibuka sebagai file lokal. Sumber data harus dapat dilihat oleh siapa saja yang memiliki tautan.</p>
+        <button class="h-btn blue" onclick="savePublishedSheetsAndConnect()">💾 Simpan URL & Sinkronkan</button>
+        <button class="h-btn" style="margin-left:6px" onclick="connectGoogleDrive()">🔄 Coba Sinkron Lagi</button>
       </div>
     </div>
-
-    <!-- VIEW TAMBAHAN: VERIFIKASI PEKERJAAN JALAN -->
-    <section id="viewVerifikasi" class="view-panel">
-      <div class="vf-head"><div><h2>Verifikasi Pekerjaan Jalan</h2><p>Klasifikasi pekerjaan berdasarkan kesesuaian dengan jaringan Jalan Kabupaten Bandung.</p></div><span id="vfConnection" class="vf-connection">● Menyiapkan data</span></div>
-<div id="vfProgressPanel" style="padding:11px 14px;background:#fff;border:1px solid #dce5f2;border-radius:12px;">
-<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px"><strong style="font-size:13px;color:#20365f">Progres Koneksi Google Sheets</strong><span id="vfProgressStatus" style="font-size:12px;font-weight:700;color:#b7791f">Menunggu proses koneksi</span></div>
-<div style="height:8px;background:#edf1f7;border-radius:20px;overflow:hidden"><div id="vfProgressBar" style="height:100%;width:0%;background:#e6a23c;border-radius:20px;transition:width .25s"></div></div>
-<div id="vfProgressDetail" style="font-size:11px;color:#687995;margin-top:7px">Belum ada permintaan data ke Google Sheets.</div></div>
-      <div class="vf-filter-card"><div class="vf-filter-title">☷ &nbsp;Filter Data</div><label>Tahun Anggaran<select id="vfYear"><option value="">Semua Tahun</option></select></label><label>Kecamatan<select id="vfDistrict"><option value="">Semua Kecamatan</option></select></label><label>Wilayah<select id="vfVillage"><option value="">Semua Wilayah</option></select></label><button class="h-btn" id="vfReset">↻ Reset</button><button class="h-btn blue" id="vfReload">⟳ Muat Ulang Data</button></div>
-      <div class="vf-kpis"><article class="vf-kpi total"><div class="vf-kpi-icon">▤</div><div><small>Total Pekerjaan</small><strong id="vfTotal">0</strong><span>pekerjaan</span></div></article><article class="vf-kpi masuk"><div class="vf-kpi-icon">✓</div><div><small>Masuk Jalan Kabupaten</small><strong id="vfMasuk">0</strong><span id="vfMasukPct">0%</span></div></article><article class="vf-kpi tidak"><div class="vf-kpi-icon">×</div><div><small>Tidak Masuk Jalan Kabupaten</small><strong id="vfTidak">0</strong><span id="vfTidakPct">0%</span></div></article><article class="vf-kpi belum"><div class="vf-kpi-icon">?</div><div><small>Belum Terverifikasi</small><strong id="vfBelum">0</strong><span>perlu pemeriksaan</span></div></article></div>
-      <div class="vf-main-grid"><article class="vf-card vf-map-card"><h3>⌖ &nbsp;Sebaran Pekerjaan</h3><div id="vfMap"></div><div class="vf-legend"><span><i class="g"></i>Jalan Kabupaten</span><span><i class="p"></i>Masuk Jalan Kabupaten</span><span><i class="r"></i>Tidak Masuk</span><span><i class="y"></i>Belum terverifikasi</span></div></article><div class="vf-right-col"><article class="vf-card vf-chart-card"><h3>▣ &nbsp;Perbandingan Pekerjaan</h3><div class="vf-chart-content"><div class="vf-donut" id="vfDonut"><div><b id="vfDonutTotal">0</b><small>Pekerjaan</small></div></div><div class="vf-chart-legend"><div><i class="p"></i><b>Masuk Jalan Kabupaten</b><strong id="vfLegendMasuk">0 pekerjaan</strong></div><div><i class="r"></i><b>Tidak Masuk Jalan Kabupaten</b><strong id="vfLegendTidak">0 pekerjaan</strong></div><div><i class="y"></i><b>Belum Terverifikasi</b><strong id="vfLegendBelum">0 pekerjaan</strong></div></div></div></article><article class="vf-card vf-list-card"><h3>▤ &nbsp;Daftar Pekerjaan <span id="vfCount">0 data</span></h3><div class="vf-mini-table-wrap"><table class="vf-table"><thead><tr><th>No.</th><th>Nama Pekerjaan</th><th>Kecamatan</th><th>Wilayah</th><th>Klasifikasi</th></tr></thead><tbody id="vfRows"><tr><td colspan="5">Menunggu data Google Spreadsheet…</td></tr></tbody></table></div></article></div></div>
-
-      <div class="vf-location-tables">
-        <article class="vf-card vf-location-card masuk">
-          <h3>✓ &nbsp;Lokasi Masuk Jalan Kabupaten <span id="vfLocationMasukCount">0 lokasi</span></h3>
-          <div class="vf-mini-table-wrap"><table class="vf-table">
-            <thead><tr><th>No.</th><th>Nama Pekerjaan</th><th>Kecamatan</th><th>Wilayah</th><th>Kode Paket</th></tr></thead>
-            <tbody id="vfLocationMasuk"><tr><td colspan="5">Menunggu data…</td></tr></tbody>
-          </table></div>
-        </article>
-        <article class="vf-card vf-location-card tidak">
-          <h3>× &nbsp;Lokasi Tidak Masuk Jalan Kabupaten <span id="vfLocationTidakCount">0 lokasi</span></h3>
-          <div class="vf-mini-table-wrap"><table class="vf-table">
-            <thead><tr><th>No.</th><th>Nama Pekerjaan</th><th>Kecamatan</th><th>Wilayah</th><th>Kode Paket</th></tr></thead>
-            <tbody id="vfLocationTidak"><tr><td colspan="5">Menunggu data…</td></tr></tbody>
-          </table></div>
-        </article>
-      </div>
-      <div class="vf-explain"><article><div class="vf-ex-icon">▰</div><div><b>Masuk Jalan Kabupaten</b><p>Pekerjaan berada pada ruas yang tercatat dalam jaringan Jalan Kabupaten Bandung (sesuai SK/daftar ruas).</p></div></article><article><div class="vf-ex-icon">▱</div><div><b>Tidak Masuk Jalan Kabupaten</b><p>Pekerjaan terindikasi berada di luar jaringan Jalan Kabupaten, misalnya Jalan Provinsi, Jalan Nasional, atau jalan lingkungan/desa.</p></div></article></div>
-      <p class="vf-disclaimer">Catatan: hasil klasifikasi otomatis merupakan indikasi awal berdasarkan kedekatan koordinat terhadap jaringan jalan. Data yang tidak lengkap atau meragukan perlu diverifikasi secara manual.</p>
-    </section>
 
   </div>
 
@@ -5075,6 +4684,8 @@ const $ = id => document.getElementById(id);
 const state = {
   roads: [],
   allRows: [],
+  roadDataSource: "none",
+  unclassifiedConditionKm: 0,
   shpGeoJSON: null,
   autoSyncTimer: null,
   autoSyncBusy: false,
@@ -5147,8 +4758,7 @@ const VIEW_ROUTE_MAP = Object.freeze({
   viewAnalisis: "kondisi-kemantapan",
   viewTimeline: "timeline",
   viewLaporan: "laporan",
-  viewPengaturan: "pengaturan",
-  viewVerifikasi: "verifikasi-pekerjaan"
+  viewPengaturan: "pengaturan"
 });
 const ROUTE_VIEW_MAP = Object.freeze(Object.fromEntries(
   Object.entries(VIEW_ROUTE_MAP).map(([view, route]) => [route, view])
@@ -5458,6 +5068,7 @@ function fmtRp(n){
   if(Math.abs(value)>=1e6) return "Rp "+ceil1(value/1e6).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+" Jt";
   return "Rp "+Math.ceil(value).toLocaleString("id-ID");
 }
+function fmtRoadRab(n){ return state.roadDataSource === "shp" ? "—" : fmtRp(n); }
 function fmtPct1Up(n){ return ceil1(n).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1})+"%"; }
 function ceil2(n){ return Math.ceil((Number(n) || 0) * 100) / 100; }
 function escapeHtml(s){ return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m])); }
@@ -5513,6 +5124,21 @@ function detectColumns(rows){
     if((k === "RUSAKBERAT" || k === "RB") && colRB === -1) colRB = idx;
     if(colRabRR === -1 && k.includes("RUSAKRINGAN") && k.includes("ANGGARAN")) colRabRR = idx;
     if(colRabRB === -1 && k.includes("RUSAKBERAT") && k.includes("ANGGARAN")) colRabRB = idx;
+  });
+
+  // Format data menyatukan header bertingkat ke label kolom saat
+  // membaca tab publik. Pakai label gabungan itu jika baris subheader kosong.
+  hMain.forEach((cell,idx)=>{
+    const k = norm(cell);
+    if(colBaik === -1 && k.includes("BAIK")) colBaik = idx;
+    if(colSedang === -1 && k.includes("SEDANG")) colSedang = idx;
+    if(colRR === -1 && k.includes("RUSAKRINGAN") && !k.includes("ANGGARAN")) colRR = idx;
+    if(colRB === -1 && k.includes("RUSAKBERAT") && !k.includes("ANGGARAN")) colRB = idx;
+    if(colHotmix === -1 && k.includes("HOTMIX")) colHotmix = idx;
+    if(colLapen === -1 && (k.includes("LAPEN") || k.includes("MAKADAM"))) colLapen = idx;
+    if(colBeton === -1 && k.includes("BETON")) colBeton = idx;
+    if(colTelford === -1 && (k.includes("TELFORD") || k.includes("KERIKIL"))) colTelford = idx;
+    if(colTanah === -1 && (k.includes("TANAH") || k.includes("BELUMTEMBUS"))) colTanah = idx;
   });
 
   if(perkStart >= 0){
@@ -5743,7 +5369,7 @@ function getBudgetForRows(rows, kecOverride=null, ruasOverride=null, useVisibleR
   const ruasFilter = ruasOverride !== null ? String(ruasOverride || "") : String(ruasEl?.value || "");
   const villageSelected = !!state.dashboardSelectedVillage;
 
-  // SUMBER RESMI RAB: sheet REKAP Google Sheets.
+  // SUMBER RESMI RAB: sheet REKAP.
   // Jika tidak ada filter kecamatan/ruas dan bukan tampilan desa, gunakan TOTAL REKAP.
   if(!useVisibleRowsOnly && !kecFilter && !ruasFilter && !villageSelected && state.rekapBudget?.total > 0){
     return {
@@ -5774,7 +5400,7 @@ function getBudgetForRows(rows, kecOverride=null, ruasOverride=null, useVisibleR
   return { rr, rb, total: rr + rb, source: "Ruas" };
 }
 
-function processWorkbook(wb, sourceName="Google Sheets"){
+function processWorkbook(wb, sourceName="Sumber Data"){
   state.workbookName = sourceName;
   state.rekapBudget = parseRekapBudget(wb);
   const visible = [];
@@ -5796,8 +5422,16 @@ function processWorkbook(wb, sourceName="Google Sheets"){
     }
   });
 
+  // Jangan mengganti data aktif dengan hasil kosong akibat respons API atau
+  // format workbook yang tidak sesuai. Pertahankan data terakhir dan laporkan sebabnya.
+  if(!roads.length) throw new Error("Tidak ada ruas jalan yang terbaca dari spreadsheet. Periksa respons sumber data dan header kolom No Ruas/Nama Ruas.");
+  const totalRoadKm = roads.reduce((sum, r) => sum + (Number(r.km) || 0), 0);
+  if(!(totalRoadKm > 0)) throw new Error("Ruas terbaca, tetapi seluruh nilai panjang bernilai 0. Periksa pemetaan kolom Panjang Ruas dan satuannya.");
+
   state.roads = roads;
   state.allRows = roads.slice();
+  state.roadDataSource = "table";
+  state.unclassifiedConditionKm = 0;
   // Workbook/Excel dapat berubah walau geometri SHP tetap; cache hasil
   // agregasi desa harus dibangun ulang agar atribut dan RAB tidak kedaluwarsa.
   if(state.villageSpatialCache) state.villageSpatialCache.clear();
@@ -5825,7 +5459,7 @@ function processWorkbook(wb, sourceName="Google Sheets"){
 
 function populateKecamatan(){
   const sel = $("selKec");
-  const kec = [...new Set(state.roads.map(r=>r.kec))].sort((a,b)=>a.localeCompare(b,"id"));
+  const kec = [...new Set(state.roads.map(r=>r.kec).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"id"));
   sel.innerHTML = '<option value="">Semua Kecamatan</option>' + kec.map(k=>`<option value="${escapeHtml(k)}">${escapeHtml(k)}</option>`).join("");
   populateDashboardDesa();
   populateRuas();
@@ -6042,16 +5676,41 @@ function updateVillageConditionMobileVisibility(){
 
 function setStatus(text){
   const st = document.querySelector(".h-btn.status");
-  if(st) st.innerHTML = '<span class="dot"></span>' + escapeHtml(text);
+  const fullText = String(text ?? "");
+  const driveButton = $("btnFolder");
+  if(driveButton){
+    if(fullText.includes("Memuat data")) driveButton.textContent="☁ Sedang menyinkronkan…";
+    else if(fullText.includes("Data berhasil disinkronkan")) driveButton.textContent="☁ Data tersinkron";
+    else if(fullText.includes("Data belum tersinkron") || fullText.includes("Sinkronisasi data gagal")) driveButton.textContent="☁ Periksa koneksi";
+  }
+  if(st){
+    st.title = fullText;
+    let visibleText = fullText;
+    const shpFallbackMatch = fullText.match(/Atribut SHP aktif · ([0-9.,]+) ruas/);
+    if(shpFallbackMatch) visibleText = `Atribut SHP · ${shpFallbackMatch[1]} ruas`;
+    else if(fullText.includes("Data berhasil disinkronkan")) visibleText = `Data berhasil disinkronkan · ${fullText.match(/[0-9][0-9.,]* ruas/)?.[0] || "data jalan"} · peta memakai geometri tertanam`;
+    else if(fullText.includes("Data belum tersinkron")) {
+      const detail = fullText.match(/analisis belum tersedia\s*[·]\s*(.*)$/i)?.[1] || "";
+      visibleText = detail ? `Data belum tersinkron · ${detail.slice(0,100)}${detail.length>100?"…":""}` : "Data belum tersinkron · analisis belum tersedia";
+    }
+    else if(fullText.includes("Sinkronisasi data gagal")) visibleText = "Data gagal diperbarui · data terakhir tetap digunakan";
+    st.innerHTML = '<span class="dot"></span>' + escapeHtml(visibleText);
+  }
   const side = $("sideStatusCount");
   if(side){
-    const m = String(text).match(/([0-9][0-9.,]*)\s*ruas/);
-    side.textContent = m ? `${m[1]} ruas jalan` : "699 ruas jalan";
+    const m = fullText.match(/([0-9][0-9.,]*)\s*ruas/);
+    const loadedCount = Array.isArray(state.roads) && state.roads.length ? state.roads.length.toLocaleString("id-ID") : "";
+    side.textContent = m ? `${m[1]} ruas jalan` : (loadedCount ? `${loadedCount} ruas jalan` : "Data belum tersedia");
   }
 }
 function setText(id, text){ const e = $(id); if(e) e.textContent = text; }
 
 function setKpi(rows){
+  if(state.roadDataSource === "none"){
+    ["kpiRuas","kpiPanjang","kpiBaik","pctBaik","kpiSedang","pctSedang","kpiRR","pctRR","kpiRB","pctRB","kpiRAB"].forEach(id=>setText(id,"—"));
+    ["progBaik","progSedang","progRR","progRB"].forEach(id=>{ const el=$(id); if(el) el.style.width="0%"; });
+    return;
+  }
   const total = rows.length;
   const km = rows.reduce((s,r)=>s+r.km, 0);
   const b = rows.reduce((s,r)=>s+r.baik, 0);
@@ -6067,7 +5726,7 @@ function setKpi(rows){
   setText("kpiSedang", fmtKm(se)); setText("pctSedang", km ? fmtPct1Up((se/km)*100) : "0,0%");
   setText("kpiRR", fmtKm(rr)); setText("pctRR", km ? fmtPct1Up((rr/km)*100) : "0,0%");
   setText("kpiRB", fmtKm(rb)); setText("pctRB", km ? fmtPct1Up((rb/km)*100) : "0,0%");
-  setText("kpiRAB", fmtRp(rab));
+  setText("kpiRAB", state.roadDataSource === "shp" ? "Belum tersedia" : fmtRp(rab));
 
   $("progBaik").style.width = km ? (b/km*100)+"%" : "0%";
   $("progSedang").style.width = km ? (se/km*100)+"%" : "0%";
@@ -6162,18 +5821,44 @@ function formatBudgetCenter(totalVal){
 }
 
 function renderCharts(rows){
+  if(state.roadDataSource === "none"){
+    animateDonutSweep($("donutKondisi"), [], []);
+    animateDonutSweep($("donutBudget"), [], []);
+    setText("donutKmTotal","—");
+    ["legKmBaik","legKmSedang","legKmRR","legKmRB","pctLegBaik","pctLegSedang","pctLegRR","pctLegRB","budgetTotal","budgetPctRR","budgetPctRB","budgetValueRR","budgetValueRB"].forEach(id=>setText(id,"—"));
+    setText("budgetSubUnit","Menunggu sumber data");
+    setText("pavementTotalPill","Menunggu sumber data");
+    document.querySelectorAll("[data-perk]").forEach(el=>{ const val=el.querySelector(".bar-val"); const fill=el.querySelector(".bar-fill"); if(val) val.textContent="—"; if(fill) fill.style.height="4%"; });
+    return;
+  }
   const b = rows.reduce((s,r)=>s+r.baik, 0);
   const se = rows.reduce((s,r)=>s+r.sedang, 0);
   const rr = rows.reduce((s,r)=>s+r.rr, 0);
   const rb = rows.reduce((s,r)=>s+r.rb, 0);
-  const total = b + se + rr + rb;
+  const unknownKm = state.roadDataSource === "shp"
+    ? rows.reduce((s,r)=>s + (Number(r.unclassified)||0), 0) : 0;
+  const total = b + se + rr + rb + unknownKm;
 
-  animateDonutSweep($("donutKondisi"), [b, se, rr, rb], Object.values(CONDITION_COLORS));
+  const conditionValues = unknownKm > 0 ? [b, se, rr, rb, unknownKm] : [b, se, rr, rb];
+  const conditionColors = unknownKm > 0 ? [...Object.values(CONDITION_COLORS), "#94a3b8"] : Object.values(CONDITION_COLORS);
+  animateDonutSweep($("donutKondisi"), conditionValues, conditionColors);
   setText("donutKmTotal", fmtNum(total));
   setText("legKmBaik", fmtKm(b)); setText("pctLegBaik", total ? fmtPct1Up((b/total)*100) : "0,0%");
   setText("legKmSedang", fmtKm(se)); setText("pctLegSedang", total ? fmtPct1Up((se/total)*100) : "0,0%");
   setText("legKmRR", fmtKm(rr)); setText("pctLegRR", total ? fmtPct1Up((rr/total)*100) : "0,0%");
   setText("legKmRB", fmtKm(rb)); setText("pctLegRB", total ? fmtPct1Up((rb/total)*100) : "0,0%");
+  const conditionLegend = $("donutKondisi")?.parentElement?.querySelector(".donut-legend-list");
+  let unknownLegend = conditionLegend?.querySelector(".shp-unknown-condition");
+  if(unknownKm > 0 && conditionLegend){
+    if(!unknownLegend){
+      unknownLegend = document.createElement("div");
+      unknownLegend.className = "d-item shp-unknown-condition";
+      unknownLegend.innerHTML = '<div class="d-item-left"><i style="background:#94a3b8;width:8px;height:8px;border-radius:50%;display:inline-block"></i>Belum diketahui</div><b id="pctLegUnknown">0,0%</b><small id="legKmUnknown">0,00 km</small>';
+      conditionLegend.appendChild(unknownLegend);
+    }
+    setText("pctLegUnknown", fmtPct1Up((unknownKm/total)*100));
+    setText("legKmUnknown", fmtKm(unknownKm));
+  }else unknownLegend?.remove();
 
   const budget = getBudgetForRows(rows, null, null, true);
   const rabRR = budget.rr;
@@ -6182,14 +5867,15 @@ function renderCharts(rows){
 
   animateDonutSweep($("donutBudget"), [rabRR, rabRB], ["#f97316", "#ef4444"]);
   
+  const budgetUnavailable = state.roadDataSource === "shp";
   const bCenter = formatBudgetCenter(totalRAB);
-  setText("budgetTotal", bCenter.main);
-  setText("budgetSubUnit", bCenter.sub);
+  setText("budgetTotal", budgetUnavailable ? "—" : bCenter.main);
+  setText("budgetSubUnit", budgetUnavailable ? "Data Sheets belum tersedia" : bCenter.sub);
 
-  setText("budgetPctRR", totalRAB ? fmtPct1Up((rabRR/totalRAB)*100) : "0,0%");
-  setText("budgetPctRB", totalRAB ? fmtPct1Up((rabRB/totalRAB)*100) : "0,0%");
-  setText("budgetValueRR", fmtRp(rabRR));
-  setText("budgetValueRB", fmtRp(rabRB));
+  setText("budgetPctRR", budgetUnavailable ? "—" : totalRAB ? fmtPct1Up((rabRR/totalRAB)*100) : "0,0%");
+  setText("budgetPctRB", budgetUnavailable ? "—" : totalRAB ? fmtPct1Up((rabRB/totalRAB)*100) : "0,0%");
+  setText("budgetValueRR", budgetUnavailable ? "—" : fmtRp(rabRR));
+  setText("budgetValueRB", budgetUnavailable ? "—" : fmtRp(rabRB));
 
   const h = rows.reduce((s,r)=>s+r.perkData.hotmix, 0);
   const lp = rows.reduce((s,r)=>s+r.perkData.lapen, 0);
@@ -6198,7 +5884,7 @@ function renderCharts(rows){
   const tn = rows.reduce((s,r)=>s+r.perkData.tanah, 0);
   const totalPerk = h + lp + bt + tf + tn;
 
-  setText("pavementTotalPill", `Total: ${fmtKm(totalPerk)}`);
+  setText("pavementTotalPill", budgetUnavailable ? "Data Sheets belum tersedia" : `Total: ${fmtKm(totalPerk)}`);
   const maxP = Math.max(h, lp, bt, tf, tn, 1);
 
   const setBar = (k, v) => {
@@ -6206,7 +5892,7 @@ function renderCharts(rows){
     if(el){
       const fill = el.querySelector(".bar-fill");
       const valText = el.querySelector(".bar-val");
-      valText.textContent = fmtKm(v);
+      valText.textContent = budgetUnavailable ? "—" : fmtKm(v);
 
       const targetHeight = v > 0 ? Math.max(8, (v / maxP) * 94) : 4;
       fill.style.height = targetHeight + "%";
@@ -6286,6 +5972,10 @@ function renderVillageCondition(rows){
     }
   }
   if(!tbody) return;
+  if(state.roadDataSource === "none"){
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#64748b;padding:24px">Data jalan menunggu sinkronisasi.</td></tr>';
+    return;
+  }
   if(state.dashboardSelectedVillage){
     tbody.innerHTML = "";
     return;
@@ -6589,6 +6279,14 @@ function renderVillage(rows){
   const pct = totalKm > 0 ? Math.max(0,Math.min(100,(mantap/totalKm)*100)) : 0;
   const money = getBudgetForRows(visibleRows, null, null, true);
   const set = (id,value) => { const el=document.getElementById(id); if(el) el.textContent=value; };
+  if(state.roadDataSource === "none"){
+    ["vsummaryRoadCount","vsummaryLength","vsummaryMantapPct","vsummaryMantapKm","vsummaryBelumKm","vsummaryBaik","vsummaryRAB"].forEach(id=>set(id,"—"));
+    const mantapBar=document.getElementById('vsummaryMantapBar');
+    const belumBar=document.getElementById('vsummaryBelumBar');
+    if(mantapBar) mantapBar.style.width="0%";
+    if(belumBar) belumBar.style.width="0%";
+    return;
+  }
   set('vsummaryRoadCount', `${visibleRows.length.toLocaleString('id-ID')} ruas`);
   set('vsummaryLength', fmtKm(totalKm));
   set('vsummaryMantapPct', `${pct.toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2})}%`);
@@ -6634,10 +6332,14 @@ function renderTable(rows){
   const tbody = $("roadsTableBody");
   if(!tbody) return;
   tbody.innerHTML = "";
+  if(state.roadDataSource === "none"){
+    tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;color:#64748b;padding:24px">Data jalan menunggu sinkronisasi.</td></tr>';
+    return;
+  }
 
   rows.forEach((r, i) => {
     const tr = document.createElement("tr");
-    const cls = r.kondisi === "Baik" ? "baik" : r.kondisi === "Sedang" ? "sedang" : r.kondisi === "Rusak Ringan" ? "rr" : "rb";
+    const cls = r.kondisi === "Baik" ? "baik" : r.kondisi === "Sedang" ? "sedang" : r.kondisi === "Rusak Ringan" ? "rr" : r.kondisi === "Belum diketahui" ? "unknown" : "rb";
     const roadKeyValue = roadKey(r.no) || roadKey(r.nama);
     tr.dataset.roadKey = roadKeyValue;
     tr.title = "Klik untuk melihat ruas ini pada peta Dashboard";
@@ -6653,7 +6355,7 @@ function renderTable(rows){
       <td style="text-align:right;color:#d97706">${fmtNum(r.sedang)} km</td>
       <td style="text-align:right;color:#ea580c">${fmtNum(r.rr)} km</td>
       <td style="text-align:right;color:#dc2626">${fmtNum(r.rb)} km</td>
-      <td style="text-align:right"><b>${fmtRp(r.rab)}</b></td>
+      <td style="text-align:right"><b>${fmtRoadRab(r.rab)}</b></td>
     `;
     tr.addEventListener("click", () => focusDashboardRoad(r));
     tbody.appendChild(tr);
@@ -6713,6 +6415,10 @@ function renderDedicatedTable(){
   const tbodyDed = $("dedicatedRuasTableBody");
   if(!tbodyDed) return;
   tbodyDed.innerHTML = "";
+  if(state.roadDataSource === "none"){
+    tbodyDed.innerHTML = '<tr><td colspan="12" style="text-align:center;color:#64748b;padding:24px">Data jalan menunggu sinkronisasi.</td></tr>';
+    return;
+  }
 
   const kecFilter = $("selKecTable") ? $("selKecTable").value : "";
   const ruasFilter = $("selRuasTable") ? $("selRuasTable").value : "";
@@ -6725,7 +6431,7 @@ function renderDedicatedTable(){
 
   filteredRoads.forEach((r, i) => {
     const trDed = document.createElement("tr");
-    const cls = r.kondisi === "Baik" ? "baik" : r.kondisi === "Sedang" ? "sedang" : r.kondisi === "Rusak Ringan" ? "rr" : "rb";
+    const cls = r.kondisi === "Baik" ? "baik" : r.kondisi === "Sedang" ? "sedang" : r.kondisi === "Rusak Ringan" ? "rr" : r.kondisi === "Belum diketahui" ? "unknown" : "rb";
     trDed.innerHTML = `
       <td>${i+1}</td>
       <td>${escapeHtml(r.noDisplay||r.no)}</td>
@@ -6738,7 +6444,7 @@ function renderDedicatedTable(){
       <td style="text-align:right;color:#d97706">${fmtNum(r.sedang)} km</td>
       <td style="text-align:right;color:#ea580c">${fmtNum(r.rr)} km</td>
       <td style="text-align:right;color:#dc2626">${fmtNum(r.rb)} km</td>
-      <td style="text-align:right"><b>${fmtRp(r.rab)}</b></td>
+      <td style="text-align:right"><b>${fmtRoadRab(r.rab)}</b></td>
     `;
     tbodyDed.appendChild(trDed);
   });
@@ -6750,6 +6456,13 @@ function renderAnalysisTable(){
   const titleEl = $("analysisTableTitle");
   const pillEl = $("analysisTableCountPill");
   if(!tbody || !thead) return;
+  if(state.roadDataSource === "none"){
+    setText("anIKJ","—"); setText("anRabRR","—"); setText("anRabRB","—"); setText("anRAB","—");
+    if(titleEl) titleEl.textContent="Analisis menunggu sinkronisasi data jalan";
+    if(pillEl) pillEl.textContent="Data belum tersedia";
+    tbody.innerHTML='<tr><td colspan="12" style="text-align:center;color:#64748b;padding:24px">Hubungkan sumber data melalui menu Pengaturan untuk menampilkan analisis resmi.</td></tr>';
+    return;
+  }
 
   const kecFilter = $("selKecAnalysis") ? $("selKecAnalysis").value : "";
   const ruasFilter = $("selRuasAnalysis") ? $("selRuasAnalysis").value : "";
@@ -6776,9 +6489,9 @@ function renderAnalysisTable(){
   const ikjVal = calcKemantapan(bTot, sTot, rrTot, rbTot, kmTot);
 
   setText("anIKJ", ceil2(ikjVal).toLocaleString("id-ID", {minimumFractionDigits:2, maximumFractionDigits:2}) + "%");
-  setText("anRabRR", fmtRp(rabRRTot));
-  setText("anRabRB", fmtRp(rabRBTot));
-  setText("anRAB", fmtRp(rabTot));
+  setText("anRabRR", fmtRoadRab(rabRRTot));
+  setText("anRabRB", fmtRoadRab(rabRBTot));
+  setText("anRAB", fmtRoadRab(rabTot));
 
   if(kecFilter || ruasFilter){
     if(titleEl) titleEl.textContent = `Rincian Ruas Jalan Kecamatan ${kecFilter || 'Terpilih'}`;
@@ -6807,7 +6520,7 @@ function renderAnalysisTable(){
     }
 
     tbody.innerHTML = filteredAnalysisRoads.map((r, i) => {
-      const cls = r.kondisi === "Baik" ? "baik" : r.kondisi === "Sedang" ? "sedang" : r.kondisi === "Rusak Ringan" ? "rr" : "rb";
+      const cls = r.kondisi === "Baik" ? "baik" : r.kondisi === "Sedang" ? "sedang" : r.kondisi === "Rusak Ringan" ? "rr" : r.kondisi === "Belum diketahui" ? "unknown" : "rb";
       const pctMantapNum = calcKemantapan(r.baik, r.sedang, r.rr, r.rb, r.km);
       const pctMantapStr = pctMantapNum.toFixed(1) + "%";
       
@@ -6824,7 +6537,7 @@ function renderAnalysisTable(){
           <td style="text-align:right;color:#ea580c">${fmtNum(r.rr)} km</td>
           <td style="text-align:right;color:#dc2626">${fmtNum(r.rb)} km</td>
           <td style="text-align:center;font-weight:800;color:${pctMantapNum >= 60 ? '#059669':'#d97706'}">${pctMantapStr}</td>
-          <td style="text-align:right"><b>${fmtRp(r.rab)}</b></td>
+          <td style="text-align:right"><b>${fmtRoadRab(r.rab)}</b></td>
         </tr>
       `;
     }).join("");
@@ -6892,6 +6605,17 @@ function renderAnalysisTable(){
 }
 
 function renderReportView(){
+  if(state.roadDataSource === "none"){
+    if($("repDocumentMainTitle")) $("repDocumentMainTitle").textContent="LAPORAN MENUNGGU SINKRONISASI DATA JALAN";
+    setText("repPetaCountPill","Data belum tersedia");
+    setText("repIKJ","—"); setText("repRabRR","—"); setText("repRabRB","—"); setText("repRAB","—");
+    const tbodyPetaLegend=$("repPetaTableBody");
+    const tbodyRepMantap=$("repMantapTableBody");
+    if(tbodyPetaLegend) tbodyPetaLegend.innerHTML='<tr><td colspan="7" style="text-align:center;padding:20px">Data menunggu sinkronisasi.</td></tr>';
+    if(tbodyRepMantap) tbodyRepMantap.innerHTML='<tr><td colspan="9" style="text-align:center;padding:20px">Data menunggu sinkronisasi.</td></tr>';
+    renderRoadMapReport();
+    return;
+  }
   const kecFilter = $("selKecReport") ? $("selKecReport").value : "";
   const repRoads = state.roads.filter(r => !kecFilter || r.kec === kecFilter);
 
@@ -6904,7 +6628,7 @@ function renderReportView(){
   const tbodyPetaLegend = $("repPetaTableBody");
   if(tbodyPetaLegend){
     tbodyPetaLegend.innerHTML = repRoads.slice(0, 100).map((r, i) => {
-      const cls = r.kondisi === "Baik" ? "baik" : r.kondisi === "Sedang" ? "sedang" : r.kondisi === "Rusak Ringan" ? "rr" : "rb";
+      const cls = r.kondisi === "Baik" ? "baik" : r.kondisi === "Sedang" ? "sedang" : r.kondisi === "Rusak Ringan" ? "rr" : r.kondisi === "Belum diketahui" ? "unknown" : "rb";
       const latRef = (-7.06 - (i * 0.0025)).toFixed(4);
       const lngRef = (107.56 + (i * 0.0035)).toFixed(4);
       return `
@@ -6934,9 +6658,9 @@ function renderReportView(){
   const ikjVal = calcKemantapan(bTot, sTot, rrTot, rbTot, kmTot);
 
   setText("repIKJ", fmtPct1Up(ikjVal));
-  setText("repRabRR", fmtRp(rabRRTot));
-  setText("repRabRB", fmtRp(rabRBTot));
-  setText("repRAB", fmtRp(rabTot));
+  setText("repRabRR", fmtRoadRab(rabRRTot));
+  setText("repRabRB", fmtRoadRab(rabRBTot));
+  setText("repRAB", fmtRoadRab(rabTot));
 
   const tbodyRepMantap = $("repMantapTableBody");
   if(tbodyRepMantap){
@@ -6960,7 +6684,7 @@ function renderReportView(){
           <td style="text-align:right;color:var(--c-rr)">${fmtKm(g.rr)}</td>
           <td style="text-align:right;color:var(--c-rb)">${fmtKm(g.rb)}</td>
           <td style="text-align:center"><b>${ikjKec.toFixed(1)}%</b></td>
-          <td style="text-align:right"><b>${fmtRp(g.rab)}</b></td>
+          <td style="text-align:right"><b>${fmtRoadRab(g.rab)}</b></td>
         </tr>
       `;
     }).join("");
@@ -7161,7 +6885,7 @@ function renderRoadMap(rows){
   <div style="margin-top:8px"><small>Panjang Kondisi</small><br><b>${fmtKm(segmenKm)}</b></div>
   <div style="margin-top:8px"><small>Kondisi</small><br><b style="color:${CONDITION_COLORS[roadCondition] || "#0f172a"}">${escapeHtml(roadCondition)}</b></div>
   <div style="margin-top:8px"><small>Koordinat</small><br><b>${coordText}</b></div>
-  <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 10px;background:#1d72fe;color:#fff;border-radius:8px;text-decoration:none;font-weight:800;font-size:12px">Buka di Google Maps</a>
+  <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 10px;background:#1d72fe;color:#fff;border-radius:8px;text-decoration:none;font-weight:800;font-size:12px">Buka lokasi di peta</a>
 </div>`);
         }
       }).addTo(roadLayerGroup);
@@ -7260,7 +6984,7 @@ function renderRoadMapMax(){
   <div style="margin-top:8px"><small>Panjang Kondisi</small><br><b>${fmtKm(segmenKm)}</b></div>
   <div style="margin-top:8px"><small>Kondisi</small><br><b style="color:${CONDITION_COLORS[roadCondition] || "#0f172a"}">${escapeHtml(roadCondition)}</b></div>
   <div style="margin-top:8px"><small>Koordinat</small><br><b>${coordText}</b></div>
-  <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 10px;background:#1d72fe;color:#fff;border-radius:8px;text-decoration:none;font-weight:800;font-size:12px">Buka di Google Maps</a>
+  <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 10px;background:#1d72fe;color:#fff;border-radius:8px;text-decoration:none;font-weight:800;font-size:12px">Buka lokasi di peta</a>
 </div>`);
           if(isVillageRoad){
             lyr.on('add', () => { try { lyr.bringToFront(); } catch(e){} });
@@ -7343,7 +7067,7 @@ function renderRoadMapReport(){
   <div style="margin-top:8px"><small>Panjang Kondisi</small><br><b>${fmtKm(segmenKm)}</b></div>
   <div style="margin-top:8px"><small>Kondisi</small><br><b style="color:${CONDITION_COLORS[roadCondition] || "#0f172a"}">${escapeHtml(roadCondition)}</b></div>
   <div style="margin-top:8px"><small>Koordinat</small><br><b>${coordText}</b></div>
-  <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 10px;background:#1d72fe;color:#fff;border-radius:8px;text-decoration:none;font-weight:800;font-size:12px">Buka di Google Maps</a>
+  <a href="${gmapsUrl}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 10px;background:#1d72fe;color:#fff;border-radius:8px;text-decoration:none;font-weight:800;font-size:12px">Buka lokasi di peta</a>
 </div>`);
         }
       });
@@ -7363,27 +7087,101 @@ function renderRoadMapReport(){
   }
 }
 
-const ASBRAT_PROXY_URL = "https://script.google.com/macros/s/AKfycbztCtd-eaF3vrqWx8ISVWQpB1LWIjNPuMa1vJUMWmQVGoysU1uxGvyT28NHKOwzUrQ8/exec";
-
-function base64ToBytes(base64){
-  const clean = String(base64||"").replace(/\s/g,"");
-  const binary = atob(clean);
-  const bytes = new Uint8Array(binary.length);
-  for(let i=0; i<binary.length; i++) bytes[i] = binary.charCodeAt(i);
-  return bytes;
+// Simpan alamat dokumen biasa untuk mengambil data terstruktur.
+const DEFAULT_SHEET_EDIT_URL = "https://docs.google.com/spreadsheets/d/1XJmxnz--xdF3rtklTK_E8ZnkQObTz-C1IN6-GdMpABM/edit";
+const PUBLISHED_SHEETS_STORAGE_KEY = "asbrat_sheet_edit_url_v4";
+const PUBLISHED_SHEET_TABS = [
+  ["Rekap","402413926"],["Arjasari","764020369"],["Baleendah","1689798806"],["Banjaran","1530231977"],
+  ["Bojongsoang","1673679779"],["Cangkuang","772370761"],["Cikancung","359563987"],["Cicalengka","1675607848"],
+  ["Cilengkrang","2098891324"],["Cileunyi","21875217"],["Cimaung","290284935"],["Cimenyan","173258966"],
+  ["Ciparay","2034194238"],["Ciwidey","766269585"],["Dayeuhkolot","182862796"],["Ibun","579410810"],
+  ["Katapang","75045381"],["Kertasari","1929057497"],["Kutawaringin","920323347"],["Majalaya","580646140"],
+  ["Margaasih","1502132003"],["Margahayu","1016659328"],["Nagreg","1163613019"],["Pacet","1936997775"],
+  ["Pameungpeuk","2112524811"],["Pangalengan","75729494"],["Paseh","420472873"],["Pasirjambu","217695122"],
+  ["Rancabali","187076474"],["Rancaekek","1564350498"],["Solokan Jeruk","2034266762"],["Soreang","1520311162"]
+];
+function normalizePublishedSheetsURL(value){
+  const parsed = new URL(String(value || "").trim());
+  const match = parsed.pathname.match(/^\/spreadsheets\/d\/([^/]+)\/(?:edit|view)?\/?$/);
+  if(parsed.protocol !== "https:" || parsed.hostname !== "docs.google.com" || !match || match[1] === "e") throw new Error("Tempel alamat sumber data biasa yang berakhiran /spreadsheets/d/ID/edit, bukan tautan /pub.");
+  return `https://docs.google.com/spreadsheets/d/${match[1]}/edit`;
 }
-
-async function fetchProxyJson(file){
-  const res = await fetch(`${ASBRAT_PROXY_URL}?file=${encodeURIComponent(file)}&_t=${Date.now()}`);
-  if(!res.ok) throw new Error("Gagal mengambil data dari Google Apps Script");
-  return await res.json();
+function getPublishedSheetsURL(){
+  try {
+    const saved = localStorage.getItem(PUBLISHED_SHEETS_STORAGE_KEY);
+    return saved ? normalizePublishedSheetsURL(saved) : DEFAULT_SHEET_EDIT_URL;
+  }
+  catch(_) { return DEFAULT_SHEET_EDIT_URL; }
 }
-
-async function downloadProxyFile(file, filename, type="application/octet-stream"){
-  const json = await fetchProxyJson(file);
-  if(!json.data) throw new Error("Data base64 tidak ada");
-  const bytes = base64ToBytes(json.data);
-  return new File([bytes], filename, { type, lastModified: Date.now() });
+function savePublishedSheetsAndConnect(){
+  const input = $("publishedSheetsUrl");
+  let normalized;
+  try { normalized = normalizePublishedSheetsURL(input?.value || ""); }
+  catch(err) { setStatus(err.message); return; }
+  try { localStorage.setItem(PUBLISHED_SHEETS_STORAGE_KEY, normalized); }
+  catch(_) { setStatus("URL valid, tetapi browser tidak mengizinkan penyimpanan pengaturan."); return; }
+  connectGoogleDrive();
+}
+const publishedSheetsInput = $("publishedSheetsUrl");
+if(publishedSheetsInput) publishedSheetsInput.value = getPublishedSheetsURL();
+function getPublishedSheetsId(){
+  return getPublishedSheetsURL().match(/\/spreadsheets\/d\/([^/]+)\//)?.[1] || "";
+}
+let gvizCallbackSequence = 0;
+function fetchPublishedSheetRows(spreadsheetId,name,gid){
+  return new Promise((resolve,reject)=>{
+    const callbackName = `__asbratGviz_${Date.now()}_${++gvizCallbackSequence}`;
+    const script = document.createElement("script");
+    let done = false;
+    const cleanup = ()=>{
+      if(done) return;
+      done = true;
+      clearTimeout(timer);
+      delete window[callbackName];
+      script.remove();
+    };
+    const timer = setTimeout(()=>{cleanup();reject(new Error(`Waktu tunggu tab ${name} habis.`));},30000);
+    window[callbackName] = payload=>{
+      cleanup();
+      if(!payload || payload.status !== "ok" || !payload.table?.rows) {
+        reject(new Error(`Sumber data menolak tab ${name}. Pastikan spreadsheet dapat dilihat oleh siapa saja yang memiliki tautan.`));
+        return;
+      }
+      const values = payload.table.rows.map(row=>(row.c||[]).map(cell=>cell && cell.v!==null && cell.v!==undefined ? cell.v : ""));
+      const rows = [payload.table.cols.map(col=>col.label || ""),...values];
+      if(!rows.length) reject(new Error(`Tab ${name} kosong atau tidak dipublikasikan.`));
+      else resolve(rows);
+    };
+    script.onerror = ()=>{cleanup();reject(new Error(`Koneksi JSONP tab ${name} gagal. Periksa URL spreadsheet dan izin tampil publik.`));};
+    const url = new URL(`https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq`);
+    url.searchParams.set("gid",gid);
+    // Rekap memakai tiga baris judul; tab kecamatan memakai lima agar label
+    // kolom gabungan hasil merge dipulihkan tanpa kehilangan baris ruas.
+    url.searchParams.set("headers",name === "Rekap" ? "3" : "5");
+    url.searchParams.set("tqx",`responseHandler:${callbackName}`);
+    script.src = url.toString();
+    document.head.appendChild(script);
+  });
+}
+async function fetchPublishedWorkbook(){
+  const publishedId = getPublishedSheetsId();
+  if(!publishedId) throw new Error("Tempel alamat sumber data yang berakhir /edit di menu Pengaturan.");
+  const workbook = XLSX.utils.book_new();
+  const signatures = [];
+  const concurrency = 4;
+  for(let offset=0; offset<PUBLISHED_SHEET_TABS.length; offset+=concurrency){
+    const batch = PUBLISHED_SHEET_TABS.slice(offset,offset+concurrency);
+    const loaded = await Promise.all(batch.map(async ([rawName,gid])=>{
+      const name = String(rawName).trim().slice(0,31);
+      const data = await fetchPublishedSheetRows(publishedId,name,gid);
+      return {name,data,signature:remoteDataSignature(JSON.stringify(data))};
+    }));
+    loaded.forEach(sheet=>{
+      XLSX.utils.book_append_sheet(workbook,XLSX.utils.aoa_to_sheet(sheet.data),sheet.name);
+      signatures.push(`${sheet.name}:${sheet.signature}`);
+    });
+  }
+  return {workbook,signature:signatures.join("|")};
 }
 
 function normalizeProjectedGeoJSON(geo, prjText){
@@ -7435,7 +7233,9 @@ async function loadSHPParts(parts){
   const geometries = shp.parseShp(shpBuf, prjText || undefined);
   const records = shp.parseDbf(dbfBuf);
   const n = Math.min(geometries.length, records.length);
+  if(!n) throw new Error("File SHP/DBF berhasil diambil, tetapi tidak berisi pasangan geometri dan atribut.");
   const geo = shp.combine([geometries.slice(0,n), records.slice(0,n)]);
+  if(!Array.isArray(geo?.features) || !geo.features.length) throw new Error("SHP/DBF tidak menghasilkan fitur jalan yang dapat dipetakan.");
   normalizeProjectedGeoJSON(geo, prjText);
 
   state.shpGeoJSON = geo;
@@ -7828,49 +7628,6 @@ function renderVillageSearchSuggestions(){
   box.classList.add("show");
   box.querySelectorAll("[data-village-index]").forEach((el,i)=>el.addEventListener("click",()=>chooseVillage(matches[i])));
 }
-async function checkGoogleDriveVersion(){
-  if(state.autoSyncBusy) return;
-  try{
-    const v = await fetchProxyJson("version");
-    if(!v || !v.ok) return;
-    const version = `${v.updated || ""}|${v.size || 0}`;
-
-    // Catat versi awal, tetapi tetap izinkan pemeriksaan SHP terpisah.
-    if(state.syncVersion === null){
-      state.syncVersion = version;
-      return;
-    }
-    if(version === state.syncVersion) return;
-
-    state.autoSyncBusy = true;
-    try{
-      await loadGoogleDriveData({refreshSHP:true});
-      state.syncVersion = version;
-      state.lastAutoSync = Date.now();
-    }finally{
-      state.autoSyncBusy = false;
-    }
-  }catch(err){
-    console.warn("Cek versi Google Drive gagal:", err);
-  }
-}
-
-function startGoogleDriveAutoSync(){
-  if(state.autoSyncTimer) clearInterval(state.autoSyncTimer);
-  if(state.shpSyncTimer) clearInterval(state.shpSyncTimer);
-  // Cek metadata sheet sesuai interval lama.
-  state.autoSyncTimer = setInterval(checkGoogleDriveVersion, 10000);
-  // Endpoint versi lama mungkin hanya melacak spreadsheet. Periksa SHP terpisah
-  // secara berkala agar perubahan geometri saja tetap terdeteksi.
-  state.shpSyncTimer = setInterval(async()=>{
-    if(!navigator.onLine || state.autoSyncBusy || state.shpSyncBusy) return;
-    state.shpSyncBusy = true;
-    try { await syncLatestRoadSHP(false); }
-    catch(err) { console.warn("Pemeriksaan SHP otomatis gagal:", err); }
-    finally { state.shpSyncBusy = false; }
-  }, 120000);
-}
-
 function remoteDataSignature(value){
   const str = String(value || "");
   let hash = 2166136261;
@@ -7881,92 +7638,61 @@ function remoteDataSignature(value){
   return `${str.length}:${hash >>> 0}`;
 }
 
-async function syncLatestRoadSHP(force=true){
-  // Ambil seluruh komponen yang dibutuhkan dari proxy Apps Script.
-  // Nama file di Drive tetap: Jalan-Kab-Bandung.*
-  const [shpJson, dbfJson, prjJson] = await Promise.all([
-    fetchProxyJson("shp"), fetchProxyJson("dbf"), fetchProxyJson("prj")
-  ]);
-  if(!shpJson?.data || !dbfJson?.data) throw new Error("Komponen SHP/DBF terbaru tidak tersedia dari proxy.");
-  const signature = [shpJson.data,dbfJson.data,prjJson?.data || ""].map(remoteDataSignature).join("|");
-  if(!force && state.shpRemoteSignature === signature) return false;
-
-  const shpBytes = base64ToBytes(shpJson.data);
-  const dbfBytes = base64ToBytes(dbfJson.data);
-  const prjText = prjJson?.data ? new TextDecoder().decode(base64ToBytes(prjJson.data)) : "";
-  const parts = [
-    new File([shpBytes],"Jalan-Kab-Bandung.shp",{type:"application/octet-stream",lastModified:Date.now()}),
-    new File([dbfBytes],"Jalan-Kab-Bandung.dbf",{type:"application/octet-stream",lastModified:Date.now()})
-  ];
-  if(prjText) parts.push(new File([prjText],"Jalan-Kab-Bandung.prj",{type:"text/plain",lastModified:Date.now()}));
-  const loaded = await loadSHPParts(parts);
-  if(!loaded) throw new Error("SHP terbaru gagal diproses; periksa pasangan file SHP dan DBF.");
-  state.shpSource = "drive";
-  state.shpRemoteSignature = signature;
-  return true;
+async function loadGoogleDriveData(){
+  if(state.autoSyncBusy) return;
+  state.autoSyncBusy = true;
+  setStatus("Memuat data…");
+  try{
+    if(!state.villageGeoJSON) state.villageGeoJSON = EMBEDDED_VILLAGE_GEOJSON;
+    populateDashboardDesa();
+    populateDesaMap();
+    if(!state.shpGeoJSON){
+      state.shpGeoJSON = EMBEDDED_ROAD_GEOJSON;
+      state.shpSource = "embedded";
+      state.shpFeatureCount = state.shpGeoJSON.features.length;
+      if(state.villageRoadCache) state.villageRoadCache.clear();
+      try { renderVillage(currentRows()); renderVillageCondition(currentRows()); } catch(e) { console.warn("Gagal menyiapkan geometri peta:",e); }
+      renderRoadMap(currentRows());
+      renderRoadMapMax();
+      renderRoadMapReport();
+      updateDynamicCartography();
+    }
+    const pack = await fetchPublishedWorkbook();
+    processWorkbook(pack.workbook, "Sumber Data PKRMS");
+    state.syncVersion = pack.signature;
+    state.lastAutoSync = Date.now();
+    setStatus(`Data berhasil disinkronkan · ${state.roads.length.toLocaleString("id-ID")} ruas · peta memakai geometri tertanam`);
+  }catch(err){
+    console.error("Sinkronisasi data gagal:",err);
+    const detail = err?.message || String(err);
+    if(state.roadDataSource === "none") setStatus(`Data belum tersinkron; analisis belum tersedia · ${detail}`);
+    else setStatus(`Sinkronisasi data gagal; data terakhir tetap ditampilkan · ${detail}`);
+  }finally{
+    state.autoSyncBusy = false;
+  }
 }
 
-async function loadGoogleDriveData(options={}){
-  const refreshSHP = options.refreshSHP !== false;
-  setStatus("Memuat data & trase peta…");
-
-  if(!state.villageGeoJSON) state.villageGeoJSON = EMBEDDED_VILLAGE_GEOJSON;
-  populateDashboardDesa();
-  populateDesaMap();
-
-  // Embedded GeoJSON hanya fallback awal. Setiap sinkronisasi mencoba mengambil
-  // SHP Drive terbaru, meskipun state.shpGeoJSON sudah berisi data embedded/cache.
-  if(!state.shpGeoJSON){
-    state.shpGeoJSON = EMBEDDED_ROAD_GEOJSON;
-    state.shpSource = "embedded";
-    state.shpFeatureCount = state.shpGeoJSON.features.length;
-    if(state.villageRoadCache) state.villageRoadCache.clear();
-    try { renderVillage(currentRows()); renderVillageCondition(currentRows()); } catch(e) { console.warn("Gagal refresh desa dari SHP cadangan:",e); }
-    renderRoadMap(currentRows());
-    renderRoadMapMax();
-    renderRoadMapReport();
-    updateDynamicCartography();
+async function checkGoogleDriveVersion(){
+  if(state.autoSyncBusy || !navigator.onLine) return;
+  try{
+    const pack = await fetchPublishedWorkbook();
+    if(pack.signature === state.syncVersion) return;
+    processWorkbook(pack.workbook, "Sumber Data PKRMS");
+    state.syncVersion = pack.signature;
+    state.lastAutoSync = Date.now();
+    setStatus(`Data berhasil disinkronkan · ${state.roads.length.toLocaleString("id-ID")} ruas · peta memakai geometri tertanam`);
+  }catch(err){
+    console.warn("Pemeriksaan pembaruan sumber data gagal:",err);
   }
+}
 
-  let sheetLoaded = false;
-  try {
-    const jsonSheet = await fetchProxyJson("sheet");
-    if(jsonSheet.sheets && Array.isArray(jsonSheet.sheets)){
-      const wb = XLSX.utils.book_new();
-      jsonSheet.sheets.forEach(s => {
-        const ws = XLSX.utils.aoa_to_sheet(s.data);
-        XLSX.utils.book_append_sheet(wb, ws, s.name);
-      });
-      processWorkbook(wb, "Google Sheets PKRMS");
-      sheetLoaded = true;
-    }
-  } catch(err) {
-    console.warn("Gagal memuat ulang data sheet:", err);
-  }
-
-  let shpLoaded = false;
-  if(refreshSHP){
-    try {
-      shpLoaded = await syncLatestRoadSHP(true);
-    } catch(e) {
-      console.warn("Gagal memuat SHP terbaru dari Google Drive:", e);
-    }
-  }
-
-  if(shpLoaded && sheetLoaded) setStatus("Data Excel dan SHP terbaru berhasil disinkronkan");
-  else if(shpLoaded) setStatus("SHP terbaru berhasil diperbarui; data tabel menggunakan data terakhir");
-  else if(state.shpSource === "embedded") setStatus("SHP Drive gagal dimuat; peta menggunakan data cadangan");
-  else if(sheetLoaded) setStatus("Data tabel diperbarui; SHP terbaru belum berhasil dimuat");
-  else setStatus("Sinkronisasi gagal; data terakhir tetap ditampilkan");
+function startGoogleDriveAutoSync(){
+  if(state.autoSyncTimer) clearInterval(state.autoSyncTimer);
+  state.autoSyncTimer = setInterval(checkGoogleDriveVersion, 120000);
 }
 
 async function connectGoogleDrive(){
-  try{
-    await loadGoogleDriveData({refreshSHP:true});
-  }catch(err){
-    console.error(err);
-    setStatus("Gagal membaca Google Drive");
-  }
+  await loadGoogleDriveData();
 }
 
 const map = L.map('map', { zoomControl: false }).setView([-7.06, 107.56], 10);
@@ -8195,7 +7921,6 @@ $("currentDateBtn").textContent = "📅 " + new Intl.DateTimeFormat("id-ID", {
 (async function init(){
   try {
     await connectGoogleDrive();
-    await checkGoogleDriveVersion();
     startGoogleDriveAutoSync();
   } catch(e) {
     console.error(e);
@@ -8492,7 +8217,7 @@ function num(x,kind='money'){
 }
 function totals(key){return tlRows.reduce((a,r)=>a+(Number(r[key])||0),0)}
 function csvParse(text){let rows=[],row=[],v='',q=false;for(let i=0;i<text.length;i++){let c=text[i];if(c==='"'&&q&&text[i+1]==='"'){v+='"';i++;}else if(c==='"')q=!q;else if((c===','||c===';')&&!q){row.push(v);v='';}else if((c==='\n'||c==='\r')&&!q){if(c==='\r'&&text[i+1]==='\n')i++;row.push(v);if(row.some(x=>x.trim()))rows.push(row);row=[];v='';}else v+=c;}row.push(v);if(row.some(x=>x.trim()))rows.push(row);return rows;}
-function setRowsFromCSV(csv){const parsed=csvParse(csv);if(parsed.length<2)throw Error('CSV kosong atau format tidak terbaca');const normRow=row=>row.map(x=>String(x||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim());let headerAt=parsed.findIndex(row=>normRow(row).some(h=>h==='kegiatan'||h.includes('nama kegiatan'))&&normRow(row).some(h=>h.includes('2025')));if(headerAt<0)headerAt=0;const a=parsed.slice(headerAt);let headers=normRow(a[0]);const find=(...terms)=>headers.findIndex(h=>terms.every(t=>h.includes(t)));const findMoney=(kind,year)=>{let i=find(kind,'pagu',year);if(i<0&&kind==='realisasi')i=headers.findIndex(h=>h.includes('realisasi')&&h.includes(year)&&!h.includes('panjang')&&!h.includes('km'));if(i<0&&kind==='rka')i=headers.findIndex(h=>h.includes('rka')&&h.includes(year)&&!h.includes('panjang')&&!h.includes('km'));return i;};const ix={name:headers.findIndex(h=>h==='kegiatan'||h.includes('nama kegiatan')),km:find('total kebutuhan panjang'),total:find('total kebutuhan anggaran'),t25:find('target pagu','2025'),r25:findMoney('realisasi','2025'),t26:find('target pagu','2026'),r26:findMoney('realisasi','2026'),t27:find('target pagu','2027'),r27:findMoney('rka','2027'),t28:find('pagu','2028'),km25:find('target panjang','2025'),kmr25:find('realisasi panjang','2025'),km26:find('target panjang','2026'),kmr26:find('realisasi panjang','2026'),km27:find('target panjang','2027'),kmr27:find('panjang','rka','2027'),km28:find('rencana panjang','2028')};if(ix.name<0)throw Error('Kolom KEGIATAN tidak ditemukan. Pastikan CSV mengarah ke tab rekap yang benar.');const required=['km','total','t25','r25','t26','r26','t27','r27','t28','km25','kmr25','km26','kmr26','km27','kmr27','km28'];const missing=required.filter(k=>ix[k]<0);if(missing.length)throw Error('Kolom sumber belum cocok: '+missing.join(', ')+'. Periksa header CSV atau pastikan tab yang dipublikasikan benar.');const out=[];const allowedNames=new Set(['rekonstruksi rehabilitasi jalan','pemeliharaan rutin jalan']);a.slice(1).forEach(r=>{const name=(r[ix.name]||'').trim();const cleanName=normRow([name])[0];if(!allowedNames.has(cleanName))return;const o={no:out.length+1,name:cleanName==='rekonstruksi rehabilitasi jalan'?'REKONSTRUKSI / REHABILITASI JALAN':'PEMELIHARAAN RUTIN JALAN'};for(const k of Object.keys(ix)){if(k==='name')continue;o[k]=ix[k]>=0?num(r[ix[k]],k.startsWith('km')?'km':'money'):0;}out.push(o)});if(!out.length)throw Error('Dua baris kegiatan resmi tidak ditemukan. Periksa nama kegiatan pada tab Google Sheets yang dipublikasikan.');if(!out.some(r=>r.t25||r.t26||r.t27||r.t28))throw Error('Data kegiatan terbaca, tetapi kolom pagu tidak cocok dengan format yang diharapkan. Periksa judul kolom di Google Sheets.');tlRows=out;}
+function setRowsFromCSV(csv){const parsed=csvParse(csv);if(parsed.length<2)throw Error('CSV kosong atau format tidak terbaca');const normRow=row=>row.map(x=>String(x||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim());let headerAt=parsed.findIndex(row=>normRow(row).some(h=>h==='kegiatan'||h.includes('nama kegiatan'))&&normRow(row).some(h=>h.includes('2025')));if(headerAt<0)headerAt=0;const a=parsed.slice(headerAt);let headers=normRow(a[0]);const find=(...terms)=>headers.findIndex(h=>terms.every(t=>h.includes(t)));const findMoney=(kind,year)=>{let i=find(kind,'pagu',year);if(i<0&&kind==='realisasi')i=headers.findIndex(h=>h.includes('realisasi')&&h.includes(year)&&!h.includes('panjang')&&!h.includes('km'));if(i<0&&kind==='rka')i=headers.findIndex(h=>h.includes('rka')&&h.includes(year)&&!h.includes('panjang')&&!h.includes('km'));return i;};const ix={name:headers.findIndex(h=>h==='kegiatan'||h.includes('nama kegiatan')),km:find('total kebutuhan panjang'),total:find('total kebutuhan anggaran'),t25:find('target pagu','2025'),r25:findMoney('realisasi','2025'),t26:find('target pagu','2026'),r26:findMoney('realisasi','2026'),t27:find('target pagu','2027'),r27:findMoney('rka','2027'),t28:find('pagu','2028'),km25:find('target panjang','2025'),kmr25:find('realisasi panjang','2025'),km26:find('target panjang','2026'),kmr26:find('realisasi panjang','2026'),km27:find('target panjang','2027'),kmr27:find('panjang','rka','2027'),km28:find('rencana panjang','2028')};if(ix.name<0)throw Error('Kolom KEGIATAN tidak ditemukan. Pastikan CSV mengarah ke tab rekap yang benar.');const required=['km','total','t25','r25','t26','r26','t27','r27','t28','km25','kmr25','km26','kmr26','km27','kmr27','km28'];const missing=required.filter(k=>ix[k]<0);if(missing.length)throw Error('Kolom sumber belum cocok: '+missing.join(', ')+'. Periksa header CSV atau pastikan tab yang dipublikasikan benar.');const out=[];const allowedNames=new Set(['rekonstruksi rehabilitasi jalan','pemeliharaan rutin jalan']);a.slice(1).forEach(r=>{const name=(r[ix.name]||'').trim();const cleanName=normRow([name])[0];if(!allowedNames.has(cleanName))return;const o={no:out.length+1,name:cleanName==='rekonstruksi rehabilitasi jalan'?'REKONSTRUKSI / REHABILITASI JALAN':'PEMELIHARAAN RUTIN JALAN'};for(const k of Object.keys(ix)){if(k==='name')continue;o[k]=ix[k]>=0?num(r[ix[k]],k.startsWith('km')?'km':'money'):0;}out.push(o)});if(!out.length)throw Error('Dua baris kegiatan resmi tidak ditemukan. Periksa nama kegiatan pada sumber data yang dipublikasikan.');if(!out.some(r=>r.t25||r.t26||r.t27||r.t28))throw Error('Data kegiatan terbaca, tetapi kolom pagu tidak cocok dengan format yang diharapkan. Periksa judul kolom pada sumber data.');tlRows=out;}
 function drawChart(hostId,metric){
  const host=id(hostId);if(!host)return;
  const pairs=years.map(y=>{const bkey=y===2025?'t25':y===2026?'t26':y===2027?'t27':'t28';const akey=y===2025?'r25':y===2026?'r26':y===2027?'r27':null;const kk='km'+String(y).slice(-2),ka='kmr'+String(y).slice(-2);return {year:y,budgetTarget:totals(bkey),budgetActual:akey?totals(akey):null,lengthTarget:totals(kk),lengthActual:akey?totals(ka):null};});
@@ -8544,31 +8269,63 @@ window.tlRender=function(){
  id('tlTotalBudget').textContent='Rp '+(needBudget/1e12).toLocaleString('id-ID',{minimumFractionDigits:3,maximumFractionDigits:3})+' T';id('tlActualBudget').textContent='Rp '+(ab/1e9).toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2})+' M';id('tlBudgetPercent').textContent=(needBudget?Math.round(ab/needBudget*100):0)+'% dari kebutuhan';id('tlTargetKm').textContent=needLength.toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2})+' km';id('tlActualKm').textContent=akm.toLocaleString('id-ID',{minimumFractionDigits:1,maximumFractionDigits:1})+' km';id('tlKmPercent').textContent=(needLength?Math.round(akm/needLength*100):0)+'% dari kebutuhan';
  const pct=(a,b)=>b?Math.round(a/b*100)+'%':'-';const sumField=k=>tlRows.reduce((a,r)=>a+(Number(r[k])||0),0);id('tlTableBody').innerHTML=tlRows.map((r,i)=>`<tr><td>${i+1}</td><td>${r.name}</td><td>${rup(r.t25)}</td><td>${rup(r.r25)}</td><td>${rup(r.t26)}</td><td>${rup(r.r26)}</td><td>${rup(r.t27)}</td><td>${rup(r.r27)}</td><td>${rup(r.t28)}</td></tr>`).join('');id('tlTableFoot').innerHTML=`<tr><td colspan=2>JUMLAH KESELURUHAN</td><td>${rup(sumField('t25'))}</td><td>${rup(sumField('r25'))}</td><td>${rup(sumField('t26'))}</td><td>${rup(sumField('r26'))}</td><td>${rup(sumField('t27'))}</td><td>${rup(sumField('r27'))}</td><td>${rup(sumField('t28'))}</td></tr>`;drawChart('tlChartBudget','combined');
 };
-const PUBLIC_SHEET_CSV='https://docs.google.com/spreadsheets/d/e/2PACX-1vQQf07uLPJnr1idQvOvpdmdIWF3PVu21po1JRIwNXTyIO5wQpLvFn6ORyl2C4j3Og/pub?output=csv';
+const TIMELINE_SHEET_EDIT_URL='https://docs.google.com/spreadsheets/d/1zTyAOoZ5V_3tMZcMbxa10t7KEnUBAG-x/edit';
+const TIMELINE_HEADERS=['','','NO','KEGIATAN','Total Kebutuhan PANJANG (KM)','Total Kebutuhan Anggaran (Rp)','TARGET PANJANG (KM) TAHUN 2025','TARGET PAGU (Rp) TAHUN 2025','REALISASI PANJANG (KM) TAHUN 2025','REALISASI PAGU (Rp) TAHUN 2025','SELISIH PANJANG (KM) TAHUN 2025','SELISIH PAGU (Rp) TAHUN 2025','TARGET PANJANG (KM) TAHUN 2026','TARGET PAGU (Rp) TAHUN 2026','REALISASI PANJANG (KM) TAHUN 2026','REALISASI PAGU (Rp) TAHUN 2026','SELISIH PANJANG (KM) 2026','SELISIH PAGU (Rp) 2026','TARGET PANJANG (KM) TAHUN 2027','TARGET PAGU (Rp) TAHUN 2027','PANJANG (KM) RKA TAHUN 2027','PAGU (Rp) RKA TAHUN 2027','SELISIH PANJANG (KM) 2027','SELISIH PAGU (Rp) 2027','RENCANA PANJANG TAHUN 2028 (KM)','PAGU TAHUN 2028 (Rp)'];
 let tlFetchInProgress=false;
 let tlLastCsvSignature=null;
+let tlGvizSequence=0;
 function tlSetSyncNotice(kind,message){
  const box=id('tlSyncNotice'),txt=id('tlSyncNoticeText');
  if(box){box.classList.remove('pending','success','error');box.classList.add(kind);}
  if(txt)txt.textContent=message;
 }
+function tlFetchSheetAsCsv(){
+ return new Promise((resolve,reject)=>{
+  const match=new URL(TIMELINE_SHEET_EDIT_URL).pathname.match(/\/spreadsheets\/d\/([^/]+)/);
+  if(!match){reject(Error('Alamat sumber anggaran tidak valid'));return;}
+  const spreadsheetId=match[1];
+  const gid=new URL(TIMELINE_SHEET_EDIT_URL).searchParams.get('gid')||'0';
+  const callbackName=`__asbratTimeline_${Date.now()}_${++tlGvizSequence}`;
+  const script=document.createElement('script');
+  let done=false;
+  const cleanup=()=>{if(done)return;done=true;clearTimeout(timer);delete window[callbackName];script.remove();};
+  const timer=setTimeout(()=>{cleanup();reject(Error('Waktu tunggu sumber Timeline habis'));},20000);
+  window[callbackName]=payload=>{
+   cleanup();
+   if(!payload||payload.status!=='ok'||!payload.table?.rows){reject(Error('Sumber anggaran tidak dapat dibaca. Periksa izin lihat dan tab sumber.'));return;}
+   const values=[TIMELINE_HEADERS,...payload.table.rows.map(row=>(row.c||[]).map(cell=>cell&&cell.v!==null&&cell.v!==undefined?cell.v:''))];
+   const csv=values.map(row=>row.map(value=>'"'+String(value??'').replace(/"/g,'""')+'"').join(',')).join('\n');
+   resolve(csv);
+  };
+  script.onerror=()=>{cleanup();reject(Error('Browser tidak dapat memuat sumber Timeline. Periksa koneksi dan izin tampil.'));};
+  const url=new URL(`https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq`);
+  url.searchParams.set('gid',gid);
+  url.searchParams.set('headers','0');
+  url.searchParams.set('tqx',`responseHandler:${callbackName}`);
+  script.src=url.toString();
+  document.head.appendChild(script);
+ });
+}
+async function tlFetchCsvWithRetry(){
+ let lastError;
+ for(let attempt=1;attempt<=3;attempt++){
+  try{
+   const text=await tlFetchSheetAsCsv();
+   if(!text||!text.trim())throw Error('Format data tidak terbaca');
+   return text;
+  }catch(error){
+   lastError=error;
+   if(attempt<3)await new Promise(resolve=>setTimeout(resolve,700*attempt));
+  }
+ }
+ throw lastError||Error('Sumber data tidak merespons');
+}
 window.tlConnectSheet=async function(manual=false){
  if(tlFetchInProgress)return;
  tlFetchInProgress=true;
  try{
-  const url=PUBLIC_SHEET_CSV+(PUBLIC_SHEET_CSV.includes('?')?'&':'?')+'_refresh='+Date.now();
-  const controller=new AbortController();
-  const timeoutId=setTimeout(()=>controller.abort(),12000);
-  let response,txt;
-  try{
-   response=await fetch(url,{method:'GET',cache:'no-store',mode:'cors',signal:controller.signal});
-   if(!response.ok)throw Error('HTTP '+response.status);
-   txt=await response.text();
-  }catch(fetchError){
-   if(fetchError && fetchError.name==='AbortError')throw Error('timeout');
-   throw fetchError;
-  }finally{clearTimeout(timeoutId);}
-  if(!txt||!txt.trim()||/<!doctype html|<html/i.test(txt.slice(0,500)))throw Error('invalid-csv');
+  if(manual)tlSetSyncNotice('pending','Memeriksa data anggaran…');
+  const txt=await tlFetchCsvWithRetry();
   const signature=txt.replace(/^\uFEFF/,'').trim();
   const changed=tlLastCsvSignature===null || signature!==tlLastCsvSignature;
   if(changed){
@@ -8589,534 +8346,16 @@ window.tlConnectSheet=async function(manual=false){
  }catch(e){
   if(id('tlConnectionText'))id('tlConnectionText').textContent='Data tidak terhubung';
   if(id('tlConnectionDot'))id('tlConnectionDot').style.background='#ef4444';
-  if(id('tlStatus'))id('tlStatus').textContent='Data tidak terhubung · Dashboard menampilkan data terakhir';
-  tlSetSyncNotice('error','Data tidak terhubung · Dashboard menampilkan data terakhir');
+  const detail=String(e&&e.message||'sumber data tidak merespons');
+  if(id('tlStatus'))id('tlStatus').textContent='Pembaruan Timeline gagal · '+detail;
+  tlSetSyncNotice('error',tlLastCsvSignature?'Pembaruan Timeline gagal · nilai terakhir tetap ditampilkan · '+detail:'Data Timeline belum berhasil dimuat · '+detail);
  }finally{
   tlFetchInProgress=false;
  }
 };
-window.tlForgetSheet=function(){id('tlStatus').textContent='Gunakan endpoint Apps Script yang dikonfigurasi di HTML untuk menyambungkan sumber data.';tlRows=[{no:1,name:'REKONSTRUKSI / REHABILITASI JALAN',km:241.56,total:1086997500000,t25:271749375000,r25:138252241008.58,t26:372687750000,r26:209848963134,t27:327779432229.19,r27:146878122114,t28:592018173743.42,km25:60.39,kmr25:37.96,km26:82.82,kmr26:69.95,km27:73.26,kmr27:29.94,km28:103.71},{no:2,name:'PEMELIHARAAN RUTIN JALAN',km:259.02,total:129507500000,t25:32376875000,r25:28200000000,t26:36553750000,r26:30999000000,t27:49270500000,r27:26000000000,t28:44308500000,km25:64.75,kmr25:56.40,km26:73.11,kmr26:61.998,km27:75.86,kmr27:52,km28:88.62}];tlRender();};
+window.tlForgetSheet=function(){id('tlStatus').textContent='Data Timeline tetap menggunakan sumber anggaran tahunan.';tlRows=[{no:1,name:'REKONSTRUKSI / REHABILITASI JALAN',km:241.56,total:1086997500000,t25:271749375000,r25:138252241008.58,t26:372687750000,r26:209848963134,t27:327779432229.19,r27:146878122114,t28:592018173743.42,km25:60.39,kmr25:37.96,km26:82.82,kmr26:69.95,km27:73.26,kmr27:29.94,km28:103.71},{no:2,name:'PEMELIHARAAN RUTIN JALAN',km:259.02,total:129507500000,t25:32376875000,r25:28200000000,t26:36553750000,r26:30999000000,t27:49270500000,r27:26000000000,km25:64.75,kmr25:56.40,km26:73.11,kmr26:61.998,km27:75.86,kmr27:52,km28:88.62}];tlRender();};
 window.tlExportCSV=function(){let csv='No,Kegiatan,Total Kebutuhan Panjang (KM),Total Kebutuhan Anggaran (Rp),Target Pagu 2025,Realisasi 2025,Target Pagu 2026,Realisasi 2026,Target Pagu 2027,RKA 2027,Pagu 2028\n'+tlRows.map(r=>[r.no,'"'+r.name.replace(/"/g,'""')+'"',r.km,r.total,r.t25,r.r25,r.t26,r.r26,r.t27,r.r27,r.t28].join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='rekap_timeline_anggaran_2025_2028.csv';a.click();URL.revokeObjectURL(a.href);};
-window.addEventListener('resize',()=>{if(id('viewTimeline')?.classList.contains('active'))drawChart('tlChartBudget','budget')});document.addEventListener('DOMContentLoaded',()=>{id('tlSheetUrl').value=PUBLIC_SHEET_CSV;tlRender();setTimeout(()=>window.tlConnectSheet(),500);setInterval(()=>{if(navigator.onLine)window.tlConnectSheet(false);},30*1000);});
-})();
-</script>
-
-<script id="verifikasi-polish-js">
-(function(){
- const SHEET_ID='1U_fwdM69Ng9j33U7K0X41Qxo9Y4lRXko_5c6cml54GE', SHEET='2026';
- let rows=[], map=null, workLayer=null, roadLayer=null, initialized=false;
- const el=id=>document.getElementById(id), txt=v=>String(v??'').trim(), num=v=>Number(String(v??'').replace(',','.'));
-
- function progress(pct,status,detail,color){
-   const bar=el('vfProgressBar'),st=el('vfProgressStatus'),dt=el('vfProgressDetail');
-   if(bar){bar.style.width=pct+'%';bar.style.background=color||'#2f75ed';}
-   if(st){st.textContent=status;st.style.color=color||'#2f75ed';}
-   if(dt)dt.textContent=detail||'';
- }
- const valid=(a,b)=>Number.isFinite(a)&&Number.isFinite(b)&&a>=-90&&a<=90&&b>=-180&&b<=180&&(a!==0||b!==0);
- function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
- function roadData(){return (window.state?.shpGeoJSON?.features?.length?window.state.shpGeoJSON:EMBEDDED_ROAD_GEOJSON);}
- const PUBLIC_WORK_SHEET_CSV='https://docs.google.com/spreadsheets/d/e/2PACX-1vT8HIDK8pScKhBjCKVpSA8TCckhPHUIDaXeW8FaCA8pM9Lw4nJ-rQuVhn4LRr0hxVb6Frz-IMel3mQH/pub?gid=220165122&single=true&output=csv';
- let lastWorkCsvSignature=null;
- function parseWorkCSV(text){
-   const out=[];let row=[],value='',quoted=false;
-   for(let i=0;i<text.length;i++){
-     const ch=text[i];
-     if(ch==='"'&&quoted&&text[i+1]==='"'){value+='"';i++;}
-     else if(ch==='"')quoted=!quoted;
-     else if(ch===','&&!quoted){row.push(value);value='';}
-     else if((ch==='\n'||ch==='\r')&&!quoted){
-       if(ch==='\r'&&text[i+1]==='\n')i++;
-       row.push(value);if(row.some(x=>String(x).trim()))out.push(row);
-       row=[];value='';
-     }else value+=ch;
-   }
-   row.push(value);if(row.some(x=>String(x).trim()))out.push(row);
-   return out;
- }
- function csvHeader(value){
-   return String(value??'').replace(/^\uFEFF/,'').trim().toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^A-Z0-9]+/g,'_').replace(/^_|_$/g,'');
- }
- function normalizeRow(source){
-   const src=source||{};
-   const pick=(...names)=>{
-     for(const name of names){
-       const key=csvHeader(name);
-       if(src[key]!==undefined && String(src[key]).trim()!=='')return String(src[key]).trim();
-     }
-     return '';
-   };
-   const o={...src};
-   o.NO_URUT=pick('NO_URUT','NO','NOMOR');
-   o.TAHUN_ANGGARAN=pick('TAHUN_ANGGARAN','TAHUN');
-   o.KODE_PAKET=pick('KODE_PAKET','KODE');
-   o.NAMA_PAKET=pick('NAMA_PAKET','NAMA_PEKERJAAN','NAMA_KEGIATAN');
-   o.KECAMATAN=pick('KECAMATAN');
-   o.WILAYAH=pick('WILAYAH','DESA_KELURAHAN','DESA','KELURAHAN');
-   o.DESA_KELURAHAN=pick('DESA_KELURAHAN','WILAYAH','DESA','KELURAHAN');
-   o.JENIS_PEKERJAAN=pick('JENIS_PEKERJAAN','JENIS_PEKERJAAN');
-   o.PAGU_PAKET_RP=pick('PAGU_PAKET_RP','PAGU_PAKET','PAGU','NILAI_PAGU','PAGU_RP');
-   o.NILAI_KONTRAK_PAKET_RP=pick('NILAI_KONTRAK_PAKET_RP','NILAI_KONTRAK_PAKET','NILAI_KONTRAK','KONTRAK_RP','NILAI_KONTRAK_RP');
-   o.PANJANG_PENANGANAN_M=pick('PANJANG_PENANGANAN_M','PANJANG_PENANGANAN');
-   o.LAT_AWAL=pick('LAT_AWAL','LATITUDE_AWAL','KOORDINAT_AWAL_LAT','LINTANG_AWAL','LAT_MULAI');
-   o.LONG_AWAL=pick('LONG_AWAL','LON_AWAL','LONGITUDE_AWAL','KOORDINAT_AWAL_LONG','BUJUR_AWAL','LON_MULAI');
-   o.LAT_AKHIR=pick('LAT_AKHIR','LATITUDE_AKHIR','KOORDINAT_AKHIR_LAT','LINTANG_AKHIR','LAT_SELESAI');
-   o.LONG_AKHIR=pick('LONG_AKHIR','LON_AKHIR','LONGITUDE_AKHIR','KOORDINAT_AKHIR_LONG','BUJUR_AKHIR','LON_SELESAI');
-   o.KETERANGAN=pick('KETERANGAN','KETERANGAN_PEKERJAAN');
-   return o;
- }
- const EMBEDDED_WORK_CSV="NO_URUT,TAHUN_ANGGARAN,KODE_PAKET,NAMA_PAKET,KECAMATAN,DESA_KELURAHAN,WILAYAH,JENIS_PEKERJAAN,PAGU_PAKET_RP,NILAI_KONTRAK_PAKET_RP,PANJANG_PENANGANAN_M,LAT_AWAL,LONG_AWAL,LAT_AKHIR,LONG_AKHIR,KETERANGAN\n1,2026,PJLN.PL.0053.33.07,Pembangunan Bangunan Pelengkap Jalan Saluran Tepi Jalan Ciparay - Cikoneng Kec. Ciparay,Ciparay,,WILAYAH 7,Saluran U-Ditch Uk. 800 x 800 dengan tutup,  200.000.000 ,199.672.196,\"Panjang = 42,6 m, Uk = 800 x 800\",\"-7,047502\",\"107,710127\",\"-7,047034\",\"107,710271\",\n2,2026,PJLN.PL.0053.44.07,\"Pembangunan Bangunan Pelengkap Jalan Trotoar Jl. Raya Laswi RT 03 RW 15 Desa Manggungharja Kecamatan Ciparaya , Kab. Bandung\",Ciparay,,WILAYAH 7,Trotoar,  196.000.000 ,195.332.998,Panjang = 165 m dan Lebar = 1 m,\"-7,042069\",\"107,718671\",\"-7,042706\",\"107,719935\",\n3,2026,PJLN.PL.0053.47.07,Saluran Tepi Jalan jl ciparay - sutam - sumbersari Desa Sumbersari Kecamatan Ciparay,Ciparay,,WILAYAH 7,Saluran U-Ditch,  187.200.000 ,186.848.522,\"Panjang = 55 m, Uk = 600 x 600\",\"-6,990699\",\"107,704614\",\"-6,990375\",\"107,704802\",\n4,2026,PJLN.PL.0053.58.07,Pembangunan Bangunan Pelengkap Jalan Saluran Tepi Jalan Pasewakan Kec. Ciparay,Ciparay,,WILAYAH 7,Saluran U-Ditch Uk. 800 x 800 dengan tutup,  160.000.000 ,159.661.060,\"Panjang = 33,6 m, Uk = 800 x 800\",\"-7,047034\",\"107,710271\",\"-7,046654\",\"107,710361\",\n5,2026,PJLN.PL.0053.72.07,Pembangunan Bangunan Pelengkap Jalan TPT Jl dangdang- Cihawuk - Ciakar bts bandung/garut Ds. Sukapura Kec. Kertasari,Kertasari,,WILAYAH 7,TPT Pasangan Batu dengan Frame Beton,  142.960.000 ,142.736.876,\"Panjang = 29 m, Tinggi = 3 m\",\"-7,178290\",\"107,692247\",\"-7,178290\",\"107,692247\",\n6,2026,PJLN.PL.0053.79.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Kp Sadang RW 005 , Desa SagaraCipta , Kec Ciparay , Kab. Bandung\",Ciparay,,WILAYAH 7,TPT dengan Saluran Tepi Jalan,  130.720.000 ,130.353.020,\"Panjang = 57 m dan Tinggi = 1,5 m\",\"-7,075348\",\"107,721087\",\"-7,074748\",\"107,721273\",\n7,2026,PJLN.PL.0053.84.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Kp. Bojong Panggang RW 08, Desa Cikawao, Kecamatan Pacet, Kab. Bandung\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  120.916.000 ,120.663.908,\"Panjang = 45 m, Tinggi = 1,6 m dan Panjang = 18 m, Tinggi = 1,6 - 2,0 m\",\"-7,110612\",\"107,731393\",\"-7,110572\",\"107,730837\",\n8,2026,PJLN.PL.0053.89.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Kp leuwi Cariu RW 06 Desa Babakan Kecamtan Ciparay, Kab. Bandung\",Ciparay,,WILAYAH 7,TPT Pasangan Batu dengan Frame Beton,  106.210.000 ,105.978.721,Panjang = 14 m dan Tinggi = 4 m,\"-7,084375\",\"107,681348\",\"-7,084375\",\"107,681348\",\n9,2026,PJLN.PL.0053.95.07,\"Bangunan Pelengkap Jalan Desa Sukapura, Kab. Bandung\",Kertasari,,WILAYAH 7,Pasangan Batu,  100.000.000 ,99.776.940,\"Panjang = 28 m, Tinggi = 3 m\",\"-7,167097\",\"107,686337\",\"-7,167097\",\"107,686337\",\n10,2026,PJLN.PL.0053.100.07,Saluran Tepi Jalan jl jbt cihejo - sp pacet Desa Resmitinggal Kecamatan Kertasari,Kertasari,,WILAYAH 7,TPT dengan Saluran Tepi Jalan,  99.840.000 ,99.454.291,\"Panjang = 54 m dan Tinggi = 1,2 m\",\"-7,142578\",\"107,695138\",\"-7,142714\",\"107,695439\",\n11,2026,PJLN.PL.0053.108.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Kp. Sutam Rw.04 Desa Sumbersari, Kecamatan Ciparay., Kab. Bandung\",Ciparay,,WILAYAH 7,TPT Pasangan Batu,  90.000.000 ,89.826.099,\"Panjang = 54 m dan Tinggi = 1,2 m\",\"-7,011259\",\"107,707966\",\"-7,010924\",\"107,708050\",\n12,2026,PJLN.PL.0053.116.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Dusun 3 Kp Sadang RT 001 / RW 005 , Desa Sagaracipta , Kecamatan Ciparay , Kab. Bandung\",Ciparay,,WILAYAH 7,TPT Pasangan Batu,  81.700.000 ,81.417.801,Panjang = 27 m dan Tinggi = 2 m,\"-7,069895\",\"107,711136\",\"-7,069635\",\"107,711095\",\n13,2026,PJLN.PL.0053.117.07,\"Pembangunan Bangunan Pelengkap Jalan TPT jalan cikaso wadat, Kab. Bandung Ds Nagrak Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu dengan Frame Beton,  80.000.000 ,79.688.200,\"Panjang = 19 m dan Tinggi = 2,5 m\",\"-7,108021\",\"107,731720\",\"-7,108021\",\"107,731720\",\n14,2026,PJLN.PL.0053.119.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Jln Protokol Desa Tarumajaya Ciseke - Desa Cibeureum, Kab. Bandung Ds Tarumajaya Kec Kertasari\",Kertasari,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.730.207,Panjang = 24 m dan Tinggi = 2 m,,,,,\n15,2026,PJLN.PL.0053.122.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Jl. Tugu 5 Helm - Lembangsari Desa Tarumajaya, Kab. Bandung Ds Tarumajaya Kec Kertasari\",Kertasari,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.797,\"Panjang = 38 m dan Tinggi = 1,5 m\",\"-7,210089\",\"107,664071\",\"-7,210243\",\"107,664658\",\n16,2026,PJLN.PL.0053.123.07,\"Pembangunan Bangunan Pelengkap Jalan TPT KP BABAKAN NYAMPAI, Kab. Bandung Ds Cananggela Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.622,\"Panjang = 24 m dan Tinggi = 1,2 dan 1,5 m\",\"-7,123969\",\"107,684817\",\"-7,124070\",\"107,684464\",\n17,2026,PJLN.PL.0053.124.07,\"Pembangunan Bangunan Pelengkap Jalan TPT kp Babakan RT 02 RW 010, Kab. Bandung Ds Pangauban Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.774.972,\"Panjang = 29 m dan Tinggi = 1,5 - 1,7 m\",\"-7,138683\",\"107,686650\",\"-7,138773\",\"107,686780\",\n18,2026,PJLN.PL.0053.125.07,\"Pembangunan Bangunan Pelengkap Jalan TPT kp betah rw 14, Kab. Bandung Ds Nagrak Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.951,\"Panjang = 23 m dan Tinggi = 2,0 m\",\"-7,111153\",\"107,726323\",\"-7,111094\",\"107,726123\",\n19,2026,PJLN.PL.0053.127.07,\"Pembangunan Bangunan Pelengkap Jalan TPT kp buluh 07, Kab. Bandung Ds Nagrak Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.975,\"Panjang = 22 m dan Tinggi = 1,5 - 3,0 m\",\"-7,085923\",\"107,735856\",\"-7,085857\",\"107,735878\",\n20,2026,PJLN.PL.0053.130.07,\"Pembangunan Bangunan Pelengkap Jalan TPT KP NENGGRE, Kab. Bandung Ds Cananggela Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.771,\"Panjang = 43 m dan Tinggi = 1,5 m\",\"-7,119114\",\"107,686813\",\"-7,119114\",\"107,686813\",\n21,2026,PJLN.PL.0053.131.07,\"Pembangunan Bangunan Pelengkap Jalan TPT KP. NYALINDUNG RW 012, Kab. Bandung Ds Sukapura Kec Kertasari\",Kertasari,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.461,\"Panjang = 22 m dan Tinggi = 2,0 m\",\"-7,163731\",\"107,694752\",\"-7,163731\",\"107,694752\",\n22,2026,PJLN.PL.0053.132.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Kp. Sedep RW. 07, Kab. Bandung Ds Neglawangi Kec Kertasari\",Kertasari,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.902,\"Panjang = 23 m dan Tinggi = 2,0 m\",\"-7,261055\",\"107,650623\",\"-7,261055\",\"107,650623\",\n23,2026,PJLN.PL.0053.133.07,\"Pembangunan Bangunan Pelengkap Jalan TPT KP SUKA TINGGAL BANCA, Kab. Bandung Ds Cananggela Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.692,\"Panjang = 35 m dan Tinggi = 0,5 dan 1,5 m\",\"-7,118323\",\"107,688696\",\"-7,118323\",\"107,688696\",\n24,2026,PJLN.PL.0053.135.07,\"Pembangunan Bangunan Pelengkap Jalan TPT lewi raja rw 17, Kab. Bandung Ds Nagrak Kec Pacet\",Pacet,,WILAYAH 7,TPT Pasangan Batu,  80.000.000 ,79.776.971,\"Panjang = 18 m dan Tinggi = 2,5 m\",\"-7,085301\",\"107,736072\",\"-7,085301\",\"107,736072\",\n25,2026,PJLN.PL.0053.147.07,\"Bangunan Pelengkap Jalan Jl. Cangkuang Desa Tarumajaya - Desa Cikembang, Kab. Bandung\",Kertasari,,WILAYAH 7,Pasangan Batu dengan Saluran Pasangan Batu,  75.000.000 ,74.770.725,\"Panjang = 48 m, Tinggi = 1,2 m\",\"-7,202744\",\"107,669004\",\"-7,202744\",\"107,669004\",\n26,2026,PJLN.PL.0053.161.07,\"Pembangunan Bangunan Pelengkap Jalan Saluran Melintang Dusun Jongor, Kab. Bandung Ds Serangmekar Kec Ciparay\",Ciparay,,WILAYAH 7,,  65.000.000 ,64.727.529,Box Culvert 80 x 80 Panjang 6 m dan U-Ditch 40 x 40 Panjang 26 m,\"-7,027755\",\"107,698841\",\"-7,027755\",\"107,698841\",\n27,2026,PJLN.PL.0053.163.07,\"Pembangunan Bangunan Pelengkap Jalan Saluran Melintang Kp. Cikawao RT 04 RW 12, Desa Cikawao, Kecamatan Pacet, Kab. Bandung\",Pacet,,WILAYAH 7,Pasangan Batu dengan Mortar,  60.240.000 ,60.015.857,\"Panjang = 91 m, Tinggi = 0,5 m\",\"-7,084185\",\"107,740057\",\"-7,084185\",\"107,740057\",\n28,2026,REJLN.T.0059.186.07,\"Peningkatan Jalan KP CIKASO RW 03 DESA NAGRAK KECAMATAN PACET KAB BANDUNG, Kab. Bandung\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) tb. 20 cm dengan Lapis Pondasi Bawah Beton Kurus tb. 5 cm\",  794.388.299 ,,Panjang = 307 M Lebar = 4.50 M,,,,,\n29,2026,REJLN.PL.0059.214.07,\"Peningkatan Jalan KP. PAPANDAYAN RW 05 DESA NEGLAWANGI KECAMATAN KERTASARI, Kab. Bandung\",Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  364.820.000 ,364.256.130,\"Panjang = 190 m, Lebar = 3,0 m, dan Tebal = 0,2 m\",\"-7,288161\",\"107,684265\",\"-7,287069\",\"107,684661\",\n30,2026,REJLN.PL.0059.215.07,\"Peningkatan Jalan KP PERENG RT 02 RW 11 DESA CIKAWAO KECAMATAN PACET , Kab. Bandung\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dan TPT\",  364.820.000 ,364.120.836,\"Panjang = 165 m, Lebar = 3,5- 4 m, dan Tebal = 0,2 m\",\"-7,122106\",\"107,736505\",\"-7,124544\",\"107,736882\",\n31,2026,REJLN.PL.0059.218.07,\"Peningkatan Jalan Kp. Bubuay RT 04 RW 09, Desa Nagrak, Kecamatan Pacet, Kab. Bandung\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  176.120.000 ,175.383.070,\"Panjang = 62 m, Lebar = 4,5 - 6,0 m, Tb. 20 cm dan Hotmix Panjang = 10 m, Lebar = 4,0 m\",\"-7,096434\",\"107,721827\",\"-7,096224\",\"107,722150\",\n32,2026,REJLN.PL.0059.788.07,\"Peningkatan Jalan Kp. Bubuay RT 04 RW 09, Desa Nagrak, Kecamatan Pacet, Kab. Bandung\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  157.250.000 ,157.015.900,\"Panjang = 69 m, Lebar = 4,5 m, Tb. 20 cm\",\"-7,090619\",\"107,732826\",\"-7,090404\",\"107,732894\",\n33,2026,REJLN.PL.0059.264.07,\"Peningkatan Jalan Kp. Sukamelang RT 01 RW 14 Desa Manggungharja Kecamatan Ciparay ( Belakang Graha Wirakarya ), Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  188.700.000 ,188.080.913,\"Panjang = 124 m, Lebar = 3 m, Tb. 20 cm\",\"-7,029827\",\"107,697459\",\"-7,030048\",\"107,697312\",\n34,2026,REJLN.PL.0059.269.07,\"Peningkatan Jalan jalan depan komplek sukasari mukti RW 20, Kab. Bandung Ds Bumiwangi Kec Ciparay\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  183.000.000 ,182.769.008,\"Panjang = 72 m, Lebar = 5,0 m, Tb. 20 cm\",\"-7,035746\",\"107,695244\",\"-7,036321\",\"107,694985\",\n35,2026,REJLN.PL.0059.272.07,\"Peningkatan Jalan Jalan Usaha Tani Kp. Goha Tengah Babakan Cigede RW 25, Kab. Bandung Ds Tarumajaya Kec Kertasari\",Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  181.200.000 ,180.780.921,\"Panjang = 98 m, Lebar = 3 m, Tb. 20 cm\",\"-7,204156\",\"107,662415\",\"-7,204392\",\"107,663109\",\n36,2026,REJLN.PL.0059.275.07,\"Peningkatan Jalan Jl. Tugu 5 Helm Lembangsari - Desa Cikembang, Kab. Bandung Ds Tarumajaya Kec Kertasari\",Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  181.200.000 ,180.841.746,\"Pjg Seg 1 = 33 m, Lebar = 4 m, Tb. 20 cm dan Pjg Seg 2 = 50 m, Lebar = 4 m, Tb. 20 cm\",\"-7,208619\",\"107,669462\", -7.208717,\"107,669771\",\n37,2026,REJLN.PL.0059.286.07,\"Peningkatan Jalan Jl. Babakanbuah Rw.003 Desa Ciheulang, Kecamatan Ciparay., Kab. Bandung\",Ciparay,,WILAYAH 7,Hotmix Aw - Wc,  175.000.380 ,174.773.131,\"Panjang = 250 m, Lebar = 3,0 -4,0 m, Tebal = 4 cm\",\"-7,023815\",\"107,685044\",\"-7,026063\",\"107,684943\",\n38,2026,REJLN.PL.0059.299.07,\"Peningkatan Jalan Dususun Puncakmulya - Dusun Pinggirsari Desa Cihawuk, Kab. Bandung Ds Cihawuk Kec Kertasari\",Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  166.100.000 ,165.803.025,\"Panjang = 81 m, Lebar = 3,5 m, Tb. 20 cm\",\"-7,191740\",\"107,703217\",\"-7,192645\",\"107,703822\",\n39,2026,REJLN.PL.0059.303.07,\"Peningkatan Jalan Jln. Kertasari - Lodaya Desa Tarumajaya, Kab. Bandung Ds Tarumajaya Kec Kertasari\",Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  166.100.000 ,165.796.581,\"Panjang = 66 m, Lebar = 4 m, Tb. 20 cm\",\"-7,232081\",\"107,666435\",\"-7,231387\",\"107,666623\",\n40,2026,REJLN.PL.0059.307.07,\"Peningkatan Jalan Kp. Mekarsari RW 020 - RW 018, Kab. Bandung Ds Sukapura Kec Kertasari\",Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  166.100.000 ,165.784.771,\"Panjang = 87 m, Lebar = 3,5 m, Tb. 20 cm\",\"-7,163997\",\"107,692805\",\"-7,163516\",\"107,692799\",\n41,2026,REJLN.PL.0059.317.07,\"Peningkatan Jalan Kp. Nagrak RT 03 RW 07, Desa Cikawao, Kecamatan Pacet, Kab. Bandung\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  157.250.000 ,156.524.170,\"Panjang = 73 m, Lebar = 4 m, Tb. 20 cm\",\"-7,097333\",\"107,723704\",\"-7,096850\",\"107,723407\",\n42,2026,REJLN.PL.0059.318.07,\"Peningkatan Jalan Kp. Patrol Rw.005 Desa Sumbersari, Kecamatan Ciparay., Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  157.250.000 ,157.026.381,\"Panjang = 92 m, Lebar = 3,0 - 3,5 m, Tb. 20 cm\",\"-6,998337\",\"107,709308\",\"-6,997571\",\"107,709202\",\n43,2026,REJLN.PL.0059.319.07,\"Peningkatan Jalan Kp. Pelag RT 01 RW 05, Desa Nagrak, Kecamatan Pacet, Kab. Bandung\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  157.250.000 ,157.015.900,\"Panjang = 69 m, Lebar = 4,5 m, Tb. 20 cm\",\"-7,090404\",\"107,732894\",\"-7,089961\",\"107,733009\",\n44,2026,REJLN.PL.0059.323.07,\"Peningkatan Jalan Rw. 15 Desa Ciheulang Kecamatan Ciparay, Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  157.250.000 ,157.079.798,\"Panjang = 103 m, Lebar = 3,0 m, Tb. 20 cm\",\"-7,027281\",\"107,682126\",\"-7,027158\",\"107,681278\",\n45,2026,REJLN.PL.0059.324.07,\"Peningkatan Jalan Kp. Babakan Tarikolot Rt.003 Rw.011 Desa Sagaracipta, Kecamatan Ciparay., Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  156.457.460 ,156.225.737,\"Panjang = 75 m, Lebar = 4,0 m, Tb. 20 cm\",\"-7,073758\",\"107,721705\",\"-7,073263\",\"107,722137\",\n46,2026,REJLN.PL.0059.327.07,\"Peningkatan Jalan kp cibatur rw 18, Kab. Bandung Ds Mandalahaji Kec Pacet\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  151.000.000 ,150.631.351,\"Panjang = 63 m, Lebar = 4,5 m, Tb. 20 cm\",\"-7,099410\",\"107,720950\",\"-7,099638\",\"107,720770\",\n47,2026,REJLN.PL.0059.328.07,\"Peningkatan Jalan kp cibogo rw 6, Kab. Bandung Ds Mandalahaji Kec Pacet\",Pacet,,WILAYAH 7,Hotmix Ac - Wc,  151.000.000 ,150.602.526,\"Panjang = 169 m, Lebar = 3,5 m, Tb. 4 cm\",\"-7,112790\",\"107,707880\",\"-7,114189\",\"107,707328\",\n48,2026,REJLN.PL.0059.329.07,\"Peningkatan Jalan kp salakaso rw 2, Kab. Bandung Ds Mandalahaji Kec Pacet\",Pacet,,WILAYAH 7,Hotmix Ac - Wc,  151.000.000 ,150.678.031,\"Panjang = 145 m, Lebar = 4,0 m, Tb. 4 cm\",\"-7,116020\",\"107,707640\",\"-7,116928\",\"107,707100\",\n49,2026,REJLN.PL.0059.336.07,\"Peningkatan Jalan Kp. Sutam Rw.004 Desa Sumbersari, Kecamatan Ciparay., Kab. Bandung\",Ciparay,,WILAYAH 7,Hotmix Ac - Wc,  150.960.000 ,150.689.718,\"Panjang = 179 m, Lebar = 4 m, dan Tebal = 4 cm\",\"-7,001220\",\"107,714970\",\"-7,002591\",\"107,715699\",\n50,2026,REJLN.PL.0059.352.07,\"Peningkatan Jalan Jalan Buluh RT 03 RW 07, Desa Nagrak. Kecamatan Pacet, Kab. Bandung\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  141.525.000 ,141.286.900,\"Panjang = 61 m, Lebar = 4,5 m, Tb. 20 cm\",\"-7,089961\",\"107,733009\",\"-7,089468\",\"107,733202\",\n51,2026,REJLN.PL.0059.391.07,\"Peningkatan Jalan Kp. Haurcucuk Rw.012, Desa Sumbersari, Kecamatan Ciparay., Kab. Bandung\",CIparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dan TPT\",  125.800.000 ,125.624.169,\"Panjang = 41 m, Lebar = 4,4 m, dan Tebal = 20 cm\",\"-6,994981\",\"107,692705\",\"-6,994553\",\"107,692769\",\n52,2026,REJLN.PL.0059.393.07,\"Peningkatan Jalan Kp. Sanepa Rt.001 Rw.006 Desa Sagaracipta, Kecamatan Ciparay., Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  125.800.000 ,125.630.799,\"Panjang = 58 m, Lebar = 4,0 m, Tb. 20 cm\",\"-7,073263\",\"107,722137\",\"-7,072852\",\"107,722701\",\n53,2026,RHJLN.T.0055.428.07,Rehabilitasi Jalan Cihawuk - Puncak Cae (Bts. Kab. Garut),Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan Beton Kurus dan Bangunan Pelengkap Jalan\",  5.511.466.667 ,5.213.886.886,\"Pjg. Seg. 1 = 90 m, Lebar 4 dan Pjg. Seg. 2 = 515 m, Lebar 5 m dengan TPT tinggi 2,5 m dan Box Culvert uk. 60 x 60\",\"-7,194381\",\"107,710689\",\"-7,197923\",\"107,714167\",\n54,2026,RHJLN.T.0055.450.07,Rehabilitasi Jalan BABAKAN-MEKARSARI,Ciparay / Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan Beton Kurus\",  880.000.000 ,862.242.293,Panjang = 386 M Lebar = 4.00 M,\"-7,087002\",\"107,692313\",\"-7,089677\",\"107,692117\",\n55,2026,RHJLN.T.0055.479.07,Rehabilitasi Jalan TPSA BABAKAN - BABAKAN,Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan Beton Kurus\",  438.400.000 ,429.554.621,Panjang = 155.18 M Lebar = 5.00 M dan Bukaan Jln. 45 m2,\"-7,077674\",\"107,686152\",\"-7,078889\",\"107,685354\",\n56,2026,RHJLN.PL.0055.493.07,\"Rehab Jalan Tarumajaya,Kec. Kertasari\",Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  400.000.000 ,399.775.113,\"Panjang = 108 m, Lebar = 5,0 m, Tb. 20 cm\",\"-7,198788\",\"107,649387\",\"-7,198430\",\"107,648716\",\n57,2026,RHJLN.PL.0055.496.07,\"Rehab Jalan Mekarjaya - Paninggaran, Kec. Pacet\",Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  400.000.000 ,399.776.997,\"Panjang = 190 m, Lebar = 4,0 m, dan Tebal = 0,2 m\",\"-7,105418\",\"107,698715\",\"-7,103809\",\"107,699489\",\n58,2026,RHJLN.PL.0055.497.07,Rehab Jalan Santosa Kec. Kertasari,Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  400.000.000 ,399.776.667,\"Panjang = 143 m, Lebar = 4,0 m, dan Tebal = 0,2 m\",\"-7,279760\",\"107,643261\",\"-7,279352\",\"107,642240\",\n59,2026,RHJLN.PL.0055.506.07,Rehab Jalan Santosa - Tarumajaya Kec. Kertasari,Kertasari,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  400.000.000 ,399.776.013,\"Panjang = 139 m, Lebar = 4,0 m, dan Tebal = 0,2 m\",\"-7,274545\",\"107,642518\",\"-7,274572\",\"107,641733\",\n60,2026,RHJLN.PL.0055.535.07,\"Rehab Jalan Kampung Banyusari RW 20 Desa Manggungharja Kecamatan Ciparay Kabupaten Bandung, Kab. Bandung\",Ciparay,,WILAYAH 7,Hotmix Ac - Wc,  393.600.000 ,393.147.172,\"Panjang = 501 m, Lebar = 4,0 m, Tb. 4 cm\",\"-7,047983\",\"107,718457\",\"-7,050774\",\"107,719476\",\n61,2026,RHJLN.PL.0055.536.07,\"Rehab Jalan Kampung Paminggir RW 11 Desa Manggungharja Kecamatan Ciparay kabupaten Bandung, Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar)\",  393.600.000 ,393.162.698,\"Panjang = 156 m, Lebar = 5,0 m, Tb. 20 cm\",\"-7,039175\",\"107,717582\",\"-7,040478\",\"107,717630\",\n62,2026,RHJLN.PL.0055.547.07,\"Rehab Jalan KP. RANCAHELANG RW 15 DAN RW 09 DESA MEKARLAKSANA KECAMATAN CIPARAY, Kab. Bandung\",Ciparay,,WILAYAH 7,Hotmix Ac - Wc,  311.272.000 ,310.792.891,\"Panjang = 330 m, Lebar = 4,0 m, Tb. 4 cm\",,,,,\n63,2026,RHJLN.PL.0055.571.07,Rehabilitasi Jalan Jl. Ciparay Desa Ciheulang,Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan tb. 20 cm dan Pasangan Batu\",  200.000.000 ,199.774.965,\"Panjang Jalan = 14,4 m, Lebar = Variatif dan Panjang Pasangan Batu = 81 m, Tinggi = 1,2 m\n\",\"-7,024773\",\"107,680745\",\"-7,024773\",\"107,680745\",\n64,2026,RHJLN.PL.0055.572.07,Rehabilitasi jalan Jl. KH. Husen ciparay,Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan tb. 20 cm\",  200.000.000 ,199.774.898,\"Panjang Jalan = 57 m, Lebar = Variatif\n\",\"-7,024773\",\"107,680745\",\"-7,024743\",\"107,681256\",\n65,2026,RHJLN.PL.0055.573.07,Rehabilitasi Jalan Jl. Selaawi Pacet,Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan tb. 20 cm\",  200.000.000 ,199.541.537,\"Panjang Jalan = 82,5 m, Lebar = 4,5 m\n\",\"-7,097872\",\"107,724810\",\"-7,097866\",\"107,724156\",\n66,2026,RHJLN.PL.0055.577.07,Rehab Jalan Cibadak - Ciheulang Desa Mekarjaya,Pacet,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  200.000.000 ,199.612.190,\"Pjg Seg. 1 = 28 m, Lebar = 4,0 m, Tb. 20 cm, Pjg Seg. 2 = 58 m, Lebar = 4,5 m, Tb. 20 cm\",\"-7,096970\",\"107,702217\",\"-7,097653\",\"107,702175\",\n67,2026,RHJLN.PL.0055.579.07,Rehab Jalan Ciburuy - Taman Sari Desa Mekarjaya,Pacet,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  200.000.000 ,199.776.999,\"Panjang = 96 m, Lebar = 4,0 m, dan Tebal = 0,2 m\",\"-7,103809\",\"107,699489\",\"-7,103017\",\"107,699742\",\n68,2026,RHJLN.PL.0055.621.07,\"Rehab Jalan Kp. Sukaharja RT 02 RW 15 Desa Manggungharja Kecamatan Ciparay , Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  196.800.000 ,196.567.010,\"Panjang = 125 m, Lebar = 3,0 m, Tb. 20 cm\",\"-7,040506\",\"107,722640\",\"-7,041002\",\"107,722481\",\n69,2026,RHJLN.PL.0055.651.07,\"Rehab Jalan Kp. Cipaku RW 18 Desa Pakutandang Kecamatan Ciparay, Kab. Bandung\",Ciparay,,WILAYAH 7,Hotmix Ac - Wc,  164.000.000 ,163.657.860,\"Panjang = 171 m, Lebar = 4,0 m, Tb. 4 cm\",\"-7,053794\",\"107,712275\",\"-7,054226\",\"107,713777\",\n70,2026,RHJLN.PL.0055.656.07,\"Rehab Jalan Desa Babakan, Kab. Bandung Ds Babakan Kec Ciparay\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  158.600.000 ,158.376.990,\"Panjang = 70 m, Lebar = 4,5 m, dan Tebal = 0,2 m\",\"-7,080231\",\"107,692470\",\"-7,080933\",\"107,692698\",\n71,2026,RHJLN.PL.0055.694.07,Rehabilitasi Jalan Jl. Cilandak Dp. SDN Cipeujeh kec. pacet,Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan tb. 20 cm\",  125.000.000 ,124.776.704,\"Panjang Jalan = 50 m, Lebar = 4,25 m\",\"-7,088297\",\"107,707418\",\"-7,088363\",\"107,707743\",\n72,2026,RHJLN.PL.0055.695.07,Rehabilitasi Jalan Jl Cipeujeh - Butul,Pacet,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan tb. 20 cm\",  125.000.000 ,124.663.642,\"Panjang Jalan = 50 m, Lebar = 4,25 m\",\"-7,088232\",\"107,707095\",\"-7,088297\",\"107,707418\",\n73,2026,RHJLN.PL.0055.705.07,\"Rehab Jalan Kp Nagrog Rt 060 Rw 019, Kab. Bandung Ds Mandalahaji Kec Pacet\",Pacet,,WILAYAH 7,Hotmix Ac - Wc,  104.700.000 ,104.316.608,\"Panjang = 138 m, Lebar = 3,0 m, dan Tebal = 0,04 m\",\"-7,099890\",\"107,719540\",\"-7,098906\",\"107,719587\",\n74,2026,RHJLN.PL.0055.706.07,\"Rehab Jalan kp pasir kondang rt 68 ew 20, Kab. Bandung Ds Mandalahaji Kec Pacet\",Pacet,,WILAYAH 7,Beton Sitemix,  104.700.000 ,104.476.999,\"Panjang = 20 m, Lebar = 4,0 m, dan Tebal = 0,2 m dan Panjang = 35 m, Lebar = 3,0 m, dan Tebal = 0,2 m\",\"-7,104541\",\"107,724047\",\"-7,104598\",\"107,724375\",\n75,2026,PJMS.PL.0068.758.07,Pelebaran Jalan Wilayah UPTD Sapras Ciparay,\"Ciparay, Pacet, Kertasari\",,WILAYAH 7,Pekerasan Beton Semen dan TPT,  400.000.000 ,398.178.128,\"Panjang = 80 m, Lebar = 1,4 m, Panjang = 175 m, Lebar = 1 m, dan Tebal = 0,2 m serta Pasangan Batu Panjang = 175 m dan Tinggi = 1,2 m\",-7.010924,\"107,708050\",-7.009970,\"107,708239\",\n76,2026,RJBT.PL.0058.762.07,\"Rehabilitasi Jembatan Desa Babakan, Kab. Bandung Ds Babakan Kec Ciparay\",Ciparay,,WILAYAH 7,Perbaikan Bangunan atas dan Selimut Abutment dan Hotmix AC - WC,  120.000.000 ,119.776.999,\"Panjang Jalan = 73 m, Lebar = 4 - 5 m dan Perbaikan Lonengan dan Sandaran (Railing)\",\"-7,083653\",\"107,694372\",\"-7,083653\",\"107,694372\",\n77,2026,RJBT.PL.0058.779.07,\"Rehabilitasi Jembatan kp.Cimariuk RT 02 RW 16 Desa Manggungharja Kecamatan Ciparaya , Kab. Bandung\",Ciparay,,WILAYAH 7,TPT Proteksi Abutment Jembatan,  145.320.000 ,145.042.578,Panjang = 36 m dan Tinggi = 3 m,\"-7,052297\",\"107,715766\",\"-7,052297\",\"107,715766\",\n78,2026,PJLN.PL.0053.140.07,\"Pembangunan Bangunan Pelengkap Jalan TPT Kp cisero RT 03 RW 09 Desa Sindangsari Kec Paseh, Kab. Bandung\",Paseh,,WILAYAH 7,TPT Pasangan Batu,  78.791.480 ,78.501.059,\"Panjang = 45 m dan Tinggi = 1,5 m\",,,,,\n79,2026,PJLN.PL.0053.146.07,\"Pembangunan Bangunan Pelengkap Jalan TPT KP.BUAH NUNGGAL RT.02 RW.14, Kab. Bandung Ds Padaulun Kec Majalaya\",Majalaya,,WILAYAH 7,TPT Pasangan Batu,  75.000.000 ,74.666.000,\"Panjang = 20 m dan Tinggi = 3,0 m\",\"-7,066650\",\"107,728148\",\"-7,066719\",\"107,727996\",\n80,2026,REJLN.T.0059.184.07,Peningkatan Jalan Padasuka - Neglasari Kec. Majalaya,Majalaya,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Dowel + Tie Bar) dengan Beton Kurus\",  1.000.000.000 ,966.138.599,Panjang = 297 M Lebar = 5.00 M,\"-7,077225\",\"107,730071\",\"-7,077797\",\"107,732469\",\n81,2026,REJLN.PL.0059.339.07,\"Peningkatan Jalan jalan Cibodas pangkalan rw 015, Kab. Bandung Ds Cibodas Kec Solokanjeruk\",Solokanjeruk,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  150.000.000 ,149.773.670,\"Panjang = 53 m, Lebar = 5,0 m, Tb. 20 cm\",\"-7,011693\",\"107,762841\",\"-7,011311\",\"107,763548\",\n82,2026,REJLN.PL.0059.363.07,\"Peningkatan Jalan Kp Radug RT 03-RW 02 Desa Wangisagara Kecamatan Majalaya , Kab. Bandung\",Majalaya,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  139.763.800 ,138.826.490,\"Panjang = 53 m, Lebar = 4,5 - 5,0 m, Tb. 20 cm\",\"-7,070376\",\"107,742555\",\"-7,070526\",\"107,741925\",\n83,2026,REJLN.PL.0059.390.07,\"Peningkatan Jalan kp cipedes Rw 13 Desa Cipedes kecamatan paseh., Kab. Bandung\",Paseh,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  125.800.000 ,125.424.838,\"Panjang = 50 m, Lebar = 4,5 m, Tb. 20 cm\",\"-7,036215\",\"107,794508\",\"-7,036275\",\"107,794773\",\n84,2026,RHJLN.T.0055.460.07,Rehab Jalan Karangtunggal Desa karangtunggal kec paseh,Paseh,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan Beton Kurus\",  800.000.000 ,796.027.138,\"Panjang Seg. 1 = 251 M dan Seg. 2 = 49 M Lebar = 4,50 M\",\"-7,044016\",\"107,803132\",\"-7,042110\",\"107,802577\",\n85,2026,RHJLN.T.0055.461.07,Rehab Jalan Mekarpawitan Desa mekarpawitan kec paseh,Paseh,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan Beton Kurus\",  800.000.000 ,795.201.297,\"Panjang Seg. 1 = 307 M Lebar = 3,50 M dan Seg. 2 = 65 M Lebar = 4,50 M\",\"-7,053943\",\"107,790121\",\"-7,051326\",\"107,789956\",\n86,2026,RHJLN.T.0055.462.07,Rehab Jalan Sukamantri Desa sukamatri kec paseh,Paseh,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan Beton Kurus\",  800.000.000 ,784.216.022,Panjang = 336 M Lebar = 4/ 4.5 M,\"-7,058045\",\"107,769957\",\"-7,062523\",\"107,774736\",\n87,2026,RHJLN.T.0055.463.07,Rehab Jalan Cipedes Desa cipedes kec paseh,Paseh,,WILAYAH 7,\"Perkerasan Beton Semen fs' 3,8 Mpa (NFA Tanpa Tie Bar) dengan Beton Kurus\",  800.000.000 ,796.371.550,Panjang = 263 M Lebar = 5 M,\"-7,045533\",\"107,799301\",\"-7,048906\",\"107,801138\",\n88,2026,RHJLN.PL.0055.638.07,\"Rehab Jalan Jalan Panyadap - Padamukti sepanjang 570 m dengan lebar jalan 4 m, Kab. Bandung Ds Panyadap Kec Solokanjeruk\",Solokanjeruk,,WILAYAH 7,Hotmix Ac - Wc,  185.000.000 ,184.530.154,\"Panjang = 181 m, Lebar = 4,0 m, Tb. 4 cm\",\"-7,029292\",\"107,768638\",\"-7,030898\",\"107,768528\",\n89,2026,RHJLN.PL.0055.671.07,\"Rehab Jalan KP MEKAR RAHAYU RT 02 RW 10, Kab. Bandung Ds Majalaya Kec Majalaya\",Majalaya,,WILAYAH 7,Hotmix Ac - Wc,  142.000.000 ,141.776.818,\"Panjang = 195 m, Lebar = 3,0 m, dan Tebal = 0,04 m\",\"-7,049129\",\"107,758315\",\"-7,048289\",\"107,757457\",\n90,2026,RHJLN.PL.0055.679.07,\"Rehab Jalan JALAN TANGSIMEKAR Kp. Rancakendal RW 11, Kab. Bandung Ds Tangsimekar Kec Paseh\",Paseh,,WILAYAH 7,Hotmix Ac - Wc,  139.600.000 ,139.376.786,\"Panjang = 149 m, Lebar = 4,0 m, dan Tebal = 0,04 m\",\"-7,036045\",\"107,792854\",\"-7,034414\",\"107,792470\",\n91,2026,RHJLN.PL.0055.684.07,\"Rehab Jalan Kp. Baru RW.05, Kab. Bandung Ds Mekarpawitan Kec Paseh\",Paseh,,WILAYAH 7,Hotmix Ac - Wc,  139.600.000 ,139.376.785,\"Panjang = 117 m, Lebar = 5,0 m, dan Tebal = 0,04 m\",\"-7,049329\",\"107,778181\",\"-7,048166\",\"107,777801\",\n92,2026,.07,Rehab Jl. lampegan - Ciekek,Ibun,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  211.133.333 ,210.851.154,\"Panjang = 93 m, Lebar = 4,5 m, dan Tebal = 0,20 m\",\"-7,070791\",\"107,766574\",\"-7,070838\",\"107,765449\",\n93,2026,.07,\"Rehab Jalan Ciwalengke, Kec. Majalaya\",Majalaya,,WILAYAH 7,Hotmix Ac - Wc,  300.000.000 ,299.577.200,\"Panjang = 247 m, Lebar = 6,0 m, dan Tebal = 0,04 m\",,,,,\n94,2026,REJLN.PL.0059.817.07,\"Rehab Jalan Kp. Karanganyar Rw.01, Kab. Bandung\",Ciparay,,WILAYAH 7,Hotmix Ac - Wc,  157.250.000 ,156.936.099,\"Pjg Seg 1 = 112 m, Lebar = 4 m, Tb. 20 cm, Pjg Seg 2 = 21 m, Lebar = 4,5 m, Tb. 20 cm, dan Pjg Seg 2 = 20 m, Lebar = 5 m, Tb. 20 cm\",\"-7,038940\",\"107,723200\",\"-7,039578\",\"107,722548\",\n95,2026,REJLN.PL.0059.818.07,\"Rehab Jl. Mbah Kanom Rw.010 Desa Ciheulang, Kecamatan Ciparay., Kab. Bandung\",Ciparay,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  157.250.000 ,156.964.505,\"Panjang Beton = 83 m Lebar = 3 m Tb. 20 cm dan Panjang Hotmix = 35 m Lebar 3 m Tb. 0,04 m\",\"-7,027158\",\"107,681278\",\"-7,027215\",\"107,680478\",\n96,2026,RHJLN.PL.0055.821.07,Rehab Jalan Cipeujeuh Pacet,Pacet,,WILAYAH 7,\"Perkerasan Beton Semen (OPC) Fs 3,8 NFA (Tanpa Tie-Bars)\",  171.000.000 ,170.688.200,\"Panjang = 86 m, Lebar = 4,0 m, dan Tebal = 0,20 m\",\"-7,089617\",\"107,714148\",\"-7,089540\",\"107,713588\",\n97,2026,PJLN.PL.0053.843.07,Kegiatan Mendukung Program Pemkab Bandung Paket 6,Kertasari,,WILAYAH 7,TPT Pasangan Batu dengan Frame Beton,  100.000.000 ,99.721.448,Panjang = 9 m dan Tinggi = 4 m,\"-7,191032\",\"107,704266\",\"-7,191032\",\"107,704266\",";
- let liveWorkCsvText=null;
- let liveRefreshStarted=false;
- function parseWorkCsvToRows(csv){
-   if(!csv||!csv.trim()||/<!doctype html|<html/i.test(csv.slice(0,500)))throw Error('Respons bukan CSV yang valid.');
-   const parsed=parseWorkCSV(csv);
-   if(parsed.length<2)throw Error('CSV kosong atau belum memiliki baris data.');
-   const headers=parsed[0].map(csvHeader);
-   const required=['KODE_PAKET','NAMA_PAKET','KECAMATAN','LAT_AWAL','LONG_AWAL'];
-   const missing=required.filter(h=>!headers.includes(h));
-   if(missing.length)throw Error('Kolom CSV tidak ditemukan: '+missing.join(', ')+'. Pastikan publikasi mengarah ke tab 2026.');
-   const data=parsed.slice(1).map(cells=>{
-     const o={};headers.forEach((h,i)=>{if(h)o[h]=cells[i]??'';});
-     return normalizeRow(o);
-   }).filter(r=>Object.values(r).some(v=>String(v??'').trim()!==''));
-   if(!data.length)throw Error('CSV berhasil dibuka, tetapi tidak ada baris pekerjaan.');
-   return data;
- }
- async function fetchPublishedCsv(){
-   const controller=new AbortController();
-   const timeout=setTimeout(()=>controller.abort(),8000);
-   try{
-     const response=await fetch(PUBLIC_WORK_SHEET_CSV+'&_refresh='+Date.now(),{method:'GET',mode:'cors',cache:'no-store',signal:controller.signal});
-     if(!response.ok)throw Error('Google Sheets CSV HTTP '+response.status);
-     const csv=await response.text();
-     parseWorkCsvToRows(csv);
-     return csv;
-   }finally{clearTimeout(timeout);}
- }
- function startBackgroundSheetSync(){
-   if(liveRefreshStarted)return;liveRefreshStarted=true;
-   const refresh=async()=>{
-     if(!navigator.onLine||window.__vfLiveFetchInProgress)return;
-     window.__vfLiveFetchInProgress=true;
-     try{
-       const csv=await fetchPublishedCsv();
-       const changed=csv!==EMBEDDED_WORK_CSV&&csv!==liveWorkCsvText;
-       liveWorkCsvText=csv;
-       if(changed){
-         window.__vfLiveCsvText=csv;
-         window.__vfLiveRefreshPending=true;
-         if(!window.__vfLoading)load();else window.__vfRefreshPending=true;
-       }else{
-         liveWorkCsvText=csv;
-         window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:'connected',count:rows.length}}));
-         const statusEl=el('vfConnection');
-         if(statusEl)statusEl.textContent='● Google Sheets terhubung · '+rows.length+' pekerjaan';
-       }
-     }catch(err){
-       console.warn('Sinkronisasi live Google Sheets belum berhasil; memakai snapshot CSV:',err);
-     }finally{
-       window.__vfLiveFetchInProgress=false;
-     }
-   };
-   setTimeout(refresh,1200);
-   setInterval(refresh,60000);
- }
- async function getSheet(){
-   // Prioritaskan data live yang sudah berhasil diambil; jika belum, gunakan snapshot CSV yang tervalidasi.
-   const selected=window.__vfLiveCsvText||liveWorkCsvText||EMBEDDED_WORK_CSV;
-   const data=parseWorkCsvToRows(selected);
-   window.__vfUsingSnapshot=!window.__vfLiveCsvText&&!liveWorkCsvText;
-   startBackgroundSheetSync();
-   return data;
- }
- let roadSpatialIndex=[];
- function buildRoadSpatialIndex(fc){
-   roadSpatialIndex=(fc?.features||[]).filter(f=>f?.geometry).map(f=>{try{return {f,b:turf.bbox(f)}}catch(e){return null}}).filter(Boolean);
- }
- function nearest(point){
-   const x=point.geometry.coordinates[0],y=point.geometry.coordinates[1],pad=.0012;
-   let best=Infinity;
-   for(const item of roadSpatialIndex){
-     const b=item.b;
-     if(x<b[0]-pad||x>b[2]+pad||y<b[1]-pad||y>b[3]+pad)continue;
-     try{const d=turf.pointToLineDistance(point,item.f,{units:'meters'});if(d<best)best=d;}catch(e){}
-   }
-   return best;
- }
- function classify(r,fc){
-   let a=num(r.LAT_AWAL),b=num(r.LONG_AWAL),c=num(r.LAT_AKHIR),d=num(r.LONG_AKHIR);
-   if(!valid(a,b)||!valid(c,d))return {s:'belum',reason:'Koordinat awal/akhir belum lengkap'};
-   const d1=nearest(turf.point([b,a])),d2=nearest(turf.point([d,c])),mx=Math.max(d1,d2);
-   if(mx<=30)return {s:'masuk',d1,d2};
-   if(mx>60)return {s:'tidak',d1,d2};
-   return {s:'belum',d1,d2,reason:'Perlu pemeriksaan manual'};
- }
- function initMap(){
-   const container=el('vfMap');
-   if(!container||!window.L)return;
-   if(map){setTimeout(()=>map.invalidateSize(true),250);return;}
-   map=L.map(container,{scrollWheelZoom:true,preferCanvas:true, zoomControl:true});
-   // Esri World Street Map digunakan langsung karena server tile OSM menolak
-   // pemakaian dari dashboard ini (HTTP 403 / tile usage policy).
-   const esri=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{
-     maxZoom:19,
-     attribution:'Tiles © Esri',
-     crossOrigin:true
-   });
-   esri.addTo(map);
-   esri.on('tileerror',e=>console.warn('Tile Esri gagal dimuat:',e));
-   const fc=roadData();
-   roadLayer=L.geoJSON(fc,{
-     style:()=>({color:'#0758e9',weight:2.2,opacity:.95}),
-     onEachFeature:(feature,layer)=>{
-       const nm=feature?.properties?.Nama_Ruas||feature?.properties?.NAME||'Ruas Jalan Kabupaten';
-       layer.bindTooltip(String(nm),{sticky:true});
-     }
-   }).addTo(map);
-   workLayer=L.layerGroup().addTo(map);
-   const bounds=roadLayer.getBounds();
-   if(bounds&&bounds.isValid()){
-     map.fitBounds(bounds.pad(.035),{animate:false});
-   }else{
-     map.setView([-7.05,107.56],10);
-   }
-   setTimeout(()=>map.invalidateSize(true),300);
-   setTimeout(()=>{if(roadLayer&&roadLayer.getBounds().isValid())map.fitBounds(roadLayer.getBounds().pad(.035),{animate:false});},800);
-   initialized=true;
- }
- function options(id,values,all){let e=el(id),old=e.value;e.innerHTML=`<option value="">${all}</option>`+[...new Set(values.map(txt).filter(Boolean))].sort().map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if([...e.options].some(o=>o.value===old))e.value=old;}
- function filtered(){return rows.filter(r=>(!el('vfYear').value||txt(r.TAHUN_ANGGARAN)===el('vfYear').value)&&(!el('vfDistrict').value||txt(r.KECAMATAN)===el('vfDistrict').value)&&(!el('vfVillage').value||txt(r.DESA_KELURAHAN)===el('vfVillage').value));}
- function coord(v){
-   if(typeof v==='number')return v;
-   let s=String(v??'').trim();
-   if(!s)return NaN;
-   s=s.replace(/\s/g,'').replace(/,/g,'.');
-   const m=s.match(/[-+]?\d+(?:\.\d+)?/);
-   return m?Number(m[0]):NaN;
- }
- function workCoords(r){
-   let a=coord(r.LAT_AWAL),b=coord(r.LONG_AWAL),c=coord(r.LAT_AKHIR),d=coord(r.LONG_AKHIR);
-   if(!valid(a,b)&&valid(b,a))[a,b]=[b,a];
-   if(!valid(c,d)&&valid(d,c))[c,d]=[d,c];
-   return valid(a,b)&&valid(c,d)?{a,b,c,d}:null;
- }
- function drawWorkMap(data){
-   if(!map||!workLayer)return;
-   workLayer.clearLayers();
-   const bounds=[];
-   let plotted=0,missing=0;
-   data.forEach(r=>{
-     const co=workCoords(r);
-     if(!co){missing++;return;}
-     const st=r._v.s,color=window.__vfClassifying?'#94a3b8':st==='masuk'?'#159447':st==='tidak'?'#e5484d':'#f0a12b';
-     const popup=`<b>${esc(r.NAMA_PAKET)}</b><br>${esc(r.KECAMATAN)} / ${esc(r.WILAYAH||r.DESA_KELURAHAN)}<br>${esc(st==='masuk'?'Masuk Jalan Kabupaten':st==='tidak'?'Tidak Masuk Jalan Kabupaten':'Belum terverifikasi')}`;
-     L.polyline([[co.a,co.b],[co.c,co.d]],{color,weight:7,opacity:1,lineCap:'round',lineJoin:'round'}).bindPopup(popup).addTo(workLayer);
-     L.circleMarker([co.a,co.b],{radius:6,color:'#fff',weight:2,fillColor:color,fillOpacity:1}).bindPopup('<b>Awal pekerjaan</b><br>'+popup).addTo(workLayer);
-     L.circleMarker([co.c,co.d],{radius:6,color:'#fff',weight:2,fillColor:color,fillOpacity:1}).bindPopup('<b>Akhir pekerjaan</b><br>'+popup).addTo(workLayer);
-     bounds.push([co.a,co.b],[co.c,co.d]);plotted++;
-   });
-   const info=el('vfMapStatus');
-   if(info)info.textContent=plotted+' pekerjaan diplot pada peta'+(missing?' · '+missing+' pekerjaan tidak memiliki koordinat awal/akhir valid':'');
-   if(plotted){
-     const b=L.latLngBounds(bounds);
-     if(b.isValid())map.fitBounds(b.pad(.18),{maxZoom:14,animate:false});
-   }else{
-     // Leave the Kabupaten Bandung context visible and explain missing coordinate fields.
-     if(info)info.textContent='Belum ada koordinat awal/akhir valid yang dapat dipetakan. Periksa kolom LAT_AWAL, LONG_AWAL, LAT_AKHIR, LONG_AKHIR pada Google Sheets.';
-   }
-   setTimeout(()=>map.invalidateSize(true),150);
- }
- function renderLocationTables(data){
-   const masuk=data.filter(r=>r._v.s==='masuk'),tidak=data.filter(r=>r._v.s==='tidak');
-   const cell=(r,i)=>`<tr><td>${i+1}</td><td title="${esc(r.NAMA_PAKET)}">${esc(r.NAMA_PAKET||'-')}</td><td>${esc(r.KECAMATAN||'-')}</td><td>${esc(r.WILAYAH||r.DESA_KELURAHAN||'-')}</td><td>${esc(r.KODE_PAKET||'-')}</td></tr>`;
-   if(window.__vfClassifying){
-     const pending='<tr><td colspan="5">Verifikasi sedang diproses. Daftar akan tampil setelah hasil stabil.</td></tr>';
-     el('vfLocationMasuk').innerHTML=pending;el('vfLocationTidak').innerHTML=pending;
-     el('vfLocationMasukCount').textContent='Memproses';el('vfLocationTidakCount').textContent='Memproses';
-     return;
-   }
-   el('vfLocationMasuk').innerHTML=masuk.length?masuk.map(cell).join(''):'<tr><td colspan="5">Tidak ada pekerjaan masuk Jalan Kabupaten.</td></tr>';
-   el('vfLocationTidak').innerHTML=tidak.length?tidak.map(cell).join(''):'<tr><td colspan="5">Tidak ada pekerjaan di luar Jalan Kabupaten.</td></tr>';
-   el('vfLocationMasukCount').textContent=masuk.length+' lokasi';
-   el('vfLocationTidakCount').textContent=tidak.length+' lokasi';
- }
- function render(){
-   const data=filtered(),n=data.length,pending=!!window.__vfClassifying;
-   const m=pending?0:data.filter(x=>x._v.s==='masuk').length,t=pending?0:data.filter(x=>x._v.s==='tidak').length,b=pending?0:data.filter(x=>x._v.s==='belum').length;
-   el('vfTotal').textContent=n;el('vfMasuk').textContent=pending?'—':m;el('vfTidak').textContent=pending?'—':t;el('vfBelum').textContent=pending?'—':b;
-   el('vfDonutTotal').textContent=n;el('vfMasukPct').textContent=pending?'—':(n?(m/n*100).toFixed(1):0)+'%';el('vfTidakPct').textContent=pending?'—':(n?(t/n*100).toFixed(1):0)+'%';
-   el('vfLegendMasuk').textContent=pending?'Menunggu verifikasi':m+' pekerjaan';el('vfLegendTidak').textContent=pending?'Menunggu verifikasi':t+' pekerjaan';el('vfLegendBelum').textContent=pending?'Menunggu verifikasi':b+' pekerjaan';el('vfCount').textContent=n+' data';
-   let p=n?m/n*360:0,q=n?t/n*360:0;
-   el('vfDonut').style.background=pending?'conic-gradient(#d1d5db 0deg 360deg)':`conic-gradient(#16a34a 0deg ${p}deg,#ef4444 ${p}deg ${p+q}deg,#f59e0b ${p+q}deg 360deg)`;
-   el('vfRows').innerHTML=data.length?data.slice(0,30).map((r,i)=>{let s=r._v.s,label=pending?'Sedang diverifikasi':s==='masuk'?'Masuk Jl. Kabupaten':s==='tidak'?'Tidak Masuk':'Belum diverifikasi';return `<tr><td>${i+1}</td><td title="${esc(r.NAMA_PAKET)}">${esc(r.NAMA_PAKET)}</td><td>${esc(r.KECAMATAN)}</td><td>${esc(r.WILAYAH||r.DESA_KELURAHAN)}</td><td><span class="vf-pill ${pending?'belum':s}">${label}</span></td></tr>`;}).join(''):'<tr><td colspan="5">Tidak ada data sesuai filter.</td></tr>';
-   renderLocationTables(data);
-   drawWorkMap(data);
- }
- async function load(){
-   if(window.__vfLoading)return;
-   window.__vfLoading=true;
-   window.__vfClassifying=false;
-   window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:'loading'}}));
-   el('vfConnection').textContent='● Menyiapkan data pekerjaan…';
-   try{
-     const raw=await getSheet();
-     rows=raw.map(r=>({...r,_v:{s:'proses',reason:'Menunggu verifikasi'}}));
-     options('vfYear',rows.map(r=>r.TAHUN_ANGGARAN),'Semua Tahun');
-     options('vfDistrict',rows.map(r=>r.KECAMATAN),'Semua Kecamatan');
-     options('vfVillage',rows.map(r=>r.DESA_KELURAHAN),'Semua Wilayah');
-     window.__vfClassifying=true;
-     render();
-     window.dispatchEvent(new Event('vf-sheet-loaded'));
-     el('vfConnection').textContent='● '+rows.length+' data tersedia · verifikasi sedang berjalan';
-     window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:'cached',count:rows.length}}));
-     const fc=roadData();
-     buildRoadSpatialIndex(fc);
-     const batchSize=2;
-     for(let i=0;i<rows.length;i+=batchSize){
-       for(let j=i;j<Math.min(i+batchSize,rows.length);j++) rows[j]._v=classify(rows[j],fc);
-       progress(15+Math.round(Math.min(1,(i+batchSize)/rows.length)*80),'Verifikasi jaringan',`Memeriksa ${Math.min(i+batchSize,rows.length)} dari ${rows.length} pekerjaan…`,'#2f75ed');
-       await new Promise(resolve=>setTimeout(resolve,0));
-     }
-     window.__vfClassifying=false;
-     render();
-     progress(100,'DATA SIAP',rows.length+' pekerjaan selesai diklasifikasikan.','#269653');
-     el('vfConnection').textContent='● '+rows.length+' pekerjaan siap · '+(window.__vfUsingSnapshot?'data CSV tersimpan':'Google Sheets tersinkron');
-     window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:window.__vfUsingSnapshot?'cached':'connected',count:rows.length}}));
-   }catch(e){
-     window.__vfClassifying=false;
-     console.error('Verifikasi Sheet:',e);
-     progress(100,'DATA TIDAK SIAP',e.message||'Gagal memproses data pekerjaan.','#d94f45');
-     el('vfConnection').textContent='● Gagal memproses data pekerjaan';
-     el('vfRows').innerHTML=`<tr><td colspan="5">${esc(e.message)}</td></tr>`;
-     window.dispatchEvent(new CustomEvent('vf-sheet-sync-state',{detail:{state:'failed',message:e.message||'Gagal memproses data'}}));
-   }finally{window.__vfLoading=false;if(window.__vfRefreshPending){window.__vfRefreshPending=false;setTimeout(()=>load(),180);}}
- }
- window.retryGoogleSheetSync=()=>{if(window.__vfLoading)return;window.__vfLiveCsvText=null;liveWorkCsvText=null;liveRefreshStarted=false;load();};
- window.getMapJobRows=()=>rows;
- window.loadMapJobRows=()=>{if(!rows.length&&!window.__vfLoading)load();};
- window.addEventListener('vf-sheet-loaded',()=>window.renderMapJobLocations?.());
-  function activateVerifikasi(){
-   const page=el('viewVerifikasi');
-   if(!page)return;
-   initMap();
-   if(!rows.length)load();
-   else setTimeout(()=>{if(map)map.invalidateSize();},250);
- }
- document.querySelector('.nav-btn[data-view="viewVerifikasi"]')?.addEventListener('click',()=>setTimeout(activateVerifikasi,80));
- function checkVerifikasiRoute(){
-   const hash=(location.hash||'').toLowerCase();
-   const active=el('viewVerifikasi')?.classList.contains('active');
-   if(active || hash.includes('verifikasi-pekerjaan') || hash.includes('viewverifikasi')){
-     setTimeout(activateVerifikasi,120);
-   }
- }
- window.addEventListener('hashchange',checkVerifikasiRoute);
- window.addEventListener('load',checkVerifikasiRoute);
- document.addEventListener('DOMContentLoaded',checkVerifikasiRoute);
- setTimeout(checkVerifikasiRoute,350);
- 
- ['vfYear','vfDistrict','vfVillage'].forEach(id=>el(id)?.addEventListener('change',render));el('vfReload')?.addEventListener('click',load);el('vfReset')?.addEventListener('click',()=>{['vfYear','vfDistrict','vfVillage'].forEach(id=>el(id).value='');render();});setInterval(()=>{const detail=el('mjpBody');const mapActive=el('viewPeta')?.classList.contains('active');if(navigator.onLine&&mapActive&&detail&&!detail.hidden&&!window.__vfLoading)load();},60000);
-})();
-
-/* Layout map-first: let both location tables occupy the right column beside the map. */
-(function arrangeVerificationMapLayout(){
-  function arrange(){
-    const page=document.getElementById('viewVerifikasi');
-    const right=page?.querySelector('.vf-right-col');
-    const tables=page?.querySelector('.vf-location-tables');
-    if(right&&tables&&tables.parentElement!==right) right.appendChild(tables);
-    if(page){
-      const map=document.getElementById('vfMap');
-      if(map&&window.L&&map._leaflet_id&&window.__verificationMapInstance){
-        setTimeout(()=>window.__verificationMapInstance.invalidateSize(),180);
-      }
-    }
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',arrange);
-  else arrange();
-  document.querySelector('.nav-btn[data-view="viewVerifikasi"]')?.addEventListener('click',()=>setTimeout(arrange,100));
-  window.addEventListener('resize',()=>setTimeout(arrange,100));
-})();
-
-
-(function applyReferenceLayout(){
- function place(){
-  const page=document.getElementById('viewVerifikasi');
-  if(!page)return;
-  const grid=page.querySelector('.vf-main-grid');
-  const right=page.querySelector('.vf-right-col');
-  const filter=page.querySelector('.vf-filter-card');
-  const tables=page.querySelector('.vf-location-tables');
-  if(right&&filter&&filter.parentElement!==right) right.insertBefore(filter,right.firstChild);
-  if(right&&tables&&tables.parentElement!==right) right.appendChild(tables);
-  const mapEl=document.getElementById('vfMap');
-  if(mapEl&&window.L){
-    // Leaflet's map variable is local to the verification module; resize via its container event.
-    setTimeout(()=>window.dispatchEvent(new Event('resize')),220);
-  }
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',place);
- else place();
- document.querySelector('.nav-btn[data-view="viewVerifikasi"]')?.addEventListener('click',()=>setTimeout(place,120));
- window.addEventListener('resize',()=>setTimeout(place,120));
-})();
-
-</script>
-
-
-<script id="map-job-locations-controller">
-(function(){
- const $=id=>document.getElementById(id);
- let layer=null, filtersReady=false, featureByKey=new Map(), lastGroups={masuk:[],tidak:[],belum:[]};
- const esc=v=>String(v??'-').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const status=r=>r?._v?.s==='masuk'?'masuk':r?._v?.s==='tidak'?'tidak':'belum';
- function rows(){return window.getMapJobRows?.()||[];}
- function num(v){const n=Number(String(v??'').trim().replace(',','.'));return Number.isFinite(n)?n:NaN;}
- function coords(r){let a=num(r.LAT_AWAL),b=num(r.LONG_AWAL),c=num(r.LAT_AKHIR),d=num(r.LONG_AKHIR);if(Math.abs(a)>90&&Math.abs(b)<=90)[a,b]=[b,a];if(Math.abs(c)>90&&Math.abs(d)<=90)[c,d]=[d,c];const ok=(x,y)=>Number.isFinite(x)&&Number.isFinite(y)&&Math.abs(x)<=90&&Math.abs(y)<=180;return {a:ok(a,b)?[a,b]:null,b:ok(c,d)?[c,d]:null};}
- function setOptions(id,values,label){const el=$(id),old=el.value,vals=[...new Set(values.map(v=>String(v??'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'id'));el.innerHTML=`<option value="">${label}</option>`+vals.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');if(vals.includes(old))el.value=old;}
- function filtered(){return rows().filter(r=>(!$('mjpYear').value||String(r.TAHUN_ANGGARAN)===$('mjpYear').value)&&(!$('mjpDistrict').value||String(r.KECAMATAN)===$('mjpDistrict').value)&&(!$('mjpVillage').value||String(r.WILAYAH||r.DESA_KELURAHAN)===$('mjpVillage').value));}
- function jobKey(r){return String(r.KODE_PAKET||r.NAMA_PAKET||'');}
- function draw(data){
-  if(!window.mapMax||!window.L)return;
-  if(!layer)layer=L.layerGroup().addTo(window.mapMax);
-  layer.clearLayers();featureByKey.clear();
-  data.forEach(r=>{
-   const p=coords(r),st=status(r),color=st==='masuk'?'#16a34a':st==='tidak'?'#ef4444':'#f59e0b';
-   const popup=`<div style="min-width:190px"><b>${esc(r.NAMA_PAKET)}</b><br>Kode Paket: ${esc(r.KODE_PAKET)}<br>${st==='masuk'?'Masuk Jalan Kabupaten':st==='tidak'?'Tidak Masuk Jalan Kabupaten':'Perlu Verifikasi'}<br>Kecamatan: ${esc(r.KECAMATAN)}<br>Wilayah: ${esc(r.WILAYAH||r.DESA_KELURAHAN)}</div>`;
-   const features=[];
-   if(p.a&&p.b){
-    const line=L.polyline([p.a,p.b],{color,weight:5,opacity:.92,lineCap:'round'}).bindPopup(popup).addTo(layer);
-    features.push(line);
-   }
-   [p.a,p.b].filter(Boolean).forEach(pt=>{
-    const marker=L.circleMarker(pt,{radius:5,color:'#fff',weight:1.4,fillColor:color,fillOpacity:1}).bindPopup(popup).addTo(layer);
-    features.push(marker);
-   });
-   featureByKey.set(jobKey(r),{features,points:[p.a,p.b].filter(Boolean),row:r});
-  });
- }
- function showJobOnMap(r){
-  const entry=featureByKey.get(jobKey(r));
-  if(!entry||!entry.points.length){
-   $('mjpSummary').textContent='Koordinat pekerjaan ini belum tersedia, sehingga lokasinya belum dapat ditampilkan pada peta.';
-   return;
-  }
-  const pt=entry.points[0],map=window.mapMax;
-  if(!map)return;
-  map.setView(pt,Math.max(map.getZoom(),15),{animate:true});
-  const target=entry.features.find(f=>typeof f.openPopup==='function')||entry.features[0];
-  if(target?.openPopup)target.openPopup();
-  // Briefly emphasize the selected work segment.
-  const line=entry.features.find(f=>f instanceof L.Polyline && !(f instanceof L.CircleMarker));
-  if(line){line.setStyle({weight:8,opacity:1});setTimeout(()=>line.setStyle({weight:5,opacity:.92}),1800);}
- }
- function money(v){
-  if(v===null||v===undefined||v==='')return 0;
-  if(typeof v==='number')return Number.isFinite(v)?v:0;
-  let x=String(v).trim().replace(/rp/ig,'').replace(/\s/g,'');
-  if(!x)return 0;
-  // Indonesian spreadsheet currency: dots are thousands separators; comma is decimal separator.
-  if(x.includes(','))x=x.replace(/\./g,'').replace(',','.');
-  else if((x.match(/\./g)||[]).length>1)x=x.replace(/\./g,'');
-  const n=Number(x.replace(/[^0-9.-]/g,''));return Number.isFinite(n)?n:0;
- }
- function rupiah(v){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(v||0);}
- function render(){
-  const all=rows();
-  if(!all.length){$('mjpSummary').textContent=window.__vfLoading?'Sedang menghubungkan ke Google Sheets…':'Menunggu data Google Sheets…';return;}
-  if(!filtersReady){setOptions('mjpYear',all.map(r=>r.TAHUN_ANGGARAN),'Semua Tahun');setOptions('mjpDistrict',all.map(r=>r.KECAMATAN),'Semua Kecamatan');setOptions('mjpVillage',all.map(r=>r.WILAYAH||r.DESA_KELURAHAN),'Semua Wilayah');filtersReady=true;}
-  const data=filtered(),groups={
-   masuk:data.filter(r=>status(r)==='masuk'),
-   tidak:data.filter(r=>status(r)==='tidak'),
-   belum:data.filter(r=>status(r)==='belum')
-  };
-  lastGroups=groups;
-  const total=data.length,allPagu=data.reduce((a,r)=>a+money(r.PAGU_PAKET_RP),0),allKontrak=data.reduce((a,r)=>a+money(r.NILAI_KONTRAK_PAKET_RP),0);
-  $('mjpSummary').textContent=`Data terhubung · ${total} pekerjaan ditampilkan sesuai filter`;
-  $('mjpTotalJobs').textContent=total.toLocaleString('id-ID');
-  $('mjpTotalPagu').textContent=rupiah(allPagu);
-  $('mjpTotalKontrak').textContent=rupiah(allKontrak);
-  const keys=[['masuk','Masuk'],['tidak','Tidak'],['belum','Belum']];
-  keys.forEach(([key,label])=>{
-   const list=groups[key],count=list.length,pct=total?count/total*100:0;
-   const pagu=list.reduce((a,r)=>a+money(r.PAGU_PAKET_RP),0);
-   const kontrak=list.reduce((a,r)=>a+money(r.NILAI_KONTRAK_PAKET_RP),0);
-   const cap=key==='belum'?'Belum':label;
-   $('mjp'+cap+'Count').textContent=count.toLocaleString('id-ID');
-   $('mjp'+cap+'Pct').textContent=pct.toLocaleString('id-ID',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
-   $('mjp'+cap+'Bar').style.width=pct+'%';
-   $('mjp'+cap+'Pagu').textContent=rupiah(pagu);
-   $('mjp'+cap+'Kontrak').textContent=rupiah(kontrak);
-   $('mjpRecap'+cap).textContent=count.toLocaleString('id-ID');
-   $('mjpRecap'+cap+'Pct').textContent=pct.toLocaleString('id-ID',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
-   $('mjpRecap'+cap+'Pagu').textContent=rupiah(pagu);
-   $('mjpRecap'+cap+'Kontrak').textContent=rupiah(kontrak);
-   const bodyId=key==='masuk'?'mjpRowsMasuk':key==='tidak'?'mjpRowsTidak':'mjpRowsBelum';
-   const row=(r,i)=>`<tr data-job-key="${esc(jobKey(r))}" title="Klik untuk menampilkan lokasi pekerjaan pada peta"><td>${i+1}</td><td>${esc(r.KODE_PAKET)}</td><td>${esc(r.NAMA_PAKET)}</td><td>${esc(r.KECAMATAN)}</td><td>${esc(r.WILAYAH||r.DESA_KELURAHAN)}</td><td>${rupiah(money(r.PAGU_PAKET_RP))}</td><td>${rupiah(money(r.NILAI_KONTRAK_PAKET_RP))}</td></tr>`;
-   $(bodyId).innerHTML=list.map(row).join('')||'<tr><td colspan="7">Tidak ada pekerjaan pada kategori ini.</td></tr>';
-  });
-  draw(data);
- }
-
- // Klik satu baris tabel detail untuk langsung memusatkan peta ke lokasi pekerjaan.
- ['mjpRowsMasuk','mjpRowsTidak','mjpRowsBelum'].forEach(id=>{
-  $(id).addEventListener('click',ev=>{
-   const tr=ev.target.closest('tr[data-job-key]');
-   if(!tr)return;
-   const r=[...lastGroups.masuk,...lastGroups.tidak,...lastGroups.belum].find(x=>jobKey(x)===tr.dataset.jobKey);
-   if(r)showJobOnMap(r);
-  });
- });
-
- window.renderMapJobLocations=render;
- ['mjpYear','mjpDistrict','mjpVillage'].forEach(id=>$(id).addEventListener('change',render));
- $('mjpToggle').addEventListener('click',()=>{const body=$('mjpBody'),open=body.hidden;body.hidden=!open;$('mjpToggle').textContent=open?'−':'+';$('mjpToggle').setAttribute('aria-label',open?'Tutup detail lokasi pekerjaan':'Buka detail lokasi pekerjaan');if(open){window.loadMapJobRows?.();render();}});
- document.querySelector('.nav-btn[data-view="viewPeta"]')?.addEventListener('click',()=>{setTimeout(()=>{window.loadMapJobRows?.();render();},350);});
- window.addEventListener('vf-sheet-loaded',render);
- // Do not auto-open; start one shared Google Sheets request when user opens the detail panel.
-})();
-</script>
-
-
-<script id="mjp-sync-state-controller">
-(function(){
- const overlay=document.getElementById('mjpLoadingOverlay');
- const title=document.getElementById('mjpLoadingTitle');
- const detail=document.getElementById('mjpLoadingDetail');
- const retry=document.getElementById('mjpRetrySync');
- const subtitle=document.querySelector('#mapJobLocationsPanel .mjp-head small');
- const body=document.getElementById('mjpBody');
- function state(e){
-  const d=e.detail||{};
-  if(d.state==='loading'){
-   if(subtitle)subtitle.textContent='Menghubungkan ke Google Sheets…';
-   if(overlay){overlay.classList.remove('failed');overlay.classList.add('active');}
-   if(title)title.textContent='Menghubungkan ke Google Sheets…';
-   if(detail)detail.textContent='Data awal sedang disiapkan. Tampilan akan dibuka segera setelah data lokal tersedia.';
-   if(retry)retry.hidden=true;
-   body?.setAttribute('aria-busy','true');
-  }else if(d.state==='connected'){
-   if(subtitle)subtitle.textContent='Terhubung ke Google Sheets · Data telah disinkronkan';
-   if(overlay)overlay.classList.remove('active','failed');
-   body?.removeAttribute('aria-busy');
-  }else if(d.state==='cached'){
-   if(subtitle)subtitle.textContent='Data CSV tersedia · Sinkronisasi Google Sheets berjalan di latar belakang';
-   if(overlay)overlay.classList.remove('active','failed');
-   body?.removeAttribute('aria-busy');
-  }else if(d.state==='failed'){
-   if(subtitle)subtitle.textContent='Google Sheets belum terhubung · Sinkronisasi gagal';
-   if(overlay){overlay.classList.add('active','failed');}
-   if(title)title.textContent='Belum terhubung ke Google Sheets';
-   if(detail)detail.textContent=(d.message||'Periksa koneksi internet dan izin spreadsheet.')+' Panel dibuka kembali setelah koneksi berhasil.';
-   if(retry)retry.hidden=false;
-   body?.removeAttribute('aria-busy');
-  }
- }
- window.addEventListener('vf-sheet-sync-state',state);
- retry?.addEventListener('click',()=>window.retryGoogleSheetSync?.());
- // If the data is already present when this controller initializes, reflect the actual state.
- if(window.getMapJobRows?.().length)state({detail:{state:'connected',count:window.getMapJobRows().length}});
+window.addEventListener('resize',()=>{if(id('viewTimeline')?.classList.contains('active'))drawChart('tlChartBudget','budget')});document.addEventListener('DOMContentLoaded',()=>{id('tlSheetUrl').value=TIMELINE_SHEET_EDIT_URL;tlRender();setTimeout(()=>window.tlConnectSheet(),500);setInterval(()=>{if(navigator.onLine)window.tlConnectSheet(false);},5*60*1000);});
 })();
 </script>
 
