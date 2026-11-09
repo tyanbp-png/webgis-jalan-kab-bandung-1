@@ -3731,6 +3731,31 @@ button,select,input{touch-action:manipulation}
 #viewTimeline .tl-legend i{width:14px;height:14px;margin-top:2px;box-shadow:0 0 0 3px rgba(148,163,184,.10)}
 @media(max-width:600px){#viewTimeline .tl-chart-wrap{height:430px!important;min-height:430px}#viewTimeline #tlChartBudget,#viewTimeline #tlChartBudget svg{min-width:1180px}#viewTimeline .tl-legend{grid-template-columns:minmax(0,1fr);font-size:12px;gap:8px;padding:10px}}
 </style>
+<style id="pad-module-style">
+#viewPotensiPAD{gap:14px!important;color:#102a56;min-width:0}
+.pad-control-card{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px}
+.pad-control-card h2{margin:0 0 5px;font-size:19px;color:#102a56}
+.pad-control-card p,.pad-section-title p{margin:0;color:#64748b;font-size:12px;line-height:1.55}
+.pad-controls{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap}
+.pad-controls label{display:grid;gap:5px;color:#64748b;font-size:11px;font-weight:700}
+.pad-controls select{height:38px;min-width:145px;border:1px solid #dbe3ed;border-radius:9px;padding:0 10px;background:#fff;color:#102a56;font-weight:800}
+.pad-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.pad-summary-card{padding:16px 18px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.pad-summary-card span{font-size:11px;color:#64748b;font-weight:700}
+.pad-summary-card strong{font-size:23px;line-height:1.2;color:#102a56;overflow-wrap:anywhere}
+.pad-summary-card small{font-size:10px;color:#64748b}
+.pad-section-title{margin-bottom:14px}.pad-section-title h3{margin:0 0 4px;font-size:16px}
+.pad-table-wrap{overflow:auto;border:1px solid #e2e8f0;border-radius:10px}
+.pad-table{width:100%;min-width:850px;border-collapse:collapse;font-size:11px}
+.pad-table th{position:sticky;top:0;background:#f4f7fb;color:#475569;text-align:left;padding:10px 9px;border-bottom:1px solid #dbe3ed;z-index:1}
+.pad-table td{padding:8px 9px;border-bottom:1px solid #edf1f5;vertical-align:middle}.pad-table tr:last-child td{border-bottom:0}
+.pad-table .pad-group-row td{background:#f8fbff;color:#1d4ed8;font-weight:900;padding-top:11px;padding-bottom:8px}
+.pad-rate{white-space:nowrap;font-weight:800;color:#334155}.pad-qty{width:120px;max-width:100%;height:34px;padding:0 9px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#102a56}.pad-subtotal{white-space:nowrap;font-weight:900;color:#102a56}
+.pad-regulations{margin-top:14px;padding:12px;border:1px solid #e2e8f0;border-radius:10px}.pad-regulations summary{cursor:pointer;color:#334155;font-size:12px;font-weight:900}.pad-regulations .pad-table-wrap{margin-top:10px}.pad-regulations .pad-table{min-width:600px}.pad-legal-note{margin-top:12px;padding:11px 13px;border-radius:9px;background:#f8fafc;color:#64748b;font-size:10px;line-height:1.6}.pad-legal-note a{color:#1d72fe;font-weight:800;text-decoration:none}.pad-legal-note a:hover{text-decoration:underline}
+@media(max-width:850px){.pad-control-card{align-items:flex-start;flex-direction:column}.pad-summary-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){#viewPotensiPAD{gap:9px!important}.pad-summary-grid{grid-template-columns:1fr}.pad-summary-card{padding:13px 15px}.pad-summary-card strong{font-size:20px}.pad-controls{width:100%}.pad-controls label{flex:1}.pad-controls select{width:100%}}
+</style>
+<style id="pad-info-style">.pad-info-intro,.pad-info-section{padding:22px;margin-bottom:16px}.pad-info-intro h2,.pad-info-section h3{margin:0 0 8px;color:var(--navy,#17365d)}.pad-info-intro p{margin:0;color:var(--muted,#64748b)}.pad-info-section .pad-table-wrap{overflow:auto;margin-top:14px}.pad-info-section .pad-table{width:100%;border-collapse:collapse}.pad-info-section .pad-table th,.pad-info-section .pad-table td{padding:12px 14px;text-align:left;border-bottom:1px solid #e5eaf2}.pad-info-section .pad-table th{background:#f4f7fb;color:#334155}.pad-info-section .pad-main-regulation{margin:18px 2px 0;color:#334155;line-height:1.6}.pad-info-section .pad-main-regulation a{color:#2563eb;font-weight:700}.pad-info-section:nth-of-type(2){border-top:4px solid #2563eb}.pad-info-section h3{font-size:1.2rem;font-weight:850;letter-spacing:.01em;padding-bottom:12px;border-bottom:2px solid #d7e3f5}.pad-info-section:nth-of-type(2) .pad-table{border-collapse:separate;border-spacing:0;border:1px solid #cbd8e8;border-radius:12px;overflow:hidden}.pad-info-section:nth-of-type(2) .pad-table th{background:#17365d;color:#fff;font-size:.95rem;font-weight:800;padding:15px 18px;border-bottom:0}.pad-info-section:nth-of-type(2) .pad-table td{padding:16px 18px;font-size:1rem;color:#25344a;border-bottom:1px solid #d8e1ed}.pad-info-section:nth-of-type(2) .pad-table tbody tr:nth-child(even){background:#f4f8fd}.pad-info-section:nth-of-type(2) .pad-table tbody tr:hover{background:#eaf2ff}.pad-info-section:nth-of-type(2) .pad-table td:nth-child(2){font-weight:700;color:#172b4d}.pad-info-section:nth-of-type(2) .pad-table td:nth-child(3){font-weight:800;color:#145c43;background:#eaf7f1}.pad-info-section:nth-of-type(2) .pad-table tbody tr:nth-child(even) td:nth-child(3){background:#e1f2e9}.pad-info-section:nth-of-type(2) .pad-table td:first-child{width:64px;text-align:center;font-weight:800;color:#2563eb}</style>
 </head>
 <body>
   <div id="passwordGate" aria-modal="true" role="dialog">
@@ -3772,6 +3797,12 @@ button,select,input{touch-action:manipulation}
       </button>
       <button class="nav-btn" data-view="viewTimeline">
         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M7 14h3M7 17h7"/></svg>Timeline
+      </button>
+<button class="nav-btn" data-view="viewVerifikasiLokasi" title="Verifikasi Lokasi Pekerjaan">
+        <svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/><path d="m16.5 5.5 2 2"/></svg>Verifikasi Lokasi
+      </button>
+      <button class="nav-btn" data-view="viewPotensiPAD" title="Potensi Pendapatan Asli Daerah">
+        <svg viewBox="0 0 24 24"><path d="M3 6.5h18v13H3z"/><path d="M3 10h18M7 15h4"/><path d="M17 3v3.5"/></svg>Potensi PAD
       </button>
       <button class="nav-btn" data-view="viewLaporan">
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Laporan
@@ -4277,6 +4308,69 @@ button,select,input{touch-action:manipulation}
       </div>
     </div>
 
+    <!-- VIEW: VERIFIKASI LOKASI PEKERJAAN -->
+    <div id="viewVerifikasiLokasi" class="view-panel">
+
+      <section class="jv-kpis">
+        <article class="jv-card jv-kpi"><span>Total Pekerjaan</span><strong id="jvTotalCount">0</strong><small id="jvPendingCount">0 belum diperiksa</small></article>
+        <article class="jv-card jv-kpi"><span>Total Panjang</span><strong id="jvTotalLength">0 km</strong><small id="jvLengthNote">Menunggu data sheet</small></article>
+        <article class="jv-card jv-kpi"><span>Total Pagu</span><strong id="jvTotalBudget">Rp 0</strong><small>Alokasi paket pekerjaan</small></article>
+        <article class="jv-card jv-kpi"><span>Total Nilai Kontrak</span><strong id="jvTotalContract">Rp 0</strong><small>Nilai kontrak paket</small></article>
+        <article class="jv-card jv-kpi jv-in"><span>Masuk koridor jalan kabupaten</span><strong id="jvInCount">0 pekerjaan</strong><small id="jvInTotals">0 km · Pagu Rp 0 · Kontrak Rp 0</small></article>
+        <article class="jv-card jv-kpi jv-out"><span>Di luar koridor jalan kabupaten kabupaten</span><strong id="jvOutCount">0 pekerjaan</strong><small id="jvOutTotals">0 km · Pagu Rp 0 · Kontrak Rp 0</small></article>
+      </section>
+
+      <section class="jv-map-layout">
+        <article class="jv-card jv-map-card">
+          <div class="jv-section-head"><div><h3>Peta Lokasi Pekerjaan</h3><p>Titik awal dan akhir paket pekerjaan dibandingkan dengan trase jalan kabupaten.</p></div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><select id="jvRegionFilter" class="jv-region-filter" aria-label="Pilih wilayah"><option value="">Semua Wilayah</option></select><span class="jv-map-count" id="jvRoadFeatureCount">Trase: menunggu</span><span class="jv-map-count" id="jvMapCount">0 titik</span></div></div>
+          <div id="jvMap" role="application" aria-label="Peta lokasi pekerjaan dan trase jalan kabupaten"></div>
+        </article>
+        <aside class="jv-card jv-map-legend">
+          <h3>Rekap Verifikasi</h3>
+          <div class="jv-road-condition-legend" aria-label="Keterangan warna kondisi jalan">
+            <span><i style="background:#10b981"></i>Baik</span><span><i style="background:#f59e0b"></i>Sedang</span>
+            <span><i style="background:#f97316"></i>Rusak Ringan</span><span><i style="background:#ef4444"></i>Rusak Berat</span>
+          </div>
+          <div class="jv-legend-row"><span class="jv-map-dot in"></span><span>Masuk koridor jalan kabupaten</span><strong id="jvLegendIn">0</strong></div>
+          <div class="jv-legend-detail"><span id="jvMapInLength">0 km</span><span id="jvMapInBudget">Rp 0</span></div>
+          <div class="jv-legend-row"><span class="jv-map-dot out"></span><span>Di luar koridor jalan kabupaten</span><strong id="jvLegendOut">0</strong></div>
+          <div class="jv-legend-detail"><span id="jvMapOutLength">0 km</span><span id="jvMapOutBudget">Rp 0</span></div>
+          <div class="jv-legend-row"><span class="jv-map-dot pending"></span><span>Belum diperiksa</span><strong id="jvLegendPending">0</strong></div>
+          <div class="jv-legend-detail"><span id="jvMapPendingLength">0 km</span><span id="jvMapPendingBudget">Rp 0</span></div>
+          <div class="jv-legend-row"><span class="jv-map-dot missing"></span><span>Koordinat belum tersedia</span><strong id="jvLegendMissing">0</strong></div>
+          <div class="jv-legend-detail"><span id="jvMapMissingLength">0 km</span><span id="jvMapMissingBudget">Rp 0</span></div>
+          <div class="jv-legend-row"><span class="jv-map-dot invalid"></span><span>Koordinat tidak valid</span><strong id="jvLegendInvalid">0</strong></div>
+          <div class="jv-legend-detail"><span id="jvMapInvalidLength">0 km</span><span id="jvMapInvalidBudget">Rp 0</span></div>
+          <div class="jv-map-legend-note">Titik awal dan akhir ditampilkan di peta. Pilih titik atau baris rekap untuk melihat rincian paket dan jaraknya ke trase kabupaten.</div>
+          <button type="button" id="jvZoomAllBtn" class="h-btn">Tampilkan Semua Titik</button>
+        </aside>
+      </section>
+
+      <section class="jv-card jv-table-card">
+        <div class="jv-section-head"><div><h3>Hasil Verifikasi</h3><p id="jvGeometryInfo">Menunggu geometri ruas jalan kabupaten.</p></div>
+          <select id="jvFilter" aria-label="Saring hasil verifikasi"><option value="all">Semua status</option><option value="in">Masuk koridor jalan kabupaten</option><option value="out">Di luar koridor jalan kabupaten</option><option value="pending">Belum diperiksa</option><option value="missing">Koordinat belum tersedia</option><option value="invalid">Koordinat tidak valid</option></select>
+        </div>
+        <div class="jv-table-wrap"><table class="jv-table"><thead><tr><th>No</th><th>Nama Pekerjaan</th><th>Koordinat Awal → Akhir</th><th>Status</th><th>Ruas Terdekat</th><th>Jarak Maks.</th><th>Panjang</th><th>Pagu</th><th>Kontrak</th><th></th></tr></thead><tbody id="jvRows"><tr><td colspan="11" class="jv-empty">Menunggu data sheet atau input pekerjaan.</td></tr></tbody></table></div>
+      </section>
+
+      <section class="jv-card jv-entry">
+        <details class="jv-data-tools"><summary>Pengaturan dan impor data</summary><div class="jv-actions"><button type="button" id="jvSyncSheetBtn" class="h-btn blue">↻ Sinkronkan Sheet</button><label class="h-btn blue jv-file-label" for="jvCsvFile">⬆ Unggah CSV</label><input id="jvCsvFile" type="file" accept=".csv,.txt,text/csv,text/plain" hidden><button type="button" id="jvTemplateBtn" class="h-btn">⬇ Template CSV</button><button type="button" id="jvExportBtn" class="h-btn">Ekspor Hasil</button><button type="button" id="jvClearBtn" class="h-btn">Hapus Input Tambahan</button></div></details>
+        <div class="jv-section-head"><div><h3>Tambah Pekerjaan</h3><p>Gunakan satu titik koordinat untuk setiap pekerjaan.</p></div><button type="button" id="jvCheckAllBtn" class="h-btn blue">Periksa Semua Lokasi</button></div>
+        <div class="jv-form-grid">
+          <label>Nama pekerjaan<input id="jvName" type="text" placeholder="Contoh: Perbaikan ruas Desa A"></label>
+          <label>Latitude<input id="jvLat" inputmode="decimal" placeholder="-6.958884"></label>
+          <label>Longitude<input id="jvLon" inputmode="decimal" placeholder="107.757674"></label>
+          <label>Panjang (km)<input id="jvLength" inputmode="decimal" placeholder="1,25"></label>
+          <label>Pagu (Rp)<input id="jvBudget" inputmode="decimal" placeholder="250000000"></label>
+          <label>Nilai kontrak (Rp)<input id="jvContract" inputmode="decimal" placeholder="245000000"></label>
+          <button type="button" id="jvAddBtn" class="h-btn blue">Tambah</button>
+        </div>
+        <div id="jvNotice" class="jv-notice" role="status" aria-live="polite">Sinkronisasi sheet otomatis setiap 5 menit. Gunakan tombol Sinkronkan Sheet untuk memuat pembaruan segera. Data tambahan manual/CSV hanya diproses di halaman ini.</div>
+      </section>
+
+
+    </div>
+
     <!-- VIEW 3: DAFTAR RUAS -->
     <div id="viewDaftarRuas" class="view-panel">
       <section class="filters-bar">
@@ -4430,6 +4524,40 @@ button,select,input{touch-action:manipulation}
       <section class="tl-panel"><div class="tl-topline" style="margin-bottom:12px"><h3 style="margin:0;font-size:16px">Rekapitulasi Anggaran per Tahun</h3><span class="tl-note">Data sumber: workbook Kinerja Jalan 2025–2028</span></div><div class="tl-table-wrap"><table class="tl-table"><thead><tr><th>No</th><th>Kegiatan</th><th>Target Pagu 2025</th><th>Realisasi 2025</th><th>Target Pagu 2026</th><th>Realisasi 2026</th><th>Target Pagu 2027</th><th>RKA 2027</th><th>Pagu 2028</th></tr></thead><tbody id="tlTableBody"></tbody><tfoot id="tlTableFoot"></tfoot></table></div></section>
       <!-- Sinkronisasi data berjalan otomatis di latar belakang; panel pengaturan disembunyikan. -->
       <div hidden aria-hidden="true"><input id="tlSheetUrl" type="url" value=""><div id="tlStatus"></div></div>
+    </div>
+
+    <!-- VIEW: POTENSI PAD -->
+    <div id="viewPotensiPAD" class="view-panel">
+      <section class="card-box pad-info-intro">
+        <div><h2>Potensi PAD Sektor Jalan</h2><p>Identifikasi sumber pendapatan daerah dari pemanfaatan bagian jalan dan Ruang Milik Jalan (Rumija).</p></div>
+      </section>
+      <section class="card-box pad-info-section">
+        <h3>Identifikasi Sumber Potensi PAD</h3>
+        <div class="pad-table-wrap"><table class="pad-table">
+          <thead><tr><th>No.</th><th>Jenis Objek Pemanfaatan</th><th>Sumber Potensi Pendapatan</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Pemasangan tiang pada Ruang Milik Jalan</td><td>Sewa tanah Rumija</td></tr>
+            <tr><td>2</td><td>Jaringan kabel udara/serat optik</td><td>Sewa pemanfaatan Rumija</td></tr>
+            <tr><td>3</td><td>Jaringan kabel bawah tanah</td><td>Sewa pemanfaatan Rumija</td></tr>
+            <tr><td>4</td><td>Pemanfaatan ducting utilitas</td><td>Sewa pemanfaatan Rumija</td></tr>
+            <tr><td>5</td><td>Akses jalan untuk usaha menengah dan besar</td><td>Sewa pemanfaatan aset</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+      <section class="card-box pad-info-section">
+        <h3>Dasar Regulasi Potensi PAD pada Sektor Jalan</h3>
+        <div class="pad-table-wrap"><table class="pad-table">
+          <thead><tr><th>No.</th><th>Dasar Regulasi</th><th>Substansi Pengaturan</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Perda Kabupaten Bandung No. 23 Tahun 2016</td><td>Penyelenggaraan jalan kabupaten</td></tr>
+            <tr><td>2</td><td>Perda Kabupaten Bandung No. 9 Tahun 2025</td><td>Ketentuan pajak dan retribusi daerah serta tarif pemanfaatan aset</td></tr>
+            <tr><td>3</td><td>Perbup Kabupaten Bandung No. 26 Tahun 2018</td><td>Pemanfaatan/penggunaan bagian jalan</td></tr>
+            <tr><td>4</td><td>Permen PU No. 20/PRT/M/2010</td><td>Pedoman pemanfaatan dan penggunaan bagian jalan</td></tr>
+            <tr><td>5</td><td>Pergub Jawa Barat No. 3 Tahun 2025</td><td>Ketentuan pajak dan retribusi daerah tingkat provinsi sebagai referensi kewenangan</td></tr>
+          </tbody>
+        </table></div>
+        <p class="pad-main-regulation"><strong>Regulasi utama:</strong> Perda Kabupaten Bandung No. 9 Tahun 2025 digunakan sebagai dasar identifikasi tarif pemanfaatan aset di Ruang Milik Jalan. <a href="https://jdih.bandungkab.go.id/asset/file_hukum/No_9_Tahun_2025__689da0a3e86058.00063247.pdf" target="_blank" rel="noopener noreferrer">Buka dokumen resmi</a>.</p>
+      </section>
     </div>
 
     <!-- VIEW 5: LAPORAN (FORMAT DOKUMEN RESMI) -->
@@ -4748,15 +4876,18 @@ function resetViewScroll(targetPanel){
   }
 }
 
+
 /* NAVIGASI URL — kompatibel dengan GitHub Pages melalui hash route.
-   URL yang didukung: /, #/peta, #/daftar-ruas, #/kondisi-kemantapan,
+   URL yang didukung: /, #/peta, #/verifikasi-lokasi, #/daftar-ruas, #/kondisi-kemantapan,
    #/laporan, dan #/pengaturan. */
 const VIEW_ROUTE_MAP = Object.freeze({
   viewDashboard: "",
   viewPeta: "peta",
+  viewVerifikasiLokasi: "verifikasi-lokasi",
   viewDaftarRuas: "daftar-ruas",
   viewAnalisis: "kondisi-kemantapan",
   viewTimeline: "timeline",
+  viewPotensiPAD: "potensi-pad",
   viewLaporan: "laporan",
   viewPengaturan: "pengaturan"
 });
@@ -4883,6 +5014,10 @@ document.querySelectorAll(".nav-btn[data-view]").forEach(btn => {
     if(targetView === "viewPeta") {
       $("topViewHeading").textContent = "PETA TRASE JALAN";
       $("topViewSubHeading").textContent = "KABUPATEN BANDUNG";
+    } else if(targetView === "viewVerifikasiLokasi") {
+      $("topViewHeading").textContent = "VERIFIKASI LOKASI PEKERJAAN";
+      $("topViewSubHeading").textContent = "KABUPATEN BANDUNG";
+      setTimeout(() => window.renderJobVerification?.(), 80);
     } else if(targetView === "viewDaftarRuas") {
       $("topViewHeading").textContent = "DAFTAR INVENTARIS RUAS JALAN";
       $("topViewSubHeading").textContent = "KABUPATEN BANDUNG";
@@ -4894,6 +5029,9 @@ document.querySelectorAll(".nav-btn[data-view]").forEach(btn => {
       $("topViewSubHeading").textContent = "";
       $("topViewSubHeading").style.display = "none";
       setTimeout(() => tlRender(), 80);
+    } else if(targetView === "viewPotensiPAD") {
+      $("topViewHeading").textContent = "POTENSI PAD";
+      $("topViewSubHeading").textContent = "PENDAPATAN ASLI DAERAH";
     } else if(targetView === "viewLaporan") {
       $("topViewHeading").textContent = "LAPORAN RESMI PKRMS";
       $("topViewSubHeading").textContent = "KABUPATEN BANDUNG";
@@ -5453,6 +5591,7 @@ function processWorkbook(wb, sourceName="Sumber Data"){
   populateKecamatanAnalysis();
   populateKecamatanReport();
   refreshAll();
+  window.refreshJobVerification?.();
   setStatus(`Data terbaru • ${roads.length.toLocaleString("id-ID")} ruas • ${visible.length} kecamatan`);
   return roads.length;
 }
@@ -7241,6 +7380,7 @@ async function loadSHPParts(parts){
   state.shpGeoJSON = geo;
   state.shpSource = "uploaded";
   state.shpFeatureCount = geo.features.length;
+  window.refreshJobVerification?.();
   if(state.villageRoadCache) state.villageRoadCache.clear();
   if(state.villageSpatialCache) state.villageSpatialCache.clear();
   state.dashboardVillageClippedFeatures = null;
@@ -7650,6 +7790,7 @@ async function loadGoogleDriveData(){
       state.shpGeoJSON = EMBEDDED_ROAD_GEOJSON;
       state.shpSource = "embedded";
       state.shpFeatureCount = state.shpGeoJSON.features.length;
+      window.refreshJobVerification?.();
       if(state.villageRoadCache) state.villageRoadCache.clear();
       try { renderVillage(currentRows()); renderVillageCondition(currentRows()); } catch(e) { console.warn("Gagal menyiapkan geometri peta:",e); }
       renderRoadMap(currentRows());
@@ -7952,9 +8093,18 @@ $("currentDateBtn").textContent = "📅 " + new Intl.DateTimeFormat("id-ID", {
   document.body.classList.add('password-locked');
 
   async function sha256(value){
-    const data = new TextEncoder().encode(value);
-    const hash = await crypto.subtle.digest('SHA-256', data);
-    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+    if (window.crypto && window.crypto.subtle) {
+      const data = new TextEncoder().encode(value);
+      const hash = await window.crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+    // File lokal (file://) dapat membatasi Web Crypto. Hitung SHA-256 lokal agar gerbang sandi tetap bisa dipakai.
+    const K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+    const H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+    const bytes=Array.from(new TextEncoder().encode(value)),bitLength=bytes.length*8;bytes.push(0x80);while(bytes.length%64!==56)bytes.push(0);bytes.push(0,0,0,0,(bitLength>>>24)&255,(bitLength>>>16)&255,(bitLength>>>8)&255,bitLength&255);
+    const rotr=(x,n)=>(x>>>n)|(x<<(32-n));
+    for(let off=0;off<bytes.length;off+=64){const w=new Array(64);for(let i=0;i<16;i++){const j=off+i*4;w[i]=((bytes[j]<<24)|(bytes[j+1]<<16)|(bytes[j+2]<<8)|bytes[j+3])>>>0;}for(let i=16;i<64;i++){const x=w[i-15],y=w[i-2],s0=rotr(x,7)^rotr(x,18)^(x>>>3),s1=rotr(y,17)^rotr(y,19)^(y>>>10);w[i]=(w[i-16]+s0+w[i-7]+s1)>>>0;}let[a,b,c,d,e,f,g,h]=H;for(let i=0;i<64;i++){const S1=rotr(e,6)^rotr(e,11)^rotr(e,25),ch=(e&f)^(~e&g),t1=(h+S1+ch+K[i]+w[i])>>>0,S0=rotr(a,2)^rotr(a,13)^rotr(a,22),maj=(a&b)^(a&c)^(b&c),t2=(S0+maj)>>>0;h=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=b;b=a;a=(t1+t2)>>>0;}H[0]=(H[0]+a)>>>0;H[1]=(H[1]+b)>>>0;H[2]=(H[2]+c)>>>0;H[3]=(H[3]+d)>>>0;H[4]=(H[4]+e)>>>0;H[5]=(H[5]+f)>>>0;H[6]=(H[6]+g)>>>0;H[7]=(H[7]+h)>>>0;}
+    return H.map(x=>x.toString(16).padStart(8,'0')).join('');
   }
 
   async function unlock(){
@@ -7966,6 +8116,7 @@ $("currentDateBtn").textContent = "📅 " + new Intl.DateTimeFormat("id-ID", {
       if (ok) {
         document.body.classList.remove('password-locked');
         gate.remove();
+        window.dispatchEvent(new Event('dashboard:unlocked'));
       } else {
         error.textContent = 'Password salah.';
         input.select();
@@ -8099,6 +8250,23 @@ $("currentDateBtn").textContent = "📅 " + new Intl.DateTimeFormat("id-ID", {
 </style>
 
 
+<style id="job-verification-styles">
+#viewVerifikasiLokasi{gap:14px!important;color:#102a56;min-width:0}
+.jv-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(15,23,42,.035);min-width:0}
+.jv-intro{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 18px;align-items:start}
+.jv-intro h2{margin:0 0 5px;font-size:20px;color:#102a56}.jv-intro p,.jv-section-head p{margin:0;color:#64748b;font-size:12px;line-height:1.5}
+.jv-actions{display:flex;flex-wrap:wrap;gap:7px;justify-content:flex-end}.jv-file-label{display:inline-flex;align-items:center;cursor:pointer}
+.jv-method-note{grid-column:1/-1;background:#f5f9ff;border:1px solid #dbeafe;border-radius:10px;padding:10px 12px;color:#475569;font-size:11px;line-height:1.55}
+.jv-kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}.jv-kpi{display:flex;flex-direction:column;gap:6px;min-height:105px}.jv-kpi span{font-size:11px;color:#64748b}.jv-kpi strong{font-size:20px;line-height:1.2;overflow-wrap:anywhere}.jv-kpi small{font-size:10px;color:#64748b;line-height:1.4}.jv-kpi.jv-in strong{color:#15966b}.jv-kpi.jv-out strong{color:#dc554e}
+.jv-work-marker{display:grid;place-items:center;width:22px;height:22px;border:2px solid #fff;border-radius:50%;background:var(--marker-color,#64748b);color:#fff;font:900 10px/1 Arial,sans-serif;box-shadow:0 2px 8px #0f172a80}.jv-work-marker.end{width:19px;height:19px;margin:1.5px;font-size:9px;border-radius:5px}.jv-region-filter{max-width:180px;min-height:34px;border:1px solid #dbe3ed;border-radius:9px;background:#fff;color:#334155;padding:0 10px;font-size:11px;font-weight:800}.jv-data-tools{border-bottom:1px solid #e2e8f0;padding-bottom:10px}.jv-data-tools summary{cursor:pointer;color:#334155;font-weight:800;font-size:12px}.jv-data-tools .jv-actions{margin-top:10px;justify-content:flex-start;flex-wrap:wrap}.jv-map-layout{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:10px;align-items:stretch}.jv-map-card{min-width:0}.jv-map-card .jv-section-head{margin-bottom:10px}.jv-map-count{white-space:nowrap;border-radius:8px;padding:6px 9px;background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:800}.jv-map-card #jvMap{height:460px;min-height:320px;border-radius:12px;border:1px solid #dbe3ed;z-index:0}.jv-map-legend{display:flex;flex-direction:column;gap:13px}.jv-road-condition-legend{display:grid;grid-template-columns:1fr 1fr;gap:8px;color:#475569;font-size:10px;font-weight:700}.jv-road-condition-legend span{display:flex;align-items:center;gap:6px}.jv-road-condition-legend i{width:18px;height:4px;border-radius:3px;display:inline-block}.jv-map-legend h3{margin:0 0 3px;font-size:15px}.jv-legend-row{display:grid;grid-template-columns:12px minmax(0,1fr) auto;gap:8px;align-items:center;color:#475569;font-size:12px}.jv-legend-row strong{color:#102a56}.jv-legend-detail{display:flex;justify-content:space-between;gap:6px;margin:-8px 0 2px 20px;color:#64748b;font-size:10px}.jv-legend-detail span:last-child{font-weight:700;color:#334155}.jv-map-dot{width:10px;height:10px;border-radius:50%;display:inline-block;border:1px solid #fff;box-shadow:0 0 0 1px #94a3b8}.jv-map-dot.in{background:#16a36a}.jv-map-dot.out{background:#e34f4f}.jv-map-dot.pending{background:#94a3b8}.jv-map-dot.missing{background:#f59e0b}.jv-map-dot.invalid{background:#7c3aed}.jv-map-legend-note{margin-top:auto;background:#f8fafc;padding:10px;border-radius:9px;color:#64748b;font-size:10px;line-height:1.5}.jv-map-legend .h-btn{justify-content:center}
+.jv-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.jv-section-head h3{margin:0 0 4px;font-size:15px;color:#102a56}.jv-section-head select{padding:8px 10px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;color:#334155}
+.jv-form-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1.2fr 1.2fr auto;gap:9px;align-items:end}.jv-form-grid label{display:flex;flex-direction:column;gap:5px;font-size:10px;font-weight:800;color:#475569;min-width:0}.jv-form-grid input{width:100%;min-width:0;min-height:38px;padding:8px 9px;border:1px solid #cbd5e1;border-radius:8px;font-size:12px;color:#0f172a;background:#fff}
+.jv-notice{margin-top:10px;padding:8px 10px;border-radius:8px;background:#f8fafc;color:#64748b;font-size:11px;line-height:1.45}.jv-notice.error{background:#fff7ed;color:#9a3412}.jv-notice.success{background:#ecfdf5;color:#166534}
+.jv-table-wrap{width:100%;overflow:auto;-webkit-overflow-scrolling:touch}.jv-table{width:100%;min-width:1240px;border-collapse:collapse;font-size:11px}.jv-table th,.jv-table td{padding:10px 8px;border-bottom:1px solid #e8edf4;text-align:left;vertical-align:middle}.jv-table th{background:#f8fafc;color:#526176;font-size:10px;white-space:nowrap}.jv-table td:nth-child(8),.jv-table td:nth-child(9),.jv-table td:nth-child(10){text-align:right;white-space:nowrap}.jv-table tbody tr[data-jv-row]{cursor:pointer}.jv-table tbody tr[data-jv-row]:hover{background:#f5f9ff}.jv-empty{text-align:center!important;color:#64748b;padding:25px!important}.jv-coordinate{font-variant-numeric:tabular-nums;color:#64748b;white-space:nowrap}.jv-status{display:inline-block;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:800;white-space:nowrap}.jv-status.in{background:#dcfce7;color:#166534}.jv-status.out{background:#fee2e2;color:#991b1b}.jv-status.pending{background:#f1f5f9;color:#475569}.jv-status.missing{background:#fef3c7;color:#92400e}.jv-status.invalid{background:#ede9fe;color:#5b21b6}.jv-delete{border:0;background:transparent;color:#dc2626;font-weight:800;cursor:pointer;padding:5px}
+@media(max-width:1100px){.jv-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.jv-map-layout{grid-template-columns:minmax(0,1fr) 220px}.jv-form-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.jv-form-grid button{min-height:38px}}
+@media(max-width:640px){#viewVerifikasiLokasi{gap:9px!important}.jv-card{padding:12px;border-radius:13px}.jv-intro{grid-template-columns:1fr}.jv-actions{justify-content:flex-start}.jv-intro h2{font-size:17px}.jv-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.jv-kpi{min-height:92px}.jv-kpi strong{font-size:17px}.jv-map-layout{grid-template-columns:minmax(0,1fr)}.jv-map-card #jvMap{height:360px;min-height:360px}.jv-map-legend{gap:9px}.jv-map-legend-note{margin-top:0}.jv-form-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.jv-form-grid label:first-child{grid-column:1/-1}.jv-form-grid button{grid-column:1/-1}.jv-section-head{align-items:flex-start;flex-direction:column}.jv-section-head select{width:100%}}
+</style>
+
 <style id="location-verification-styles">
 .location-verification-panel{position:absolute;right:14px;top:14px;z-index:1200;width:330px;max-width:calc(100% - 28px);max-height:calc(100% - 28px);overflow:auto;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border:1px solid #cbd5e1;border-radius:13px;box-shadow:0 10px 28px rgba(15,23,42,.2);color:#0f172a;font-size:12px}
 .lv-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0}.lv-head strong{display:block;font-size:12px;font-weight:900}.lv-head small{display:block;margin-top:3px;color:#64748b;font-size:10px;line-height:1.35}.lv-icon-btn{border:1px solid #cbd5e1;background:#fff;border-radius:7px;width:28px;height:28px;font-weight:900;cursor:pointer;color:#334155;flex:0 0 28px}
@@ -8197,7 +8365,7 @@ const rup=x=>'Rp '+(Number(x)||0).toLocaleString('id-ID',{maximumFractionDigits:
 const miliar=x=>((Number(x)||0)/1e9).toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2})+' M';
 function num(x,kind='money'){
  let s=String(x??'').trim().replace(/\u00a0/g,' ').replace(/rp\.?/ig,'').replace(/\s/g,'');
- if(!s||s==='-'||s==='—')return 0;
+ if(!s||s==='-'||s==='—')return kind==='coord'?NaN:0;
  s=s.replace(/[^0-9,.-]/g,'');
  const commas=(s.match(/,/g)||[]).length,dots=(s.match(/\./g)||[]).length;
  if(kind==='km'){
@@ -8359,5 +8527,253 @@ window.addEventListener('resize',()=>{if(id('viewTimeline')?.classList.contains(
 })();
 </script>
 
+<script id="job-verification-script">
+(function(){
+  const $j=id=>document.getElementById(id);
+  const jobs=[];
+  const TOLERANCE_METERS=50;
+  const JOB_SHEET_ID='1U_fwdM69Ng9j33U7K0X41Qxo9Y4lRXko_5c6cml54GE';
+  let sequence=0,requestSequence=0,sheetSyncBusy=false,sheetLoaded=false;
+  const norm=value=>String(value||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+  function number(value,kind='money'){
+    let s=String(value??'').trim().replace(/\u00a0/g,' ').replace(/rp\.?/ig,'').replace(/\s/g,'');
+    if(!s||s==='-'||s==='—')return kind==='coord'?NaN:0;
+    const negative=/^\(.*\)$/.test(s);s=s.replace(/[()]/g,'').replace(/[^0-9,.-]/g,'');
+    const commas=(s.match(/,/g)||[]).length,dots=(s.match(/\./g)||[]).length;
+    if(commas&&dots){if(s.lastIndexOf(',')>s.lastIndexOf('.'))s=s.replace(/\./g,'').replace(/,/g,'.');else s=s.replace(/,/g,'');}
+    else if(commas){const i=s.lastIndexOf(',');const tail=s.length-i-1;if(kind==='money'&&tail===3)s=s.replace(/,/g,'');else s=s.slice(0,i).replace(/,/g,'')+'.'+s.slice(i+1);}
+    else if(dots>1){const i=s.lastIndexOf('.');s=s.slice(0,i).replace(/\./g,'')+'.'+s.slice(i+1);}
+    else if(dots===1&&kind==='money'&&/\.\d{3}$/.test(s))s=s.replace(/\./g,'');
+    const n=Number(s);return Number.isFinite(n)?(negative?-n:n):NaN;
+  }
+  function lengthKm(value){
+    const text=String(value??'').trim();
+    const re=/(?:panjang|pjg\.?)\s*(?:(?:seg(?:men)?\.?)\s*\d+\s*)?[^0-9]{0,30}(\d+(?:[.,]\d+)?)\s*(km|m)\b/gi;
+    let total=0,found=false,match;
+    while((match=re.exec(text))!==null){let v=Number(match[1].replace(',','.'));if(!Number.isFinite(v))continue;if(match[2].toLowerCase()==='m')v/=1000;total+=v;found=true;}
+    return found?total:null;
+  }
+  function parseDelimited(text){
+    const first=String(text||'').split(/\r?\n/,1)[0]||'';
+    const delimiters=[',',';','\t'];const delimiter=delimiters.sort((a,b)=>first.split(b).length-first.split(a).length)[0];
+    const rows=[];let row=[],value='',quoted=false;
+    for(let i=0;i<text.length;i++){const c=text[i];if(c==='"'&&quoted&&text[i+1]==='"'){value+='"';i++;}else if(c==='"')quoted=!quoted;else if(c===delimiter&&!quoted){row.push(value);value='';}else if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&text[i+1]==='\n')i++;row.push(value);if(row.some(v=>v.trim()))rows.push(row);row=[];value='';}else value+=c;}
+    row.push(value);if(row.some(v=>v.trim()))rows.push(row);return rows;
+  }
+  function features(){return Array.isArray(state?.shpGeoJSON?.features)?state.shpGeoJSON.features:[];}
+  const ROAD_GRID_CELL=.01,ROAD_GRID_PAD=.008;let roadIndexGeo=null,roadGrid=new Map(),roadIndexWide=[];
+  function ensureRoadIndex(){
+    const geo=state?.shpGeoJSON;if(!geo||geo===roadIndexGeo)return;roadIndexGeo=geo;roadGrid=new Map();roadIndexWide=[];
+    const roads=Array.isArray(geo.features)?geo.features:[];
+    roads.forEach((feature,index)=>{try{if(!feature?.geometry)return;const box=window.turf.bbox(feature),meta={feature,index,name:String(extractFeatureDetails(feature.properties||{}).nama||'Ruas Jalan').trim()||'Ruas Jalan'};const x0=Math.floor((box[0]-ROAD_GRID_PAD)/ROAD_GRID_CELL),x1=Math.floor((box[2]+ROAD_GRID_PAD)/ROAD_GRID_CELL),y0=Math.floor((box[1]-ROAD_GRID_PAD)/ROAD_GRID_CELL),y1=Math.floor((box[3]+ROAD_GRID_PAD)/ROAD_GRID_CELL);if((x1-x0+1)*(y1-y0+1)>256){roadIndexWide.push(meta);return;}for(let x=x0;x<=x1;x++)for(let y=y0;y<=y1;y++){const key=x+':'+y;let bucket=roadGrid.get(key);if(!bucket){bucket=[];roadGrid.set(key,bucket);}bucket.push(meta);}}catch(e){}});
+  }
+  function roadCandidatesAt(lon,lat){
+    ensureRoadIndex();const x=Math.floor(lon/ROAD_GRID_CELL),y=Math.floor(lat/ROAD_GRID_CELL),found=new Map(roadIndexWide.map(meta=>[meta.index,meta]));
+    for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++){const bucket=roadGrid.get((x+dx)+':'+(y+dy));if(bucket)bucket.forEach(meta=>found.set(meta.index,meta));}
+    return found.values();
+  }
+  function validCoord(lat,lon){return Number.isFinite(lat)&&Number.isFinite(lon)&&Math.abs(lat)<=90&&Math.abs(lon)<=180;}
+  function verify(job){
+    job.status='pending';job.nearest='—';job.distance=null;job.coverage=null;job.note='';
+    const startValid=validCoord(job.lat,job.lon),endValid=validCoord(job.lat2,job.lon2);
+    if(!startValid&&!endValid){const hasAnyCoordinate=[job.lat,job.lon,job.lat2,job.lon2].some(Number.isFinite);job.status=hasAnyCoordinate?'invalid':'missing';job.note=hasAnyCoordinate?'Koordinat tidak valid':(job.source==='sheet'?'Koordinat belum tersedia di Sheet':'Koordinat belum diisi');return;}
+    const roads=features();if(!roads.length||!window.turf){job.note='Geometri jalan belum tersedia';return;}ensureRoadIndex();
+    const first=startValid?[job.lon,job.lat]:[job.lon2,job.lat2],last=endValid?[job.lon2,job.lat2]:first;
+    let steps=1;
+    if(startValid&&endValid){try{const meters=window.turf.distance(window.turf.point(first),window.turf.point(last),{units:'meters'});steps=Math.min(160,Math.max(1,Math.ceil(meters/25)));}catch(e){}}
+    let near=0,maxDistance=0;const nearestCounts=new Map(),sampleCount=steps+1;
+    for(let i=0;i<=steps;i++){
+      const t=steps?i/steps:0,point=window.turf.point([first[0]+(last[0]-first[0])*t,first[1]+(last[1]-first[1])*t]);let best=null;
+      for(const meta of roadCandidatesAt(first[0]+(last[0]-first[0])*t,first[1]+(last[1]-first[1])*t)){try{const dist=window.turf.pointToLineDistance(point,meta.feature,{units:'meters'});if(Number.isFinite(dist)&&(!best||dist<best.dist))best={dist,name:meta.name};}catch(e){}}
+
+      if(best){maxDistance=Math.max(maxDistance,best.dist);if(best.dist<=TOLERANCE_METERS)near++;nearestCounts.set(best.name,(nearestCounts.get(best.name)||0)+1);}
+    }
+    if(!nearestCounts.size){job.distance=null;job.coverage=0;job.nearest='Tidak ditemukan ruas dalam jangkauan';job.status='out';job.note='Tidak ditemukan trase terdekat dalam jangkauan indeks';return;}
+    job.distance=maxDistance;job.coverage=near/sampleCount;
+    job.nearest=[...nearestCounts.entries()].sort((a,b)=>b[1]-a[1])[0][0];
+    job.status=job.coverage>=.8?'in':'out';
+    if(startValid!==endValid)job.note='Hanya satu ujung yang memiliki koordinat';
+  }
+  const kmFmt=x=>Number(x||0).toLocaleString('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2})+' km';
+  const moneyFmt=x=>'Rp '+Number(x||0).toLocaleString('id-ID',{maximumFractionDigits:0});
+  function setNotice(text,kind=''){const el=$j('jvNotice');if(el){el.className='jv-notice'+(kind?' '+kind:'');el.textContent=text;}}
+  let jvMap=null,jvRoadLayer=null,jvMarkerLayer=null,jvJobLineLayer=null,jvRoadGeoRef=null,mapHasFit=false,mapRenderTimer=null,mapFitTimer=null;
+  const markerByJob=new Map();
+  function ensureJobMap(){
+    if(jvMap||!window.L)return;
+    jvMap=L.map('jvMap',{zoomControl:true,preferCanvas:false}).setView([-7.06,107.56],10);
+    const pointPane=jvMap.createPane('jvJobPointPane');pointPane.style.zIndex='650';
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{attribution:'Tiles © Esri',maxZoom:19}).addTo(jvMap);
+    jvRoadLayer=L.markerClusterGroup({showCoverageOnHover:false,maxClusterRadius:40,spiderfyOnMaxZoom:true,disableClusteringAtZoom:15}).addTo(jvMap);
+    jvJobLineLayer=L.featureGroup().addTo(jvMap);jvMarkerLayer=L.featureGroup().addTo(jvMap);
+    setTimeout(()=>jvMap&&jvMap.invalidateSize(true),100);
+  }
+  function fitJobPoints(list,includeRoads=true){
+    if(!jvMap)return;const pts=[];list.forEach(job=>{if(validCoord(job.lat,job.lon))pts.push([job.lat,job.lon]);if(validCoord(job.lat2,job.lon2))pts.push([job.lat2,job.lon2]);});
+    clearTimeout(mapFitTimer);mapFitTimer=setTimeout(()=>{if(!jvMap)return;jvMap.invalidateSize(true);const bounds=L.latLngBounds([]);if(includeRoads){try{const roadBounds=jvRoadLayer?.getBounds();if(roadBounds?.isValid())bounds.extend(roadBounds);}catch(e){}}pts.forEach(point=>bounds.extend(point));if(bounds.isValid()){jvMap.fitBounds(bounds.pad(.06),{maxZoom:12,animate:false});mapHasFit=true;}},180);
+  }  function popupFor(job,role){
+    const status=job.status==='in'?'Masuk koridor jalan kabupaten':job.status==='out'?'Di luar koridor jalan kabupaten':job.status==='missing'?'Koordinat belum tersedia di Sheet':job.status==='invalid'?'Koordinat tidak valid':'Belum diperiksa';
+    return '<div style="min-width:190px"><strong>'+escapeHtml(job.name)+'</strong>'+(job.code?'<br><small>'+escapeHtml(job.code)+'</small>':'')+'<br><span>'+role+' · '+status+'</span><br><span>Panjang: '+(Number.isFinite(job.length)?kmFmt(job.length):'Belum tercatat')+'</span><br><span>Pagu: '+moneyFmt(job.budget)+'</span><br><span>Kontrak: '+moneyFmt(job.contract)+'</span>'+(Number.isFinite(job.distance)?'<br><span>Jarak maks.: '+job.distance.toFixed(1).replace('.',',')+' m</span>':'')+'</div>';
+  }
+  function renderJobMap(list){
+    ensureJobMap();if(!jvMap)return;
+    const geo=state?.shpGeoJSON;
+    if(geo&&geo!==jvRoadGeoRef){
+      jvRoadLayer.clearLayers();
+      (geo.features||[]).forEach(feature=>{try{const details=extractFeatureDetails(feature.properties||{}),color=CONDITION_COLORS[details.condition]||'#64748b';const road=L.geoJSON(feature,{style:{color,weight:5,opacity:1,className:'trase-path-highlight'},onEachFeature:(f,layer)=>layer.bindPopup('<strong>'+escapeHtml(details.nama||'Ruas jalan kabupaten')+'</strong><br>No ruas: '+escapeHtml(details.no||'—')+'<br>Kondisi: '+escapeHtml(details.condition||'—'))});jvRoadLayer.addLayer(road);}catch(e){}});
+      const roadCount=$j('jvRoadFeatureCount');if(roadCount)roadCount.textContent='Trase: '+(geo.features||[]).length.toLocaleString('id-ID')+' segmen';
+      jvRoadGeoRef=geo;
+    }
+    jvMarkerLayer.clearLayers();jvJobLineLayer.clearLayers();markerByJob.clear();let pointCount=0;
+    list.forEach(job=>{
+      const color=job.status==='in'?'#16a36a':job.status==='out'?'#e34f4f':job.status==='invalid'?'#f59e0b':'#94a3b8';
+      let firstMarker=null;
+      if(validCoord(job.lat,job.lon)&&validCoord(job.lat2,job.lon2))L.polyline([[job.lat,job.lon],[job.lat2,job.lon2]],{color,weight:4,opacity:.95,dashArray:job.status==='pending'?'5 6':null}).addTo(jvJobLineLayer);
+      if(validCoord(job.lat,job.lon)){const marker=L.marker([job.lat,job.lon],{pane:'jvJobPointPane',icon:L.divIcon({className:'',html:'<span class="jv-work-marker" style="--marker-color:'+color+'">A</span>',iconSize:[22,22],iconAnchor:[11,11]})}).bindPopup(popupFor(job,'Titik awal'));marker.addTo(jvMarkerLayer);firstMarker=marker;pointCount++;}
+      if(validCoord(job.lat2,job.lon2)){
+        const distinct=!validCoord(job.lat,job.lon)||Math.abs(job.lat-job.lat2)>1e-7||Math.abs(job.lon-job.lon2)>1e-7;
+        if(distinct){const marker=L.marker([job.lat2,job.lon2],{pane:'jvJobPointPane',icon:L.divIcon({className:'',html:'<span class="jv-work-marker end" style="--marker-color:'+color+'">B</span>',iconSize:[20,20],iconAnchor:[10,10]})}).bindPopup(popupFor(job,'Titik akhir'));marker.addTo(jvMarkerLayer);if(!firstMarker)firstMarker=marker;pointCount++;}
+      }
+      if(firstMarker)markerByJob.set(String(job.id),firstMarker);
+    });
+    const count=$j('jvMapCount');if(count)count.textContent=pointCount.toLocaleString('id-ID')+' titik · '+list.length.toLocaleString('id-ID')+' paket';
+    if(!mapHasFit&&(pointCount||geo))fitJobPoints(list);
+    setTimeout(()=>jvMap&&jvMap.invalidateSize(true),240);
+  }
+  function scheduleJobMap(list){clearTimeout(mapRenderTimer);mapRenderTimer=setTimeout(()=>renderJobMap(list),120);}
+  function normalizeRegion(value){const text=String(value||'').trim(),match=text.match(/^wilayah\s*(\d+)$/i);return match?String(Number(match[1])):text;}
+  function displayRegion(value){const text=normalizeRegion(value);return /^\d+$/.test(text)?'Wilayah '+text:text;}
+  function updateRegionOptions(){const select=$j('jvRegionFilter');if(!select)return;const current=select.value,regions=[...new Set([...Array.from({length:10},(_,i)=>String(i+1)),...jobs.map(job=>normalizeRegion(job.wilayah)).filter(Boolean)])].sort((a,b)=>{const an=/^\d+$/.test(a),bn=/^\d+$/.test(b);return an&&bn?Number(a)-Number(b):a.localeCompare(b,'id');});select.innerHTML='<option value="">Semua Wilayah</option>'+regions.map(value=>'<option value="'+escapeHtml(value)+'">'+escapeHtml(displayRegion(value))+'</option>').join('');if(regions.includes(current))select.value=current;else select.value='';}
+  function selectedRegionJobs(){const region=$j('jvRegionFilter')?.value||'';return jobs.filter(job=>!region||String(job.wilayah||'').trim()===region);}
+  function focusJob(id){const marker=markerByJob.get(String(id));if(!marker||!jvMap)return;jvMap.setView(marker.getLatLng(),Math.max(jvMap.getZoom(),14),{animate:true});marker.openPopup();}
+  function render(){
+    const roads=features(),info=$j('jvGeometryInfo');
+    if(info)info.textContent=roads.length&&window.turf?'Geometri siap: '+roads.length.toLocaleString('id-ID')+' fitur trase · titik sampel setiap 25 m · ambang 50 m.':'Geometri trase belum tersedia; pekerjaan akan berstatus Belum diperiksa.';
+    updateRegionOptions();const regionJobs=selectedRegionJobs();
+    const totalKm=regionJobs.reduce((s,j)=>s+(Number(j.length)||0),0),totalPagu=regionJobs.reduce((s,j)=>s+(Number(j.budget)||0),0),totalContract=regionJobs.reduce((s,j)=>s+(Number(j.contract)||0),0);
+    const ins=regionJobs.filter(j=>j.status==='in'),outs=regionJobs.filter(j=>j.status==='out'),pending=regionJobs.filter(j=>j.status==='pending'),missing=regionJobs.filter(j=>j.status==='missing'),invalid=regionJobs.filter(j=>j.status==='invalid');
+    const sum=list=>({km:list.reduce((s,j)=>s+(Number(j.length)||0),0),pagu:list.reduce((s,j)=>s+(Number(j.budget)||0),0),contract:list.reduce((s,j)=>s+(Number(j.contract)||0),0)});
+    const a=sum(ins),b=sum(outs),lengthCount=regionJobs.filter(j=>Number.isFinite(j.length)).length;
+    $j('jvTotalCount').textContent=regionJobs.length.toLocaleString('id-ID');$j('jvPendingCount').textContent=missing.length.toLocaleString('id-ID')+' tanpa koordinat · '+(pending.length+invalid.length).toLocaleString('id-ID')+' perlu diperiksa';
+    $j('jvTotalLength').textContent=kmFmt(totalKm);$j('jvLengthNote').textContent='Panjang tercatat: '+lengthCount+' dari '+regionJobs.length+' pekerjaan';
+    $j('jvTotalBudget').textContent=moneyFmt(totalPagu);$j('jvTotalContract').textContent=moneyFmt(totalContract);
+    $j('jvInCount').textContent=ins.length.toLocaleString('id-ID')+' pekerjaan';$j('jvInTotals').textContent=kmFmt(a.km)+' · Pagu '+moneyFmt(a.pagu)+' · Kontrak '+moneyFmt(a.contract);
+    $j('jvOutCount').textContent=outs.length.toLocaleString('id-ID')+' pekerjaan';$j('jvOutTotals').textContent=kmFmt(b.km)+' · Pagu '+moneyFmt(b.pagu)+' · Kontrak '+moneyFmt(b.contract);
+    $j('jvLegendIn').textContent=ins.length.toLocaleString('id-ID');$j('jvLegendOut').textContent=outs.length.toLocaleString('id-ID');$j('jvLegendPending').textContent=pending.length.toLocaleString('id-ID');$j('jvLegendMissing').textContent=missing.length.toLocaleString('id-ID');$j('jvLegendInvalid').textContent=invalid.length.toLocaleString('id-ID');
+    const pendingSum=sum(pending),missingSum=sum(missing),invalidSum=sum(invalid);$j('jvMapInLength').textContent=kmFmt(a.km);$j('jvMapInBudget').textContent=moneyFmt(a.pagu);$j('jvMapOutLength').textContent=kmFmt(b.km);$j('jvMapOutBudget').textContent=moneyFmt(b.pagu);$j('jvMapPendingLength').textContent=kmFmt(pendingSum.km);$j('jvMapPendingBudget').textContent=moneyFmt(pendingSum.pagu);$j('jvMapMissingLength').textContent=kmFmt(missingSum.km);$j('jvMapMissingBudget').textContent=moneyFmt(missingSum.pagu);$j('jvMapInvalidLength').textContent=kmFmt(invalidSum.km);$j('jvMapInvalidBudget').textContent=moneyFmt(invalidSum.pagu);
+    const filter=$j('jvFilter')?.value||'all',shown=regionJobs.filter(j=>filter==='all'||(filter==='in'&&j.status==='in')||(filter==='out'&&j.status==='out')||(filter==='pending'&&j.status==='pending')||(filter==='missing'&&j.status==='missing')||(filter==='invalid'&&j.status==='invalid'));
+    const body=$j('jvRows');if(!body)return;
+    if(!shown.length){body.innerHTML='<tr><td colspan="11" class="jv-empty">'+(jobs.length?'Tidak ada pekerjaan pada status ini.':'Menunggu data sheet atau input pekerjaan.')+'</td></tr>';scheduleJobMap(shown);return;}
+    body.innerHTML=shown.map((job,index)=>{
+      const label=job.status==='in'?'Masuk koridor jalan kabupaten':job.status==='out'?'Di luar koridor jalan kabupaten':job.status==='missing'?'Koordinat belum tersedia di Sheet':job.status==='missing'?'Koordinat belum tersedia di Sheet':job.status==='invalid'?'Koordinat tidak valid':'Belum diperiksa',cls=job.status==='in'?'in':job.status==='out'?'out':job.status==='missing'?'missing':job.status==='invalid'?'invalid':'pending';
+      const coord=validCoord(job.lat,job.lon)?job.lat.toFixed(6)+', '+job.lon.toFixed(6):'—',end=validCoord(job.lat2,job.lon2)?' → '+job.lat2.toFixed(6)+', '+job.lon2.toFixed(6):'';
+      const dist=Number.isFinite(job.distance)?job.distance.toFixed(1).replace('.',',')+' m':'—',coverage=Number.isFinite(job.coverage)?Math.round(job.coverage*100)+'%':'—';
+      const length=Number.isFinite(job.length)?kmFmt(job.length):'Belum tercatat',code=job.code?'<small style="display:block;color:#94a3b8;margin-top:3px">'+escapeHtml(job.code)+'</small>':'';
+      return '<tr data-jv-row="'+escapeHtml(String(job.id))+'"><td>'+(index+1)+'</td><td>'+escapeHtml(job.name)+code+'</td><td class="jv-coordinate">'+coord+end+(job.note?'<small style="display:block;color:#b45309;margin-top:3px">'+escapeHtml(job.note)+'</small>':'')+'</td><td><span class="jv-status '+cls+'">'+label+'</span></td><td>'+escapeHtml(job.nearest||job.note||'—')+'</td><td>'+dist+'</td><td>'+coverage+'</td><td>'+length+'</td><td>'+moneyFmt(job.budget)+'</td><td>'+moneyFmt(job.contract)+'</td><td><button type="button" class="jv-delete" data-jv-delete="'+String(job.id).replace(/"/g,'')+'" aria-label="Hapus '+escapeHtml(job.name)+'">Hapus</button></td></tr>';
+    }).join('');
+    scheduleJobMap(shown);
+  }
+  function addJob(data){
+    const job={id:data.id||'entry-'+(++sequence),source:data.source||'manual',code:data.code||'',wilayah:normalizeRegion(data.wilayah),name:String(data.name||'Pekerjaan '+(sequence+1)).trim(),lat:data.lat,lon:data.lon,lat2:data.lat2,lon2:data.lon2,length:Number.isFinite(data.length)&&data.length>=0?data.length:null,budget:Number.isFinite(data.budget)&&data.budget>=0?data.budget:0,contract:Number.isFinite(data.contract)&&data.contract>=0?data.contract:0,status:'pending'};
+    verify(job);jobs.push(job);return job;
+  }
+  let verificationRun=0;
+  function refreshGeometry(onDone){
+    const runId=++verificationRun;let index=0;
+    jobs.forEach(job=>{job.status='pending';job.nearest='—';job.distance=null;job.coverage=null;job.note='Pemeriksaan lokasi berlangsung';});
+    render();
+    function nextBatch(){
+      if(runId!==verificationRun)return;
+      const end=Math.min(index+4,jobs.length);
+      for(;index<end;index++)verify(jobs[index]);
+      if(index<jobs.length)setTimeout(nextBatch,15);
+      else{render();if(typeof onDone==='function')onDone();}
+    }
+    if(!jobs.length){if(typeof onDone==='function')onDone();return;}
+    setTimeout(nextBatch,0);
+  }  function csvCell(v){return '"'+String(v??'').replace(/"/g,'""')+'"';}
+  function findColumn(headers,names){return headers.findIndex(h=>names.includes(norm(h)));}
+  function fetchSheetRows(){
+    return new Promise((resolve,reject)=>{
+      const callbackName='__asbratJobSheet_'+Date.now()+'_'+(++requestSequence),script=document.createElement('script');let done=false;
+      const cleanup=()=>{if(done)return;done=true;clearTimeout(timer);delete window[callbackName];script.remove();};
+      const timer=setTimeout(()=>{cleanup();reject(Error('Waktu tunggu sumber pekerjaan habis.'));},25000);
+      window[callbackName]=payload=>{
+        cleanup();if(!payload||payload.status!=='ok'||!payload.table?.cols||!payload.table?.rows){reject(Error('Data pekerjaan tidak dapat dibaca. Periksa izin melihat sheet.'));return;}
+        const headers=payload.table.cols.map(c=>c.label||''),rows=payload.table.rows.map(r=>(r.c||[]).map(c=>c&&c.v!==null&&c.v!==undefined?c.v:''));
+        resolve({headers,rows});
+      };
+      script.onerror=()=>{cleanup();reject(Error('Browser tidak dapat memuat data pekerjaan. Periksa koneksi dan izin akses.'));};
+      const url=new URL('https://docs.google.com/spreadsheets/d/'+JOB_SHEET_ID+'/gviz/tq');url.searchParams.set('gid','0');url.searchParams.set('headers','1');url.searchParams.set('tqx','responseHandler:'+callbackName);script.src=url.toString();document.head.appendChild(script);
+    });
+  }
+  function sourceJobs(sheet){
+    const ix=new Map();sheet.headers.forEach((h,i)=>{const key=norm(h);if(key)ix.set(key,i);});
+    const at=key=>ix.get(norm(key)),cell=(row,key)=>{const i=at(key);return i===undefined?'':row[i];};
+    return sheet.rows.map((row,index)=>{
+      const code=String(cell(row,'KODE_PAKET')||'').trim(),name=String(cell(row,'NAMA_PAKET')||'').trim();
+      if(!code&&!name)return null;
+      const rawLength=cell(row,'PANJANG_PENANGANAN_M'),parsedLength=lengthKm(rawLength);
+      return {id:'sheet-'+(code||index),source:'sheet',code,name:name||code,wilayah:normalizeRegion(cell(row,'WILAYAH')),lat:number(cell(row,'LAT_AWAL'),'coord'),lon:number(cell(row,'LONG_AWAL'),'coord'),lat2:number(cell(row,'LAT_AKHIR'),'coord'),lon2:number(cell(row,'LONG_AKHIR'),'coord'),length:parsedLength,budget:number(cell(row,'PAGU_PAKET_RP'),'money'),contract:number(cell(row,'NILAI_KONTRAK_PAKET_RP'),'money')};
+    }).filter(Boolean);
+  }
+  async function syncSheet(manual=false){
+    if(sheetSyncBusy)return;sheetSyncBusy=true;const button=$j('jvSyncSheetBtn'),original=button?.textContent;
+    if(button){button.disabled=true;button.textContent='Memuat data…';}
+    if(manual||!sheetLoaded)setNotice('Mengambil daftar pekerjaan dan koordinat…');
+    try{
+      const loaded=sourceJobs(await fetchSheetRows());if(!loaded.length)throw Error('Sheet tidak berisi paket pekerjaan yang dapat diproses.');
+      const supplements=jobs.filter(j=>j.source!=='sheet');jobs.splice(0,jobs.length,...loaded,...supplements);sheetLoaded=true;refreshGeometry();const missingLength=loaded.filter(j=>!Number.isFinite(j.length)).length,missingCoords=loaded.filter(j=>!validCoord(j.lat,j.lon)||!validCoord(j.lat2,j.lon2)).length;
+      setNotice('Sheet tersinkron: '+loaded.length+' paket · '+missingLength+' panjang perlu dilengkapi · '+missingCoords+' paket koordinatnya belum lengkap. Pembaruan otomatis setiap 5 menit.','success');
+    }catch(error){setNotice('Sinkronisasi sheet gagal; data terakhir tetap ditampilkan. '+(error.message||''),'error');}
+    finally{sheetSyncBusy=false;if(button){button.disabled=false;button.textContent=original||'↻ Sinkronkan Sheet';}}
+  }
+  function recheckAll(){if(!jobs.length){setNotice('Belum ada pekerjaan untuk diperiksa.','error');return;}setNotice('Pemeriksaan berjalan bertahap agar peta tetap responsif.');refreshGeometry(()=>setNotice('Pemeriksaan lokasi selesai untuk '+jobs.length+' pekerjaan.','success'));}
+  $j('jvAddBtn').addEventListener('click',()=>{
+    const name=$j('jvName').value.trim()||'Pekerjaan '+(jobs.length+1),lat=number($j('jvLat').value,'coord'),lon=number($j('jvLon').value,'coord'),length=number($j('jvLength').value,'length'),budget=number($j('jvBudget').value,'money'),contract=number($j('jvContract').value,'money');
+    if(!validCoord(lat,lon)){setNotice('Isi latitude dan longitude yang valid sebelum menambahkan pekerjaan.','error');return;}
+    if([length,budget,contract].some(n=>!Number.isFinite(n)||n<0)){setNotice('Panjang dan nilai uang harus berupa angka nol atau lebih.','error');return;}
+    addJob({name:name,lat:lat,lon:lon,length:length,budget:budget,contract:contract});render();setNotice('Pekerjaan '+name+' ditambahkan.','success');
+    ['jvName','jvLat','jvLon','jvLength','jvBudget','jvContract'].forEach(field=>$j(field).value='');
+  });
+  $j('jvCsvFile').addEventListener('change',async event=>{
+    const file=event.target.files?.[0];if(!file)return;
+    try{
+      const rows=parseDelimited((await file.text()).replace(/^\uFEFF/,''));if(rows.length<2)throw Error('Berkas CSV kosong.');
+      const headers=rows[0],ix={name:findColumn(headers,['nama pekerjaan','pekerjaan','kegiatan','nama']),lat:findColumn(headers,['latitude','lat','lintang','latitude awal','lat awal']),lon:findColumn(headers,['longitude','lon','lng','bujur','longitude awal','long awal']),lat2:findColumn(headers,['latitude akhir','lat akhir','latitude end','lat end']),lon2:findColumn(headers,['longitude akhir','long akhir','longitude end','long end']),length:findColumn(headers,['panjang km','panjang','km','length']),budget:findColumn(headers,['anggaran rp','anggaran','nilai anggaran','pagu','rab','budget','biaya']),contract:findColumn(headers,['nilai kontrak rp','nilai kontrak','kontrak','contract'])};
+      if(ix.lat<0||ix.lon<0)throw Error('Kolom koordinat awal wajib tersedia. Unduh template untuk melihat format.');
+      let imported=0;for(const row of rows.slice(1)){if(!row.some(v=>String(v).trim()))continue;const lat=number(row[ix.lat],'coord'),lon=number(row[ix.lon],'coord');if(!validCoord(lat,lon))continue;
+        const lat2=ix.lat2<0?NaN:number(row[ix.lat2],'coord'),lon2=ix.lon2<0?NaN:number(row[ix.lon2],'coord'),rawLength=ix.length<0?'':row[ix.length];let km=lengthKm(rawLength);
+        if(km===null&&rawLength){const value=number(rawLength,'length');if(Number.isFinite(value))km=norm(headers[ix.length]).includes('m')&&!norm(headers[ix.length]).includes('km')?value/1000:value;}
+        const budget=ix.budget<0?0:number(row[ix.budget],'money'),contract=ix.contract<0?0:number(row[ix.contract],'money');
+        addJob({source:'upload',name:ix.name<0?'':row[ix.name],lat:lat,lon:lon,lat2:lat2,lon2:lon2,length:km,budget:Number.isFinite(budget)&&budget>=0?budget:0,contract:Number.isFinite(contract)&&contract>=0?contract:0});imported++;
+      }
+      if(!imported)throw Error('Tidak ada baris koordinat valid yang dapat diimpor.');render();setNotice(imported+' pekerjaan diimpor dan diperiksa.','success');
+    }catch(error){setNotice(error.message||'CSV tidak dapat dibaca.','error');}finally{event.target.value='';}
+  });
+  $j('jvTemplateBtn').addEventListener('click',()=>{
+    const csv='nama_pekerjaan,latitude_awal,longitude_awal,latitude_akhir,longitude_akhir,panjang_km,pagu_rp,nilai_kontrak_rp\n"Perbaikan Jalan Desa Contoh",-6.958884,107.757674,-6.9585,107.7581,1.25,250000000,245000000\n';
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='template_verifikasi_lokasi_pekerjaan.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  });
+  $j('jvExportBtn').addEventListener('click',()=>{
+    if(!jobs.length){setNotice('Belum ada hasil untuk diekspor.','error');return;}
+    const rows=[['Kode Paket','Nama Pekerjaan','Latitude Awal','Longitude Awal','Latitude Akhir','Longitude Akhir','Status','Ruas Terdekat','Jarak Maks (m)','Cakupan dekat trase','Panjang (km)','Pagu (Rp)','Nilai Kontrak (Rp)'],...jobs.map(j=>[j.code,j.name,j.lat,j.lon,j.lat2,j.lon2,j.status==='in'?'Masuk koridor jalan kabupaten':j.status==='out'?'Di luar koridor jalan kabupaten':j.status==='missing'?'Koordinat belum tersedia di Sheet':j.status==='invalid'?'Koordinat tidak valid':'Belum diperiksa',j.nearest,j.distance??'',Number.isFinite(j.coverage)?Math.round(j.coverage*100)+'%':'',j.length??'',j.budget,j.contract])];
+    const csv=rows.map(row=>row.map(csvCell).join(',')).join('\r\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='hasil_verifikasi_lokasi_pekerjaan.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  });
+  $j('jvClearBtn').addEventListener('click',()=>{const extra=jobs.filter(job=>job.source!=='sheet');if(!extra.length){setNotice('Data dari sheet tetap tampil. Tidak ada input tambahan untuk dihapus.');return;}if(!window.confirm('Hapus semua input tambahan manual/CSV? Data dari sheet akan tetap ditampilkan.'))return;for(let i=jobs.length-1;i>=0;i--){if(jobs[i].source!=='sheet')jobs.splice(i,1);}render();setNotice('Input tambahan dihapus; data sumber sheet tetap tersedia.');});
+  $j('jvSyncSheetBtn').addEventListener('click',()=>syncSheet(true));
+  $j('jvCheckAllBtn').addEventListener('click',recheckAll);
+  $j('jvZoomAllBtn').addEventListener('click',()=>{if(!jobs.length){setNotice('Belum ada titik lokasi untuk ditampilkan.','error');return;}fitJobPoints(selectedRegionJobs());});
+  $j('jvFilter').addEventListener('change',render);
+  $j('jvRegionFilter').addEventListener('change',()=>{const selected=$j('jvRegionFilter').value;mapHasFit=true;render();fitJobPoints(selectedRegionJobs(),!selected);});
+  $j('jvRows').addEventListener('click',event=>{const button=event.target.closest('[data-jv-delete]');if(button){event.stopPropagation();const index=jobs.findIndex(job=>String(job.id)===button.dataset.jvDelete);if(index>=0){jobs.splice(index,1);render();}return;}const row=event.target.closest('[data-jv-row]');if(row)focusJob(row.dataset.jvRow);});
+  window.renderJobVerification=render;
+  window.refreshJobVerification=refreshGeometry;
+  let autoSyncStarted=false;
+  function startAutoSync(){if(autoSyncStarted)return;autoSyncStarted=true;setTimeout(()=>syncSheet(false),300);setInterval(()=>{if(navigator.onLine)syncSheet(false);},5*60*1000);}
+  function init(){render();window.addEventListener('dashboard:unlocked',startAutoSync);if(!document.body.classList.contains('password-locked'))startAutoSync();}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
 </body>
 </html>
